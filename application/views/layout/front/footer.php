@@ -246,44 +246,20 @@
         <?php
     }
 ?>
+<script src="<?php echo JS_PATH; ?>/combined.js" type="text/javascript"></script>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>'; // required: replace example with your forum shortname
 
-<script src="<?php echo JS_PATH; ?>/underscore/underscore-min.js" type="text/javascript"></script>
-<script src="<?php echo JS_PATH; ?>/bootstrap.min.js" type="text/javascript"></script>
-<?php
-    if ($path == 'index/index')
-    {
-        ?>
-        <!--  = Slider Revolution =  -->
-        <script src="<?php echo JS_PATH; ?>/rs-plugin/js/jquery.themepunch.plugins.min.js" type="text/javascript"></script>
-        <script src="<?php echo JS_PATH; ?>/rs-plugin/js/jquery.themepunch.revolution.min.js" type="text/javascript"></script>
-        <?php
-    }
-    else
-    {
-        ?>
-        <script type="text/javascript">
-            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>'; // required: replace example with your forum shortname
-
-            /* * * DON'T EDIT BELOW THIS LINE * * */
-            (function () {
-                var s = document.createElement('script');
-                s.async = true;
-                s.type = 'text/javascript';
-                s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-                (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-            }());
-        </script>
-        <?php
-    }
-?>
-<script src="<?php echo JS_PATH; ?>/jquery.lazyload.min.js" type="text/javascript"></script>
-<script src="<?php echo JS_PATH; ?>/jquery.carouFredSel-6.2.1-packed.js" type="text/javascript"></script>
-<script src="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
-<script src="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/touch-fix.min.js" type="text/javascript"></script>
-<script src="<?php echo JS_PATH; ?>/isotope/jquery.isotope.min.js" type="text/javascript"></script>
-<script src="<?php echo JS_PATH; ?>/bootstrap-tour/build/js/bootstrap-tour.min.js" type="text/javascript"></script>
-
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 <?php
     $include_array = array(
         'index/register',
@@ -305,7 +281,6 @@
         <?php
     }
 ?>
-<script src="<?php echo JS_PATH; ?>/jquery.validate.js" type="text/javascript"></script>
 <script src="<?php echo JS_PATH; ?>/custom.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () {
