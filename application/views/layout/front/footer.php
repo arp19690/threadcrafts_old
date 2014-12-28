@@ -196,15 +196,15 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label hidden shown-ie8" for="user_email">Email</label>
+                        <label class="control-label hidden shown-ie8" for="user_email_reg">Email</label>
                         <div class="controls">
-                            <input type="text" class="input-block-level" id="" placeholder="Email" name="user_email" required="required">
+                            <input type="text" class="input-block-level" id="user_email_reg" placeholder="Email" name="user_email" required="required">
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label hidden shown-ie8" for="user_password">Password</label>
+                        <label class="control-label hidden shown-ie8" for="user_password_reg">Password</label>
                         <div class="controls">
-                            <input type="password" class="input-block-level" id="" placeholder="Password" name="user_password" required>
+                            <input type="password" class="input-block-level" id="user_password_reg" placeholder="Password" name="user_password" required>
                         </div>
                     </div>
 
@@ -232,9 +232,9 @@
             <div class="modal-body">
                 <form method="post" action="<?php echo base_url("forgot-password"); ?>">
                     <div class="control-group">
-                        <label class="control-label hidden shown-ie8" for="user_email">Email</label>
+                        <label class="control-label hidden shown-ie8" for="user_email_forgot">Email</label>
                         <div class="controls">
-                            <input type="email" class="input-block-level" id="user_email" placeholder="Email" name="user_email" required="required">
+                            <input type="email" class="input-block-level" id="user_email_forgot" placeholder="Email" name="user_email" required="required">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary input-block-level bold higher">
