@@ -9,7 +9,7 @@
     }
     else
     {
-        define("SITE_BASE_URL", "https://www.threadcrafts.in/");    // When running on server    
+        define("SITE_BASE_URL", "https://threadcrafts.in/");    // When running on server    
 
         define("FACEBOOK_APP_ID", "351474381662422");
         define("FACEBOOK_SECRET_ID", "355af5a727e13b8669fb00c6e9e85199");
@@ -45,7 +45,7 @@
     define("SITE_EMAIL_GMAIL", "threadcraftsin@gmail.com");
     define("SITE_CONTACT_NUMBER", "+91-9414412650");
     define("SITE_CONTACT_NUMBER_ARPIT", "+91-8560023664");
-    define("SITE_URL", "https://www.threadcrafts.in");
+    define("SITE_URL", "https://threadcrafts.in");
 //    define("SITE_BASE_URL", dirname($_SERVER['PHP_SELF']));
     define("SITE_HOST_URL", "https://" . $_SERVER['HTTP_HOST']);
     define("SITE_HTTP_URL", "https://" . $_SERVER['HTTP_HOST'] . SITE_BASE_URL);
