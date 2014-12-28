@@ -2,9 +2,6 @@
     $model = new Common_model();
     $custom_model = new Custom_model();
 ?>
-<!--  ==========  -->
-<!--  = Main Menu / navbar =  -->
-<!--  ==========  -->
 <div class="navbar navbar-static-top" id="stickyNavbar">
     <div class="navbar-inner">
         <div class="container">
@@ -15,11 +12,6 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
-                    <!--  ==========  -->
-                    <!--  = Menu =  -->
-                    <!--  ==========  -->
-
                     <script>
                         $(document).ready(function() {
                             var url = window.location.href;
@@ -101,9 +93,6 @@
                             ?>
                         </ul>
 
-                        <!--  ==========  -->
-                        <!--  = Search form =  -->
-                        <!--  ==========  -->
                         <form class="navbar-form pull-right" action="<?php echo base_url("products/search"); ?>" method="get">
                             <button type="submit"><span class="icon-search"></span></button>
                             <?php

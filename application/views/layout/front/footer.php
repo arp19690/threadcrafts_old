@@ -12,15 +12,7 @@
     $latest_records = $model->fetchSelectedData("product_id ,product_title", TABLE_PRODUCTS, array("product_status" => "1"), "product_id", "DESC", "7");
     $popular_records = $custom_model->getPopularProducts("p.product_id,p.product_title", array("product_status" => "1"), NULL, NULL, "7");
 ?>
-
-<!--  ==========  -->
-<!--  = Footer =  -->
-<!--  ==========  -->
 <footer>
-
-    <!--  ==========  -->
-    <!--  = Upper footer =  -->
-    <!--  ==========  -->
     <div class="foot-light">
         <div class="container">
             <div class="row">
@@ -58,18 +50,10 @@
                 </div>
             </div>
         </div>
-    </div> <!-- /upper footer -->
-
-    <!--  ==========  -->
-    <!--  = Middle footer =  -->
-    <!--  ==========  -->
+    </div> 
     <div class="foot-dark">
         <div class="container">
             <div class="row">
-
-                <!--  ==========  -->
-                <!--  = Menu 1 =  -->
-                <!--  ==========  -->
                 <div class="span3">
                     <div class="main-titles lined">
                         <h3 class="title"><span class="light">Main</span> Navigation</h3>
@@ -79,22 +63,18 @@
                         <li><a href="<?php echo base_url("blog"); ?>">Blog</a></li>
                         <li><a href="<?php echo base_url("products"); ?>">Products</a></li>
                         <li><a href="<?php echo base_url("contact-us"); ?>">Contact Us</a></li>
-
                         <?php
                             foreach ($static_records as $srKey => $srValue)
                             {
                                 if ($srValue["static_page_key"] != "about-us-short")
                                 {
-                                    echo '<li><a href="' . base_url(  $srValue["static_page_key"]) . '">' . $srValue["static_page_title"] . '</a></li>';
+                                    echo '<li><a href="' . base_url($srValue["static_page_key"]) . '">' . $srValue["static_page_title"] . '</a></li>';
                                 }
                             }
                         ?>
                     </ul>
                 </div>
 
-                <!--  ==========  -->
-                <!--  = Menu 2 =  -->
-                <!--  ==========  -->
                 <div class="span3">
                     <div class="main-titles lined">
                         <h3 class="title"><span class="light">Category</span> Navigation</h3>
@@ -109,9 +89,6 @@
                     </ul>
                 </div>
 
-                <!--  ==========  -->
-                <!--  = Menu 3 =  -->
-                <!--  ==========  -->
                 <div class="span3">
                     <div class="main-titles lined">
                         <h3 class="title"><span class="light">Latest Products</span> Navigation</h3>
@@ -126,9 +103,6 @@
                     </ul>
                 </div>
 
-                <!--  ==========  -->
-                <!--  = Menu 4 =  -->
-                <!--  ==========  -->
                 <div class="span3">
                     <div class="main-titles lined">
                         <h3 class="title"><span class="light">Popular Products</span> Navigation</h3>
@@ -144,11 +118,8 @@
                 </div>
             </div>
         </div>
-    </div> <!-- /middle footer -->
+    </div> 
 
-    <!--  ==========  -->
-    <!--  = Bottom Footer =  -->
-    <!--  ==========  -->
     <div class="foot-last">
         <a href="#" id="toTheTop">
             <span class="icon-chevron-up"></span>
@@ -276,22 +247,10 @@
         <?php
     }
 ?>
+</div>
 
-
-</div> <!-- end of master-wrapper -->
-
-
-
-<!--  ==========  -->
-<!--  = JavaScript =  -->
-<!--  ==========  -->
-
-<!--  = _ =  -->
 <script src="<?php echo JS_PATH; ?>/underscore/underscore-min.js" type="text/javascript"></script>
-
-<!--  = Bootstrap =  -->
 <script src="<?php echo JS_PATH; ?>/bootstrap.min.js" type="text/javascript"></script>
-
 <?php
     if ($path == 'index/index')
     {
@@ -320,21 +279,11 @@
         <?php
     }
 ?>
-
-<!--  = Lazy Load =  -->
 <script src="<?php echo JS_PATH; ?>/jquery.lazyload.min.js" type="text/javascript"></script>
-
-<!--  = CarouFredSel =  -->
 <script src="<?php echo JS_PATH; ?>/jquery.carouFredSel-6.2.1-packed.js" type="text/javascript"></script>
-
-<!--  = jQuery UI =  -->
 <script src="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 <script src="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/touch-fix.min.js" type="text/javascript"></script>
-
-<!--  = Isotope =  -->
 <script src="<?php echo JS_PATH; ?>/isotope/jquery.isotope.min.js" type="text/javascript"></script>
-
-<!--  = Tour =  -->
 <script src="<?php echo JS_PATH; ?>/bootstrap-tour/build/js/bootstrap-tour.min.js" type="text/javascript"></script>
 
 <?php
@@ -358,13 +307,8 @@
         <?php
     }
 ?>
-
-<!--  = jQuery validate JS =  -->
 <script src="<?php echo JS_PATH; ?>/jquery.validate.js" type="text/javascript"></script>
-
-<!--  = Custom JS =  -->
 <script src="<?php echo JS_PATH; ?>/custom.js" type="text/javascript"></script>
-
 <script>
     $(document).ready(function () {
         $(".item-in-cart .icon-remove-sign").click(function () {
@@ -392,26 +336,32 @@
     });
 </script>
 
-<!--Google Analytics START-->
-<script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+<?php
+    if (USER_IP != '127.0.0.1')
+    {
+        ?>
+        <!--Google Analytics START-->
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-48585716-1', 'threadcrafts.in');
-    ga('require', 'displayfeatures');
-    ga('send', 'pageview');
+            ga('create', 'UA-48585716-1', 'threadcrafts.in');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
 
-</script>
-<!--Google Analytics END-->
-
+        </script>
+        <!--Google Analytics END-->
+        <?php
+    }
+?>
 </body>
 </html>
