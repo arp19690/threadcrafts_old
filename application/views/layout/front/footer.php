@@ -198,13 +198,13 @@
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="user_email">Email</label>
                         <div class="controls">
-                            <input type="text" class="input-block-level" id="user_email" placeholder="Email" name="user_email" required="required">
+                            <input type="text" class="input-block-level" id="" placeholder="Email" name="user_email" required="required">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="user_password">Password</label>
                         <div class="controls">
-                            <input type="password" class="input-block-level" id="user_password" placeholder="Password" name="user_password" required>
+                            <input type="password" class="input-block-level" id="" placeholder="Password" name="user_password" required>
                         </div>
                     </div>
 
@@ -243,11 +243,9 @@
                 </form>
             </div>
         </div>
-
         <?php
     }
 ?>
-</div>
 
 <script src="<?php echo JS_PATH; ?>/underscore/underscore-min.js" type="text/javascript"></script>
 <script src="<?php echo JS_PATH; ?>/bootstrap.min.js" type="text/javascript"></script>
