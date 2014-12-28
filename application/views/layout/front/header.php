@@ -47,28 +47,6 @@
                 src="https://apis.google.com/js/platform.js?publisherid=101035726513260358778">
         </script>
         <!--Google plus essentials END-->
-        <script type="text/javascript">
-            if (window.location.hash && window.location.hash == '#_=_') {
-                window.location.hash = '';
-            }
-        </script>
-
-        <!--  = Google Fonts =  -->
-        <script type="text/javascript">
-            WebFontConfig = {
-                google: {
-                    families: ['Open+Sans:400,700,400italic,700italic:latin,latin-ext,cyrillic', 'Pacifico::latin']
-                }
-            };
-            (function () {
-                var wf = document.createElement('script');
-                wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-                wf.type = 'text/javascript';
-                wf.async = 'true';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(wf, s);
-            })();
-        </script>
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo IMAGES_PATH; ?>/apple-touch/144.png"/>
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo IMAGES_PATH; ?>/apple-touch/114.png"/>
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo IMAGES_PATH; ?>/apple-touch/72.png"/>
@@ -77,7 +55,13 @@
         <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/style.css"/>
         <link rel="stylesheet" type="text/css" href="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/css/smoothness/jquery-ui-1.10.3.custom.min.css"/>
         <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/colorbox/colorbox.css"/>
+        <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery-core-n-modernizer.min.js"></script>
+        <script type="text/javascript">
+            if (window.location.hash && window.location.hash == '#_=_') {
+                window.location.hash = '';
+            }
+        </script>
     </head>
     <body class="">
         <div id="fb-root"></div>
