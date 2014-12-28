@@ -6,103 +6,103 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <url>
-        <loc>https://threadcrafts.in/</loc>
+        <loc>https://www.threadcrafts.in/</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/login</loc>
+        <loc>https://www.threadcrafts.in/login</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/products/view/Men</loc>
+        <loc>https://www.threadcrafts.in/products/view/Men</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/products/view/Women</loc>
+        <loc>https://www.threadcrafts.in/products/view/Women</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/products/view/Women/Accessories</loc>
+        <loc>https://www.threadcrafts.in/products/view/Women/Accessories</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/products</loc>
+        <loc>https://www.threadcrafts.in/products</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/blog</loc>
+        <loc>https://www.threadcrafts.in/blog</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/blog/write</loc>
+        <loc>https://www.threadcrafts.in/blog/write</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/contact-us</loc>
+        <loc>https://www.threadcrafts.in/contact-us</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/static/about-us</loc>
+        <loc>https://www.threadcrafts.in/static/about-us</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/static/disclaimer</loc>
+        <loc>https://www.threadcrafts.in/static/disclaimer</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/static/privacy-policy</loc>
+        <loc>https://www.threadcrafts.in/static/privacy-policy</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/static/return-policy</loc>
+        <loc>https://www.threadcrafts.in/static/return-policy</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/static/shipping-details</loc>
+        <loc>https://www.threadcrafts.in/static/shipping-details</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/static/terms</loc>
+        <loc>https://www.threadcrafts.in/static/terms</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/forgot-password</loc>
+        <loc>https://www.threadcrafts.in/forgot-password</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.64</priority>
     </url>
     <url>
-        <loc>https://threadcrafts.in/register</loc>
+        <loc>https://www.threadcrafts.in/register</loc>
         <lastmod>2014-12-028T01:00:00+00:00</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.64</priority>
