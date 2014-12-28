@@ -77,7 +77,6 @@
         <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico">        
 
         <link href="<?php echo CSS_PATH; ?>/style.css" rel="stylesheet">
-        <link rel="stylesheet" href="<?php echo JS_PATH; ?>/rs-plugin/css/settings.css" type="text/css"/>
         <link rel="stylesheet" href="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/css/smoothness/jquery-ui-1.10.3.custom.min.css" type="text/css"/>
         <link href="<?php echo CSS_PATH; ?>/colorbox/colorbox.css" rel="stylesheet">
         <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery.min.js"></script>
