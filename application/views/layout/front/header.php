@@ -28,13 +28,12 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
     <head>
         <title><?php echo $meta_title; ?></title>
-        <!-- W5m2mOFHG4b7RyVPvlXL9wVP4Q -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-        <meta name="description" content="<?php echo $meta_description ?>">
-        <meta name="author" content="<?php echo SITE_NAME; ?>">
-        <meta name="robots" content="index,follow">
-        <meta name="robots" content="robots.txt">
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+        <meta name="description" content="<?php echo $meta_description ?>"/>
+        <meta name="author" content="<?php echo SITE_NAME; ?>"/>
+        <meta name="robots" content="index,follow"/>
+        <meta name="robots" content="robots.txt"/>
         <meta property="og:url" content="<?php echo current_url(); ?>"/>
         <meta property="og:type" content="website"/>
         <meta property="og:title" content="<?php echo $meta_title; ?>"/>
@@ -70,17 +69,15 @@
                 s.parentNode.insertBefore(wf, s);
             })();
         </script>
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo IMAGES_PATH; ?>/apple-touch/144.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo IMAGES_PATH; ?>/apple-touch/114.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo IMAGES_PATH; ?>/apple-touch/72.png">
-        <link rel="apple-touch-icon-precomposed" href="<?php echo IMAGES_PATH; ?>/apple-touch/57.png">
-        <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico">        
-
-        <link href="<?php echo CSS_PATH; ?>/style.css" rel="stylesheet">
-        <link rel="stylesheet" href="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/css/smoothness/jquery-ui-1.10.3.custom.min.css" type="text/css"/>
-        <link href="<?php echo CSS_PATH; ?>/colorbox/colorbox.css" rel="stylesheet">
-        <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery.min.js"></script>
-        <script src="<?php echo JS_PATH; ?>/modernizr.custom.min.js"></script>    
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo IMAGES_PATH; ?>/apple-touch/144.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo IMAGES_PATH; ?>/apple-touch/114.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo IMAGES_PATH; ?>/apple-touch/72.png"/>
+        <link rel="apple-touch-icon-precomposed" href="<?php echo IMAGES_PATH; ?>/apple-touch/57.png"/>
+        <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico"/>        
+        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/style.css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/css/smoothness/jquery-ui-1.10.3.custom.min.css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/colorbox/colorbox.css"/>
+        <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery-core-n-modernizer.min.js"></script>
     </head>
     <body class="">
         <div id="fb-root"></div>
