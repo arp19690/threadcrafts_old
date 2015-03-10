@@ -55,7 +55,7 @@
                     <div class="controls">
                         <div class="input-icon left">
                             <i class="icon-user"></i>
-                            <input id="input-username" class="m-wrap placeholder-no-fix" type="text" required placeholder="Username" value="" name="admin_username">
+                            <input id="input-username" class="m-wrap placeholder-no-fix" type="text" required placeholder="Username" value="" name="seller_email">
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <div class="controls">
                         <div class="input-icon left">
                             <i class="icon-lock"></i>
-                            <input id="input-password" class="m-wrap placeholder-no-fix" type="password" required placeholder="Password" value="" name="admin_password">
+                            <input id="input-password" class="m-wrap placeholder-no-fix" type="password" required placeholder="Password" value="" name="seller_password">
                         </div>
                     </div>
                 </div>

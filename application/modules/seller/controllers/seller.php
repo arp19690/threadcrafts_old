@@ -22,16 +22,16 @@
                 if ($this->input->post())
                 {
                     $arr = $this->input->post();
-                    $admin_username = $arr["admin_username"];
-                    $admin_password = md5($arr["admin_password"]);
+                    $seller_email = $arr["seller_email"];
+                    $seller_password = md5($arr["seller_password"]);
 //                prd($arr);
                     $AdminLogin_auth = new AdminLogin_auth();
-                    $AdminLogin_auth->login($admin_username, $admin_password, base_url("admin/dashboard"), base_url("admin"));
+                    $AdminLogin_auth->login($seller_email, $seller_password, base_url_seller("dashboard"), base_url_seller());
                 }
             }
             else
             {
-//                redirect(base_url("admin/dashboard"));
+//                redirect(base_url_seller("dashboard"));
                 $this->dashboard();
             }
         }
@@ -87,10 +87,10 @@
 
                 $whereCondArr = array(
                     "seller_id" => $this->seller_id,
-                    "admin_password" => $old_password
+                    "seller_password" => $old_password
                 );
 
-                $is_exists = $model->is_exists("*", TABLE_ADMIN, $whereCondArr);
+                $is_exists = $model->is_exists("*", TABLE_SELLER, $whereCondArr);
                 if (!empty($is_exists))
                 {
                     //update
@@ -98,9 +98,9 @@
                     {
                         //update
                         $data_array = array(
-                            "admin_password" => $confirm_password
+                            "seller_password" => $confirm_password
                         );
-                        $model->updateData(TABLE_ADMIN, $data_array, $whereCondArr);
+                        $model->updateData(TABLE_SELLER, $data_array, $whereCondArr);
                         $this->session->set_flashdata('success', "Password changed");
                     }
                     else
@@ -114,7 +114,7 @@
                     //wrong old password
                     $this->session->set_flashdata('error', "Old password does not match");
                 }
-                redirect(base_url("admin/changepassword"));
+                redirect(base_url_seller("changepassword"));
             }
         }
 
@@ -179,7 +179,7 @@
                         $flashMessage = "Reply successfully sent to " . $user_email;
                     }
                     $this->session->set_flashdata("success", $flashMessage);
-                    redirect(base_url("admin/websiteContact"));
+                    redirect(base_url_seller("websiteContact"));
                 }
             }
         }

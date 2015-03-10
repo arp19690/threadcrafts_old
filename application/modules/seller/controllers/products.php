@@ -387,9 +387,9 @@
 
                 $product_detail_record = $model->fetchSelectedData('*', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
 
-                $added_by_record = $model->fetchSelectedData("admin_username", TABLE_ADMIN, array("seller_id" => $record["product_added_by"]));
+                $added_by_record = $model->fetchSelectedData("seller_email", TABLE_SELLER, array("seller_id" => $record["product_added_by"]));
 
-                $record["product_added_by"] = $added_by_record[0]["admin_username"];
+                $record["product_added_by"] = $added_by_record[0]["seller_email"];
                 $data["record"] = $record;
                 $data["product_detail_record"] = $product_detail_record;
 
