@@ -55,6 +55,14 @@
                         if ($is_exists[0]['seller_status'] == 1)
                         {
                             // active, send new password here
+                            $newpassword = getRandomNumberLength($seller_email . time());
+                            $model->updateData(TABLE_SELLER, array('seller_password' => md5($newpassword)), array('seller_email' => $seller_email));
+
+                            $message = '<p>New password for your seller panel is <strong>' . $newpassword . '</strong></p><p>You can login to seller panel by clicking on ' . base_url_seller() . '</p>';
+                            sendMail($seller_email, 'Forgot password | Seller Panel | ' . SITE_NAME, $message);
+
+                            $this->session->set_flashdata('success', "New password sent to your email ID");
+                            redirect(base_url_seller());
                         }
                         else
                         {
