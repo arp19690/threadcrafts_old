@@ -56,7 +56,7 @@
                     <div class="controls">
                         <div class="input-icon left">
                             <i class="icon-user"></i>
-                            <input id="input-username" class="m-wrap placeholder-no-fix" type="text" required placeholder="Username" value="" name="seller_email">
+                            <input id="input-username" class="m-wrap placeholder-no-fix" type="email" required placeholder="Email" value="" name="seller_email">
                         </div>
                     </div>
                 </div>
