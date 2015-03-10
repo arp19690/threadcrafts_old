@@ -45,7 +45,7 @@
             ?>
             <!-- BEGIN LOGIN FORM -->
             <form class="form-vertical login-form" action=""  method="post"  >
-                <h3 class="form-title">Login to your account</h3>
+                <h3 class="form-title">Login into Seller's Panel</h3>
                 <div class="alert alert-error hide">
                     <button class="close" data-dismiss="alert"></button>
                     <span>Enter any username and password.</span>
