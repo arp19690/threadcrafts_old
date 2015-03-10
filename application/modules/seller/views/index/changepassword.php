@@ -20,21 +20,21 @@
             </div>
             <div class="portlet-body form">
 
-                <form method="post" action="" id="validate-form" class="vertical-form"  novalidate="novalidate">
+                <form method="post" action="" id="validate-form" class="vertical-form validate-form">
 
                     <div class="control-group m-wrap">
                         <label class="control-label">Old Password : <span class="required">*</span></label>
-                        <div class="controls"><input class="span6 m-wrap" required="true" type="password" data-required="1" name="old_password"></div>
+                        <div class="controls"><input class="span6 m-wrap required" required="true" type="password" data-required="1" name="old_password"></div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label">New Password: <span class="required">*</span></label>
-                        <div class="controls"><input class="span6 m-wrap" type="password" data-required="1" name="new_password"></div>
+                        <div class="controls"><input class="span6 m-wrap required" type="password" data-required="1" name="new_password" minlength='6'></div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label">Confirm Password: <span class="required">*</span></label>
-                        <div class="controls"><input class="span6 m-wrap" type="password" data-required="1" name="confirm_password"></div>
+                        <div class="controls"><input class="span6 m-wrap required" type="password" data-required="1" name="confirm_password" minlength='6'></div>
                     </div>
 
                     <div class="form-actions" align="right">
