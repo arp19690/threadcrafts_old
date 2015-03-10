@@ -5,7 +5,7 @@
     <!-- BEGIN HEAD -->
     <head>
         <meta charset="utf-8" />
-        <title>Seller's Panel | <?php echo SITE_NAME; ?></title>
+        <title>Forgot Password | Seller's Panel | <?php echo SITE_NAME; ?></title>
         <meta name="robots" content="nofollow"/>
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         <meta content="Seller's Panel" name="description" />
@@ -45,11 +45,7 @@
             ?>
             <!-- BEGIN LOGIN FORM -->
             <form class="form-vertical login-form" action=""  method="post"  >
-                <h3 class="form-title">Login into Seller's Panel</h3>
-                <div class="alert alert-error hide">
-                    <button class="close" data-dismiss="alert"></button>
-                    <span>Enter any username and password.</span>
-                </div>
+                <h3 class="form-title">Forgot Password</h3>
                 <div class="control-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                     <label class="control-label visible-ie8 visible-ie9">Email</label>
@@ -60,23 +56,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label visible-ie8 visible-ie9">Password</label>
-                    <div class="controls">
-                        <div class="input-icon left">
-                            <i class="icon-lock"></i>
-                            <input id="input-password" class="m-wrap placeholder-no-fix" type="password" required placeholder="Password" value="" name="seller_password">
-                        </div>
-                    </div>
-                </div>
                 <div class="form-actions">
                     <button type="submit" class="btn green pull-right">
-                        Login <i class="m-icon-swapright m-icon-white"></i>
+                        Submit <i class="m-icon-swapright m-icon-white"></i>
                     </button>            
                 </div>
                 <div class="control-group">
                     <div class="controls text-center">
-                        <a href='<?php echo base_url_seller('forgotPassword');?>'>Forgot Password?</a>
+                        <a href='<?php echo base_url_seller();?>'>Login</a>
                     </div>
                 </div>
 

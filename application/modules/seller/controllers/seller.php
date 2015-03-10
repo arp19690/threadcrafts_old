@@ -38,6 +38,49 @@
             }
         }
 
+        public function forgotPassword()
+        {
+            if (!$this->session->userdata("seller_id"))
+            {
+                if ($this->input->post())
+                {
+                    $arr = $this->input->post();
+                    $seller_email = $arr["seller_email"];
+
+                    $model = new Common_model();
+                    $is_exists = $model->fetchSelectedData('seller_email, seller_status', TABLE_SELLER, array('seller_email' => $seller_email));
+                    if (!empty($is_exists))
+                    {
+                        // valid
+                        if ($is_exists[0]['seller_status'] == 1)
+                        {
+                            // active, send new password here
+                        }
+                        else
+                        {
+                            // not active
+                            $this->session->set_flashdata('error', "Your account is not active");
+                            redirect(base_url_seller("forgotPassword"));
+                        }
+                    }
+                    else
+                    {
+                        // not valid
+                        $this->session->set_flashdata('error', "No such email found");
+                        redirect(base_url_seller("forgotPassword"));
+                    }
+                }
+                else
+                {
+                    $this->load->view("index/forgot-password");
+                }
+            }
+            else
+            {
+                redirect(base_url_seller("dashboard"));
+            }
+        }
+
         public function dashboard()
         {
             $model = new Common_model();
