@@ -13,6 +13,13 @@
 
         define("FACEBOOK_APP_ID", "351474381662422");
         define("FACEBOOK_SECRET_ID", "355af5a727e13b8669fb00c6e9e85199");
+
+        // redirect to HTTPS 
+        if ($_SERVER['HTTPS'] != "on")
+        {
+            $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            header("Location:$redirect");
+        }
     }
 
     define('IS_LIVE', FALSE);
