@@ -32,7 +32,7 @@
      * @version 1.4.1
      * 
      */
-    class CI_Sellertemplate
+    class CI_Admintemplate
     {
 
         var $CI;

@@ -72,6 +72,28 @@
 
     }
 
+    if (!function_exists('base_url_admin'))
+    {
+
+        function base_url_admin($uri = '')
+        {
+            $CI = & get_instance();
+            return $CI->config->base_url('admin/' . $uri);
+        }
+
+    }
+
+    if (!function_exists('base_url_seller'))
+    {
+
+        function base_url_seller($uri = '')
+        {
+            $CI = & get_instance();
+            return $CI->config->base_url('seller/' . $uri);
+        }
+
+    }
+
 // ------------------------------------------------------------------------
 
     /**
@@ -100,7 +122,7 @@
                 {
                     $get_url = "";
                 }
-                
+
                 $current_url .= $get_url;
             }
             // END MODIFICATION
@@ -493,7 +515,7 @@
 
             $url = parse_url($str);
 
-            if (!$url OR !isset($url['scheme']))
+            if (!$url OR ! isset($url['scheme']))
             {
                 $str = 'http://' . $str;
             }
