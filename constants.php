@@ -54,6 +54,7 @@
     define("SEO_DESCRIPTION", "We are the leading dealers, exporters and suppliers of Designer, Bandhej, Bridal, Embroidered, Handwork, Party-wear & Printed Sarees, Ethnic Jodhpur Men's/Women's Wear and Accessories, Turbans, Rajasthani Ethnic Turbans.");
 
     define("ADMIN_TIMEOUT_TIME", 1800);
+    define("SELLER_TIMEOUT_TIME", 1800);
     define("USER_TIMEOUT_TIME", 1800);
     define("USER_IP", $_SERVER["REMOTE_ADDR"]);
     define("USER_AGENT", $_SERVER["HTTP_USER_AGENT"]);
