@@ -60,7 +60,8 @@
                     <?php
                         $pending_orders_records = array();
 
-                        $pending_orders_records = $custom_model->getMyOrdersList(NULL, "DESC", "6", "processing");
+//                        $pending_orders_records = $custom_model->getMyOrdersList(NULL, "DESC", "6", "processing");
+                        $pending_orders_records = array();
                         $unprocessed_notification_count = count($pending_orders_records);
                     ?>
                     <!-- BEGIN TOP NAVIGATION MENU -->					
