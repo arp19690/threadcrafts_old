@@ -6,7 +6,7 @@
     define("TABLE_ADMIN_LOG", "admin_log");
     define("TABLE_SELLER_LOG", "seller_log");
     define("TABLE_USER_LOG", "user_log");
-    define("TABLE_EMAILS_SENT", "email_sent");
+    define("TABLE_EMAILS_SENT", "emails_sent");
     
     
     define("TABLE_GRAND_CATEGORY", "grand_category");
