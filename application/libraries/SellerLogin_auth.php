@@ -112,7 +112,7 @@
 
             $model = $this->ci->Common_model;
 
-            $record = $model->fetchSelectedData("sl_id", TABLE_SELLER_LOG, array("seller_id" => $seller_id, "logout_time" => ""), "sl_id", "DESC", "1");
+            $record = $model->fetchSelectedData("sl_id", TABLE_SELLER_LOG, array("sl_seller_id" => $seller_id, "sl_logout_time" => NULL), "sl_id", "DESC", "1");
             $sl_id = $record[0]["sl_id"];
 
             $update_data_array = array();
@@ -120,13 +120,14 @@
 
             $whereCondArr = array();
             $whereCondArr["sl_id"] = $sl_id;
-            $whereCondArr["sl_seller_id"] = $seller_id;
 
             $model->updateData(TABLE_SELLER_LOG, $update_data_array, $whereCondArr);
+            
             $this->ci->session->unset_userdata();
             $this->ci->session->sess_destroy();
             if ($logout_message != NULL)
                 $this->ci->session->set_flashdata('error', $logout_message);
+            
             redirect($redirect_to);
         }
 
