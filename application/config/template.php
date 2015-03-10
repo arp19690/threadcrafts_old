@@ -85,7 +85,7 @@
     
     //  Seller Template
     
-    $template['seller']['template'] = 'layout/admin/admin-template';
+    $template['seller']['template'] = 'layout/seller/admin-template';
     $template['seller']['regions'] = array (
         'header',
         'content',
