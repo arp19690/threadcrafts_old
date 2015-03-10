@@ -5,10 +5,11 @@
     <!-- BEGIN HEAD -->
     <head>
         <meta charset="utf-8" />
-        <title>Admin Panel | <?php echo SITE_NAME; ?></title>
+        <title>Seller's Panel | <?php echo SITE_NAME; ?></title>
+        <meta name="robots" content="nofollow"/>
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-        <meta content="Admin Panel" name="description" />
-        <meta content="Admin Panel" name="author" />
+        <meta content="Seller's Panel" name="description" />
+        <meta content="Seller's Panel" name="author" />
         <link href="<?php echo ADMIN_ASSETS_PATH ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
         <link href="<?php echo ADMIN_ASSETS_PATH ?>/css/metro.css" rel="stylesheet" />
         <link href="<?php echo ADMIN_ASSETS_PATH ?>/font-awesome/css/font-awesome.css" rel="stylesheet" />
