@@ -37,6 +37,10 @@
         <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico" />
 
         <script src="<?php echo ADMIN_ASSETS_PATH; ?>/js/jquery-1.8.3.min.js"></script>	
+        
+        <style>
+            .header .nav #header_notification_bar{margin-top: 6px}
+        </style>
     </head>
     <!-- END HEAD -->
     <!-- BEGIN BODY -->
@@ -48,7 +52,7 @@
                 <div class="container-fluid">
                     <!-- BEGIN LOGO -->
                     <a class="brand" href="<?php echo base_url_seller(); ?>">
-                        <p style="padding-top:10px"><?php echo SITE_NAME; ?></p>
+                        <p style="padding-top:10px"><?php echo SITE_NAME; ?> | Seller Panel</p>
                     </a>
                     <!-- END LOGO -->
                     <!-- BEGIN RESPONSIVE MENU TOGGLER -->

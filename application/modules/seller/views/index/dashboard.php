@@ -21,33 +21,15 @@
             <!-- BEGIN DASHBOARD STATS -->
             <div class="row-fluid">
                 <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
-                    <div class="dashboard-stat blue">
-                        <div class="visual">
-                            <i class="icon-user"></i>
-                        </div>
-                        <div class="details">
-                            <div class="number">
-                                <?php echo number_format($totalusers); ?>
-                            </div>
-                            <div class="desc">									
-                                Users
-                            </div>
-                        </div>
-                        <a class="more" href="<?php echo base_url_seller("users"); ?>">
-                            View more <i class="m-icon-swapright m-icon-white"></i>
-                        </a>						
-                    </div>
-                </div>
-                <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
                     <div class="dashboard-stat purple">
                         <div class="visual">
                             <i class="icon-th-large"></i>
                         </div>
                         <div class="details">
                             <div class="number">
-                                <?php echo number_format($totalproducts); ?>
+                                <?php echo number_format($total_products); ?>
                             </div>
-                            <div class="desc">Products</div>
+                            <div class="desc">Total Listed Products</div>
                         </div>
                         <a class="more" href="<?php echo base_url_seller("products"); ?>">
                             View more <i class="m-icon-swapright m-icon-white"></i>
@@ -61,32 +43,15 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <?php echo DEFAULT_CURRENCY_SYMBOL . number_format($totalinrearnings, 2); ?>
+                                <?php echo DEFAULT_CURRENCY_SYMBOL . number_format($total_earnings, 2); ?>
                             </div>
-                            <div class="desc">Earnings in INR</div>
+                            <div class="desc">Total Earnings</div>
                         </div>
                         <a class="more" href="<?php echo base_url_seller("#"); ?>">
                             View more <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
                 </div>
-                <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
-                    <div class="dashboard-stat yellow">
-                        <div class="visual">
-                            <i class="icon-money"></i>
-                        </div>
-                        <div class="details">
-                            <div class="number">
-                                <?php echo '$' . number_format($totalusdearnings, 2); ?>
-                            </div>
-                            <div class="desc">Earnings in USD</div>
-                        </div>
-                        <a class="more" href="<?php echo base_url_seller("#"); ?>">
-                            View more <i class="m-icon-swapright m-icon-white"></i>
-                        </a>						
-                    </div>
-                </div>
-
             </div>
             <!-- END DASHBOARD STATS -->
             <!--BEGIN TABS-->
@@ -94,7 +59,6 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#tab_1_1" data-toggle="tab">New Orders</a></li>
                     <li><a href="#tab_1_2" data-toggle="tab">Dispatched Orders</a></li>
-                    <li><a href="#tab_1_3" data-toggle="tab">Recent users</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_1_1">
@@ -191,64 +155,6 @@
                                                         <?php echo getTimeAgo($payment_time); ?>
                                                     </div>
                                                 </div>
-                                            </li>
-                                            <?php
-                                        }
-                                    }
-                                    else
-                                    {
-                                        echo '<li>No data found</li>';
-                                    }
-                                ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab_1_3">
-                        <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible1="1">
-                            <ul class="feeds">
-                                <?php
-                                    if (!empty($new_user_records))
-                                    {
-                                        foreach ($new_user_records as $nuKey => $nuValue)
-                                        {
-                                            $user_id = $nuValue["user_id"];
-                                            $user_full_name = $nuValue["first_name"] . " " . $nuValue["last_name"];
-                                            $register_time = strtotime($nuValue["creation_timestamp"]);
-                                            $user_status = $nuValue["user_status"];
-
-                                            if ($user_status == "1")
-                                            {
-                                                $label_class = "label-success";
-                                                $user_status = "Verified";
-                                            }
-                                            else
-                                            {
-                                                $label_class = "label-warning";
-                                                $user_status = "Unverified";
-                                            }
-                                            ?>
-                                            <li>
-                                                <a href="<?php echo base_url_seller('users/userDetail/' . $user_id); ?>">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label <?php echo $label_class; ?>">								
-                                                                    <i class="icon-plus"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered - <?php echo $user_full_name . " (" . $user_status . ")"; ?>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2" style="margin-left: -105px;">
-                                                        <div class="date" style="width: 90px;">
-                                                            <?php echo getTimeAgo($register_time); ?>
-                                                        </div>
-                                                    </div>
-                                                </a>
                                             </li>
                                             <?php
                                         }

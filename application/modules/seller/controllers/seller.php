@@ -93,7 +93,10 @@
         {
             $model = new Common_model();
 
-            $data = array();
+            $data = array(
+                'total_earnings'=>0,
+                'total_products'=>0,
+            );
 
             $this->template->write_view("content", "index/dashboard", $data);
             $this->template->render();
