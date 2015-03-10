@@ -1,5 +1,15 @@
 <?php
 
+    function sendMail($to_email, $subject, $message, $from_email = SITE_EMAIL, $from_name = SITE_NAME_DISPLAY)
+    {
+        if (USER_IP != '127.0.0.1')
+        {
+            require_once APPPATH . '/models/email_model.php';
+            $email_model = new Email_model();
+            $email_model->sendMail($to_email, $subject, $message, $from_email, $from_name);
+        }
+    }
+
     function getUniqueBlogUrlKey($url_key)
     {
         $url_key=  urlencode($url_key);
