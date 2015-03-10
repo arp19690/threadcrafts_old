@@ -51,7 +51,7 @@
                         </div>
                     </div>
 
-                    <form id="change-package-status-form validate-form" action="<?php echo base_url('admin/orders/changeStatus'); ?>" method="get">
+                    <form id="change-package-status-form validate-form" action="<?php echo base_url_seller('orders/changeStatus'); ?>" method="get">
                         <input type="hidden" name="payment_id" value="<?php echo $record['payment_id']; ?>"/>
                         <!--<input type="hidden" name="next" value="<?php echo current_url(); ?>"/>-->
                         <div class="control-group">

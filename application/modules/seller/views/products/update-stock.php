@@ -157,7 +157,7 @@
                                         var product_id = $(this).val();
                                         if (product_id !== "")
                                         {
-                                            window.location.href = '<?php echo base_url('admin/products/updateStock'); ?>/' + product_id;
+                                            window.location.href = '<?php echo base_url_seller('products/updateStock'); ?>/' + product_id;
                                         }
                                     });
 
@@ -165,7 +165,7 @@
                                         var product_size = $(this).val();
                                         if (product_size !== "")
                                         {
-                                            window.location.href = '<?php echo base_url('admin/products/updateStock'); ?>/' + $("#product_id").val() + '/' + product_size;
+                                            window.location.href = '<?php echo base_url_seller('products/updateStock'); ?>/' + $("#product_id").val() + '/' + product_size;
                                         }
                                     });
                                 });

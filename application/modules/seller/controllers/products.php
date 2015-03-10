@@ -112,19 +112,19 @@
                         }
 
                         $this->session->set_flashdata("success", "Product Added");
-                        redirect(base_url("admin/products"));
+                        redirect(base_url_seller("products"));
                     }
                     else
                     {
                         $this->session->set_flashdata("error", "Product code already exists");
-//                        redirect(base_url("admin/addProduct"));
+//                        redirect(base_url_seller("addProduct"));
 
                         $data["record"] = $arr;
                         $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
                         $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record[0]["product_grand_category"]), "pc_name");
                         $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record[0]["product_parent_category"]), "cc_name");
                         $data["form_heading"] = "Add Product";
-                        $data["form_action"] = base_url("admin/product/addProduct");
+                        $data["form_action"] = base_url_seller("product/addProduct");
                         $this->template->write_view("content", "product/product-form", $data);
                         $this->template->render();
                     }
@@ -148,12 +148,12 @@
                         $this->updateProductDetails($product_detail_arr, $product_id);
 
                         $this->session->set_flashdata("success", "Product edited");
-                        redirect(base_url("admin/products"));
+                        redirect(base_url_seller("products"));
                     }
                     else
                     {
                         $this->session->set_flashdata("error", "Product code already exists");
-                        redirect(base_url("admin/editProduct/" . $product_id));
+                        redirect(base_url_seller("editProduct/" . $product_id));
                     }
                 }
             }
@@ -170,13 +170,13 @@
                 $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record[0]["product_grand_category"]), "pc_name");
                 $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record[0]["product_parent_category"]), "cc_name");
                 $data["form_heading"] = "Edit product";
-                $data["form_action"] = base_url("admin/products/addProduct");
+                $data["form_action"] = base_url_seller("products/addProduct");
                 $this->template->write_view("content", "products/product-form", $data);
                 $this->template->render();
             }
             else
             {
-                redirect(base_url("admin/products"));
+                redirect(base_url_seller("products"));
             }
         }
 
@@ -190,7 +190,7 @@
             }
 
             if ($ajax == FALSE)
-                redirect(base_url("admin/products"));
+                redirect(base_url_seller("products"));
         }
 
         public function activateProduct($product_id, $ajax = FALSE)
@@ -203,7 +203,7 @@
             }
 
             if ($ajax == FALSE)
-                redirect(base_url("admin/products"));
+                redirect(base_url_seller("products"));
         }
 
         public function uploadImages($fileName, $filesTmp, $width = PRODUCT_IMG_WIDTH, $height = PRODUCT_IMG_HEIGHT)
@@ -309,7 +309,7 @@
                 $this->db->update(TABLE_PRODUCT_DETAILS);
 
                 $this->session->set_flashdata("success", "Product stock updated");
-                redirect(base_url("admin/products/updateStock"));
+                redirect(base_url_seller("products/updateStock"));
             }
         }
 

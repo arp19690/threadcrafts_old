@@ -20,7 +20,7 @@
                     <div class="portlet-body">
                         <div class="clearfix">
                             <div class="btn-group">
-                                <a href="<?php echo base_url("admin/products/addProduct"); ?>"><button class="btn green">
+                                <a href="<?php echo base_url_seller("products/addProduct"); ?>"><button class="btn green">
                                         Add New <i class="icon-plus"></i>
                                     </button></a>
                             </div>
@@ -58,14 +58,14 @@
                                         $category = $a_value["gc_name"] . " / " . $a_value["pc_name"] . " / " . $a_value["cc_name"];
                                         ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url("admin/products/productDetail/$product_id"); ?>" title="View Detail"><?php echo $product_title; ?></a></td>
+                                            <td><a href="<?php echo base_url_seller("products/productDetail/$product_id"); ?>" title="View Detail"><?php echo $product_title; ?></a></td>
                                             <td><?php echo $product_code; ?></td>
                                             <td><?php echo $category; ?></td>
                                             <td><?php echo DEFAULT_CURRENCY_SYMBOL . $product_cost_price; ?></td>
                                             <td><?php echo ucwords(str_replace("-", " ", $product_order_type)); ?></td>
                                             <td class="center"><?php echo $product_status; ?></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/products/editProduct/" . $product_id); ?>"><i class="icon-pencil"></i></a></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/products/deleteProduct/" . $product_id); ?>" onclick="return confirm('Are you sure to delete <?php echo $product_title; ?> ?');"><i class="icon-remove"></i></a></td>
+                                            <td class="center"><a href="<?php echo base_url_seller("products/editProduct/" . $product_id); ?>"><i class="icon-pencil"></i></a></td>
+                                            <td class="center"><a href="<?php echo base_url_seller("products/deleteProduct/" . $product_id); ?>" onclick="return confirm('Are you sure to delete <?php echo $product_title; ?> ?');"><i class="icon-remove"></i></a></td>
                                         </tr>
                                         <?php
                                     }

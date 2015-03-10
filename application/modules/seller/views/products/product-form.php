@@ -318,7 +318,7 @@
             if (gc_id !== "")
             {
                 $.ajax({
-                    url: "<?php echo base_url("admin/categories/getParentCategoriesAjax"); ?>" + "/" + gc_id,
+                    url: "<?php echo base_url_seller("categories/getParentCategoriesAjax"); ?>" + "/" + gc_id,
                     success: function(response) {
                         $("#pc_select_box").html(response);
                     }
@@ -336,7 +336,7 @@
             if (pc_id !== "")
             {
                 $.ajax({
-                    url: "<?php echo base_url("admin/categories/getChildCategoriesAjax"); ?>" + "/" + pc_id,
+                    url: "<?php echo base_url_seller("categories/getChildCategoriesAjax"); ?>" + "/" + pc_id,
                     success: function(response) {
                         $("#cc_select_box").html(response);
                     }

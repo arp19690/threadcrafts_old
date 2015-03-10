@@ -28,7 +28,7 @@
 
         <!-- BEGIN LOGO -->
         <div class="logo">
-            <a class="brand" href="<?php echo base_url('admin') ?>">
+            <a class="brand" href="<?php echo base_url_seller('') ?>">
                 <img src="<?PHP echo IMAGES_PATH; ?>/logo.png" alt="<?php echo SITE_NAME; ?>" width="100"/>
             </a>
         </div>

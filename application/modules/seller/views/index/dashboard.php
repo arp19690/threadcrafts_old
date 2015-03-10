@@ -33,7 +33,7 @@
                                 Users
                             </div>
                         </div>
-                        <a class="more" href="<?php echo base_url("admin/users"); ?>">
+                        <a class="more" href="<?php echo base_url_seller("users"); ?>">
                             View more <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="desc">Products</div>
                         </div>
-                        <a class="more" href="<?php echo base_url("admin/products"); ?>">
+                        <a class="more" href="<?php echo base_url_seller("products"); ?>">
                             View more <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
@@ -65,7 +65,7 @@
                             </div>
                             <div class="desc">Earnings in INR</div>
                         </div>
-                        <a class="more" href="<?php echo base_url("#"); ?>">
+                        <a class="more" href="<?php echo base_url_seller("#"); ?>">
                             View more <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="desc">Earnings in USD</div>
                         </div>
-                        <a class="more" href="<?php echo base_url("#"); ?>">
+                        <a class="more" href="<?php echo base_url_seller("#"); ?>">
                             View more <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
@@ -228,7 +228,7 @@
                                             }
                                             ?>
                                             <li>
-                                                <a href="<?php echo base_url('admin/users/userDetail/' . $user_id); ?>">
+                                                <a href="<?php echo base_url_seller('users/userDetail/' . $user_id); ?>">
                                                     <div class="col1">
                                                         <div class="cont">
                                                             <div class="cont-col1">

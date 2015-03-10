@@ -70,7 +70,7 @@
 
                 if ($next_url == NULL)
                 {
-                    redirect(base_url('admin/orders/index/processing'));
+                    redirect(base_url_seller('orders/index/processing'));
                 }
                 else
                 {
@@ -79,7 +79,7 @@
             }
             else
             {
-                redirect(base_url('admin/orders'));
+                redirect(base_url_seller('orders'));
             }
         }
 

@@ -23,12 +23,12 @@
                                 <button class="btn dropdown-toggle" data-toggle="dropdown">Orders <i class="icon-angle-down"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?php echo base_url("admin/orders/"); ?>">All Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/processing"); ?>">Processing Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/dispatched"); ?>">Dispatched Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/delivered"); ?>">Delivered Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/cancelled"); ?>">Cancelled Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/returned"); ?>">Returned Orders</a></li>
+                                    <li><a href="<?php echo base_url_seller("orders/"); ?>">All Orders</a></li>
+                                    <li><a href="<?php echo base_url_seller("orders/index/processing"); ?>">Processing Orders</a></li>
+                                    <li><a href="<?php echo base_url_seller("orders/index/dispatched"); ?>">Dispatched Orders</a></li>
+                                    <li><a href="<?php echo base_url_seller("orders/index/delivered"); ?>">Delivered Orders</a></li>
+                                    <li><a href="<?php echo base_url_seller("orders/index/cancelled"); ?>">Cancelled Orders</a></li>
+                                    <li><a href="<?php echo base_url_seller("orders/index/returned"); ?>">Returned Orders</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                                         $shipping_location = $a_value["shipping_city"] . ", " . $a_value["shipping_country"] . "-" . $a_value["shipping_postcode"];
                                         ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url("admin/orders/orderDetail/$payment_id"); ?>" title="View Detail"><?php echo $product_title; ?></a></td>
+                                            <td><a href="<?php echo base_url_seller("orders/orderDetail/$payment_id"); ?>" title="View Detail"><?php echo $product_title; ?></a></td>
                                             <td><?php echo $product_code; ?></td>
                                             <td><?php echo $product_quantity; ?></td>
                                             <td><?php echo $shipping_address; ?></td>
