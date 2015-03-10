@@ -47,7 +47,7 @@
             <div class="navbar-inner">
                 <div class="container-fluid">
                     <!-- BEGIN LOGO -->
-                    <a class="brand" href="<?php echo base_url("admin"); ?>">
+                    <a class="brand" href="<?php echo base_url_seller(); ?>">
                         <p style="padding-top:10px"><?php echo SITE_NAME; ?></p>
                     </a>
                     <!-- END LOGO -->
@@ -118,74 +118,16 @@
                             </ul>
                         </li>
                         <!-- END NOTIFICATION DROPDOWN -->
-
-                        <?php
-                            $inbox_records = array();
-
-                            $inbox_records = $model->fetchSelectedData("wc_id,wc_message,full_name,creation_timestamp", TABLE_WEBSITE_CONTACT, array("wc_processed" => "0"), "wc_id", "DESC", "6");
-                            $unprocessed_count = count($inbox_records);
-                        ?>
-                        <!-- BEGIN INBOX DROPDOWN -->
-                        <li class="dropdown" id="header_inbox_bar">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-envelope-alt"></i>
-                                <?php
-                                    if ($unprocessed_count != 0)
-                                    {
-                                        echo '<span class="badge">' . $unprocessed_count . '</span>';
-                                    }
-                                ?>
-                            </a>
-                            <ul class="dropdown-menu extended inbox">
-                                <?php
-                                    if ($unprocessed_count != 0)
-                                    {
-                                        echo '<li>
-                                                    <p>You have ' . $unprocessed_count . ' new messages</p>
-                                                </li>';
-                                    }
-
-                                    if (!empty($inbox_records))
-                                    {
-                                        foreach ($inbox_records as $inKey => $invalue)
-                                        {
-                                            ?>
-                                            <li>
-                                                <a href="<?php echo base_url("admin/websiteContact/" . $invalue["wc_id"]); ?>">
-                                                    <span class="subject">
-                                                        <span class="from"><?php echo $invalue["full_name"] ?></span>
-                                                        <span class="time"><?php echo getTimeAgo(strtotime($invalue["creation_timestamp"])); ?></span>
-                                                    </span>
-                                                    <span class="message">
-                                                        <?php echo substr($invalue["wc_message"], 0, 100) . "..."; ?>
-                                                    </span>  
-                                                </a>
-                                            </li>
-                                            <?php
-                                        }
-                                    }
-                                    else
-                                    {
-                                        echo '<li><a href="#"><span class="message">You have no unprocessed messages.</span></a></li>';
-                                    }
-                                ?>
-
-                                <li class="external">
-                                    <a href="<?php echo base_url("admin/websiteContact"); ?>">See all messages <i class="m-icon-swapright"></i></a>
-                                </li>
-                            </ul>
-                        </li>
                         <!-- BEGIN USER LOGIN DROPDOWN -->
-
                         <li class="dropdown user">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img alt="<?php echo ucwords($this->session->userdata["admin_username"]); ?>" src="<?php echo ADMIN_ASSETS_PATH; ?>/images/avatar.png" />
-                                <span class="username"><?php echo ucwords($this->session->userdata["admin_username"]); ?></span>
+                                <img alt="<?php echo ucwords($this->session->userdata["seller_email"]); ?>" src="<?php echo ADMIN_ASSETS_PATH; ?>/images/avatar.png" />
+                                <span class="username"><?php echo empty($this->session->userdata["seller_company_name"]) == TRUE ? ($this->session->userdata["seller_fullname"]) : ($this->session->userdata["seller_company_name"]); ?></span>
                                 <i class="icon-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url("admin/changepassword"); ?>"><i class="icon-cogs" style="margin-right: 5px;"></i>Change Password</a></li>
-                                <li><a href="<?php echo base_url("admin/logout"); ?>"><i class="icon-off" style="margin-right: 5px;"></i>Log Out</a></li>
+                                <li><a href="<?php echo base_url_seller("changepassword"); ?>"><i class="icon-cogs" style="margin-right: 5px;"></i>Change Password</a></li>
+                                <li><a href="<?php echo base_url_seller("logout"); ?>"><i class="icon-off" style="margin-right: 5px;"></i>Logout</a></li>
                             </ul>
                         </li>
                         <!-- END USER LOGIN DROPDOWN -->

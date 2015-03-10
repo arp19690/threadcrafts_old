@@ -18,13 +18,14 @@
         {
             $model = $this->ci->Common_model;
             $whereCondArr = array("seller_email" => $seller_email, "seller_password" => $seller_password);
-            $record = $model->fetchSelectedData("seller_id, seller_email", TABLE_SELLER, $whereCondArr, NULL, NULL, "1");
+            $record = $model->fetchSelectedData("seller_id, seller_email, seller_status, seller_fullname, seller_company_name", TABLE_SELLER, $whereCondArr, NULL, NULL, "1");
             if (!empty($record))
             {
                 //login successful
                 $record = $record[0];
+//                prd($record);
 
-                if ($record['seller_status'] == '1')
+                if ($record['seller_status'] == 1)
                 {
                     $data_array = array(
                         "sl_seller_id" => $record["seller_id"],
@@ -36,6 +37,8 @@
 
                     $user_array = array(
                         "seller_id" => $record["seller_id"],
+                        "seller_fullname" => ucwords($record["seller_fullname"]),
+                        "seller_company_name" => stripslashes($record["seller_company_name"]),
                         "seller_email" => $record["seller_email"],
                         "seller_session_expire_time" => time() + SELLER_TIMEOUT_TIME,
                     );
@@ -47,6 +50,8 @@
 
                     if ($success_redirect_to == NULL)
                         $success_redirect_to = base_url_seller();
+
+                    redirect($success_redirect_to);
                 }
                 else
                 {
@@ -54,9 +59,9 @@
 
                     if ($error_redirect_to == NULL)
                         $error_redirect_to = base_url_seller();
-                }
 
-                redirect($success_redirect_to);
+                    redirect($error_redirect_to);
+                }
             }
             else
             {
