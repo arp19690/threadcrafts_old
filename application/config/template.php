@@ -81,6 +81,19 @@
     $template['admin']['parser'] = 'parser';
     $template['admin']['parser_method'] = 'parse';
     $template['admin']['parse_template'] = FALSE;
+    
+    
+    //  Seller Template
+    
+    $template['admin']['template'] = 'layout/admin/admin-template';
+    $template['admin']['regions'] = array (
+        'header',
+        'content',
+        'footer',
+    );
+    $template['admin']['parser'] = 'parser';
+    $template['admin']['parser_method'] = 'parse';
+    $template['admin']['parse_template'] = FALSE;
    
     /* End of file template.php */
 /* Location: ./system/application/config/template.php */
