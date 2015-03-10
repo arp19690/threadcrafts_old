@@ -25,6 +25,8 @@
                     $seller_email = $arr["seller_email"];
                     $seller_password = md5($arr["seller_password"]);
 //                prd($arr);
+
+                    require_once APPPATH . '/libraries/SellerLogin_auth.php';
                     $SellerLogin_auth = new SellerLogin_auth();
                     $SellerLogin_auth->login($seller_email, $seller_password, base_url_seller("dashboard"), base_url_seller());
                 }
@@ -40,7 +42,7 @@
         {
             $model = new Common_model();
 
-            $data=array();
+            $data = array();
 
             $this->template->write_view("content", "index/dashboard", $data);
             $this->template->render();
@@ -48,6 +50,7 @@
 
         public function logout()
         {
+            require_once APPPATH . '/libraries/SellerLogin_auth.php';
             $SellerLogin_auth = new SellerLogin_auth();
             $SellerLogin_auth->logout($this->session->userdata("seller_id"));
         }
@@ -99,5 +102,4 @@
         }
 
     }
-
     
