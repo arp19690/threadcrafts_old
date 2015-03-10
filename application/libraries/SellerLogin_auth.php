@@ -30,8 +30,8 @@
                     $data_array = array(
                         "sl_seller_id" => $record["seller_id"],
                         "sl_login_time" => date('Y-m-d H:i:s'),
-                        "sl_user_agent" => $this->ci->session->userdata["user_agent"],
-                        "sl_user_ipaddress" => $this->ci->session->userdata["ip_address"]
+                        "sl_useragent" => $this->ci->session->userdata["user_agent"],
+                        "sl_ipaddress" => $this->ci->session->userdata["ip_address"]
                     );
                     $model->insertData(TABLE_SELLER_LOG, $data_array);
 
