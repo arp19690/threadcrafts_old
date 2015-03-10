@@ -9,7 +9,7 @@
         public function __construct()
         {
             parent::__construct();
-            $this->template->set_template('admin');
+            $this->template->set_template('seller');
             $this->seller_id = $this->session->userdata("seller_id");
         }
 

@@ -6,7 +6,7 @@
         public function __construct()
         {
             parent::__construct();
-            $this->template->set_template('admin');
+            $this->template->set_template('seller');
             $this->load->library('form_validation');
             $this->load->model('custom_model');
         }
