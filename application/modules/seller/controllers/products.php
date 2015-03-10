@@ -37,7 +37,7 @@
 //                prd($arr);
 
                 $arr["product_detail_array"] = json_encode($arr['product_detail']);
-                $arr["product_added_by"] = $this->session->userdata["admin_id"];
+                $arr["product_added_by"] = $this->session->userdata["seller_id"];
                 $arr["user_ipaddress"] = $this->session->userdata["ip_address"];
                 $arr["user_agent"] = $this->session->userdata["user_agent"];
 
@@ -341,7 +341,7 @@
                     }
                     else
                     {
-                        $arr["added_by"] = $this->session->userdata["admin_id"];
+                        $arr["added_by"] = $this->session->userdata["seller_id"];
                         $arr["user_ipaddress"] = USER_IP;
                         $arr["user_agent"] = USER_AGENT;
                         if (empty($feature_id))
@@ -387,7 +387,7 @@
 
                 $product_detail_record = $model->fetchSelectedData('*', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
 
-                $added_by_record = $model->fetchSelectedData("admin_username", TABLE_ADMIN, array("admin_id" => $record["product_added_by"]));
+                $added_by_record = $model->fetchSelectedData("admin_username", TABLE_ADMIN, array("seller_id" => $record["product_added_by"]));
 
                 $record["product_added_by"] = $added_by_record[0]["admin_username"];
                 $data["record"] = $record;

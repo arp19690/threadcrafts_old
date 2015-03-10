@@ -10,12 +10,12 @@
         {
             parent::__construct();
             $this->template->set_template('admin');
-            $this->admin_id = $this->session->userdata("admin_id");
+            $this->seller_id = $this->session->userdata("seller_id");
         }
 
         public function index()
         {
-            if (!$this->session->userdata("admin_id"))
+            if (!$this->session->userdata("seller_id"))
             {
                 $this->load->view("index/index");
 
@@ -69,7 +69,7 @@
         public function logout()
         {
             $AdminLogin_auth = new AdminLogin_auth();
-            $AdminLogin_auth->logout($this->session->userdata("admin_id"));
+            $AdminLogin_auth->logout($this->session->userdata("seller_id"));
         }
 
         public function changepassword()
@@ -86,7 +86,7 @@
                 $confirm_password = md5($arr["confirm_password"]);
 
                 $whereCondArr = array(
-                    "admin_id" => $this->admin_id,
+                    "seller_id" => $this->seller_id,
                     "admin_password" => $old_password
                 );
 
@@ -151,7 +151,7 @@
                         "wc_id" => $wc_id,
                         "reply_message" => $reply_message,
                         "wc_processed" => $wc_processed,
-                        "admin_id" => $this->session->userdata["admin_id"],
+                        "seller_id" => $this->session->userdata["seller_id"],
                         "user_ipaddress" => USER_IP,
                         "user_agent" => USER_AGENT,
                     );

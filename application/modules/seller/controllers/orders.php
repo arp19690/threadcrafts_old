@@ -10,7 +10,7 @@
         {
             parent::__construct();
             $this->template->set_template('admin');
-            $this->admin_id = $this->session->userdata("admin_id");
+            $this->seller_id = $this->session->userdata("seller_id");
         }
 
         public function index($package_status = NULL)
@@ -51,7 +51,7 @@
 
         public function changeStatus()
         {
-            if ($this->session->userdata("admin_id"))
+            if ($this->session->userdata("seller_id"))
             {
                 $arr = $this->input->get();
 //                prd($arr);

@@ -45,7 +45,7 @@
                 {
                     $arr = $this->input->post();
 
-                    $arr['purchase_added_by'] = $this->session->userdata['admin_id'];
+                    $arr['purchase_added_by'] = $this->session->userdata['seller_id'];
                     $arr['purchase_ipaddress'] = USER_IP;
                     $arr['user_agent'] = USER_AGENT;
 //                    prd($arr);
@@ -172,7 +172,7 @@
             if ($this->input->post())
             {
                 $arr = $this->input->post();
-                $arr['client_added_by'] = $this->session->userdata['admin_id'];
+                $arr['client_added_by'] = $this->session->userdata['seller_id'];
                 $arr['client_ipaddress'] = USER_IP;
                 $arr['user_agent'] = USER_AGENT;
 
