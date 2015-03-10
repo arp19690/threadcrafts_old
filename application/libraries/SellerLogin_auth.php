@@ -24,27 +24,37 @@
                 //login successful
                 $record = $record[0];
 
-                $data_array = array(
-                    "sl_seller_id" => $record["seller_id"],
-                    "sl_login_time" => date('Y-m-d H:i:s'),
-                    "sl_user_agent" => $this->ci->session->userdata["user_agent"],
-                    "sl_user_ipaddress" => $this->ci->session->userdata["ip_address"]
-                );
-                $model->insertData(TABLE_SELLER_LOG, $data_array);
-
-                $user_array = array(
-                    "seller_id" => $record["seller_id"],
-                    "seller_email" => $record["seller_email"],
-                    "seller_session_expire_time" => time() + SELLER_TIMEOUT_TIME,
-                );
-
-                foreach ($user_array as $key => $value)
+                if ($record['seller_status'] == '1')
                 {
-                    $this->ci->session->set_userdata($key, $value);
-                }
+                    $data_array = array(
+                        "sl_seller_id" => $record["seller_id"],
+                        "sl_login_time" => date('Y-m-d H:i:s'),
+                        "sl_user_agent" => $this->ci->session->userdata["user_agent"],
+                        "sl_user_ipaddress" => $this->ci->session->userdata["ip_address"]
+                    );
+                    $model->insertData(TABLE_SELLER_LOG, $data_array);
 
-                if ($success_redirect_to == NULL)
-                    $success_redirect_to = base_url_seller();
+                    $user_array = array(
+                        "seller_id" => $record["seller_id"],
+                        "seller_email" => $record["seller_email"],
+                        "seller_session_expire_time" => time() + SELLER_TIMEOUT_TIME,
+                    );
+
+                    foreach ($user_array as $key => $value)
+                    {
+                        $this->ci->session->set_userdata($key, $value);
+                    }
+
+                    if ($success_redirect_to == NULL)
+                        $success_redirect_to = base_url_seller();
+                }
+                else
+                {
+                    $this->ci->session->set_flashdata('error', "<strong>Error!</strong> Your account is not active.");
+
+                    if ($error_redirect_to == NULL)
+                        $error_redirect_to = base_url_seller();
+                }
 
                 redirect($success_redirect_to);
             }
