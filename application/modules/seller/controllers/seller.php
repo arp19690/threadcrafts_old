@@ -10,7 +10,10 @@
         {
             parent::__construct();
             $this->template->set_template('seller');
-            $this->seller_id = $this->session->userdata("seller_id");
+            if (isset($this->session->userdata["seller_id"]))
+            {
+                $this->seller_id = $this->session->userdata["seller_id"];
+            }
         }
 
         public function index()
@@ -92,10 +95,14 @@
         public function dashboard()
         {
             $model = new Common_model();
+            $seller_id = $this->seller_id;
+
+            $total_products_whereCondArr = array('product_seller_id' => $seller_id, 'product_status' => '1');
+            $total_products = $model->getTotalCount('product_id', TABLE_PRODUCTS, $total_products_whereCondArr);
 
             $data = array(
-                'total_earnings'=>0,
-                'total_products'=>0,
+                'total_earnings' => 0,
+                'total_products' => $total_products[0]['totalcount'],
             );
 
             $this->template->write_view("content", "index/dashboard", $data);

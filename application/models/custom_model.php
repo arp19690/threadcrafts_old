@@ -128,7 +128,7 @@
             $shipping_records = $this->db->select($fields)
                     ->join(TABLE_PAYMENT . ' as py', 'py.sd_id = sd.sd_id', 'LEFT')
                     ->join(TABLE_PRODUCTS . ' as p', 'p.product_id= sd.product_id', 'LEFT')
-                    ->where('payment_id !=','')
+                    ->where('payment_id !=', '')
                     ->order_by('py.payment_id', 'DESC')
             ;
 
@@ -162,4 +162,10 @@
             return $shipping_records;
         }
 
+        public function getSellerEarnings($seller_id, $fields = '*', $whereCondArr = NULL, $orderByName = 'payment_id', $orderType = 'DESC', $limit = NULL)
+        {
+
+        }
+
     }
+    
