@@ -339,6 +339,8 @@
 
         </script>
         <!--Google Analytics END-->
+        
+        <script type="text/javascript" async defer src="https://apis.google.com/js/platform.js?publisherid=101035726513260358778"></script>
         <?php
     }
 ?>
