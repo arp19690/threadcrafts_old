@@ -4,7 +4,12 @@
     {
         $seller_price = $actual_price + $shipping_charge;
         $add_profit_percent = $seller_price + ($seller_price * ($profit_percent / 100));
-        return round($add_profit_percent, 2);
+        $add_service_tax = $add_profit_percent + ($add_profit_percent * (SERVICE_TAX_PERCENT / 100));
+        $add_payment_tax = $add_service_tax + ($add_service_tax * (PAYMENT_PROCESSING_TAX_PERCENT / 100));
+        $add_convenience_tax = $add_payment_tax + ($add_payment_tax * (CONVENIENCE_FEE_PERCENT / 100));
+
+        $output = $add_convenience_tax;
+        return round($output, 2);
     }
 
     function getUniqueProductURLKey($product_title, $suffix = NULL)

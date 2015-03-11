@@ -99,5 +99,8 @@
     define("SHIPPING_CODE", "GATI");
 
     define("TAX_PROFIT_MARGIN_PERCENT", 20);
-    define("TAX_PAYPAL_PERCENT", 5);
+    define("TAX_PAYPAL_PERCENT", 5);    
     
+    define("SERVICE_TAX_PERCENT", 14);    
+    define("PAYMENT_PROCESSING_TAX_PERCENT", 3.5);    
+    define("CONVENIENCE_FEE_PERCENT", 2);    
