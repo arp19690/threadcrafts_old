@@ -1,5 +1,27 @@
 <?php
 
+    function addProfitPercentToPrice($actual_price, $profit_percent, $shipping_charge)
+    {
+        $seller_price = $actual_price + $shipping_charge;
+        $add_profit_percent = $seller_price + ($seller_price * ($profit_percent / 100));
+        return round($add_profit_percent, 2);
+    }
+
+    function getUniqueProductURLKey($product_title, $suffix = NULL)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $product_title = str_replace(' ', '-', urldecode($product_title));
+        $is_exists = $model->is_exists('product_code', TABLE_PRODUCTS, array('product_code' => $product_title));
+        if (!empty($is_exists))
+        {
+            $suffix = '-' . getRandomNumberLength($product_title, 2);
+            $product_title = getUniqueProductURLKey($product_title, $suffix);
+        }
+
+        return $product_title;
+    }
+
     function goBack($steps = '1')
     {
         if (getClientBrowserName() == 'Google Chrome')
@@ -12,7 +34,7 @@
         }
     }
 
-    function getProductUniqueCode($string_length = 6)
+    function getUniqueProductCode($string_length = 6)
     {
         require_once APPPATH . '/models/common_model.php';
         $model = new Common_model();
@@ -20,7 +42,7 @@
         $is_exists = $model->is_exists('product_code', TABLE_PRODUCTS, array('product_code' => $random_number));
         if (!empty($is_exists))
         {
-            $random_number = getProductUniqueCode($string_length);
+            $random_number = getUniqueProductCode($string_length);
         }
 
         return $random_number;
@@ -34,20 +56,6 @@
             $email_model = new Email_model();
             $email_model->sendMail($to_email, $subject, $message, $from_email, $from_name);
         }
-    }
-
-    function getUniqueBlogUrlKey($url_key)
-    {
-        $url_key = urlencode($url_key);
-        $model = new Common_model();
-        $records = $model->is_exists('blog_id', TABLE_BLOGS, array('url_key' => $url_key));
-        if (!empty($records))
-        {
-            $url_key = $url_key . '-' . $records[0]['blog_id'];
-            getUniqueBlogUrlKey($url_key);
-        }
-
-        return $url_key;
     }
 
     function parse_address_google($address)
@@ -96,16 +104,13 @@
         $random = generateUniqueKeyEverytime();
         $new_id = strtoupper('TCO' . substr($random, 0, 6));
         $is_exists = $model->is_exists('payment_id', TABLE_PAYMENT, array('order_id' => $new_id));
-        if (empty($is_exists))
-        {
-            //valid
-            return $new_id;
-        }
-        else
+        if (!empty($is_exists))
         {
             //invalid
-            getUniqueOrderId();
+            $new_id = getUniqueOrderId();
         }
+
+        return $new_id;
     }
 
     function generateUniqueKeyEverytime($str = NULL)

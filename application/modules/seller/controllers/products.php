@@ -25,138 +25,89 @@
         public function addProduct()
         {
             $model = new Common_model();
-            $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
-            $data["form_heading"] = "Add Product";
-            $data["form_action"] = "";
-
-            $this->template->write_view("content", "products/product-form", $data);
-            $this->template->render();
 
             if ($this->input->post())
             {
                 $arr = $this->input->post();
-//                prd($arr);
+                $seller_id = $this->session->userdata['seller_id'];
 
-                $arr["product_detail_array"] = json_encode($arr['product_detail']);
-                $arr["product_added_by"] = $this->session->userdata["seller_id"];
-                $arr["user_ipaddress"] = $this->session->userdata["ip_address"];
-                $arr["user_agent"] = $this->session->userdata["user_agent"];
+                $profit_percent_record = $model->fetchSelectedData('cc_profit_percent', TABLE_CHILD_CATEGORY, array('cc_id' => $arr['product_child_category']));
 
-                if (isset($arr["pc_id"]))
-                {
-                    $arr["product_parent_category"] = $arr["pc_id"];
-                    unset($arr["pc_id"]);
-                }
+                $data_array = array(
+                    'product_title' => ucwords(addslashes($arr['product_title'])),
+                    'product_description' => (addslashes($arr['product_description'])),
+                    'product_child_category' => $arr['product_child_category'],
+                    'product_price' => addProfitPercentToPrice($arr['product_seller_price'], $profit_percent_record[0]['cc_profit_percent'], $arr['product_shipping_charge']),
+                    'product_seller_price' => round($arr['product_seller_price'], 2),
+                    'product_shipping_charge' => round($arr['product_shipping_charge'], 2),
+                    'product_gift_charge' => round($arr['product_gift_charge'], 2),
+                    'product_ipaddress' => USER_IP,
+                    'product_useragent' => USER_AGENT,
+                    'product_meta_keywords' => addslashes(getNWordsFromString($arr['product_description'], 20)),
+                    'product_meta_description' => addslashes(getNWordsFromString($arr['product_description'], 40)),
+                    'product_url_key' => getUniqueProductURLKey($arr['product_title']),
+                    'product_code' => getUniqueProductCode(),
+                    'product_status' => '3',
+                    'product_seller_id' => $seller_id,
+                    'product_profit_percent' => $profit_percent_record[0]['cc_profit_percent'],
+                );
+                $model->insertData(TABLE_PRODUCTS, $data_array);
+                $product_id = $this->db->insert_id();
 
-                $product_detail_arr = $arr['product_detail'];
-                unset($arr['product_detail']);
+                $this->session->set_flashdata('success','Product added. Please add the details about your product');
+                redirect(base_url_seller('products/addProductStepTwo/' . $product_id));
+            }
+            else
+            {
+                $data["grand_cat_array"] = $model->fetchSelectedData("gc_id, gc_name", TABLE_GRAND_CATEGORY, NULL, "gc_name");
+                $data["form_heading"] = "Add Product";
+                $data["form_action"] = "";
 
-                $image_i = "1";
-                $product_id = $arr["product_id"];
+                $this->template->write_view("content", "products/product-form", $data);
+                $this->template->render();
+            }
+        }
 
-                $image_array = array();
-                foreach ($_FILES["product_img"]["tmp_name"] as $fKey => $fValue)
-                {
-                    if (!empty($fValue))
-                    {
-                        $fileName = getEncryptedString(time() . $arr['product_img_color'][$fKey]) . ".jpg";
-                        $image_array[$arr['product_img_color'][$fKey]] = $fileName;
+        public function addProductStepTwo($product_id)
+        {
+            $model = new Common_model();
 
-                        $this->uploadImages($fileName, $_FILES["product_img"]["tmp_name"][$fKey]);
-                        $image_i++;
-                    }
-                }
-                $arr['product_image_and_color'] = json_encode($image_array);
-                unset($arr["product_img_color"]);
+            if ($this->input->post() && isset($product_id))
+            {
+                $arr = $this->input->post();
+                $seller_id = $this->session->userdata['seller_id'];
+                prd($arr);
 
-                if (empty($product_id))
-                {
-                    //insert
-                    $is_exists = $model->is_exists("product_id", TABLE_PRODUCTS, array("product_code" => $arr["product_code"]));
-                    if (empty($is_exists))
-                    {
-                        // to store meta keywords into the database
-                        $meta_str = $arr["product_title"] . " " . $arr["product_code"] . " " . getNWordsFromString($arr["product_description"], 10) . " " . SITE_NAME;
-                        $meta_str = str_replace(" ", ", ", $meta_str);
-                        $arr["meta_keywords"] = $meta_str;
+                $profit_percent_record = $model->fetchSelectedData('cc_profit_percent', TABLE_CHILD_CATEGORY, array('cc_id' => $arr['product_child_category']));
 
-                        $meta_desc = substr($arr["product_description"], 0, 200);
-                        $arr["meta_description"] = $meta_desc;
+                $data_array = array(
+                    'product_title' => ucwords(addslashes($arr['product_title'])),
+                    'product_description' => (addslashes($arr['product_description'])),
+                    'product_child_category' => $arr['product_child_category'],
+                    'product_price' => addProfitPercentToPrice($arr['product_seller_price'], $profit_percent_record[0]['cc_profit_percent'], $arr['product_shipping_charge']),
+                    'product_seller_price' => round($arr['product_seller_price'], 2),
+                    'product_shipping_charge' => round($arr['product_shipping_charge'], 2),
+                    'product_gift_charge' => round($arr['product_gift_charge'], 2),
+                    'product_ipaddress' => USER_IP,
+                    'product_useragent' => USER_AGENT,
+                    'product_meta_keywords' => addslashes(getNWordsFromString($arr['product_description'], 20)),
+                    'product_meta_description' => addslashes(getNWordsFromString($arr['product_description'], 40)),
+                    'product_url_key' => getUniqueProductURLKey($arr['product_title']),
+                    'product_code' => getUniqueProductCode(),
+                    'product_status' => '3',
+                    'product_seller_id' => $seller_id,
+                    'product_profit_percent' => $profit_percent_record[0]['cc_profit_percent'],
+                );
+                $model->insertData(TABLE_PRODUCTS, $data_array);
+            }
+            else
+            {
+                $data["grand_cat_array"] = $model->fetchSelectedData("gc_id, gc_name", TABLE_GRAND_CATEGORY, NULL, "gc_name");
+                $data["form_heading"] = "Add Product";
+                $data["form_action"] = "";
 
-                        $model->insertData(TABLE_PRODUCTS, $arr);
-                        $product_id = $this->db->insert_id();
-
-                        // to update the url_key param for this product id
-                        $url_key = str_replace(" ", "-", $arr["product_title"]) . '-' . $product_id;
-                        $model->updateData(TABLE_PRODUCTS, array('url_key' => $url_key), array('product_id' => $product_id));
-
-                        $this->updateProductDetails($product_detail_arr, $product_id);
-
-                        if ($_SERVER["REMOTE_ADDR"] != '127.0.0.1')
-                        {
-                            // to send emails to the newsletter subscribers
-                            $newsletter_email_records = $model->fetchSelectedData("user_email", TABLE_NEWSLETTER);
-                            if (!empty($newsletter_email_records))
-                            {
-                                $this->load->library('EmailTemplates');
-                                $EmailTemplates = new EmailTemplates();
-                                $email_model = new Email_model();
-                                $product_url = getProductUrl($product_id);
-                                $email_content = $EmailTemplates->newProductAdded($product_url);
-
-                                foreach ($newsletter_email_records as $nlKey => $nlValue)
-                                {
-                                    $newsletter_email = $nlValue["user_email"];
-                                    $email_model->sendMail($newsletter_email, "New product introduced | " . SITE_NAME, $email_content);
-                                }
-                            }
-                        }
-
-                        $this->session->set_flashdata("success", "Product Added");
-                        redirect(base_url_seller("products"));
-                    }
-                    else
-                    {
-                        $this->session->set_flashdata("error", "Product code already exists");
-//                        redirect(base_url_seller("addProduct"));
-
-                        $data["record"] = $arr;
-                        $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
-                        $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record[0]["product_grand_category"]), "pc_name");
-                        $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record[0]["product_parent_category"]), "cc_name");
-                        $data["form_heading"] = "Add Product";
-                        $data["form_action"] = base_url_seller("product/addProduct");
-                        $this->template->write_view("content", "product/product-form", $data);
-                        $this->template->render();
-                    }
-                }
-                else
-                {
-                    //update
-                    $is_exists = $model->is_exists("product_id", TABLE_PRODUCTS, array("product_code" => $arr["product_code"], "product_id != " => $product_id));
-                    if (empty($is_exists))
-                    {
-                        // to update meta keywords and description into the database
-                        $meta_str = $arr["product_title"] . " " . $arr["product_code"] . " " . getNWordsFromString($arr["product_description"], 10) . " " . SITE_NAME;
-                        $meta_str = str_replace(" ", ", ", $meta_str);
-                        $arr["meta_keywords"] = $meta_str;
-
-                        $meta_desc = substr($arr["product_description"], 0, 200);
-                        $arr["meta_description"] = $meta_desc;
-
-                        $model->updateData(TABLE_PRODUCTS, $arr, array("product_id" => $product_id));
-
-                        $this->updateProductDetails($product_detail_arr, $product_id);
-
-                        $this->session->set_flashdata("success", "Product edited");
-                        redirect(base_url_seller("products"));
-                    }
-                    else
-                    {
-                        $this->session->set_flashdata("error", "Product code already exists");
-                        redirect(base_url_seller("editProduct/" . $product_id));
-                    }
-                }
+                $this->template->write_view("content", "products/product-form-step-two", $data);
+                $this->template->render();
             }
         }
 
@@ -222,16 +173,16 @@
             if ($product_id)
             {
                 $model = new Common_model();
-            $seller_id = $this->session->userdata['seller_id'];
+                $seller_id = $this->session->userdata['seller_id'];
                 $custom_model = new Custom_model();
                 $data = array();
 
-                $record = $custom_model->getAllProductsList("*", array('product_id' => $product_id,'product_seller_id'=>$seller_id));
+                $record = $custom_model->getAllProductsList("*", array('product_id' => $product_id, 'product_seller_id' => $seller_id));
                 $record = $record[0];
                 unset($record["cc_id"], $record["pc_id"], $record["gc_id"], $record["pc_gc_id"], $record["cc_gc_id"], $record["cc_pc_id"]);
 
                 $product_detail_record = $model->fetchSelectedData('*', TABLE_PRODUCT_DETAILS, array('pd_product_id' => $product_id));
-                
+
                 $data["record"] = $record;
                 $data["product_detail_record"] = $product_detail_record;
 
@@ -243,11 +194,12 @@
         public function updateStock($product_id = NULL, $size = NULL)
         {
             $model = new Common_model();
+            $seller_id = $this->session->userdata['seller_id'];
             $data = array();
 
             if ($product_id != NULL)
             {
-                $product_detail_record = $model->fetchSelectedData('DISTINCT(product_size) as product_size', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
+                $product_detail_record = $model->fetchSelectedData('DISTINCT(product_size) as product_size', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id, 'product_seller_id' => $seller_id));
 //                prd($product_detail_record);
                 $data['product_sizes'] = $product_detail_record;
                 $data['selected_product_id'] = $product_id;
@@ -286,35 +238,77 @@
             }
         }
 
-        public function updateProductDetails($product_detail_arr, $product_id)
+        public function getParentCategoriesAjax($gc_id)
         {
-            if (!empty($product_id) && !empty($product_detail_arr))
+            if ($gc_id)
             {
                 $model = new Common_model();
-                $model->deleteData(TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
-                foreach ($product_detail_arr as $key => $value)
-                {
-                    if (!empty($value['size']))
-                    {
-                        $size = $value['size'];
-                        foreach ($value['color'] as $tmpKey => $tmpValue)
-                        {
-                            if (!empty($tmpValue))
-                            {
-                                $color = $tmpValue;
-                                $stock_count = $value['stock'][$tmpKey];
+                $records = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $gc_id), "pc_name");
+//                prd($records);
 
-                                $data_array = array(
-                                    'product_id' => $product_id,
-                                    'product_size' => $size,
-                                    'product_color' => $color,
-                                    'product_stock' => $stock_count,
-                                );
-                                $model->insertData(TABLE_PRODUCT_DETAILS, $data_array);
-                            }
-                        }
+                $str = '<div class="control-group">
+                                <label class="control-label">Parent Category<span class="required">*</span></label>
+                                <div class="controls">
+                                    <select name="pc_id" class="span6 m-wrap" id="pc_id">';
+
+                if (!empty($records))
+                {
+                    $str .= '<option value="">Select</option>';
+                    foreach ($records as $pcKey => $pcValue)
+                    {
+                        $pc_id = $pcValue["pc_id"];
+                        $pc_name = $pcValue["pc_name"];
+
+                        $str .= '<option value="' . $pc_id . '">' . $pc_name . '</option>';
                     }
                 }
+                else
+                {
+                    $str .= '<option>No data</option>';
+                }
+
+                $str .= '</select>
+                                </div>
+                            </div>';
+
+                echo $str;
+            }
+        }
+
+        public function getChildCategoriesAjax($pc_id)
+        {
+            if ($pc_id)
+            {
+                $model = new Common_model();
+                $records = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $pc_id), "cc_name");
+//                prd($records);
+
+                $str = '<div class="control-group">
+                                <label class="control-label">Child Category<span class="required">*</span></label>
+                                <div class="controls">
+                                    <select name="product_child_category" class="span6 m-wrap" id="cc_id">';
+
+                if (!empty($records))
+                {
+                    $str .= '<option value="">Select</option>';
+                    foreach ($records as $pcKey => $pcValue)
+                    {
+                        $cc_id = $pcValue["cc_id"];
+                        $cc_name = $pcValue["cc_name"];
+
+                        $str .= '<option value="' . $cc_id . '">' . $cc_name . '</option>';
+                    }
+                }
+                else
+                {
+                    $str .= '<option>No data</option>';
+                }
+
+                $str .= '</select>
+                                </div>
+                            </div>';
+
+                echo $str;
             }
         }
 
