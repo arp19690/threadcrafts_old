@@ -9,9 +9,9 @@
     define("TABLE_EMAILS_SENT", "emails_sent");
     
     
-    define("TABLE_GRAND_CATEGORY", "grand_category");
-    define("TABLE_PARENT_CATEGORY", "parent_category");
-    define("TABLE_CHILD_CATEGORY", "child_category");
+    define("TABLE_GRAND_CATEGORY", "category_grand");
+    define("TABLE_PARENT_CATEGORY", "category_parent");
+    define("TABLE_CHILD_CATEGORY", "category_child");
     define("TABLE_PRODUCTS", "products");
     define("TABLE_SHOPPING_CART", "shopping_cart");
     define("TABLE_WISHLIST", "wishlist");
