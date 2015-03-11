@@ -1,5 +1,31 @@
 <?php
 
+    function getProductStatusText($product_status)
+    {
+        if ($product_status == '0')
+        {
+            $text = 'Deactivated';
+        }
+        elseif ($product_status == '1')
+        {
+            $text = 'Approved';
+        }
+        elseif ($product_status == '2')
+        {
+            $text = 'Waiting for review';
+        }
+        elseif ($product_status == '3')
+        {
+            $text = 'Incomplete details';
+        }
+        elseif ($product_status == '4')
+        {
+            $text = 'Rejected';
+        }
+        
+        return $text;
+    }
+
     function addProfitPercentToPrice($actual_price, $profit_percent, $shipping_charge)
     {
         $seller_price = $actual_price + $shipping_charge;
