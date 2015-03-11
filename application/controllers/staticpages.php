@@ -109,7 +109,7 @@
 
             $xml = '<?xml version = "1.0" encoding = "UTF-8"?>' . "\n";
             $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">' . "\n";
-            $xml .= '<url><loc>' . base_url() . '</loc><changefreq>daily</changefreq><priority>1.00</priority></url>' . "\n";
+            $xml .= '<url><loc>' . base_url() . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
 
             // all the static links
             $static_links_without_base_url = array(
@@ -130,7 +130,7 @@
             );
             foreach ($static_links_without_base_url as $slKey => $slValue)
             {
-                $xml .= '<url><loc>' . base_url($slValue) . '</loc><changefreq>daily</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . base_url($slValue) . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
             }
 
             // all the active grand categories
@@ -138,7 +138,7 @@
             foreach ($grand_category_records as $gcKey => $gcValue)
             {
                 $grand_category_url = base_url('products/view/' . $gcValue['gc_name']);
-                $xml .= '<url><loc>' . $grand_category_url . '</loc><changefreq>daily</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $grand_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
             }
 
             // all the active parent categories
@@ -146,7 +146,7 @@
             foreach ($parent_category_records as $pcKey => $pcValue)
             {
                 $parent_category_url = base_url('products/view/' . $pcValue['gc_name'] . '/' . $pcValue['pc_name']);
-                $xml .= '<url><loc>' . $parent_category_url . '</loc><changefreq>daily</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $parent_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
             }
 
             // all the active child categories
@@ -154,7 +154,7 @@
             foreach ($child_category_records as $pcKey => $pcValue)
             {
                 $child_category_url = base_url('products/view/' . $pcValue['gc_name'] . '/' . $pcValue['pc_name'] . '/' . $pcValue['cc_name']);
-                $xml .= '<url><loc>' . $child_category_url . '</loc><changefreq>daily</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $child_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
             }
 
             // all the active products
@@ -162,15 +162,7 @@
             foreach ($product_records as $pKey => $pValue)
             {
                 $product_url = getProductUrl($pValue['product_id']);
-                $xml .= '<url><loc>' . $product_url . '</loc><changefreq>daily</changefreq><priority>0.85</priority></url>' . "\n";
-            }
-
-            // all the active blogs
-            $blog_records = $model->fetchSelectedData('url_key', TABLE_BLOGS, array('blog_status' => '1'));
-            foreach ($blog_records as $brKey => $brValue)
-            {
-                $blog_url = base_url('blog/read/' . $brValue['url_key']);
-                $xml .= '<url><loc>' . $blog_url . '</loc><changefreq>daily</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $product_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
             }
 
             $xml .= '</urlset>';
