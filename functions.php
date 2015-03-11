@@ -178,10 +178,10 @@
         {
             foreach ($product_img_array as $key => $value)
             {
-                if (is_file(PRODUCT_IMG_PATH . "/" . $value))
+                if (is_file(PRODUCT_IMG_PATH_LARGE . "/" . $value))
                 {
                     $color = $key;
-                    $url = getUrl(PRODUCT_IMG_PATH . "/" . $value) . "?" . time();
+                    $url = getUrl(PRODUCT_IMG_PATH_LARGE . "/" . $value) . "?" . time();
                 }
                 else
                 {

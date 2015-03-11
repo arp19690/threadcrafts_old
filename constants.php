@@ -83,32 +83,21 @@
     define("TWITTER_SOCIAL_LINK", "https://twitter.com/ThreadCrafts");
     define("GOOGLE_PLUS_SOCIAL_LINK", "https://www.google.com/+ThreadCraftsJodhpur");
     define("ANDROID_APP_URL", "#");
-
-    define("PRODUCT_IMG_WIDTH", 700);
-    define("PRODUCT_IMG_HEIGHT", NULL);
-
-    define("PRODUCT_PURCHASES_DOCS_PATH", "resources/product-purchases-docs");
-
-    define("PRODUCT_IMG_PATH", "resources/product-images");
-
-    define("BLOG_IMG_PATH", "resources/blog-images");
-    define("BLOG_IMG_WIDTH", 500);
-    define("BLOG_IMG_HEIGHT", NULL);
-
     define("NO_PRODUCT_IMG_PATH", IMAGES_PATH . "/no-image.png");
 
+    define("PRODUCT_IMG_WIDTH_SMALL", 300);
+    define("PRODUCT_IMG_HEIGHT_SMALL", NULL);
+    define("PRODUCT_IMG_WIDTH_LARGE", 700);
+    define("PRODUCT_IMG_HEIGHT_LARGE", NULL);
+    define("PRODUCT_IMG_PATH_LARGE", "resources/product-images");
+    define("PRODUCT_IMG_PATH_SMALL", "resources/product-images/small");
+
+    define("MIN_PRODUCT_IMAGES", 3);
     define("MAX_PRODUCT_IMAGES", 5);
-
-    define("MIN_PRICE_FOR_SHIPPING", 300);
-    define('MIN_SHIPPING_CHARGE', 50);
-    define('MIN_SHIPPING_CHARGE_PLUS_ADDITIONAL', 10);
-
-    define("INTERNATIONAL_SHIPPING_CHARGE_BASE", 1100);
-    define("INTERNATIONAL_SHIPPING_CHARGE_ADDITIONAL", 350);
 
     define("SHIPPING_PARTNER", "gati");
     define("SHIPPING_CODE", "GATI");
 
-    define("TAX_PROFIT_MARGIN_PERCENT", 100);
+    define("TAX_PROFIT_MARGIN_PERCENT", 20);
     define("TAX_PAYPAL_PERCENT", 5);
     

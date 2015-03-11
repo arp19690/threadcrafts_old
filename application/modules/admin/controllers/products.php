@@ -189,7 +189,7 @@
 
                 for ($i = "1"; $i <= MAX_PRODUCT_IMAGES; $i++)
                 {
-                    $file_name = APPPATH . "../" . PRODUCT_IMG_PATH . "/" . $product_id . "-" . $i . ".jpg";
+                    $file_name = APPPATH . "../" . PRODUCT_IMG_PATH_LARGE . "/" . $product_id . "-" . $i . ".jpg";
                     if (is_file($file_name))
                     {
                         unlink($file_name);
@@ -227,7 +227,7 @@
                 redirect(base_url("admin/products"));
         }
 
-        public function uploadImages($fileName, $filesTmp, $width = PRODUCT_IMG_WIDTH, $height = PRODUCT_IMG_HEIGHT)
+        public function uploadImages($fileName, $filesTmp, $width = PRODUCT_IMG_WIDTH_LARGE, $height = PRODUCT_IMG_HEIGHT_LARGE)
         {
             $this->load->library("SimpleImage");
             $img = new SimpleImage();
@@ -243,7 +243,7 @@
             }
 
             //save large size image
-            $path_large = PRODUCT_IMG_PATH . "/" . $fileName;
+            $path_large = PRODUCT_IMG_PATH_LARGE . "/" . $fileName;
 //            move_uploaded_file($filesTmp, $path_large);
             $img->save($path_large);
         }

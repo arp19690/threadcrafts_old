@@ -206,7 +206,7 @@
                 redirect(base_url_seller("products"));
         }
 
-        public function uploadImages($fileName, $filesTmp, $width = PRODUCT_IMG_WIDTH, $height = PRODUCT_IMG_HEIGHT)
+        public function uploadImages($fileName, $filesTmp, $width = PRODUCT_IMG_WIDTH_LARGE, $height = PRODUCT_IMG_HEIGHT_LARGE)
         {
             $this->load->library("SimpleImage");
             $img = new SimpleImage();
@@ -222,7 +222,7 @@
             }
 
             //save large size image
-            $path_large = PRODUCT_IMG_PATH . "/" . $fileName;
+            $path_large = PRODUCT_IMG_PATH_LARGE . "/" . $fileName;
 //            move_uploaded_file($filesTmp, $path_large);
             $img->save($path_large);
         }
