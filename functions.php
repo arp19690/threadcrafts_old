@@ -1,5 +1,19 @@
 <?php
 
+    function getProductUniqueCode($string_length = 6)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength(time(), $string_length);
+        $is_exists = $model->is_exists('product_code', TABLE_PRODUCTS, array('product_code' => $random_number));
+        if (!empty($is_exists))
+        {
+            $random_number = getProductUniqueCode($string_length);
+        }
+
+        return $random_number;
+    }
+
     function sendMail($to_email, $subject, $message, $from_email = SITE_EMAIL, $from_name = SITE_NAME_DISPLAY)
     {
         if (USER_IP != '127.0.0.1')
@@ -12,7 +26,7 @@
 
     function getUniqueBlogUrlKey($url_key)
     {
-        $url_key=  urlencode($url_key);
+        $url_key = urlencode($url_key);
         $model = new Common_model();
         $records = $model->is_exists('blog_id', TABLE_BLOGS, array('url_key' => $url_key));
         if (!empty($records))
