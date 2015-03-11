@@ -1,5 +1,17 @@
 <?php
 
+    function goBack($steps = '1')
+    {
+        if (getClientBrowserName() == 'Google Chrome')
+        {
+            return 'javascript:history.back(-' . $steps . ')';
+        }
+        else
+        {
+            return 'javascript:history.go(-' . $steps . ');';
+        }
+    }
+
     function getProductUniqueCode($string_length = 6)
     {
         require_once APPPATH . '/models/common_model.php';
