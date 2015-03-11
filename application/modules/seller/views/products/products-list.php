@@ -46,8 +46,8 @@
                                         $product_title = $a_value["product_title"];
                                         $product_code = $a_value["product_code"];
                                         $product_status = $a_value["product_status"];
-                                        $product_your_price = number_format($a_value["product_seller_price"] + $a_value['product_shipping_charge'], 2);
-                                        $product_selling_price = number_format($a_value["product_price"] + $a_value['product_shipping_charge'], 2);
+                                        $product_your_price = number_format($a_value["product_seller_price"], 2);
+                                        $product_selling_price = number_format($a_value["product_price"], 2);
 
                                         if ($product_status == "1")
                                             $product_status = "Active";
