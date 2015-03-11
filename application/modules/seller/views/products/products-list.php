@@ -45,14 +45,9 @@
                                         $product_id = $a_value["product_id"];
                                         $product_title = $a_value["product_title"];
                                         $product_code = $a_value["product_code"];
-                                        $product_status = $a_value["product_status"];
+                                        $product_status = getProductStatusText($a_value["product_status"]);
                                         $product_your_price = number_format($a_value["product_seller_price"], 2);
                                         $product_selling_price = number_format($a_value["product_price"], 2);
-
-                                        if ($product_status == "1")
-                                            $product_status = "Active";
-                                        else
-                                            $product_status = "Deactive";
 
                                         $category = $a_value["gc_name"] . " -> " . $a_value["pc_name"] . " -> " . $a_value["cc_name"];
                                         ?>
@@ -60,6 +55,7 @@
                                             <td>
                                                 <p><?php echo $product_title; ?></p>
                                                 <p><strong>Shipping charge: </strong><?php echo $a_value['product_shipping_charge'] == '0' ? 'Free' : DEFAULT_CURRENCY_SYMBOL . number_format($a_value['product_shipping_charge'], 2); ?></p>
+                                                <p><strong>Gift-wrap charge: </strong><?php echo $a_value['product_gift_charge'] == '0' ? 'Free' : DEFAULT_CURRENCY_SYMBOL . number_format($a_value['product_shipping_charge'], 2); ?></p>
                                             </td>
                                             <td><?php echo $product_code; ?></td>
                                             <td class="hidden-phone"><?php echo $category; ?></td>
