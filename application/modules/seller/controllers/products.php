@@ -22,7 +22,7 @@
             $this->template->render();
         }
 
-        public function addProduct()
+        public function addProduct($product_id = NULL)
         {
             $model = new Common_model();
 
@@ -45,23 +45,48 @@
                     'product_useragent' => USER_AGENT,
                     'product_meta_keywords' => addslashes(getNWordsFromString($arr['product_description'], 20)),
                     'product_meta_description' => addslashes(getNWordsFromString($arr['product_description'], 40)),
-                    'product_url_key' => getUniqueProductURLKey($arr['product_title']),
-                    'product_code' => getUniqueProductCode(),
-                    'product_status' => '3',
                     'product_seller_id' => $seller_id,
-                    'product_profit_percent' => $profit_percent_record[0]['cc_profit_percent'],
                 );
-                $model->insertData(TABLE_PRODUCTS, $data_array);
-                $product_id = $this->db->insert_id();
 
-                $this->session->set_flashdata('success','Product added. Please add the details about your product');
+                if ($product_id == NULL)
+                {
+                    $data_array['product_url_key'] = getUniqueProductURLKey($arr['product_title']);
+                    $data_array['product_code'] = getUniqueProductCode();
+                    $data_array['product_status'] = '3';
+                    $data_array['product_profit_percent'] = $profit_percent_record[0]['cc_profit_percent'];
+
+                    $model->insertData(TABLE_PRODUCTS, $data_array);
+                    $product_id = $this->db->insert_id();
+                    $this->session->set_flashdata('success', 'Product added. Please add the details about your product');
+                }
+                else
+                {
+                    $data_array['product_status'] = '2';
+                    $model->updateData(TABLE_PRODUCTS, $data_array, array('product_seller_id' => $seller_id, 'product_id' => $product_id));
+                    $this->session->set_flashdata('success', 'Product updated. Please update the details as well');
+                }
+
                 redirect(base_url_seller('products/addProductStepTwo/' . $product_id));
             }
             else
             {
-                $data["grand_cat_array"] = $model->fetchSelectedData("gc_id, gc_name", TABLE_GRAND_CATEGORY, NULL, "gc_name");
-                $data["form_heading"] = "Add Product";
-                $data["form_action"] = "";
+                if (isset($product_id) && !empty($product_id) && is_numeric($product_id))
+                {
+                    $model = new Common_model();
+                    $record = $model->fetchSelectedData("*", TABLE_PRODUCTS, array("product_id" => $product_id));
+                    $data["record"] = $record[0];
+                    $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
+                    $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record[0]["product_grand_category"]), "pc_name");
+                    $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record[0]["product_parent_category"]), "cc_name");
+                    $data["form_heading"] = "Edit product";
+                    $data["form_action"] = base_url_seller("products/addProduct/" . $product_id);
+                }
+                else
+                {
+                    $data["grand_cat_array"] = $model->fetchSelectedData("gc_id, gc_name", TABLE_GRAND_CATEGORY, NULL, "gc_name");
+                    $data["form_heading"] = "Add Product";
+                    $data["form_action"] = "";
+                }
 
                 $this->template->write_view("content", "products/product-form", $data);
                 $this->template->render();
@@ -116,13 +141,14 @@
             if ($product_id)
             {
                 $model = new Common_model();
-                $record = $model->fetchSelectedData("*", TABLE_PRODUCTS, array("product_id" => $product_id));
+                $fields = '*';
+                $record = $model->fetchSelectedData($fields, TABLE_PRODUCTS, array("product_id" => $product_id));
                 $data["record"] = $record[0];
                 $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
                 $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record[0]["product_grand_category"]), "pc_name");
                 $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record[0]["product_parent_category"]), "cc_name");
                 $data["form_heading"] = "Edit product";
-                $data["form_action"] = base_url_seller("products/addProduct");
+                $data["form_action"] = base_url_seller("products/addProduct/" . $product_id);
                 $this->template->write_view("content", "products/product-form", $data);
                 $this->template->render();
             }
