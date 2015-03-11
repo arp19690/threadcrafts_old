@@ -22,7 +22,7 @@
         {
             $text = 'Rejected';
         }
-        
+
         return $text;
     }
 
@@ -149,11 +149,24 @@
         return md5(uniqid(USE_SALT . time() . $str, true));
     }
 
-    function uploadImage($source, $destination, $width, $height = NULL)
+    function uploadImage($fileTmpname, $destFilename, $base_path, $width, $height = NULL)
     {
         require_once APPPATH . '/libraries/SimpleImage.php';
-        $SimpleImage = new SimpleImage();
-        $SimpleImage->uploadImage($source, $destination, $width, $height);
+        $img = new SimpleImage();
+        $img->load($fileTmpname);
+
+        if ($height == NULL || empty($height))
+        {
+            $img->resizeToWidth($width);
+        }
+        else
+        {
+            $img->resize($width, $height);
+        }
+
+        //save image
+        $path_large = $base_path . "/" . $destFilename;
+        $img->save($path_large);
     }
 
     function getNWordsFromString($text, $numberOfWords = 20)
