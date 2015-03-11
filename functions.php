@@ -24,7 +24,7 @@
             $product_title = getUniqueProductURLKey($product_title, $suffix);
         }
 
-        return $product_title;
+        return strtolower($product_title);
     }
 
     function goBack($steps = '1')
