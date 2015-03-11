@@ -73,8 +73,8 @@
         {
             $result = $this->db->select($fields);
             $result = $result->join(TABLE_CHILD_CATEGORY . " as cc", "cc.cc_id=p.product_child_category", "INNER");
-            $result = $result->join(TABLE_PARENT_CATEGORY . " as pc", "pc.pc_id=p.product_parent_category", "INNER");
-            $result = $result->join(TABLE_GRAND_CATEGORY . " as gc", "gc.gc_id=p.product_grand_category", "INNER");
+            $result = $result->join(TABLE_PARENT_CATEGORY . " as pc", "pc.pc_id=cc.cc_pc_id", "INNER");
+            $result = $result->join(TABLE_GRAND_CATEGORY . " as gc", "gc.gc_id=pc.pc_gc_id", "INNER");
 
             if ($orderByFieldName != NULL)
             {

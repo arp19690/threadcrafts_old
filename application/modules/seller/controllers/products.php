@@ -14,7 +14,8 @@
         {
             $this->load->model('custom_model');
             $custom_model = new Custom_model();
-            $data["alldata"] = $custom_model->getAllProductsList("*");
+            $seller_id = $this->session->userdata['seller_id'];
+            $data["alldata"] = $custom_model->getAllProductsList("*", array('product_seller_id' => $seller_id));
 //            prd($data);
 
             $this->template->write_view("content", "products/products-list", $data);
@@ -180,32 +181,6 @@
             }
         }
 
-        public function deactivateProduct($product_id, $ajax = FALSE)
-        {
-            if ($product_id)
-            {
-                $model = new Common_model();
-                $model->updateData(TABLE_PRODUCTS, array("product_status" => "0"), array("product_id" => $product_id));
-                $this->session->set_flashdata("success", "Product deactivated");
-            }
-
-            if ($ajax == FALSE)
-                redirect(base_url_seller("products"));
-        }
-
-        public function activateProduct($product_id, $ajax = FALSE)
-        {
-            if ($product_id)
-            {
-                $model = new Common_model();
-                $model->updateData(TABLE_PRODUCTS, array("product_status" => "1"), array("product_id" => $product_id));
-                $this->session->set_flashdata("success", "Product deactivated");
-            }
-
-            if ($ajax == FALSE)
-                redirect(base_url_seller("products"));
-        }
-
         public function uploadImages($fileName, $filesTmp, $width = PRODUCT_IMG_WIDTH_LARGE, $height = PRODUCT_IMG_HEIGHT_LARGE)
         {
             $this->load->library("SimpleImage");
@@ -247,18 +222,16 @@
             if ($product_id)
             {
                 $model = new Common_model();
+            $seller_id = $this->session->userdata['seller_id'];
                 $custom_model = new Custom_model();
                 $data = array();
 
-                $record = $custom_model->getAllProductsList("*", array('p.product_id' => $product_id));
+                $record = $custom_model->getAllProductsList("*", array('product_id' => $product_id,'product_seller_id'=>$seller_id));
                 $record = $record[0];
                 unset($record["cc_id"], $record["pc_id"], $record["gc_id"], $record["pc_gc_id"], $record["cc_gc_id"], $record["cc_pc_id"]);
 
-                $product_detail_record = $model->fetchSelectedData('*', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
-
-                $added_by_record = $model->fetchSelectedData("seller_email", TABLE_SELLER, array("seller_id" => $record["product_added_by"]));
-
-                $record["product_added_by"] = $added_by_record[0]["seller_email"];
+                $product_detail_record = $model->fetchSelectedData('*', TABLE_PRODUCT_DETAILS, array('pd_product_id' => $product_id));
+                
                 $data["record"] = $record;
                 $data["product_detail_record"] = $product_detail_record;
 
@@ -346,5 +319,4 @@
         }
 
     }
-
     

@@ -15,7 +15,7 @@
                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                 <div class="portlet box blue">
                     <div class="portlet-title">
-                        <h4><i class="icon-edit"></i>Products</h4>
+                        <h4><i class="icon-list"></i>Products</h4>
                     </div>
                     <div class="portlet-body">
                         <div class="clearfix">
@@ -30,12 +30,11 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Code</th>
-                                    <th>Category</th>
-                                    <th>Cost Price</th>
-                                    <th>Order Type</th>
+                                    <th class="hidden-phone">Category</th>
+                                    <th>Your Price</th>
+                                    <th>Selling Price</th>
                                     <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,26 +45,31 @@
                                         $product_id = $a_value["product_id"];
                                         $product_title = $a_value["product_title"];
                                         $product_code = $a_value["product_code"];
-                                        $product_cost_price = $a_value["product_cost_price"];
-                                        $product_order_type = $a_value["product_order_type"];
                                         $product_status = $a_value["product_status"];
+                                        $product_your_price = number_format($a_value["product_seller_price"] + $a_value['product_shipping_charge'], 2);
+                                        $product_selling_price = number_format($a_value["product_price"] + $a_value['product_shipping_charge'], 2);
 
                                         if ($product_status == "1")
                                             $product_status = "Active";
                                         else
                                             $product_status = "Deactive";
 
-                                        $category = $a_value["gc_name"] . " / " . $a_value["pc_name"] . " / " . $a_value["cc_name"];
+                                        $category = $a_value["gc_name"] . " -> " . $a_value["pc_name"] . " -> " . $a_value["cc_name"];
                                         ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url_seller("products/productDetail/$product_id"); ?>" title="View Detail"><?php echo $product_title; ?></a></td>
+                                            <td>
+                                                <p><?php echo $product_title; ?></p>
+                                                <p><strong>Shipping charge: </strong><?php echo $a_value['product_shipping_charge'] == '0' ? 'Free' : DEFAULT_CURRENCY_SYMBOL . number_format($a_value['product_shipping_charge'], 2); ?></p>
+                                            </td>
                                             <td><?php echo $product_code; ?></td>
-                                            <td><?php echo $category; ?></td>
-                                            <td><?php echo DEFAULT_CURRENCY_SYMBOL . $product_cost_price; ?></td>
-                                            <td><?php echo ucwords(str_replace("-", " ", $product_order_type)); ?></td>
+                                            <td class="hidden-phone"><?php echo $category; ?></td>
+                                            <td><?php echo DEFAULT_CURRENCY_SYMBOL . $product_your_price; ?></td>
+                                            <td><?php echo DEFAULT_CURRENCY_SYMBOL . $product_selling_price; ?></td>
                                             <td class="center"><?php echo $product_status; ?></td>
-                                            <td class="center"><a href="<?php echo base_url_seller("products/editProduct/" . $product_id); ?>"><i class="icon-pencil"></i></a></td>
-                                            <td class="center"><a href="<?php echo base_url_seller("products/deleteProduct/" . $product_id); ?>" onclick="return confirm('Are you sure to delete <?php echo $product_title; ?> ?');"><i class="icon-remove"></i></a></td>
+                                            <td class="center">
+                                                <p><a href="<?php echo base_url_seller("products/productDetail/" . $product_id); ?>"><i class="icon-search"></i>&nbsp;Details</a></p>
+                                                <p><a href="<?php echo base_url_seller("products/editProduct/" . $product_id); ?>"><i class="icon-pencil"></i>&nbsp;Edit</a></p>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
