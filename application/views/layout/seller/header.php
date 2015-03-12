@@ -4,7 +4,7 @@
 
     if (!isset($meta_title))
     {
-        $meta_title = 'Seller\'s Panel';
+        $meta_title = 'Seller\'s Panel | ' . SITE_NAME;
     }
 ?>
 <!DOCTYPE html>
@@ -14,7 +14,7 @@
     <!-- BEGIN HEAD -->
     <head>
         <meta charset="utf-8" />
-        <title><?php echo $meta_title . ' | ' . SITE_NAME; ?></title>
+        <title><?php echo $meta_title; ?></title>
         <meta name="robots" content="nofollow, noindex"/>
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         <meta content="" name="description" />
@@ -37,7 +37,7 @@
         <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico" />
 
         <script src="<?php echo ADMIN_ASSETS_PATH; ?>/js/jquery-1.8.3.min.js"></script>	
-        
+
         <style>
             .header .nav #header_notification_bar{margin-top: 6px}
         </style>
