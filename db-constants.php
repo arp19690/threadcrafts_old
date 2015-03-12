@@ -31,4 +31,5 @@
     define("TABLE_CLIENTS", "my_clients");
     define("TABLE_PURCHASES", "my_purchases");
     define("TABLE_PRODUCT_DETAILS", "product_details");
+    define("TABLE_PRODUCT_IMAGES", "product_images");
     
