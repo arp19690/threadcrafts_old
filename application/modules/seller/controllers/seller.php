@@ -169,8 +169,10 @@
             $seller_id = $this->seller_id;
             $model = new Common_model();
             $record = $model->fetchSelectedData('*', TABLE_SELLER, array('seller_id' => $seller_id));
+            $bank_record = $model->fetchSelectedData('*', TABLE_SELLER_BANK, array('sb_seller_id' => $seller_id, 'sb_status' => '1'));
 
             $data['record'] = $record[0];
+            $data['bank_record'] = @$bank_record[0];
             $data['page_title'] = empty($record[0]['seller_company_name']) == TRUE ? $record[0]['seller_fullname'] : $record[0]['seller_company_name'];
             $data['meta_title'] = $data['page_title'] . ' | ' . SITE_NAME;
             $this->template->write_view("content", "index/profile", $data);

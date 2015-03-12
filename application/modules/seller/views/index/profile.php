@@ -62,6 +62,15 @@
                                         <li><span>Address: </span><span><?php echo str_replace('  ', ' ', stripslashes($record['seller_address_line1'] . ' ' . $record['seller_address_line2'] . ' ' . $record['seller_location'] . ' ' . $record['seller_postcode'])); ?></span></li>
                                    </ul>
                                 </div>
+                                <div class='span4'>
+                                    <h3>Bank Details</h3>
+                                    <ul class="unstyled">
+                                        <li><span>Bank Name: </span><span><?php echo empty($record['sb_bank_name']) == TRUE ? 'NA' : stripslashes($record['sb_bank_name']); ?></span></li>
+                                        <li><span>Account Holder: </span><span><?php echo empty($record['sb_account_holder']) == TRUE ? 'NA' : stripslashes($record['sb_account_holder']); ?></span></li>
+                                        <li><span>Account Number: </span><span><?php echo empty($record['sb_account_number']) == TRUE ? 'NA' : stripslashes($record['sb_account_number']); ?></span></li>
+                                        <li><span>IFS Code: </span><span><?php echo empty($record['sb_ifsc_code']) == TRUE ? 'NA' : stripslashes($record['sb_ifsc_code']); ?></span></li>
+                                   </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
