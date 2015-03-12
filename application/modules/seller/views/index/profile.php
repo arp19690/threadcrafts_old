@@ -13,7 +13,7 @@
             <div class="span12">
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->			
                 <h3 class="page-title"><?php echo $page_title; ?></h3>
-                <p><strong>Status: </strong><?php echo $record['seller_status'] == '1' ? 'Active' : 'Deactivated' ?></p>
+                <p><strong>Status: </strong><?php echo getSellerStatusText($record['seller_status']); ?></p>
                 <div class="actions pull-right">
                     <a class="btn green mini" href="<?php echo goBack(); ?>">
                         <i class="icon-arrow-left"></i>
@@ -60,7 +60,7 @@
                                         <li><span>Company Name: </span><span><?php echo empty($record['seller_company_name']) == TRUE ? 'NA' : stripslashes($record['seller_company_name']); ?></span></li>
                                         <li><span>Company Reg. No.: </span><span><?php echo empty($record['seller_company_regid']) == TRUE ? 'NA' : stripslashes($record['seller_company_regid']); ?></span></li>
                                         <li><span>Address: </span><span><?php echo str_replace('  ', ' ', stripslashes($record['seller_address_line1'] . ' ' . $record['seller_address_line2'] . ' ' . $record['seller_location'] . ' ' . $record['seller_postcode'])); ?></span></li>
-                                   </ul>
+                                    </ul>
                                 </div>
                                 <div class='span4'>
                                     <h3>Bank Details</h3>
@@ -69,7 +69,7 @@
                                         <li><span>Account Holder: </span><span><?php echo empty($record['sb_account_holder']) == TRUE ? 'NA' : stripslashes($record['sb_account_holder']); ?></span></li>
                                         <li><span>Account Number: </span><span><?php echo empty($record['sb_account_number']) == TRUE ? 'NA' : stripslashes($record['sb_account_number']); ?></span></li>
                                         <li><span>IFS Code: </span><span><?php echo empty($record['sb_ifsc_code']) == TRUE ? 'NA' : stripslashes($record['sb_ifsc_code']); ?></span></li>
-                                   </ul>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

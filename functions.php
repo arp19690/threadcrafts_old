@@ -12,6 +12,28 @@
         return $returnValue;
     }
 
+    function getSellerStatusText($seller_status)
+    {
+        if ($seller_status == '0')
+        {
+            $text = 'Deactivated';
+        }
+        elseif ($seller_status == '1')
+        {
+            $text = 'Activated';
+        }
+        elseif ($seller_status == '2')
+        {
+            $text = 'Waiting for activation';
+        }
+        elseif ($seller_status == '3')
+        {
+            $text = 'Rejected';
+        }
+
+        return $text;
+    }
+
     function getProductStatusText($product_status)
     {
         if ($product_status == '0')
