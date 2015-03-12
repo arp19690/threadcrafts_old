@@ -164,27 +164,6 @@
             }
         }
 
-        public function uploadImages($fileName, $filesTmp, $width = PRODUCT_IMG_WIDTH_LARGE, $height = PRODUCT_IMG_HEIGHT_LARGE)
-        {
-            $this->load->library("SimpleImage");
-            $img = new SimpleImage();
-            $img->load($filesTmp);
-
-            if ($height == NULL || empty($height))
-            {
-                $img->resizeToWidth($width);
-            }
-            else
-            {
-                $img->resize($width, $height);
-            }
-
-            //save large size image
-            $path_large = PRODUCT_IMG_PATH_LARGE . "/" . $fileName;
-//            move_uploaded_file($filesTmp, $path_large);
-            $img->save($path_large);
-        }
-
         public function resizeImage($source, $width, $height, $createThumb = FALSE, $maintainRatio = FALSE)
         {
             $config['image_library'] = 'gd2';
