@@ -1,5 +1,17 @@
 <?php
 
+    function isValidImageExt($ext)
+    {
+        $valid_ext_Arr = array('jpg', 'jpeg', 'png', 'gif');
+        $returnValue = TRUE;
+        if (!in_array($ext, $valid_ext_Arr))
+        {
+            $returnValue = FALSE;
+        }
+
+        return $returnValue;
+    }
+
     function getProductStatusText($product_status)
     {
         if ($product_status == '0')
