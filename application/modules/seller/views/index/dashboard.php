@@ -58,7 +58,6 @@
             <div class="tabbable tabbable-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#tab_1_1" data-toggle="tab">New Orders</a></li>
-                    <li><a href="#tab_1_2" data-toggle="tab">Dispatched Orders</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_1_1">
@@ -108,60 +107,7 @@
                                     }
                                     else
                                     {
-                                        echo '<li>No data found</li>';
-                                    }
-                                ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab_1_2">
-                        <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible1="1">
-                            <ul class="feeds">
-                                <?php
-                                    if (!empty($dispatched_orders_records))
-                                    {
-                                        foreach ($dispatched_orders_records as $doKey => $doValue)
-                                        {
-                                            $product_id = $doValue["product_id"];
-                                            $product_title = $doValue["product_title"];
-                                            $product_code = $doValue["product_code"];
-                                            $product_quantity = $doValue["product_quantity"];
-                                            $package_status = $doValue["package_status"];
-                                            $payment_time = strtotime($doValue["payment_time"]);
-                                            ?>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-important">								
-                                                                    <i class="icon-plane"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New order for <?php echo $product_title . " (" . $product_code . ")" ?>, Quantity - <?php echo $product_quantity; ?>
-                                                                    <span class="label label-warning label-mini">
-                                                                        <?php echo ucwords($package_status); ?>
-                                                                        <i class="icon-share-alt"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <div class="col2" style="margin-left: -105px;">
-                                                    <div class="date" style="width: 90px;">
-                                                        <?php echo getTimeAgo($payment_time); ?>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <?php
-                                        }
-                                    }
-                                    else
-                                    {
-                                        echo '<li>No data found</li>';
+                                        echo '<li>You have no new orders</li>';
                                     }
                                 ?>
                             </ul>
