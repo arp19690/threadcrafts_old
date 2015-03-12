@@ -228,15 +228,35 @@
 
     function getProductUrl($product_id)
     {
-        require_once(APPPATH . 'controllers/products.php');
-        $products = new Products();
-        return $products->getProductUrl($product_id);
+        require_once APPPATH . '/models/custom_model.php';
+        $custom_model = new Custom_model();
+        $fields = "product_id, cc_name, pc_name, gc_name, product_url_key";
+        $whereCondArr = array("product_id" => $product_id);
+        $record = $custom_model->getAllProductsList($fields, $whereCondArr);
+        $record = $record[0];
+
+        $path = "products/view/" . $record["gc_name"] . "/" . $record["pc_name"] . "/" . $record["cc_name"] . "/" . $record["product_url_key"];
+        $url = base_url($path);
+        return $url;
     }
 
     function calculateTax($actualAmount, $tax = TAX_PROFIT_MARGIN_PERCENT)
     {
         $result = $actualAmount * ($tax / 100);
         return $result;
+    }
+
+    function getImage($image_path_filename)
+    {
+        if (is_file($image_path_filename))
+        {
+            $output = base_url($image_path_filename);
+        }
+        else
+        {
+            $output = NO_PRODUCT_IMG_PATH;
+        }
+        return $output;
     }
 
     function getProductImages($product_img_array)
