@@ -267,24 +267,31 @@
 
         public function productDetail($product_id)
         {
-            if ($product_id)
+            $seller_id = $this->session->userdata['seller_id'];
+            if ($product_id && !empty($seller_id))
             {
                 $model = new Common_model();
-                $seller_id = $this->session->userdata['seller_id'];
                 $custom_model = new Custom_model();
                 $data = array();
 
-                $record = $custom_model->getAllProductsList("*", array('product_id' => $product_id, 'product_seller_id' => $seller_id));
-                $record = $record[0];
-                unset($record["cc_id"], $record["pc_id"], $record["gc_id"], $record["pc_gc_id"], $record["cc_gc_id"], $record["cc_pc_id"]);
+                $fields = '*';
+                $record = $custom_model->getAllProductsList($fields, array('product_id' => $product_id, 'product_seller_id' => $seller_id));
+                if (!empty($record))
+                {
+                    $product_detail_record = $model->fetchSelectedData('*', TABLE_PRODUCT_DETAILS, array('pd_product_id' => $product_id));
+                    $product_image_record = $model->fetchSelectedData('pi_image_title, pi_image_path, pi_image_size', TABLE_PRODUCT_IMAGES, array('pi_product_id' => $product_id));
 
-                $product_detail_record = $model->fetchSelectedData('*', TABLE_PRODUCT_DETAILS, array('pd_product_id' => $product_id));
+                    $data["record"] = $record[0];
+                    $data["product_detail_record"] = $product_detail_record;
+                    $data["product_image_record"] = $product_image_record;
 
-                $data["record"] = $record;
-                $data["product_detail_record"] = $product_detail_record;
-
-                $this->template->write_view("content", "products/product-detail", $data);
-                $this->template->render();
+                    $this->template->write_view("content", "products/product-detail", $data);
+                    $this->template->render();
+                }
+                else
+                {
+                    redirect(base_url_seller('products'));
+                }
             }
         }
 
