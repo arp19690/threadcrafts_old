@@ -105,6 +105,7 @@
                 'total_products' => $total_products[0]['totalcount'],
             );
 
+            $data['meta_title'] = 'Seller Dashboard | ' . SITE_NAME;
             $this->template->write_view("content", "index/dashboard", $data);
             $this->template->render();
         }
@@ -118,6 +119,7 @@
 
         public function changepassword()
         {
+            $data['meta_title'] = 'Change Password | ' . SITE_NAME;
             $this->template->write_view("content", "index/changepassword");
             $this->template->render();
 
