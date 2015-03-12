@@ -355,7 +355,7 @@
                         $this->cart->update($data);
                     }
                     $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
-                    redirect($this->getProductUrl($arr["product_id"]));
+                    redirect(getProductUrl($arr["product_id"]));
                 }
             }
             else
@@ -397,24 +397,6 @@
                 $this->session->set_flashdata("warning", "<strong>Just a sec!</strong> You will need to login to add a product to compare list");
             }
             redirect(getProductUrl($product_id));
-        }
-
-        public function getProductUrl($product_id)
-        {
-            if ($product_id)
-            {
-                $model = new Common_model();
-                $custom_model = new Custom_model();
-                $fields = "product_id,cc_name,pc_name,gc_name,url_key";
-                $whereCondArr = array("product_id" => $product_id);
-                $record = $custom_model->getAllProductsList($fields, $whereCondArr);
-                $record = $record[0];
-
-                $path = "products/view/" . $record["gc_name"] . "/" . $record["pc_name"] . "/" . $record["cc_name"] . "/" . $record["url_key"];
-                $url = base_url($path);
-                $url = str_replace(" ", "-", $url);
-                return $url;
-            }
         }
 
         public function search()
