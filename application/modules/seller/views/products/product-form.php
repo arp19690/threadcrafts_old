@@ -173,7 +173,7 @@
                                         <span class='add-on'><?php echo DEFAULT_CURRENCY_SYMBOL; ?></span>
                                         <input name="product_seller_price" id="product_seller_price" required="required" maxlength="10" value="<?php echo set_value("product_seller_price", $result["product_seller_price"]); ?>" type="text" class=" m-wrap"/>
                                     </div>
-                                    <div class="help-block">(in INR)</div>
+                                    <div class="help-block">(Your selling price)</div>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -183,7 +183,7 @@
                                         <span class='add-on'><?php echo DEFAULT_CURRENCY_SYMBOL; ?></span>
                                         <input name="product_shipping_charge" id="product_shipping_charge" required="required" maxlength="5" value="<?php echo set_value("product_shipping_charge", $result["product_shipping_charge"]); ?>" type="text" class=" m-wrap"/>
                                     </div>
-                                    <div class="help-block">(in INR)</div>
+                                    <div class="help-block">(Customer will have to pay)</div>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -193,7 +193,7 @@
                                         <span class='add-on'><?php echo DEFAULT_CURRENCY_SYMBOL; ?></span>
                                         <input name="product_gift_charge" id="product_gift_charge" required="required" readonly="true" maxlength="5" value="<?php echo set_value("product_gift_charge", $result["product_gift_charge"]); ?>" type="text" class=" m-wrap"/>
                                     </div>
-                                    <div class="help-block">(in INR)</div>
+                                    <div class="help-block">(Customer will have to pay)</div>
                                 </div>
                             </div>
                             <div class="form-actions submit-bttn">
