@@ -44,8 +44,8 @@
                                             $url = getImage($imageValue['pi_image_path']);
                                             ?>
                                             <div class="span2">
-                                                <img src="<?php echo $url; ?>" alt="<?php echo $title; ?>" />
                                                 <p><?php echo $title; ?></p>
+                                                <img src="<?php echo $url; ?>" alt="<?php echo $title; ?>" />
                                             </div>
                                             <?php
                                         }
