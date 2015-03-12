@@ -6,12 +6,12 @@
         public function __construct()
         {
             parent::__construct();
-            
-            if(!isset($this->session->userdata['seller_id']))
+
+            if (!isset($this->session->userdata['seller_id']))
             {
                 redirect(base_url_seller('logout'));
             }
-            
+
             $this->template->set_template('seller');
             $this->load->library('form_validation');
         }
@@ -102,42 +102,137 @@
         public function addProductStepTwo($product_id)
         {
             $model = new Common_model();
+            $seller_id = $this->session->userdata['seller_id'];
+            $is_owner = $model->is_exists('product_id', TABLE_PRODUCTS, array('product_id' => $product_id, 'product_seller_id' => $seller_id));
 
             if ($this->input->post() && isset($product_id))
             {
                 $arr = $this->input->post();
-                $seller_id = $this->session->userdata['seller_id'];
-                prd($arr);
 
-                $profit_percent_record = $model->fetchSelectedData('cc_profit_percent', TABLE_CHILD_CATEGORY, array('cc_id' => $arr['product_child_category']));
+                if (!empty($is_owner))
+                {
+                    // valid
+                    foreach ($arr['pd_id'] as $key => $value)
+                    {
+                        $data_array = array(
+                            'pd_product_id' => $product_id,
+                            'pd_color_name' => ucwords($arr['product_color'][$key]),
+                            'pd_quantity' => ($arr['product_quantity'][$key]),
+                            'pd_min_quantity' => ($arr['product_min_quantity'][$key]),
+                            'pd_status' => '2',
+                            'pd_ipaddress' => USER_IP,
+                            'pd_useragent' => USER_AGENT
+                        );
 
-                $data_array = array(
-                    'product_title' => ucwords(addslashes($arr['product_title'])),
-                    'product_description' => (addslashes($arr['product_description'])),
-                    'product_child_category' => $arr['product_child_category'],
-                    'product_price' => addProfitPercentToPrice($arr['product_seller_price'], $profit_percent_record[0]['cc_profit_percent'], $arr['product_shipping_charge']),
-                    'product_seller_price' => round($arr['product_seller_price'], 2),
-                    'product_shipping_charge' => round($arr['product_shipping_charge'], 2),
-                    'product_gift_charge' => round($arr['product_gift_charge'], 2),
-                    'product_ipaddress' => USER_IP,
-                    'product_useragent' => USER_AGENT,
-                    'product_meta_keywords' => addslashes(getNWordsFromString($arr['product_description'], 20)),
-                    'product_meta_description' => addslashes(getNWordsFromString($arr['product_description'], 40)),
-                    'product_url_key' => getUniqueProductURLKey($arr['product_title']),
-                    'product_code' => getUniqueProductCode(),
-                    'product_status' => '3',
-                    'product_seller_id' => $seller_id,
-                    'product_profit_percent' => $profit_percent_record[0]['cc_profit_percent'],
-                );
-                $model->insertData(TABLE_PRODUCTS, $data_array);
+                        if (empty($value))
+                        {
+                            // insert
+                            $model->insertData(TABLE_PRODUCT_DETAILS, $data_array);
+                            $this->session->set_flashdata('success', 'Product details added.');
+                        }
+                        else
+                        {
+                            // update
+                            $model->updateData(TABLE_PRODUCT_DETAILS, $data_array, array('pd_product_id' => $product_id, 'pd_id' => $value));
+                            $this->session->set_flashdata('success', 'Product details updated.');
+                        }
+
+                        redirect(base_url_seller('products/addProductStepThree/' . $product_id));
+                    }
+                }
+                else
+                {
+                    // invalid
+                    redirect(base_url_seller('products'));
+                }
             }
             else
             {
-                $data["grand_cat_array"] = $model->fetchSelectedData("gc_id, gc_name", TABLE_GRAND_CATEGORY, NULL, "gc_name");
-                $data["form_heading"] = "Add Product";
+                $data["form_heading"] = "Add Product Details";
                 $data["form_action"] = "";
 
                 $this->template->write_view("content", "products/product-form-step-two", $data);
+                $this->template->render();
+            }
+        }
+
+        public function addProductStepThree($product_id)
+        {
+            $model = new Common_model();
+            $seller_id = $this->session->userdata['seller_id'];
+            $is_owner = $model->is_exists('product_id', TABLE_PRODUCTS, array('product_id' => $product_id, 'product_seller_id' => $seller_id));
+
+            if ($this->input->post() && isset($product_id))
+            {
+                $arr = $this->input->post();
+
+                if (!empty($is_owner))
+                {
+                    // valid
+                    foreach ($arr['product_img_title'] as $key => $value)
+                    {
+                        if (!empty($_FILES['product_img'][$key]['tmp_name']) && isset($_FILES['product_img'][$key]['tmp_name']))
+                        {
+                            $ext = getFileExtension($_FILES['product_img'][$key]['name']);
+                            if (isValidImageExt($ext))
+                            {
+                                $random_number = getRandomNumberLength($_FILES['product_img'][$key]['tmp_name'], 15);
+                                $new_filename = $random_number . '.' . $ext;
+
+                                // large files
+                                $data_array_large = array(
+                                    'pi_product_id' => $product_id,
+                                    'pi_image_size' => 'large',
+                                    'pi_image_title' => empty($value) == TRUE ? NULL : addslashes($value),
+                                    'pi_image_path' => PRODUCT_IMG_PATH_LARGE . '/' . $new_filename,
+                                    'pi_ipaddress' => USER_IP,
+                                    'pi_useragent' => USER_AGENT
+                                );
+                                uploadImage($_FILES['product_img'][$key]['tmp_name'], $new_filename, PRODUCT_IMG_PATH_LARGE, PRODUCT_IMG_WIDTH_LARGE, PRODUCT_IMG_HEIGHT_LARGE);
+
+                                // small files
+                                $data_array_small = array(
+                                    'pi_product_id' => $product_id,
+                                    'pi_image_size' => 'small',
+                                    'pi_image_title' => empty($value) == TRUE ? NULL : addslashes($value),
+                                    'pi_image_path' => PRODUCT_IMG_PATH_SMALL . '/' . $new_filename,
+                                    'pi_ipaddress' => USER_IP,
+                                    'pi_useragent' => USER_AGENT
+                                );
+                                uploadImage(PRODUCT_IMG_PATH_LARGE . '/' . $new_filename, $new_filename, PRODUCT_IMG_PATH_SMALL, PRODUCT_IMG_WIDTH_SMALL, PRODUCT_IMG_HEIGHT_SMALL);
+
+                                if (empty($value))
+                                {
+                                    // insert
+                                    $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_large);
+                                    $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_small);
+                                    $this->session->set_flashdata('success', 'Product images added.');
+                                }
+                                else
+                                {
+                                    // update
+                                    $model->updateData(TABLE_PRODUCT_IMAGES, $data_array_large, array('pd_product_id' => $product_id, 'pd_id' => $value));
+                                    $model->updateData(TABLE_PRODUCT_IMAGES, $data_array_small, array('pd_product_id' => $product_id, 'pd_id' => $value));
+                                    $this->session->set_flashdata('success', 'Product images updated.');
+                                }
+                            }
+                        }
+                    }
+
+                    redirect(base_url_seller('products/productDetail/' . $product_id));
+                }
+                else
+                {
+                    // invalid
+                    redirect(base_url_seller('products'));
+                }
+            }
+            else
+            {
+                $data["form_heading"] = "Add Product Images";
+                $data["form_action"] = "";
+
+                $this->template->write_view("content", "products/product-form-step-three", $data);
                 $this->template->render();
             }
         }
