@@ -1,4 +1,5 @@
 <?php
+
     if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "threadcrafts.in")
     {
         define("SITE_BASE_URL", "https://threadcrafts.in/");    // When running on server    
@@ -11,7 +12,7 @@
         {
             $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             header("Location:$redirect");
-        }        
+        }
     }
     elseif ($_SERVER["REMOTE_ADDR"] == "127.0.0.1")
     {
@@ -92,6 +93,8 @@
     define("PRODUCT_IMG_PATH_LARGE", "resources/product-images");
     define("PRODUCT_IMG_PATH_SMALL", "resources/product-images/small");
 
+    define("SELLER_LOGO_PATH", "resources/seller-logos");
+
     define("MIN_PRODUCT_IMAGES", 3);
     define("MAX_PRODUCT_IMAGES", 5);
 
@@ -99,8 +102,9 @@
     define("SHIPPING_CODE", "GATI");
 
     define("TAX_PROFIT_MARGIN_PERCENT", 20);
-    define("TAX_PAYPAL_PERCENT", 5);    
+    define("TAX_PAYPAL_PERCENT", 5);
+
+    define("SERVICE_TAX_PERCENT", 14);
+    define("PAYMENT_PROCESSING_TAX_PERCENT", 3.5);
+    define("CONVENIENCE_FEE_PERCENT", 2);
     
-    define("SERVICE_TAX_PERCENT", 14);    
-    define("PAYMENT_PROCESSING_TAX_PERCENT", 3.5);    
-    define("CONVENIENCE_FEE_PERCENT", 2);    
