@@ -4,7 +4,7 @@
     {
         $valid_ext_Arr = array('jpg', 'jpeg', 'png', 'gif');
         $returnValue = TRUE;
-        if (!in_array($ext, $valid_ext_Arr))
+        if (!in_array(strtolower($ext), $valid_ext_Arr))
         {
             $returnValue = FALSE;
         }
