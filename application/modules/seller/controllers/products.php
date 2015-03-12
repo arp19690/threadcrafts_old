@@ -271,6 +271,7 @@
                     $product_image_record = $model->fetchSelectedData('pi_image_title, pi_image_path, pi_image_size', TABLE_PRODUCT_IMAGES, array('pi_product_id' => $product_id));
 
                     $data["record"] = $record[0];
+                    $data["meta_title"] = $record[0]['product_title'] . ' | ' . SITE_NAME;
                     $data["product_detail_record"] = $product_detail_record;
                     $data["product_image_record"] = $product_image_record;
 
