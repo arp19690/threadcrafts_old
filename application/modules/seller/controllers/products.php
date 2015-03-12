@@ -6,6 +6,12 @@
         public function __construct()
         {
             parent::__construct();
+            
+            if(!isset($this->session->userdata['seller_id']))
+            {
+                redirect(base_url_seller('logout'));
+            }
+            
             $this->template->set_template('seller');
             $this->load->library('form_validation');
         }
