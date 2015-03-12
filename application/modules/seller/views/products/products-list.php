@@ -64,7 +64,6 @@
                                             <td class="center"><?php echo $product_status; ?></td>
                                             <td class="center">
                                                 <p><a href="<?php echo base_url_seller("products/productDetail/" . $product_id); ?>"><i class="icon-search"></i>&nbsp;Details</a></p>
-                                                <p><a href="<?php echo base_url_seller("products/editProduct/" . $product_id); ?>"><i class="icon-pencil"></i>&nbsp;Edit</a></p>
                                             </td>
                                         </tr>
                                         <?php
