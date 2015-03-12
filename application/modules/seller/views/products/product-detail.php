@@ -45,7 +45,7 @@
                                             ?>
                                             <div class="span2">
                                                 <p><?php echo $title; ?></p>
-                                                <img src="<?php echo $url; ?>" alt="<?php echo $title; ?>" />
+                                                <img src="<?php echo $url; ?>" alt="<?php echo $title; ?>" style="max-width: 100%;max-height: 280px;"/>
                                             </div>
                                             <?php
                                         }
