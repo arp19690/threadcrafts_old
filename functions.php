@@ -177,8 +177,8 @@
         }
 
         //save image
-        $path_large = $base_path . "/" . $destFilename;
-        $img->save($path_large);
+        $path = $base_path . "/" . $destFilename;
+        $img->save($path);
     }
 
     function getNWordsFromString($text, $numberOfWords = 20)
