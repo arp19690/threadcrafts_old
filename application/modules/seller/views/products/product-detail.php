@@ -54,7 +54,7 @@
                                     else
                                     {
                                         ?>
-                                        <a href='<?php echo base_url_seller('products/addProductStepThree/' . $record['product_id']); ?>'><i class="icon-plus"></i> Add images</a>
+                                <a href='<?php echo base_url_seller('products/addProductStepThree/' . $record['product_id']); ?>' class="btn yellow"><i class="icon-plus"></i> Add images</a>
                                         <?php
                                     }
                                 ?>
@@ -65,11 +65,14 @@
                                     <h3>General</h3>
                                     <ul class="unstyled">
                                         <li><span>Product Code: </span><span><?php echo $record['product_code']; ?></span></li>
-                                        <li><span>Product Title: </span><span><?php echo stripslashes($record['product_title']); ?></span></li>
-                                        <li><span>Product Description: </span><span><?php echo stripslashes($record['product_description']); ?></span></li>
-                                        <li><span>Category: </span><span><?php echo stripslashes($record['gc_name']) . ' -> ' . stripslashes($record['pc_name']) . ' -> ' . stripslashes($record['cc_name']); ?></span></li>
-                                        <li><span>Your Price: </span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_seller_price'], 2); ?></span></li>
-                                        <li><span>Shipping charge: </span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_shipping_charge'], 2); ?></span></li>
+                                        <?php
+                                            $category = '<a target="_blank" href="' . base_url_seller('products/category?gc=' . urlencode($record["gc_name"])) . '">' . $record["gc_name"] . '</a> -> <a target="_blank" href="' . base_url_seller('products/category?pc=' . urlencode($record["pc_name"])) . '">' . $record["pc_name"] . '</a> -> <a target="_blank" href="' . base_url_seller('products/category?cc=' . urlencode($record["cc_name"])) . '">' . $record["cc_name"] . '</a>';
+                                        ?>
+                                        <li><span>Category: </span><span><?php echo $category; ?></span></li>
+                                        <li><span>Product Title: <br/><a href='#' class='btn mini red'>Update</a></span><span><?php echo stripslashes($record['product_title']); ?></span></li>
+                                        <li><span>Product Description: <br/><a href='#' class='btn mini red'>Update</a></span><span><?php echo stripslashes($record['product_description']); ?></li>
+                                        <li><span>Your Price: <br/><a href='#' class='btn mini red'>Update</a></span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_seller_price'], 2); ?></span></li>
+                                        <li><span>Shipping charge: <br/><a href='#' class='btn mini red'>Update</a></span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_shipping_charge'], 2); ?></span></li>
                                         <li><span>Gift-wrap charge: </span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_gift_charge'], 2); ?></span></li>
                                         <li><span>Price to Customer: </span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_price'], 2); ?></span></li>
                                         <li><span>Last Modified: </span><span><?php echo date('d-M-Y h:i A', strtotime($record['product_timestamp'])); ?></span></li>
