@@ -171,9 +171,10 @@
                     // valid
                     foreach ($arr['product_img_title'] as $key => $value)
                     {
-                        if (!empty($_FILES['product_img'][$key]['tmp_name']) && isset($_FILES['product_img'][$key]['tmp_name']))
+                        $file_tmpSource = $_FILES['product_img']['tmp_name'][$key];
+                        if (!empty($file_tmpSource) && isset($_FILES['product_img']['tmp_name'][$key]))
                         {
-                            $ext = getFileExtension($_FILES['product_img'][$key]['name']);
+                            $ext = getFileExtension($_FILES['product_img']['name'][$key]);
                             if (isValidImageExt($ext))
                             {
                                 $random_number = getRandomNumberLength($_FILES['product_img'][$key]['tmp_name'], 15);
@@ -188,7 +189,7 @@
                                     'pi_ipaddress' => USER_IP,
                                     'pi_useragent' => USER_AGENT
                                 );
-                                uploadImage($_FILES['product_img'][$key]['tmp_name'], $new_filename, PRODUCT_IMG_PATH_LARGE, PRODUCT_IMG_WIDTH_LARGE, PRODUCT_IMG_HEIGHT_LARGE);
+                                uploadImage($file_tmpSource, $new_filename, PRODUCT_IMG_PATH_LARGE, PRODUCT_IMG_WIDTH_LARGE, PRODUCT_IMG_HEIGHT_LARGE);
 
                                 // small files
                                 $data_array_small = array(
@@ -201,20 +202,10 @@
                                 );
                                 uploadImage(PRODUCT_IMG_PATH_LARGE . '/' . $new_filename, $new_filename, PRODUCT_IMG_PATH_SMALL, PRODUCT_IMG_WIDTH_SMALL, PRODUCT_IMG_HEIGHT_SMALL);
 
-                                if (empty($value))
-                                {
-                                    // insert
-                                    $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_large);
-                                    $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_small);
-                                    $this->session->set_flashdata('success', 'Product images added.');
-                                }
-                                else
-                                {
-                                    // update
-                                    $model->updateData(TABLE_PRODUCT_IMAGES, $data_array_large, array('pd_product_id' => $product_id, 'pd_id' => $value));
-                                    $model->updateData(TABLE_PRODUCT_IMAGES, $data_array_small, array('pd_product_id' => $product_id, 'pd_id' => $value));
-                                    $this->session->set_flashdata('success', 'Product images updated.');
-                                }
+                                // insert
+                                $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_large);
+                                $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_small);
+                                $this->session->set_flashdata('success', 'Product images added.');
                             }
                         }
                     }
