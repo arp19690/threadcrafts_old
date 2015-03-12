@@ -30,7 +30,7 @@
                 <!--BEGIN TABS-->
                 <div class="tabbable tabbable-custom">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1_1" data-toggle="tab">Overview</a></li>
+                        <li class="active"><a href="#tab_1_1" data-toggle="tab">My Profile</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane profile-classic row-fluid active" id="tab_1_1">
