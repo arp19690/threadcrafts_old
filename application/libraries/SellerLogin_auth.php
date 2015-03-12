@@ -25,7 +25,7 @@
                 $record = $record[0];
 //                prd($record);
 
-                if ($record['seller_status'] == 1)
+                if ($record['seller_status'] == 1)  //activated
                 {
                     $data_array = array(
                         "sl_seller_id" => $record["seller_id"],
@@ -53,9 +53,27 @@
 
                     redirect($success_redirect_to);
                 }
+                elseif ($record['seller_status'] == 0)  //deactivated
+                {
+                    $this->ci->session->set_flashdata('error', "<strong>Error!</strong> Your account is deactivated.");
+
+                    if ($error_redirect_to == NULL)
+                        $error_redirect_to = base_url_seller();
+
+                    redirect($error_redirect_to);
+                }
+                elseif ($record['seller_status'] == 2)  // waiting for activation
+                {
+                    $this->ci->session->set_flashdata('error', "<strong>Error!</strong> Your account is activate. Please be patient");
+
+                    if ($error_redirect_to == NULL)
+                        $error_redirect_to = base_url_seller();
+
+                    redirect($error_redirect_to);
+                }
                 else
                 {
-                    $this->ci->session->set_flashdata('error', "<strong>Error!</strong> Your account is not active.");
+                    $this->ci->session->set_flashdata('error', "<strong>Error!</strong> Please contact administrator");
 
                     if ($error_redirect_to == NULL)
                         $error_redirect_to = base_url_seller();
@@ -122,12 +140,12 @@
             $whereCondArr["sl_id"] = $sl_id;
 
             $model->updateData(TABLE_SELLER_LOG, $update_data_array, $whereCondArr);
-            
+
             $this->ci->session->unset_userdata();
             $this->ci->session->sess_destroy();
             if ($logout_message != NULL)
                 $this->ci->session->set_flashdata('error', $logout_message);
-            
+
             redirect($redirect_to);
         }
 
