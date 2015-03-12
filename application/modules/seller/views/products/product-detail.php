@@ -1,6 +1,7 @@
 <style>
     .profile-classic li:first-child{border-top: 1px solid #f5f5f5;}
-    ul.unstyled li > span{min-width: 130px;display: inline-block;}
+    ul.unstyled li > span:first-child{min-width: 130px;display: table-cell;color: #666}
+    ul.unstyled li > span{display: table-cell;color: #000}
 </style>
 
 <!-- BEGIN PAGE -->
@@ -63,16 +64,16 @@
                                 <div class='span4'>
                                     <h3>General</h3>
                                     <ul class="unstyled">
-                                        <li><span>Product Code: </span><?php echo $record['product_code']; ?></li>
-                                        <li><span>Product Title: </span><?php echo stripslashes($record['product_title']); ?></li>
-                                        <li><span>Product Description: </span><?php echo stripslashes($record['product_description']); ?></li>
-                                        <li><span>Category: </span><?php echo stripslashes($record['gc_name']) . ' -> ' . stripslashes($record['pc_name']) . ' -> ' . stripslashes($record['cc_name']); ?></li>
-                                        <li><span>Your Price: </span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_seller_price'], 2); ?></li>
-                                        <li><span>Shipping charge: </span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_shipping_charge'], 2); ?></li>
-                                        <li><span>Gift-wrap charge: </span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_gift_charge'], 2); ?></li>
-                                        <li><span>Price to Customer: </span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_price'], 2); ?></li>
-                                        <li><span>Last Modified: </span><?php echo date('d-M-Y h:i A', strtotime($record['product_timestamp'])); ?></li>
-                                        <li><span>View Product: </span><a href='<?php echo getProductUrl($record['product_id']); ?>' target="_blank">Click here</a></li>
+                                        <li><span>Product Code: </span><span><?php echo $record['product_code']; ?></span></li>
+                                        <li><span>Product Title: </span><span><?php echo stripslashes($record['product_title']); ?></span></li>
+                                        <li><span>Product Description: </span><span><?php echo stripslashes($record['product_description']); ?></span></li>
+                                        <li><span>Category: </span><span><?php echo stripslashes($record['gc_name']) . ' -> ' . stripslashes($record['pc_name']) . ' -> ' . stripslashes($record['cc_name']); ?></span></li>
+                                        <li><span>Your Price: </span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_seller_price'], 2); ?></span></li>
+                                        <li><span>Shipping charge: </span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_shipping_charge'], 2); ?></span></li>
+                                        <li><span>Gift-wrap charge: </span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_gift_charge'], 2); ?></span></li>
+                                        <li><span>Price to Customer: </span><span><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record['product_price'], 2); ?></span></li>
+                                        <li><span>Last Modified: </span><span><?php echo date('d-M-Y h:i A', strtotime($record['product_timestamp'])); ?></span></li>
+                                        <li><span>View Product: </span><span><a href='<?php echo getProductUrl($record['product_id']); ?>' target="_blank">Click here</a></span></li>
                                     </ul>
                                 </div>
 
