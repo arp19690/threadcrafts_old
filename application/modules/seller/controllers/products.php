@@ -21,25 +21,26 @@
             $this->load->model('custom_model');
             $custom_model = new Custom_model();
             $seller_id = $this->session->userdata['seller_id'];
-            $data['page_title'] = 'Products';
+            $data['page_title'] = 'All Products';
             $whereCondArr = array('product_seller_id' => $seller_id);
 
             if ($this->input->get('gc'))
             {
                 $whereCondArr['gc_name'] = $this->input->get('gc');
-                $data['page_title'] = 'Sort: '.$this->input->get('gc');
+                $data['page_title'] = 'Sort: ' . $this->input->get('gc');
             }
             if ($this->input->get('pc'))
             {
                 $whereCondArr['pc_name'] = $this->input->get('pc');
-                $data['page_title'] = 'Sort: '.$this->input->get('pc');
+                $data['page_title'] = 'Sort: ' . $this->input->get('pc');
             }
             if ($this->input->get('cc'))
             {
                 $whereCondArr['cc_name'] = $this->input->get('cc');
-                $data['page_title'] = 'Sort: '.$this->input->get('cc');
+                $data['page_title'] = 'Sort: ' . $this->input->get('cc');
             }
 
+            $data['meta_title'] = $data['page_title'] . ' | ' . SITE_NAME;
             $data["alldata"] = $custom_model->getAllProductsList("*", $whereCondArr);
 //            prd($data);
 
@@ -113,6 +114,7 @@
                     $data["form_action"] = "";
                 }
 
+                $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
                 $this->template->write_view("content", "products/product-form", $data);
                 $this->template->render();
             }
@@ -170,6 +172,7 @@
                 $data["form_heading"] = "Add Product Details";
                 $data["form_action"] = "";
 
+                $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
                 $this->template->write_view("content", "products/product-form-step-two", $data);
                 $this->template->render();
             }
@@ -230,30 +233,9 @@
                 $data["form_heading"] = "Add Product Images";
                 $data["form_action"] = "";
 
+                $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
                 $this->template->write_view("content", "products/product-form-step-three", $data);
                 $this->template->render();
-            }
-        }
-
-        public function editProduct($product_id)
-        {
-            if ($product_id)
-            {
-                $model = new Common_model();
-                $fields = '*';
-                $record = $model->fetchSelectedData($fields, TABLE_PRODUCTS, array("product_id" => $product_id));
-                $data["record"] = $record[0];
-                $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
-                $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record[0]["product_grand_category"]), "pc_name");
-                $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record[0]["product_parent_category"]), "cc_name");
-                $data["form_heading"] = "Edit product";
-                $data["form_action"] = base_url_seller("products/addProduct/" . $product_id);
-                $this->template->write_view("content", "products/product-form", $data);
-                $this->template->render();
-            }
-            else
-            {
-                redirect(base_url_seller("products"));
             }
         }
 
@@ -326,6 +308,7 @@
             $product_records = $model->fetchSelectedData("product_id,product_title,product_code", TABLE_PRODUCTS, NULL, "product_title");
             $data["product_records"] = $product_records;
             $data["form_heading"] = "Update Stock";
+            $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
 
             $this->template->write_view("content", "products/update-stock", $data);
             $this->template->render();
