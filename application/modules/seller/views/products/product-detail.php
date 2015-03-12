@@ -40,17 +40,14 @@
                                     {
                                         foreach ($product_image_record as $imageKey => $imageValue)
                                         {
-                                            if ($imageValue['pi_image_size'] == 'small')
-                                            {
-                                                $title = stripslashes($imageValue['pi_image_title']);
-                                                $url = getImage($imageValue['pi_image_path']);
-                                                ?>
-                                                <div class="span2">
-                                                    <img src="<?php echo $url; ?>" alt="<?php echo $title; ?>" />
-                                                    <p><?php echo $title; ?></p>
-                                                </div>
-                                                <?php
-                                            }
+                                            $title = stripslashes($imageValue['pi_image_title']);
+                                            $url = getImage($imageValue['pi_image_path']);
+                                            ?>
+                                            <div class="span2">
+                                                <img src="<?php echo $url; ?>" alt="<?php echo $title; ?>" />
+                                                <p><?php echo $title; ?></p>
+                                            </div>
+                                            <?php
                                         }
                                     }
                                     else
