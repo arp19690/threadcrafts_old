@@ -637,7 +637,7 @@
 
     function getRandomNumberLength($str, $length = "8")
     {
-        return substr(uniqid(md5($str . time()), true), -$length);
+        return str_replace('.', '-', substr(uniqid(md5($str . time()), true), -$length));
     }
 
     function getTimeAgo($time)
