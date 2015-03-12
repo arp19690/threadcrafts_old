@@ -5,7 +5,7 @@
         <!-- BEGIN PAGE HEADER-->
         <div class="row-fluid">
             <div class="span12">	
-                <h3 class="page-title">Products</h3>
+                <h3 class="page-title"><?php echo $page_title;?></h3>
             </div>
         </div>
         <!-- END PAGE HEADER-->
@@ -15,7 +15,7 @@
                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                 <div class="portlet box blue">
                     <div class="portlet-title">
-                        <h4><i class="icon-list"></i>Products</h4>
+                        <h4><i class="icon-list"></i>Products List</h4>
                     </div>
                     <div class="portlet-body">
                         <div class="clearfix">
@@ -49,7 +49,7 @@
                                         $product_your_price = number_format($a_value["product_seller_price"], 2);
                                         $product_selling_price = number_format($a_value["product_price"], 2);
 
-                                        $category = $a_value["gc_name"] . " -> " . $a_value["pc_name"] . " -> " . $a_value["cc_name"];
+                                        $category = '<a href="' . base_url_seller('products/category?gc=' . urlencode($a_value["gc_name"])) . '">' . $a_value["gc_name"] . '</a> -> <a href="' . base_url_seller('products/category?pc=' . urlencode($a_value["pc_name"])) . '">' . $a_value["pc_name"] . '</a> -> <a href="' . base_url_seller('products/category?cc=' . urlencode($a_value["cc_name"])) . '">' . $a_value["cc_name"] . '</a>';
                                         ?>
                                         <tr>
                                             <td>

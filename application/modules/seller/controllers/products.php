@@ -21,7 +21,26 @@
             $this->load->model('custom_model');
             $custom_model = new Custom_model();
             $seller_id = $this->session->userdata['seller_id'];
-            $data["alldata"] = $custom_model->getAllProductsList("*", array('product_seller_id' => $seller_id));
+            $data['page_title'] = 'Products';
+            $whereCondArr = array('product_seller_id' => $seller_id);
+
+            if ($this->input->get('gc'))
+            {
+                $whereCondArr['gc_name'] = $this->input->get('gc');
+                $data['page_title'] = 'Sort: '.$this->input->get('gc');
+            }
+            if ($this->input->get('pc'))
+            {
+                $whereCondArr['pc_name'] = $this->input->get('pc');
+                $data['page_title'] = 'Sort: '.$this->input->get('pc');
+            }
+            if ($this->input->get('cc'))
+            {
+                $whereCondArr['cc_name'] = $this->input->get('cc');
+                $data['page_title'] = 'Sort: '.$this->input->get('cc');
+            }
+
+            $data["alldata"] = $custom_model->getAllProductsList("*", $whereCondArr);
 //            prd($data);
 
             $this->template->write_view("content", "products/products-list", $data);
@@ -402,6 +421,11 @@
 
                 echo $str;
             }
+        }
+
+        public function category()
+        {
+            $this->index();
         }
 
     }
