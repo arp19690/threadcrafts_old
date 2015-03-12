@@ -21,15 +21,18 @@
                 <span class="arrow "></span>
             </a>
             <ul class="sub">
-                <li ><a href="<?php echo base_url_seller("products"); ?>">Products</a></li>
-                <li ><a href="<?php echo base_url_seller("products/updateStock"); ?>">Update Product Stock</a></li>
+                <li ><a href="<?php echo base_url_seller("products"); ?>">Products List</a></li>
             </ul>
         </li>
-        <li class="">
-            <a href="<?php echo base_url_seller("orders"); ?>">
+        <li class="has-sub ">
+            <a href="javascript:;">
                 <i class="icon-bar-chart"></i> 
                 <span class="title">Orders</span>
+                <span class="arrow "></span>
             </a>
+            <ul class="sub">
+                <li ><a href="<?php echo base_url_seller("orders"); ?>">Orders</a></li>
+            </ul>
         </li>
     </ul>
     <!-- END SIDEBAR MENU -->
