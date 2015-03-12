@@ -177,7 +177,7 @@
                             $ext = getFileExtension($_FILES['product_img']['name'][$key]);
                             if (isValidImageExt($ext))
                             {
-                                $random_number = getRandomNumberLength($_FILES['product_img'][$key]['tmp_name'], 15);
+                                $random_number = getRandomNumberLength($file_tmpSource, 15);
                                 $new_filename = $random_number . '.' . $ext;
 
                                 // large files
@@ -191,20 +191,8 @@
                                 );
                                 uploadImage($file_tmpSource, $new_filename, PRODUCT_IMG_PATH_LARGE, PRODUCT_IMG_WIDTH_LARGE, PRODUCT_IMG_HEIGHT_LARGE);
 
-                                // small files
-                                $data_array_small = array(
-                                    'pi_product_id' => $product_id,
-                                    'pi_image_size' => 'small',
-                                    'pi_image_title' => empty($value) == TRUE ? NULL : addslashes($value),
-                                    'pi_image_path' => PRODUCT_IMG_PATH_SMALL . '/' . $new_filename,
-                                    'pi_ipaddress' => USER_IP,
-                                    'pi_useragent' => USER_AGENT
-                                );
-                                uploadImage(PRODUCT_IMG_PATH_LARGE . '/' . $new_filename, $new_filename, PRODUCT_IMG_PATH_SMALL, PRODUCT_IMG_WIDTH_SMALL, PRODUCT_IMG_HEIGHT_SMALL);
-
                                 // insert
                                 $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_large);
-                                $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_small);
                                 $this->session->set_flashdata('success', 'Product images added.');
                             }
                         }
