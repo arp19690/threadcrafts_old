@@ -236,8 +236,8 @@
         $record = $record[0];
 
         $path = "products/view/" . $record["gc_name"] . "/" . $record["pc_name"] . "/" . $record["cc_name"] . "/" . $record["product_url_key"];
-        $url = base_url($path);
-        return $url;
+        $url = (base_url($path));
+        return ($url);
     }
 
     function calculateTax($actualAmount, $tax = TAX_PROFIT_MARGIN_PERCENT)
