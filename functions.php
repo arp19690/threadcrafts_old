@@ -12,6 +12,28 @@
         return $returnValue;
     }
 
+    function getWebsiteContactStatusText($status)
+    {
+        if ($status == '0')
+        {
+            $text = 'Rejected';
+        }
+        elseif ($status == '1')
+        {
+            $text = 'Resolved';
+        }
+        elseif ($status == '2')
+        {
+            $text = 'Open';
+        }
+        elseif ($status == '3')
+        {
+            $text = 'Pending';
+        }
+
+        return $text;
+    }
+
     function getSellerStatusText($seller_status)
     {
         if ($seller_status == '0')
