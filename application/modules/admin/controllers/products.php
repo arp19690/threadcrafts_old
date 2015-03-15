@@ -112,19 +112,19 @@
                         }
 
                         $this->session->set_flashdata("success", "Product Added");
-                        redirect(base_url("admin/products"));
+                        redirect(base_url_admin("products"));
                     }
                     else
                     {
                         $this->session->set_flashdata("error", "Product code already exists");
-//                        redirect(base_url("admin/addProduct"));
+//                        redirect(base_url_admin("addProduct"));
 
                         $data["record"] = $arr;
                         $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
                         $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record[0]["product_grand_category"]), "pc_name");
                         $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record[0]["product_parent_category"]), "cc_name");
                         $data["form_heading"] = "Add Product";
-                        $data["form_action"] = base_url("admin/product/addProduct");
+                        $data["form_action"] = base_url_admin("product/addProduct");
                         $this->template->write_view("content", "product/product-form", $data);
                         $this->template->render();
                     }
@@ -148,12 +148,12 @@
                         $this->updateProductDetails($product_detail_arr, $product_id);
 
                         $this->session->set_flashdata("success", "Product edited");
-                        redirect(base_url("admin/products"));
+                        redirect(base_url_admin("products"));
                     }
                     else
                     {
                         $this->session->set_flashdata("error", "Product code already exists");
-                        redirect(base_url("admin/editProduct/" . $product_id));
+                        redirect(base_url_admin("editProduct/" . $product_id));
                     }
                 }
             }
@@ -170,13 +170,13 @@
                 $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record[0]["product_grand_category"]), "pc_name");
                 $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record[0]["product_parent_category"]), "cc_name");
                 $data["form_heading"] = "Edit product";
-                $data["form_action"] = base_url("admin/products/addProduct");
+                $data["form_action"] = base_url_admin("products/addProduct");
                 $this->template->write_view("content", "products/product-form", $data);
                 $this->template->render();
             }
             else
             {
-                redirect(base_url("admin/products"));
+                redirect(base_url_admin("products"));
             }
         }
 
@@ -198,7 +198,7 @@
 
                 $this->session->set_flashdata("success", "Product removed");
             }
-            redirect(base_url("admin/products"));
+            redirect(base_url_admin("products"));
         }
 
         public function deactivateProduct($product_id, $ajax = FALSE)
@@ -211,7 +211,7 @@
             }
 
             if ($ajax == FALSE)
-                redirect(base_url("admin/products"));
+                redirect(base_url_admin("products"));
         }
 
         public function activateProduct($product_id, $ajax = FALSE)
@@ -224,7 +224,7 @@
             }
 
             if ($ajax == FALSE)
-                redirect(base_url("admin/products"));
+                redirect(base_url_admin("products"));
         }
 
         public function uploadImages($fileName, $filesTmp, $width = PRODUCT_IMG_WIDTH_LARGE, $height = PRODUCT_IMG_HEIGHT_LARGE)
@@ -287,7 +287,7 @@
                 $product_records = $model->fetchSelectedData("product_id, product_title, product_code", TABLE_PRODUCTS);
 //                prd($product_records);
                 $data["form_heading"] = "Add Featured Product";
-                $data["form_action"] = base_url("admin/products/addFeaturedProduct");
+                $data["form_action"] = base_url_admin("products/addFeaturedProduct");
                 $data["product_array"] = $product_records;
                 $record = $model->fetchSelectedData("*", TABLE_FEATURED, array("feature_id" => $feature_id));
                 $data["record"] = $record[0];
@@ -298,7 +298,7 @@
             }
             else
             {
-                redirect(base_url("admin/products/FeaturedList"));
+                redirect(base_url_admin("products/FeaturedList"));
             }
         }
 
@@ -324,9 +324,9 @@
                     // date wrong, earlier date selected
                     $this->session->set_flashdata("error", "Start time should be either today or greater than today's time");
                     if (empty($feature_id))
-                        redirect(base_url("admin/products/addFeaturedProduct"));
+                        redirect(base_url_admin("products/addFeaturedProduct"));
                     else
-                        redirect(base_url("admin/products/editFeaturedProduct/$feature_id"));
+                        redirect(base_url_admin("products/editFeaturedProduct/$feature_id"));
                 }
                 else
                 {
@@ -335,9 +335,9 @@
                         // wrong end date, either current time or earlier date selected
                         $this->session->set_flashdata("error", "End time should be greater than today's time");
                         if (empty($feature_id))
-                            redirect(base_url("admin/products/addFeaturedProduct"));
+                            redirect(base_url_admin("products/addFeaturedProduct"));
                         else
-                            redirect(base_url("admin/products/editFeaturedProduct/$feature_id"));
+                            redirect(base_url_admin("products/editFeaturedProduct/$feature_id"));
                     }
                     else
                     {
@@ -358,7 +358,7 @@
                         }
                     }
                 }
-                redirect(base_url("admin/products/FeaturedList"));
+                redirect(base_url_admin("products/FeaturedList"));
             }
         }
 
@@ -370,7 +370,7 @@
                 $model->deleteData(TABLE_FEATURED, array("feature_id" => $feature_id));
                 $this->session->set_flashdata("success", "Product removed from featured list");
             }
-            redirect(base_url("admin/products/FeaturedList"));
+            redirect(base_url_admin("products/FeaturedList"));
         }
 
         public function productDetail($product_id)
@@ -395,52 +395,6 @@
 
                 $this->template->write_view("content", "products/product-detail", $data);
                 $this->template->render();
-            }
-        }
-
-        public function updateStock($product_id = NULL, $size = NULL)
-        {
-            $model = new Common_model();
-            $data = array();
-
-            if ($product_id != NULL)
-            {
-                $product_detail_record = $model->fetchSelectedData('DISTINCT(product_size) as product_size', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
-//                prd($product_detail_record);
-                $data['product_sizes'] = $product_detail_record;
-                $data['selected_product_id'] = $product_id;
-
-                if ($size != NULL)
-                {
-                    $product_color_records = $model->fetchSelectedData('product_color', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
-                    $data['product_colors'] = $product_color_records;
-                    $data['selected_product_size'] = $size;
-                }
-            }
-
-            $product_records = $model->fetchSelectedData("product_id,product_title,product_code", TABLE_PRODUCTS, NULL, "product_title");
-            $data["product_records"] = $product_records;
-            $data["form_heading"] = "Update Stock";
-
-            $this->template->write_view("content", "products/update-stock", $data);
-            $this->template->render();
-
-            if ($this->input->post())
-            {
-                $arr = $this->input->post();
-                $product_id = $arr["product_id"];
-                $product_size = $arr["product_size"];
-                $product_color = $arr["product_color"];
-                $product_stock_count = trim($arr["product_stock"]);
-
-                $this->db->set('product_stock', 'product_stock + (' . $product_stock_count . ')', FALSE);
-                $this->db->where('product_id', $product_id);
-                $this->db->where('product_size', $product_size);
-                $this->db->where('product_color', $product_color);
-                $this->db->update(TABLE_PRODUCT_DETAILS);
-
-                $this->session->set_flashdata("success", "Product stock updated");
-                redirect(base_url("admin/products/updateStock"));
             }
         }
 
