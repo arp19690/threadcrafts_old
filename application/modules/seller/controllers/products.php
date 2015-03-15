@@ -446,14 +446,52 @@
             {
                 if (isset($product_id) && !empty($product_id) && is_numeric($product_id))
                 {
-                    $model = new Common_model();
-                    $record = $model->fetchSelectedData("product_title, product_description", TABLE_PRODUCTS, array("product_id" => $product_id));
+                    $record = $model->fetchSelectedData("product_title, product_description", TABLE_PRODUCTS, array("product_id" => $product_id, 'product_seller_id' => $seller_id));
                     $data["record"] = $record[0];
                     $data["form_heading"] = "Edit product";
                 }
 
                 $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
                 $this->template->write_view("content", "products/product-update-form", $data);
+                $this->template->render();
+            }
+        }
+
+        public function updateProductPrice($product_id)
+        {
+            $model = new Common_model();
+            $seller_id = $this->session->userdata['seller_id'];
+            $record = $model->fetchSelectedData("product_title, product_seller_price, product_shipping_charge, product_child_category", TABLE_PRODUCTS, array("product_id" => $product_id, 'product_seller_id' => $seller_id));
+
+            if ($this->input->post())
+            {
+                $arr = $this->input->post();
+
+                $profit_percent_record = $model->fetchSelectedData('cc_profit_percent', TABLE_CHILD_CATEGORY, array('cc_id' => $record[0]['product_child_category']));
+
+                $data_array = array(
+                    'product_price' => addProfitPercentToPrice($arr['product_seller_price'], $profit_percent_record[0]['cc_profit_percent'], $arr['product_shipping_charge']),
+                    'product_seller_price' => round($arr['product_seller_price'], 2),
+                    'product_shipping_charge' => round($arr['product_shipping_charge'], 2),
+                    'product_ipaddress' => USER_IP,
+                    'product_useragent' => USER_AGENT,
+                );
+
+                $model->updateData(TABLE_PRODUCTS, $data_array, array('product_seller_id' => $seller_id, 'product_id' => $product_id));
+                $this->session->set_flashdata('success', 'Product price updated');
+
+                redirect(base_url_seller('products/productDetail/' . $product_id));
+            }
+            else
+            {
+                if (isset($product_id) && !empty($product_id) && is_numeric($product_id))
+                {
+                    $data["record"] = $record[0];
+                    $data["form_heading"] = "Edit product price";
+                }
+
+                $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
+                $this->template->write_view("content", "products/product-price-update-form", $data);
                 $this->template->render();
             }
         }
