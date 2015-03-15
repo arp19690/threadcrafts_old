@@ -461,16 +461,14 @@
         {
             $model = new Common_model();
             $seller_id = $this->session->userdata['seller_id'];
-            $record = $model->fetchSelectedData("product_title, product_seller_price, product_shipping_charge, product_child_category", TABLE_PRODUCTS, array("product_id" => $product_id, 'product_seller_id' => $seller_id));
+            $record = $model->fetchSelectedData("product_title, product_seller_price, product_shipping_charge, product_profit_percent", TABLE_PRODUCTS, array("product_id" => $product_id, 'product_seller_id' => $seller_id));
 
             if ($this->input->post())
             {
                 $arr = $this->input->post();
 
-                $profit_percent_record = $model->fetchSelectedData('cc_profit_percent', TABLE_CHILD_CATEGORY, array('cc_id' => $record[0]['product_child_category']));
-
                 $data_array = array(
-                    'product_price' => addProfitPercentToPrice($arr['product_seller_price'], $profit_percent_record[0]['cc_profit_percent'], $arr['product_shipping_charge']),
+                    'product_price' => addProfitPercentToPrice($arr['product_seller_price'], $record[0]['product_profit_percent'], $arr['product_shipping_charge']),
                     'product_seller_price' => round($arr['product_seller_price'], 2),
                     'product_shipping_charge' => round($arr['product_shipping_charge'], 2),
                     'product_ipaddress' => USER_IP,
