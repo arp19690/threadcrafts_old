@@ -20,7 +20,7 @@
                     <div class="portlet-body">
                         <div class="clearfix">
                             <div class="btn-group">
-                                <a href="<?php echo base_url("admin/categories/addChildCategory"); ?>"><button class="btn green">
+                                <a href="<?php echo base_url_admin("categories/addChildCategory"); ?>"><button class="btn green">
                                         Add New <i class="icon-plus"></i>
                                     </button></a>
                             </div>
@@ -32,7 +32,6 @@
                                     <th>Parent Category Name</th>
                                     <th>Grand Category Name</th>
                                     <th>Edit</th>
-                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,8 +48,7 @@
                                             <td class="center"><?php echo $cc_name; ?></td>
                                             <td class="center"><?php echo $pc_name; ?></td>
                                             <td class="center"><?php echo $gc_name; ?></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/categories/editChildCategory/" . $cc_id); ?>"><i class="icon-pencil"></i></a></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/categories/deleteChildCategory/" . $cc_id); ?>" onclick="return confirm('Are you sure to delete <?php echo $cc_name;?> ?');"><i class="icon-remove"></i></a></td>
+                                            <td class="center"><a href="<?php echo base_url_admin("categories/editChildCategory/" . $cc_id); ?>"><i class="icon-pencil"></i></a></td>
                                         </tr>
                                         <?php
                                     }
