@@ -43,7 +43,7 @@
                 <div class="container-fluid">
                     <!-- BEGIN LOGO -->
                     <a class="brand" href="<?php echo base_url_admin(); ?>">
-                        <p style="padding-top:10px"><?php echo SITE_NAME; ?></p>
+                        <p style="padding-top:10px"><?php echo SITE_NAME; ?> | Admin Panel</p>
                     </a>
                     <!-- END LOGO -->
                     <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -61,7 +61,7 @@
                             $unprocessed_count = count($inbox_records);
                         ?>
                         <!-- BEGIN INBOX DROPDOWN -->
-                        <li class="dropdown" id="header_inbox_bar">
+                        <li class="dropdown" id="header_inbox_bar" style="margin-top: 8px">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="icon-envelope-alt"></i>
                                 <?php
