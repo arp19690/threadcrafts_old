@@ -38,26 +38,21 @@
                                     foreach ($alldata as $a_key => $a_value)
                                     {
                                         $wc_id = $a_value["wc_id"];
-                                        $full_name = $a_value["full_name"];
-                                        $user_email = $a_value["user_email"];
-                                        $user_contact = $a_value["user_contact"];
+                                        $wc_fullname = $a_value["wc_fullname"];
+                                        $user_email = $a_value["wc_email"];
+                                        $user_contact = $a_value["wc_contact"];
                                         $wc_subject = $a_value["wc_subject"];
                                         $wc_request_id = $a_value["wc_request_id"];
-                                        $wc_processed = $a_value["wc_processed"];
-
-                                        if ($wc_processed == "1")
-                                            $wc_processed = "Processed";
-                                        else
-                                            $wc_processed = "Unprocessed";
+                                        $wc_processed = getWebsiteContactStatusText($a_value["wc_processed"]);
                                         ?>
                                         <tr>
-                                            <td><?php echo $full_name; ?></td>
+                                            <td><?php echo $wc_fullname; ?></td>
                                             <td><?php echo $user_email; ?></td>
                                             <td><?php echo $user_contact; ?></td>
                                             <td><?php echo $wc_subject; ?></td>
                                             <td><?php echo $wc_request_id; ?></td>
                                             <td class="center"><?php echo $wc_processed; ?></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/websiteContact/" . $wc_id); ?>"><i class="icon-pencil"></i></a></td>
+                                            <td class="center"><a href="<?php echo base_url_admin("websiteContact/" . $wc_id); ?>"><i class="icon-pencil"></i></a></td>
                                         </tr>
                                         <?php
                                     }
