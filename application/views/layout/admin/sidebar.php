@@ -56,20 +56,8 @@
                 <span class="arrow "></span>
             </a>
             <ul class="sub">
-                <li><a href="<?php echo base_url_admin("blog"); ?>">Blogs</a></li>
                 <li><a href="<?php echo base_url_admin("staticcontent"); ?>">Static Content</a></li>
                 <li><a href="<?php echo base_url_admin("websiteContact"); ?>">Website Contact</a></li>
-            </ul>
-        </li>
-        <li class="has-sub ">
-            <a href="javascript:;">
-                <i class="icon-flag"></i> 
-                <span class="title">Purchase Records</span>
-                <span class="arrow "></span>
-            </a>
-            <ul class="sub">
-                <li><a href="<?php echo base_url_admin("purchases/clientList"); ?>">Clients List</a></li>
-                <li><a href="<?php echo base_url_admin("purchases"); ?>">Purchase List</a></li>
             </ul>
         </li>
         <li class="">
