@@ -93,7 +93,7 @@
     define("PRODUCT_IMG_PATH_LARGE", "resources/product-images");
     define("PRODUCT_IMG_PATH_SMALL", "resources/product-images/small");
 
-    define("PRODUCT_DESC_MIN_LENGTH", 400);
+    define("PRODUCT_DESC_MIN_LENGTH", 300);
 
     define("SELLER_LOGO_PATH", "resources/seller-logos");
 
