@@ -45,7 +45,6 @@
             </a>
             <ul class="sub">
                 <li ><a href="<?php echo base_url_admin("products"); ?>">Products</a></li>
-                <li ><a href="<?php echo base_url_admin("products/updateStock"); ?>">Update Product Stock</a></li>
                 <li ><a href="<?php echo base_url_admin("products/featuredList"); ?>">Featured Products</a></li>
             </ul>
         </li>        
