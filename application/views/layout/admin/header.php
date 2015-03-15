@@ -51,13 +51,13 @@
                         <img src="<?php echo ADMIN_ASSETS_PATH; ?>/images/menu-toggler.png" alt="" />
                     </a>          
                     <!-- END RESPONSIVE MENU TOGGLER -->	
-                    
+
                     <!-- BEGIN TOP NAVIGATION MENU -->					
                     <ul class="nav pull-right">
                         <?php
                             $inbox_records = array();
 
-                            $inbox_records = $model->fetchSelectedData("wc_id,wc_message,full_name,creation_timestamp", TABLE_WEBSITE_CONTACT, array("wc_processed" => "0"), "wc_id", "DESC", "6");
+                            $inbox_records = $model->fetchSelectedData("wc_id, wc_message, wc_fullname, wc_timestamp", TABLE_WEBSITE_CONTACT, array("wc_processed !=" => "0", "wc_processed !=" => "1"), "wc_id", "DESC", "6");
                             $unprocessed_count = count($inbox_records);
                         ?>
                         <!-- BEGIN INBOX DROPDOWN -->
@@ -88,11 +88,11 @@
                                             <li>
                                                 <a href="<?php echo base_url_admin("websiteContact/" . $invalue["wc_id"]); ?>">
                                                     <span class="subject">
-                                                        <span class="from"><?php echo $invalue["full_name"] ?></span>
-                                                        <span class="time"><?php echo getTimeAgo(strtotime($invalue["creation_timestamp"])); ?></span>
+                                                        <span class="from"><?php echo $invalue["wc_fullname"] ?></span>
+                                                        <span class="time"><?php echo getTimeAgo(strtotime($invalue["wc_timestamp"])); ?></span>
                                                     </span>
                                                     <span class="message">
-                                                        <?php echo substr($invalue["wc_message"], 0, 100) . "..."; ?>
+                                                        <?php echo substr(stripslashes($invalue["wc_message"]), 0, 100) . "..."; ?>
                                                     </span>  
                                                 </a>
                                             </li>
