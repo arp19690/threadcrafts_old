@@ -16,7 +16,7 @@
         <meta charset="utf-8" />
         <title><?php echo $meta_title; ?></title>
         <meta name="robots" content="nofollow, noindex"/>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
         <meta content="" name="description" />
         <meta content="" name="author" />
         <link href="<?php echo ADMIN_ASSETS_PATH; ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
