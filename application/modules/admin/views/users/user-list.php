@@ -47,11 +47,12 @@
                                         $user_status = $a_value["user_status"] == '1' ? 'Active' : 'Deactivated';
                                         ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url_admin("users/userDetail/" . $user_id); ?>" title="View Detail"><?php echo $full_name; ?></a></td>
+                                            <td><?php echo $full_name; ?></td>
                                             <td><?php echo $user_email; ?></td>
                                             <td><?php echo $user_contact; ?></td>
                                             <td class="center"><?php echo $user_status; ?></td>
                                             <td class="center">
+                                                <a href="<?php echo base_url_admin("users/userDetail/" . $user_id); ?>" title="View Detail"><i class="icon-search"></i>&nbsp;Details</a><br/>
                                                 <a href="<?php echo base_url_admin("users/editUser/" . $user_id); ?>"><i class="icon-pencil"></i>&nbsp;Edit</a><br/>
                                                 <?php
                                                 if ($a_value["user_status"] == '1')

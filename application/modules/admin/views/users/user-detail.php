@@ -12,9 +12,7 @@
         <div class="row-fluid">
             <div class="span12">
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->			
-                <h3 class="page-title">
-                    User Detail
-                </h3>
+                <h3 class="page-title"><?php echo $page_title;?></h3>
                 <!-- END PAGE TITLE & BREADCRUMB-->
             </div>
         </div>

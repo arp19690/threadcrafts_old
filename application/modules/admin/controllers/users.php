@@ -71,6 +71,7 @@
                 $record = $record[0];
                 unset($record["user_password"], $record["user_id"], $record["user_facebook_array"]);
                 $data["record"] = $record;
+                $data["page_title"] = ucwords($record['user_fullname']);
 
                 $this->template->write_view("content", "users/user-detail", $data);
                 $this->template->render();
