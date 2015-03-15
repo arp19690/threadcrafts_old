@@ -63,7 +63,7 @@
                                 <label class="control-label">Product Description<span class="required">*</span></label>
                                 <div class="controls">
                                     <textarea name="product_description" required="required" minlength='400' rows="3" class="span6 m-wrap required"><?php echo set_value("product_description", $result["product_description"]); ?></textarea>
-                                    <div class="help-block">(minimum 400 characters)</div>
+                                    <div class="help-block">(minimum <?php echo PRODUCT_DESC_MIN_LENGTH; ?> characters)</div>
                                 </div>
                             </div>
                             <div class="control-group">

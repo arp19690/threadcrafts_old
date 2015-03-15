@@ -412,5 +412,51 @@
             $this->index();
         }
 
+        public function updateProduct($product_id)
+        {
+            $model = new Common_model();
+
+            if ($this->input->post())
+            {
+                $arr = $this->input->post();
+                $seller_id = $this->session->userdata['seller_id'];
+
+                if (strlen($arr['product_description']) >= PRODUCT_DESC_MIN_LENGTH)
+                {
+                    $data_array = array(
+                        'product_description' => (addslashes($arr['product_description'])),
+                        'product_ipaddress' => USER_IP,
+                        'product_useragent' => USER_AGENT,
+                        'product_meta_description' => addslashes(getNWordsFromString($arr['product_description'], 40)),
+                    );
+
+                    $model->updateData(TABLE_PRODUCTS, $data_array, array('product_seller_id' => $seller_id, 'product_id' => $product_id));
+                    $this->session->set_flashdata('success', 'Product description updated');
+
+                    redirect(base_url_seller('products/productDetail/' . $product_id));
+                }
+                else
+                {
+                    $this->session->set_flashdata('error', 'Please enter atleast 400 characters for product description.');
+                    $this->session->set_flashdata('post', $arr);
+                    redirect(base_url_seller('products/updateProduct/' . $product_id));
+                }
+            }
+            else
+            {
+                if (isset($product_id) && !empty($product_id) && is_numeric($product_id))
+                {
+                    $model = new Common_model();
+                    $record = $model->fetchSelectedData("product_title, product_description", TABLE_PRODUCTS, array("product_id" => $product_id));
+                    $data["record"] = $record[0];
+                    $data["form_heading"] = "Edit product";
+                }
+
+                $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
+                $this->template->write_view("content", "products/product-update-form", $data);
+                $this->template->render();
+            }
+        }
+
     }
     
