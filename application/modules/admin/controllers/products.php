@@ -268,9 +268,9 @@
             $model = new Common_model();
             $fields = "*";
             $tableArrayWithJoinCondition = array(
-                TABLE_PRODUCTS . " as p" => "p.product_id = f.product_id"
+                TABLE_PRODUCTS . " as p" => "product_id = feature_product_id"
             );
-            $records = $model->getAllDataFromJoin($fields, TABLE_FEATURED . " as f", $tableArrayWithJoinCondition, "LEFT", NULL, "p.product_id", "DESC");
+            $records = $model->getAllDataFromJoin($fields, TABLE_FEATURED . " as f", $tableArrayWithJoinCondition, "LEFT", NULL, "product_id", "DESC");
 
             $data["alldata"] = $records;
 //            prd($data);
