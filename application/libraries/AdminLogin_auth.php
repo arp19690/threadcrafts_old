@@ -25,10 +25,10 @@
                 $record = $record[0];
 
                 $data_array = array(
-                    "admin_id" => $record["admin_id"],
-                    "login_time" => time(),
-                    "user_agent" => $this->ci->session->userdata["user_agent"],
-                    "user_ipaddress" => $this->ci->session->userdata["ip_address"]
+                    "al_admin_id" => $record["admin_id"],
+                    "al_login_time" => date('Y-m-s H:i:s'),
+                    "al_useragent" => $this->ci->session->userdata["user_agent"],
+                    "al_ipaddress" => $this->ci->session->userdata["ip_address"]
                 );
                 $model->insertData(TABLE_ADMIN_LOG, $data_array);
 
@@ -97,15 +97,15 @@
 
             $model = $this->ci->Common_model;
 
-            $record = $model->fetchSelectedData("admin_log_id", TABLE_ADMIN_LOG, array("admin_id" => $admin_id, "logout_time" => ""), "admin_log_id", "DESC", "1");
-            $admin_log_id = $record[0]["admin_log_id"];
+            $record = $model->fetchSelectedData("al_id", TABLE_ADMIN_LOG, array("al_admin_id" => $admin_id, "al_logout_time" => NULL), "al_id", "DESC", "1");
+            $al_id = $record[0]["al_id"];
 
             $update_data_array = array();
-            $update_data_array["logout_time"] = time();
+            $update_data_array["al_logout_time"] = date('Y-m-d H:i:s');
 
             $whereCondArr = array();
-            $whereCondArr["admin_log_id"] = $admin_log_id;
-            $whereCondArr["admin_id"] = $admin_id;
+            $whereCondArr["al_id"] = $al_id;
+            $whereCondArr["al_admin_id"] = $admin_id;
 
             $model->updateData(TABLE_ADMIN_LOG, $update_data_array, $whereCondArr);
             $this->ci->session->unset_userdata();
