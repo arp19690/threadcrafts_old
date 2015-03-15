@@ -35,7 +35,7 @@
                     <div class="tab-content">
                         <div class="tab-pane profile-classic row-fluid active" id="tab_1_1">
                             <div class='span12'>
-                                <h3>Images</h3>
+                                <h3>Product Images</h3>
                                 <?php
                                     if (!empty($product_image_record))
                                     {
