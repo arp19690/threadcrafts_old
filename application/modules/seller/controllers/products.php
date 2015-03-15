@@ -137,6 +137,7 @@
                     {
                         $data_array = array(
                             'pd_product_id' => $product_id,
+                            'pd_size' => ($arr['product_size'][$key]),
                             'pd_color_name' => ucwords($arr['product_color'][$key]),
                             'pd_quantity' => ($arr['product_quantity'][$key]),
                             'pd_min_quantity' => ($arr['product_min_quantity'][$key]),
@@ -282,54 +283,6 @@
                 {
                     redirect(base_url_seller('products'));
                 }
-            }
-        }
-
-        public function updateStock($product_id = NULL, $size = NULL)
-        {
-            $model = new Common_model();
-            $seller_id = $this->session->userdata['seller_id'];
-            $data = array();
-
-            if ($product_id != NULL)
-            {
-                $product_detail_record = $model->fetchSelectedData('DISTINCT(product_size) as product_size', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id, 'product_seller_id' => $seller_id));
-//                prd($product_detail_record);
-                $data['product_sizes'] = $product_detail_record;
-                $data['selected_product_id'] = $product_id;
-
-                if ($size != NULL)
-                {
-                    $product_color_records = $model->fetchSelectedData('product_color', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
-                    $data['product_colors'] = $product_color_records;
-                    $data['selected_product_size'] = $size;
-                }
-            }
-
-            $product_records = $model->fetchSelectedData("product_id,product_title,product_code", TABLE_PRODUCTS, NULL, "product_title");
-            $data["product_records"] = $product_records;
-            $data["form_heading"] = "Update Stock";
-            $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
-
-            $this->template->write_view("content", "products/update-stock", $data);
-            $this->template->render();
-
-            if ($this->input->post())
-            {
-                $arr = $this->input->post();
-                $product_id = $arr["product_id"];
-                $product_size = $arr["product_size"];
-                $product_color = $arr["product_color"];
-                $product_stock_count = trim($arr["product_stock"]);
-
-                $this->db->set('product_stock', 'product_stock + (' . $product_stock_count . ')', FALSE);
-                $this->db->where('product_id', $product_id);
-                $this->db->where('product_size', $product_size);
-                $this->db->where('product_color', $product_color);
-                $this->db->update(TABLE_PRODUCT_DETAILS);
-
-                $this->session->set_flashdata("success", "Product stock updated");
-                redirect(base_url_seller("products/updateStock"));
             }
         }
 
@@ -490,6 +443,44 @@
 
                 $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
                 $this->template->write_view("content", "products/product-price-update-form", $data);
+                $this->template->render();
+            }
+        }
+
+        public function updateProductStock($pd_id)
+        {
+            $model = new Common_model();
+            $seller_id = $this->session->userdata['seller_id'];
+            $record = $model->getAllDataFromJoin('pd_size, pd_color_name, pd_quantity, pd_min_quantity, product_id', TABLE_PRODUCT_DETAILS . ' as pd', array(TABLE_PRODUCTS . ' as p' => 'product_id = pd_product_id'), 'INNER', array('pd_id' => $pd_id, 'product_seller_id' => $seller_id));
+
+            if ($this->input->post() && !empty($record))
+            {
+                $arr = $this->input->post();
+
+                $data_array = array(
+                    'pd_size' => ($arr['pd_size']),
+                    'pd_color_name' => ucwords($arr['pd_color_name']),
+                    'pd_quantity' => ($arr['pd_quantity']),
+                    'pd_min_quantity' => ($arr['pd_min_quantity']),
+                    'pd_ipaddress' => USER_IP,
+                    'pd_useragent' => USER_AGENT,
+                );
+
+                $model->updateData(TABLE_PRODUCT_DETAILS, $data_array, array('pd_id' => $pd_id));
+                $this->session->set_flashdata('success', 'Product details updated');
+
+                redirect(base_url_seller('products/productDetail/' . $record[0]['product_id']));
+            }
+            else
+            {
+                if (isset($pd_id) && !empty($pd_id) && is_numeric($pd_id))
+                {
+                    $data["record"] = $record[0];
+                    $data["form_heading"] = "Edit product details";
+                }
+
+                $data["meta_title"] = $data["form_heading"] . ' | ' . SITE_NAME;
+                $this->template->write_view("content", "products/update-product-details-form", $data);
                 $this->template->render();
             }
         }

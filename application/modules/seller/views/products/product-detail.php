@@ -94,7 +94,7 @@
                                             <ul class="unstyled span12">
                                                 <li class="span4"><?php echo $pvalue['pd_color_name']; ?></li>
                                                 <li class="span4"><?php echo $pvalue['pd_size']; ?></li>
-                                                <li class="span4"><?php echo number_format($pvalue['pd_quantity']); ?> <a href='#' class="pull-right btn mini yellow">Update</a></li>
+                                                <li class="span4"><?php echo number_format($pvalue['pd_quantity']); ?> <a href='<?php echo base_url_seller('products/updateProductStock/' . $pvalue['pd_id']); ?>' class="pull-right btn mini yellow">Update</a></li>
                                             </ul>
                                             <?php
                                         }
