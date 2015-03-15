@@ -1,6 +1,11 @@
 <?php
     $model = new Common_model();
     $custom_model = new Custom_model();
+
+    if (!isset($meta_title))
+    {
+        $meta_title = 'Admin Panel | ' . SITE_NAME;
+    }
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -9,7 +14,7 @@
     <!-- BEGIN HEAD -->
     <head>
         <meta charset="utf-8" />
-        <title>Admin Panel | <?php echo SITE_NAME; ?></title>
+        <title><?php echo $meta_title; ?></title>
         <meta name="robots" content="nofollow, noindex"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
         <meta content="" name="description" />
