@@ -36,23 +36,20 @@
                                     foreach ($alldata as $a_key => $a_value)
                                     {
                                         $user_id = $a_value["user_id"];
-                                        $full_name = ucwords($a_value["first_name"] . " " . $a_value["last_name"]);
-                                        $login_time = date("d-M-y g:i a", $a_value["login_time"]);
-                                        if (!empty($a_value["logout_time"]))
-                                            $logout_time = date("d-M-y g:i a", $a_value["logout_time"]);
-                                        else
-                                            $logout_time = "NA";
-                                        $ip_address = $a_value["user_ipaddress"];
-                                        $user_agent = $a_value["user_agent"];
-                                        $login_via = ucwords($a_value["login_via"]);
+                                        $full_name = ucwords($a_value["user_fullname"]);
+                                        $login_time = date("d-M-y h:i A", strtotime($a_value["ul_login_time"]));
+                                        $logout_time = empty($a_value["logout_time"]) == TRUE ? 'NA' : (date("d-M-y h:i A", strtotime($a_value["ul_logout_time"])));
+                                        $ip_address = $a_value["ul_ipaddress"];
+                                        $user_agent = $a_value["ul_useragent"];
+                                        $login_via = ucwords($a_value["ul_login_via"]);
                                         ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url("admin/users/userDetail/$user_id"); ?>" title="View Detail"><?php echo $full_name; ?></a></td>
+                                            <td><a href="<?php echo base_url_admin("users/userDetail/" . $user_id); ?>" title="View Detail"><?php echo $full_name; ?></a></td>
                                             <td><?php echo $login_time; ?></td>
                                             <td><?php echo $logout_time; ?></td>
                                             <td><?php echo $ip_address; ?></td>
                                             <td><?php echo $login_via; ?></td>
-                                            <td class="hidden-phone hidden-tablet"><?php echo getClientOS($user_agent).' - '.  getClientBrowserName($user_agent); ?></td>
+                                            <td class="hidden-phone hidden-tablet"><?php echo getClientOS($user_agent) . ' - ' . getClientBrowserName($user_agent); ?></td>
                                         </tr>
                                         <?php
                                     }
