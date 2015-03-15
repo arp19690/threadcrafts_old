@@ -32,10 +32,8 @@
                                     <th>Code</th>
                                     <th>Category</th>
                                     <th>Cost Price</th>
-                                    <th>Order Type</th>
                                     <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,26 +44,21 @@
                                         $product_id = $a_value["product_id"];
                                         $product_title = $a_value["product_title"];
                                         $product_code = $a_value["product_code"];
-                                        $product_cost_price = $a_value["product_cost_price"];
-                                        $product_order_type = $a_value["product_order_type"];
-                                        $product_status = $a_value["product_status"];
+                                        $product_cost_price = $a_value["product_price"];
+                                        $product_status = getProductStatusText($a_value["product_status"]);
 
-                                        if ($product_status == "1")
-                                            $product_status = "Active";
-                                        else
-                                            $product_status = "Deactive";
-
-                                        $category = $a_value["gc_name"] . " / " . $a_value["pc_name"] . " / " . $a_value["cc_name"];
+                                        $category = '<a href="' . base_url_seller('products/category?gc=' . urlencode($a_value["gc_name"])) . '">' . $a_value["gc_name"] . '</a> -> <a href="' . base_url_seller('products/category?pc=' . urlencode($a_value["pc_name"])) . '">' . $a_value["pc_name"] . '</a> -> <a href="' . base_url_seller('products/category?cc=' . urlencode($a_value["cc_name"])) . '">' . $a_value["cc_name"] . '</a>';
                                         ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url("admin/products/productDetail/$product_id"); ?>" title="View Detail"><?php echo $product_title; ?></a></td>
+                                            <td><?php echo $product_title; ?></td>
                                             <td><?php echo $product_code; ?></td>
                                             <td><?php echo $category; ?></td>
-                                            <td><?php echo DEFAULT_CURRENCY_SYMBOL . $product_cost_price; ?></td>
-                                            <td><?php echo ucwords(str_replace("-", " ", $product_order_type)); ?></td>
+                                            <td><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($product_cost_price,2); ?></td>
                                             <td class="center"><?php echo $product_status; ?></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/products/editProduct/" . $product_id); ?>"><i class="icon-pencil"></i></a></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/products/deleteProduct/" . $product_id); ?>" onclick="return confirm('Are you sure to delete <?php echo $product_title; ?> ?');"><i class="icon-remove"></i></a></td>
+                                            <td class="center">
+                                                <a href="<?php echo base_url("admin/products/productDetail/" . $product_id); ?>" title="View Detail"><i class="icon-search"></i>&nbsp;Details</a><br/>
+                                                <a href="<?php echo base_url("admin/products/editProduct/" . $product_id); ?>"><i class="icon-pencil"></i>&nbsp;Edit</a><br/>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
