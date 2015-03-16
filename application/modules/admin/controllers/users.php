@@ -20,6 +20,16 @@
             $this->template->render();
         }
 
+        public function sellers()
+        {
+            $model = new Common_model();
+            $data["alldata"] = $model->getAllData("*", TABLE_SELLER);
+//            prd($data);
+
+            $this->template->write_view("content", "users/seller-list", $data);
+            $this->template->render();
+        }
+
         public function deactivateUser($user_id)
         {
             if ($user_id)
@@ -87,6 +97,18 @@
             $data["alldata"] = $record;
 
             $this->template->write_view("content", "users/user-log", $data);
+            $this->template->render();
+        }
+
+        public function sellerLog()
+        {
+            $model = new Common_model();
+            $data = array();
+
+            $record = $model->getAllDataFromJoin("sl.*, seller_fullname, seller_company_name, seller_id", TABLE_SELLER_LOG. " as sl", array(TABLE_SELLER. " as s" => "seller_id = sl_seller_id"), "LEFT");
+            $data["alldata"] = $record;
+
+            $this->template->write_view("content", "users/seller-log", $data);
             $this->template->render();
         }
 

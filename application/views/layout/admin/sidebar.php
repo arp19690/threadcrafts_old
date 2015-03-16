@@ -23,6 +23,8 @@
             <ul class="sub">
                 <li ><a href="<?php echo base_url_admin("users"); ?>">Users</a></li>
                 <li ><a href="<?php echo base_url_admin("users/userLog"); ?>">User Log</a></li>
+                <li ><a href="<?php echo base_url_admin("users/sellers"); ?>">Sellers</a></li>
+                <li ><a href="<?php echo base_url_admin("users/sellerLog"); ?>">Seller Log</a></li>
             </ul>
         </li>
         <li class="has-sub ">
