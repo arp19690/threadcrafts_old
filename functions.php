@@ -56,6 +56,24 @@
         return $text;
     }
 
+    function getSellerDocumentStatusText($code)
+    {
+        if ($code == '0')
+        {
+            $text = 'Rejected';
+        }
+        elseif ($code == '1')
+        {
+            $text = 'Approved';
+        }
+        elseif ($code == '2')
+        {
+            $text = 'Under review';
+        }
+
+        return $text;
+    }
+
     function getProductStatusText($product_status)
     {
         if ($product_status == '0')

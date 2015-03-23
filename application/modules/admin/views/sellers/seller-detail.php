@@ -27,18 +27,16 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane profile-classic row-fluid active" id="tab_1_1">
-                            <div class="span2"><img src="<?php echo empty($record['seller_facebook_id']) == TRUE ? NO_PRODUCT_IMG_PATH : (getFacebookUserImageSource($record['seller_facebook_id'], NULL, USER_IMG_WIDTH)); ?>" alt="" style="max-width: 100%;"/></div>
+                            <div class="span2"><img src="<?php echo getImage($record['seller_logo_image']); ?>" alt="" style="max-width: 100%;"/></div>
                             <div class="span4">
                                 <h3>Seller details</h3>
                                 <ul class="unstyled">
-                                    <li><span>Status: </span><span><?php echo $record['seller_status'] == '1' ? 'Active' : 'Deactivated'; ?></span></li>
+                                    <li><span>Status: </span><span><?php echo getSellerStatusText($record['seller_status']); ?></span></li>
                                     <li><span>Fullname: </span><span><?php echo ucwords($record['seller_fullname']); ?></span></li>
                                     <li><span>Email: </span><span><a href="mailto:<?php echo ($record['seller_email']); ?>"><?php echo ($record['seller_email']); ?></a></span></li>
                                     <li><span>Mobile: </span><span><?php echo ($record['seller_mobile']); ?></span></li>
-                                    <li><span>Gender: </span><span><?php echo ucwords($record['seller_gender']); ?></span></li>
                                     <li><span>Last modified: </span><span><?php echo date('d-M-Y h:i A', strtotime($record['seller_timestamp'])); ?></span></li>
                                     <li><span>Joined on: </span><span><?php echo date('d-M-Y h:i A', strtotime($record['seller_joined_date'])); ?></span></li>
-                                    <li><span>Added By: </span><span><?php echo $record['seller_added_by']; ?></span></li>
                                 </ul>
                             </div>
 
@@ -56,14 +54,21 @@
                             <div class="span3">
                                 <h3>Seller documents</h3>
                                 <ul class="unstyled">
-                                    <li><span>Status: </span><span><?php echo $record['seller_status'] == '1' ? 'Active' : 'Deactivated'; ?></span></li>
-                                    <li><span>Fullname: </span><span><?php echo ucwords($record['seller_fullname']); ?></span></li>
-                                    <li><span>Email: </span><span><a href="mailto:<?php echo ($record['seller_email']); ?>"><?php echo ($record['seller_email']); ?></a></span></li>
-                                    <li><span>Mobile: </span><span><?php echo ($record['seller_mobile']); ?></span></li>
-                                    <li><span>Gender: </span><span><?php echo ucwords($record['seller_gender']); ?></span></li>
-                                    <li><span>Last modified: </span><span><?php echo date('d-M-Y h:i A', strtotime($record['seller_timestamp'])); ?></span></li>
-                                    <li><span>Joined on: </span><span><?php echo date('d-M-Y h:i A', strtotime($record['seller_joined_date'])); ?></span></li>
-                                    <li><span>Added By: </span><span><?php echo $record['seller_added_by']; ?></span></li>
+                                    <?php
+                                        if (!empty($document_record))
+                                        {
+                                            foreach ($document_record as $dKey => $dValue)
+                                            {
+                                                ?>
+                                                <li><span><?php echo $dValue['sdc_document_type'] . ' (' . getSellerStatusText($dValue['sdc_status']) . ')'; ?></span><span><a href="<?php echo base_url($dValue['sdc_document_path']); ?>" target="_blank">View</a></span></li>
+                                                <?php
+                                            }
+                                        }
+                                        else
+                                        {
+                                            echo '<li><p>No documents found</p></li>';
+                                        }
+                                    ?>
                                 </ul>
                             </div>
                         </div>

@@ -33,4 +33,5 @@
     define("TABLE_PRODUCT_DETAILS", "product_details");
     define("TABLE_PRODUCT_IMAGES", "product_images");
     define("TABLE_SELLER_BANK", "seller_bank");
+    define("TABLE_SELLER_DOCUMENTS", "seller_documents");
     
