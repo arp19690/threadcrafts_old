@@ -20,7 +20,7 @@
                     <div class="portlet-body">
                         <div class="clearfix">
                             <div class="btn-group">
-                                <a href="<?php echo base_url_admin("users/addSeller"); ?>"><button class="btn green">
+                                <a href="<?php echo base_url_admin("sellers/addSeller"); ?>"><button class="btn green">
                                         Add New <i class="icon-plus"></i>
                                     </button></a>
                             </div>
@@ -52,19 +52,19 @@
                                             <td><?php echo $seller_mobile; ?></td>
                                             <td class="center"><?php echo $seller_status; ?></td>
                                             <td class="center">
-                                                <a href="<?php echo base_url_admin("users/userDetail/" . $seller_id); ?>" title="View Detail"><i class="icon-search"></i>&nbsp;Details</a><br/>
-                                                <a href="<?php echo base_url_admin("users/editUser/" . $seller_id); ?>"><i class="icon-pencil"></i>&nbsp;Edit</a><br/>
+                                                <a href="<?php echo base_url_admin("sellers/sellerDetail/" . $seller_id); ?>" title="View Detail"><i class="icon-search"></i>&nbsp;Details</a><br/>
+                                                <a href="<?php echo base_url_admin("sellers/editUser/" . $seller_id); ?>"><i class="icon-pencil"></i>&nbsp;Edit</a><br/>
                                                 <?php
                                                 if ($a_value["seller_status"] == '1')
                                                 {
                                                     ?>
-                                                    <a href="<?php echo base_url_admin("users/deactivateUser/" . $seller_id); ?>" onclick="return confirm('Are you sure to deactivate <?php echo $full_name; ?> ?');"><i class="icon-warning-sign"></i>&nbsp;Deactivate</a><br/>
+                                                    <a href="<?php echo base_url_admin("sellers/deactivateUser/" . $seller_id); ?>" onclick="return confirm('Are you sure to deactivate <?php echo $full_name; ?> ?');"><i class="icon-warning-sign"></i>&nbsp;Deactivate</a><br/>
                                                     <?php
                                                 }
                                                 else
                                                 {
                                                     ?>   
-                                                        <a href="<?php echo base_url_admin("users/activateUser/" . $seller_id); ?>" onclick="return confirm('Are you sure to activate <?php echo $full_name; ?> ?');"><i class="icon-check"></i>&nbsp;Activate</a><br/>                                    
+                                                        <a href="<?php echo base_url_admin("sellers/activateUser/" . $seller_id); ?>" onclick="return confirm('Are you sure to activate <?php echo $full_name; ?> ?');"><i class="icon-check"></i>&nbsp;Activate</a><br/>                                    
                                                         <?php
                                                     }
                                                     ?>
