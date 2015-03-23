@@ -140,8 +140,8 @@
         </p>
 
         <script>
-            $(document).ready(function() {
-                $(".promo-code-click").click(function(event) {
+            $(document).ready(function () {
+                $(".promo-code-click").click(function (event) {
                     event.preventDefault();
                     $(".coupon-form-div").removeClass('hide');
                     $(this).parent().remove();
@@ -153,7 +153,7 @@
     }
     else
     {
-        echo '<h2>No products in your cart.</h2><p><a href="#" onclick="window.history.back();">Go Back</a></p>';
+        echo '<h2>No products in your cart.</h2><p><a href="' . goBack() . '">Go Back</a></p>';
     }
 
     $this->load->view("pages/cart/checkout/footer");

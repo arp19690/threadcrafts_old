@@ -12,7 +12,7 @@
             <div class="portlet-title">
                 <h4><i class="icon-key"></i>Change Password</h4>
                 <div class="actions">
-                    <a class="btn green mini" href="#" onclick="window.history.back();">
+                    <a class="btn green mini" href="<?php echo goBack(); ?>">
                         <i class="icon-arrow-left"></i>
                         Back
                     </a>

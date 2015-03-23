@@ -50,7 +50,7 @@
                     <div class="portlet-title">
                         <h4><i class="icon-reorder"></i><?php echo $form_heading; ?></h4>
                         <div class="actions">
-                            <a class="btn green mini" href="#" onclick="window.history.back();">
+                            <a class="btn green mini" href="<?php echo goBack(); ?>">
                                 <i class="icon-arrow-left"></i>
                                 Back
                             </a>
@@ -91,38 +91,38 @@
 
                             <span id="pc_select_box">
                                 <?php
-                                    if(!empty($result["cc_pc_id"]))
+                                    if (!empty($result["cc_pc_id"]))
                                     {
                                         echo '<div class="control-group">
                                                     <label class="control-label">Parent Category<span class="required">*</span></label>
                                                     <div class="controls">
                                                         <select name="pc_id" class="span6 m-wrap" id="pc_id">';
-                                        
+
                                         if (!empty($parent_cat_array))
+                                        {
+                                            echo '<option>select</option>';
+                                            foreach ($parent_cat_array as $gcKey => $gcValue)
                                             {
-                                                echo '<option>select</option>';
-                                                foreach ($parent_cat_array as $gcKey => $gcValue)
-                                                {
-                                                    $pc_id = $gcValue["pc_id"];
-                                                    $pc_name = $gcValue["pc_name"];
+                                                $pc_id = $gcValue["pc_id"];
+                                                $pc_name = $gcValue["pc_name"];
 
-                                                    $selected = "";
-                                                    if ($result["cc_pc_id"] == $pc_id)
-                                                        $selected = "selected='selected'";
+                                                $selected = "";
+                                                if ($result["cc_pc_id"] == $pc_id)
+                                                    $selected = "selected='selected'";
 
-                                                    echo '<option value="' . $pc_id . '" ' . $selected . '>' . $pc_name . '</option>';
-                                                }
+                                                echo '<option value="' . $pc_id . '" ' . $selected . '>' . $pc_name . '</option>';
                                             }
-                                            else
-                                            {
-                                                echo '<option>No data</option>';
-                                            }
-                                        
+                                        }
+                                        else
+                                        {
+                                            echo '<option>No data</option>';
+                                        }
+
                                         echo '</select>
                                                 </div>
                                             </div>';
                                     }
-                                    ?>
+                                ?>
                             </span>
 
                             <span id="cc_name_box">
@@ -151,37 +151,37 @@
 <!-- END PAGE -->  
 
 <script>
-                                $(document).ready(function() {
-                                    $("#gc_id").change(function() {
-                                        $("#pc_select_box").html("Loading...");
-                                        var gc_id = $(this).val();
-                                        if (gc_id !== "")
-                                        {
-                                            $.ajax({
-                                                url: "<?php echo base_url("admin/categories/getParentCategoriesAjax"); ?>" + "/" + gc_id,
-                                                success: function(response) {
-                                                    $("#pc_select_box").html(response);
-                                                }
-                                            });
-                                        }
-                                        else
-                                        {
-                                            $("#pc_select_box").html("");
-                                        }
-                                    });
+    $(document).ready(function () {
+        $("#gc_id").change(function () {
+            $("#pc_select_box").html("Loading...");
+            var gc_id = $(this).val();
+            if (gc_id !== "")
+            {
+                $.ajax({
+                    url: "<?php echo base_url("admin/categories/getParentCategoriesAjax"); ?>" + "/" + gc_id,
+                    success: function (response) {
+                        $("#pc_select_box").html(response);
+                    }
+                });
+            }
+            else
+            {
+                $("#pc_select_box").html("");
+            }
+        });
 
-                                    $("#pc_id").live("change", function() {
-                                        var pc_id = $(this).val();
-                                        if (pc_id != "")
-                                        {
-                                            $("#cc_name_box").show();
-                                            $(".submit-bttn").show();
-                                        }
-                                        else
-                                        {
-                                            $("#cc_name_box").hide();
-                                            $(".submit-bttn").hide();
-                                        }
-                                    });
-                                });
+        $("#pc_id").live("change", function () {
+            var pc_id = $(this).val();
+            if (pc_id != "")
+            {
+                $("#cc_name_box").show();
+                $(".submit-bttn").show();
+            }
+            else
+            {
+                $("#cc_name_box").hide();
+                $(".submit-bttn").hide();
+            }
+        });
+    });
 </script>

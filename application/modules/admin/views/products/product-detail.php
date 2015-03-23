@@ -10,7 +10,7 @@
                     Product Detail
                 </h3>
                 <div class="actions pull-right">
-                    <a class="btn green mini" href="#" onclick="window.history.back();">
+                    <a class="btn green mini" href="<?php echo goBack(); ?>">
                         <i class="icon-arrow-left"></i>
                         Back
                     </a>
