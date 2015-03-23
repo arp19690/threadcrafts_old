@@ -1,25 +1,7 @@
 <?php
-    $result = array();
     if (isset($record))
     {
-        foreach ($record as $key => $value)
-        {
-            $result[$key] = $value;
-        }
-    }
-    else
-    {
-        $result["wc_id"] = "";
-        $result["full_name"] = "";
-        $result["user_email"] = "";
-        $result["user_contact"] = "";
-        $result["wc_subject"] = "";
-        $result["wc_message"] = "";
-        $result["wc_request_id"] = "";
-        $result["wc_processed"] = "";
-        $result["user_ipaddress"] = "";
-        $result["user_agent"] = "";
-        $result["creation_timestamp"] = "";
+        extract($record);
     }
 
     if (!isset($form_action))
@@ -57,60 +39,47 @@
                     <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="<?php echo $form_action; ?>" method="post" class="form-horizontal" enctype="multipart/form-data">
-                            <input type="hidden" name="wc_id" value="<?php echo set_value("wc_id", $result["wc_id"]); ?>"/>
                             <div class="control-group">
                                 <label class="control-label">Full Name<span class="required">*</span></label>
                                 <div class="controls">
-                                    <?php echo $result["full_name"]; ?>
+                                    <?php echo stripslashes($wc_fullname); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Email<span class="required">*</span></label>
                                 <div class="controls">
-                                    <?php echo $result["user_email"]; ?>
+                                    <?php echo $wc_email; ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Contact Number<span class="required">*</span></label>
                                 <div class="controls">
-                                    <?php echo $result["user_contact"]; ?>
+                                    <?php echo $wc_contact; ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Subject<span class="required">*</span></label>
                                 <div class="controls">
-                                    <?php echo $result["wc_subject"]; ?>
+                                    <?php echo stripslashes($wc_subject); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Message<span class="required">*</span></label>
                                 <div class="controls">
-                                    <?php echo $result["wc_message"]; ?>
+                                    <?php echo stripslashes($wc_message); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <label class="control-label">Request ID<span class="required">*</span></label>
                                 <div class="controls">
-                                    <?php echo $result["wc_request_id"]; ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">IP Address<span class="required">*</span></label>
-                                <div class="controls">
-                                    <?php echo $result["user_ipaddress"]; ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">User Agent</label>
-                                <div class="controls">
-                                    <?php echo $result["user_agent"]; ?>
+                                    #<?php echo $wc_request_id; ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Date-Time</label>
                                 <div class="controls">
-                                    <?php echo date("d-M-Y g:i a", strtotime($result["creation_timestamp"])); ?>
+                                    <?php echo date("d-M-Y h:i A", strtotime($wc_timestamp)); ?>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -118,19 +87,18 @@
                                 <div class="controls">
                                     <select class="span6 m-wrap required" name="wc_processed" required="required">
                                         <?php
-                                            if ($record["wc_processed"] == "1")
+                                            for ($i = 0; $i <= 3; $i++)
                                             {
-                                                $processed = TRUE;
-                                                $unprocessed = FALSE;
-                                            }
-                                            else
-                                            {
-                                                $processed = FALSE;
-                                                $unprocessed = TRUE;
+                                                $selected = '';
+                                                if ($i == $wc_processed)
+                                                {
+                                                    $selected = ' selected="selected" ';
+                                                }
+                                                ?>
+                                                <option value="<?php echo $i; ?>" <?php echo $selected; ?>><?php echo getWebsiteContactStatusText($i); ?></option>
+                                                <?php
                                             }
                                         ?>
-                                        <option value="0" <?php echo set_select('wc_processed', $record["wc_processed"], $unprocessed) ?>>Unprocessed</option>
-                                        <option value="1" <?php echo set_select('wc_processed', $record["wc_processed"], $processed) ?>>Processed</option>
                                     </select>
                                 </div>
                             </div>
@@ -159,55 +127,55 @@
 <!-- END PAGE --> 
 
 <script>
-                                $(document).ready(function() {
-                                    $("#gc_id").change(function() {
-                                        $("#pc_select_box").html("Loading...");
-                                        var gc_id = $(this).val();
-                                        if (gc_id !== "")
-                                        {
-                                            $.ajax({
-                                                url: "<?php echo base_url("admin/categories/getParentCategoriesAjax"); ?>" + "/" + gc_id,
-                                                success: function(response) {
-                                                    $("#pc_select_box").html(response);
-                                                }
-                                            });
-                                        }
-                                        else
-                                        {
-                                            $("#pc_select_box").html("");
-                                        }
-                                    });
+    $(document).ready(function () {
+        $("#gc_id").change(function () {
+            $("#pc_select_box").html("Loading...");
+            var gc_id = $(this).val();
+            if (gc_id !== "")
+            {
+                $.ajax({
+                    url: "<?php echo base_url("admin/categories/getParentCategoriesAjax"); ?>" + "/" + gc_id,
+                    success: function (response) {
+                        $("#pc_select_box").html(response);
+                    }
+                });
+            }
+            else
+            {
+                $("#pc_select_box").html("");
+            }
+        });
 
-                                    $("#pc_id").live("change", function() {
-                                        $("#cc_select_box").html("Loading...");
-                                        var pc_id = $(this).val();
-                                        if (pc_id !== "")
-                                        {
-                                            $.ajax({
-                                                url: "<?php echo base_url("admin/categories/getChildCategoriesAjax"); ?>" + "/" + pc_id,
-                                                success: function(response) {
-                                                    $("#cc_select_box").html(response);
-                                                }
-                                            });
-                                        }
-                                        else
-                                        {
-                                            $("#cc_select_box").html("");
-                                        }
-                                    });
+        $("#pc_id").live("change", function () {
+            $("#cc_select_box").html("Loading...");
+            var pc_id = $(this).val();
+            if (pc_id !== "")
+            {
+                $.ajax({
+                    url: "<?php echo base_url("admin/categories/getChildCategoriesAjax"); ?>" + "/" + pc_id,
+                    success: function (response) {
+                        $("#cc_select_box").html(response);
+                    }
+                });
+            }
+            else
+            {
+                $("#cc_select_box").html("");
+            }
+        });
 
-                                    $("#pc_id").live("change", function() {
-                                        var pc_id = $(this).val();
-                                        if (pc_id != "")
-                                        {
-                                            $("#cc_name_box").show();
-                                            $(".submit-bttn").show();
-                                        }
-                                        else
-                                        {
-                                            $("#cc_name_box").hide();
-                                            $(".submit-bttn").hide();
-                                        }
-                                    });
-                                });
+        $("#pc_id").live("change", function () {
+            var pc_id = $(this).val();
+            if (pc_id != "")
+            {
+                $("#cc_name_box").show();
+                $(".submit-bttn").show();
+            }
+            else
+            {
+                $("#cc_name_box").hide();
+                $(".submit-bttn").hide();
+            }
+        });
+    });
 </script>
