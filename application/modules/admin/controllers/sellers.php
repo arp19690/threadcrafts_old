@@ -75,7 +75,11 @@
                 $record = $model->fetchSelectedData("*", TABLE_SELLER, array("seller_id" => $seller_id));
                 $record = $record[0];
                 unset($record["seller_password"], $record["seller_id"], $record["seller_facebook_array"]);
+
+                $bank_record = $model->fetchSelectedData('*', TABLE_SELLER_BANK, array('sb_seller_id' => $seller_id, 'sb_status' => '1'));
+
                 $data["record"] = $record;
+                $data["bank_record"] = @$bank_record[0];
                 $data["page_title"] = ucwords($record['seller_fullname']);
 
                 $this->template->write_view("content", "sellers/seller-detail", $data);
