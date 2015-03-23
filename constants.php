@@ -78,6 +78,10 @@
     define("USER_IMG_WIDTH", 300);
     define("USER_IMG_HEIGHT", 300);
     define("USER_IMG_PATH", SITE_BASE_URL . "/resources/user-images");
+    
+    define("SELLER_COVER_IMG_WIDTH", 1100);
+    define("SELLER_COVER_IMG_HEIGHT", 360);
+    define("SELLER_COVER_IMG_PATH", SITE_BASE_URL . "/resources/seller-cover-images");
 
     define("DISQUS_SHORTNAME", "threadcrafts");
     define("FACEBOOK_SOCIAL_LINK", "https://www.facebook.com/ThreadCraftsIn");
