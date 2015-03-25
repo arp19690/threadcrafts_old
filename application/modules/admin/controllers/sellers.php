@@ -116,7 +116,7 @@
                     $this->session->set_flashdata("error", "An error occured while uploading image");
                 }
 
-                redirect(base_url_seller('sellerDetail/' . $seller_id));
+                redirect(base_url_admin('seller/sellerDetail/' . $seller_id));
             }
         }
 
@@ -135,7 +135,7 @@
                     $this->session->set_flashdata("error", "An error occured while uploading logo");
                 }
 
-                redirect(base_url_seller('sellerDetail/' . $seller_id));
+                redirect(base_url_admin('seller/sellerDetail/' . $seller_id));
             }
         }
 
