@@ -80,7 +80,26 @@
                                                 foreach ($document_record as $dKey => $dValue)
                                                 {
                                                     ?>
-                                                    <li><span><?php echo $dValue['sdc_document_type'] . ' (' . getSellerDocumentStatusText($dValue['sdc_status']) . ') '; ?></span><span><a href="<?php echo base_url($dValue['sdc_document_path']); ?>" target="_blank">View</a></span></li>
+                                                    <li>
+                                                        <div><?php echo $dValue['sdc_document_type'] . ' (' . getSellerDocumentStatusText($dValue['sdc_status']) . ')'; ?></div>
+                                                        <div>
+                                                            <a href="<?php echo base_url($dValue['sdc_document_path']); ?>" target="_blank">View</a>
+                                                            <?php
+                                                            if ($dValue['sdc_status'] != '0')
+                                                            {
+                                                                if ($dValue['sdc_status'] == '2')
+                                                                {
+                                                                    ?>
+                                                                    &nbsp;<a href="<?php echo base_url_admin('sellers/changeDocumentStatus/' . $dValue['sdc_id'] . '/1'); ?>" onclick="return confirm('Are you sure to approve this document?');">Approve</a>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                &nbsp;<a href="<?php echo base_url_admin('sellers/changeDocumentStatus/' . $dValue['sdc_id'] . '/0'); ?>" onclick="return confirm('Are you sure to reject this document?');">Reject</a>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                    </li>
                                                     <?php
                                                 }
                                             }

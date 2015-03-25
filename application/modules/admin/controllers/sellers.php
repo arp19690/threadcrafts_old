@@ -307,5 +307,14 @@
             }
         }
 
+        public function changeDocumentStatus($sdc_id, $code)
+        {
+            $model = new Common_model();
+            $record = $model->fetchSelectedData('sdc_seller_id', TABLE_SELLER_DOCUMENTS, array('sdc_id' => $sdc_id));
+            $model->updateData(TABLE_SELLER_DOCUMENTS, array('sdc_status' => $code), array('sdc_id' => $sdc_id));
+            $this->session->set_flashdata("success", "Document status changed to " . getSellerDocumentStatusText($code));
+            redirect(base_url_admin('sellers/sellerDetail/' . $record[0]['sdc_seller_id']));
+        }
+
     }
     
