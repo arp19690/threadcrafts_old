@@ -1,5 +1,57 @@
 <?php
 
+    function changeCover($seller_id)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+
+        // get the extension of the image
+        $ext = getFileExtension($_FILES['cover_img']['name']);
+        $allowed_ext = array('jpg', 'jpeg', 'png', 'gif');
+
+        list($img_width, $img_height, $img_type, $img_attr) = getimagesize($_FILES["cover_img"]['tmp_name']);
+
+        // if a valid image
+        if (in_array(strtolower($ext), $allowed_ext) && $img_width == SELLER_COVER_IMG_WIDTH && $img_height == SELLER_COVER_IMG_HEIGHT)
+        {
+            // unlink the previous image
+            $seller_record = $model->fetchSelectedData('seller_cover_image', TABLE_SELLER, array('seller_id' => $seller_id));
+            if (!empty($seller_record[0]['seller_cover_image']))
+            {
+                @unlink($seller_record[0]['seller_cover_image']);
+            }
+
+            // get a random image name
+            $fileName = getUniqueCoverImageName($ext);
+            // upload the image
+            uploadImage($_FILES['cover_img']['tmp_name'], $fileName, SELLER_COVER_IMG_PATH, SELLER_COVER_IMG_WIDTH, SELLER_COVER_IMG_HEIGHT);
+
+            // update into the database
+            $cover_image_name = SELLER_COVER_IMG_PATH . '/' . $fileName;
+            $model->updateData(TABLE_SELLER, array('seller_cover_image' => $cover_image_name), array('seller_id' => $seller_id));
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    function getUniqueCoverImageName($ext, $string_length = 15)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength(time(), $string_length) . '.' . $ext;
+        $image_name = SELLER_COVER_IMG_PATH . '/' . $random_number;
+        $is_exists = $model->is_exists('seller_id', TABLE_SELLER, array('seller_cover_image' => $image_name));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueCoverImageName($string_length);
+        }
+
+        return $random_number;
+    }
+
     function isValidImageExt($ext)
     {
         $valid_ext_Arr = array('jpg', 'jpeg', 'png', 'gif');
