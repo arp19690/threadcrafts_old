@@ -36,7 +36,11 @@
                                     <p><a href="#logoModal" role="button" data-toggle="modal"><span class="icon-picture"></span>&nbsp;Change Logo</a></p>
                                 </div>
                                 <div class="span4">
-                                    <h3>Seller details</h3>
+                                    <h3>Seller details 
+                                        <span class="pull-right" style="font-weight: normal;font-size: 16px;">
+                                            <a href="<?php echo base_url_admin('sellers/addSeller/' . $record['seller_id']); ?>" style="margin-left: 10px"><span class="icon-pencil"></span></a>
+                                        </span>
+                                    </h3>
                                     <ul class="unstyled">
                                         <li><span>Status: </span><span><?php echo getSellerStatusText($record['seller_status']); ?></span></li>
                                         <li><span>Full name: </span><span><?php echo ucwords($record['seller_fullname']); ?></span></li>
@@ -48,7 +52,12 @@
                                 </div>
 
                                 <div class="span3">
-                                    <h3>Bank details</h3>
+                                    <h3>Bank details 
+                                        <span class="pull-right" style="font-weight: normal;font-size: 16px;">
+                                            <a href="<?php echo base_url_admin('sellers/addSellerBank/' . $record['seller_id']); ?>"><span class="icon-plus"></span></a>
+                                            <a href="<?php echo base_url_admin('sellers/addSellerBank/' . $record['seller_id'] . '/' . $bank_record['sb_id']); ?>" style="margin-left: 10px"><span class="icon-pencil"></span></a>
+                                        </span>
+                                    </h3>
                                     <ul class="unstyled">
                                         <li><span>Bank Name: </span><span><?php echo stripslashes($bank_record['sb_bank_name']); ?></span></li>
                                         <li><span>Account Name: </span><span><?php echo stripslashes($bank_record['sb_account_holder']); ?></span></li>
@@ -59,7 +68,11 @@
                                 </div>
 
                                 <div class="span3">
-                                    <h3>Seller documents</h3>
+                                    <h3>Seller documents 
+                                        <span class="pull-right" style="font-weight: normal;font-size: 16px;">
+                                            <a href="<?php echo base_url_admin('sellers/addSellerDocument/' . $record['seller_id']); ?>"><span class="icon-plus"></span></a>
+                                        </span>
+                                    </h3>
                                     <ul class="unstyled">
                                         <?php
                                             if (!empty($document_record))
@@ -98,7 +111,7 @@
         <h3 id="myModalLabel">Change cover</h3>
     </div>
     <div class="modal-body">
-        <form method="post" enctype="multipart/form-data" action="<?php echo base_url_seller('changeCover');?>">
+        <form method="post" enctype="multipart/form-data" action="<?php echo base_url_seller('changeCover'); ?>">
             <div class="control-group">
                 <label class="control-label">Choose image</label>
                 <div class="controls">
@@ -120,7 +133,7 @@
         <h3 id="myModalLabel">Change logo</h3>
     </div>
     <div class="modal-body">
-        <form method="post" enctype="multipart/form-data" action="<?php echo base_url_seller('changeLogo');?>">
+        <form method="post" enctype="multipart/form-data" action="<?php echo base_url_seller('changeLogo'); ?>">
             <div class="control-group">
                 <label class="control-label">Choose image</label>
                 <div class="controls">

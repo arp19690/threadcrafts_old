@@ -114,7 +114,7 @@
                     // to insert new bank details
                     $model->insertData(TABLE_SELLER_BANK, $data_array);
                     $this->session->set_flashdata("success", "Bank details added");
-                    redirect(base_url_admin('sellers/addSellerDocuments/' . $seller_id));
+                    redirect(base_url_admin('sellers/addSellerDocument/' . $seller_id));
                 }
                 else
                 {
@@ -134,7 +134,7 @@
                 {
                     $data["form_heading"] = "Edit Bank Details";
                     $bank_record = $model->fetchSelectedData('*', TABLE_SELLER_BANK, array('sb_seller_id' => $seller_id), 'sb_id', 'DESC', 1);
-                    $data['bank_record'] = @$bank_record[0];
+                    $data['record'] = @$bank_record[0];
                     $data["form_action"] = base_url_admin('sellers/addSellerBank/' . $seller_id . '/' . @$bank_record[0]['sb_id']);
                 }
 
