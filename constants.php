@@ -45,7 +45,7 @@
     define("TWITTER_DATA_WIDGET_ID", "440245931166822400");
     define("FACEBOOK_CALLBACK_URL", SITE_BASE_URL . "index/loginWithFacebook");
 
-    define("SITE_NAME", "Thread Crafts");
+    define("SITE_NAME", "Threadcrafts");
     define("SITE_TAGLINE", "Authentic weaves of culture");
     define("SITE_TITLE", SITE_NAME . " | " . SITE_TAGLINE);
     define("SITE_EMAIL", "support@threadcrafts.in");
