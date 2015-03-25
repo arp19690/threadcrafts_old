@@ -1,6 +1,6 @@
 <?php
 
-    function changeCover($seller_id)
+    function changeSellerCover($seller_id)
     {
         require_once APPPATH . '/models/common_model.php';
         $model = new Common_model();
@@ -37,7 +37,59 @@
         }
     }
 
-    function getUniqueCoverImageName($ext, $string_length = 15)
+    function changeSellerLogo($seller_id)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+
+        // get the extension of the image
+        $ext = getFileExtension($_FILES['logo_img']['name']);
+        $allowed_ext = array('jpg', 'jpeg', 'png', 'gif');
+
+        list($img_width, $img_height, $img_type, $img_attr) = getimagesize($_FILES["logo_img"]['tmp_name']);
+
+        // if a valid image
+        if (in_array(strtolower($ext), $allowed_ext) && $img_width == SELLER_COVER_IMG_WIDTH && $img_height == SELLER_COVER_IMG_HEIGHT)
+        {
+            // unlink the previous image
+            $seller_record = $model->fetchSelectedData('seller_logo_image', TABLE_SELLER, array('seller_id' => $seller_id));
+            if (!empty($seller_record[0]['seller_logo_image']))
+            {
+                @unlink($seller_record[0]['seller_logo_image']);
+            }
+
+            // get a random image name
+            $fileName = getUniqueSellerLogoImageName($ext);
+            // upload the image
+            uploadImage($_FILES['logo_img']['tmp_name'], $fileName, SELLER_LOGO_PATH, SELLER_LOGO_IMG_WIDTH, SELLER_LOGO_IMG_HEIGHT);
+
+            // update into the database
+            $logo_image_name = SELLER_LOGO_PATH . '/' . $fileName;
+            $model->updateData(TABLE_SELLER, array('seller_logo_image' => $logo_image_name), array('seller_id' => $seller_id));
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    function getUniqueSellerLogoImageName($ext, $string_length = 15)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength(time(), $string_length) . '.' . $ext;
+        $image_name = SELLER_LOGO_PATH . '/' . $random_number;
+        $is_exists = $model->is_exists('seller_id', TABLE_SELLER, array('seller_logo_image' => $image_name));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueSellerLogoImageName($string_length);
+        }
+
+        return $random_number;
+    }
+
+    function getUniqueSellerCoverImageName($ext, $string_length = 15)
     {
         require_once APPPATH . '/models/common_model.php';
         $model = new Common_model();
@@ -46,7 +98,7 @@
         $is_exists = $model->is_exists('seller_id', TABLE_SELLER, array('seller_cover_image' => $image_name));
         if (!empty($is_exists))
         {
-            $random_number = getUniqueCoverImageName($string_length);
+            $random_number = getUniqueSellerCoverImageName($string_length);
         }
 
         return $random_number;
