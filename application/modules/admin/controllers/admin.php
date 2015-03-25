@@ -41,7 +41,16 @@
             $model = new Common_model();
             $custom_model = new Custom_model();
 
-            $data = array();
+            $total_customers = $model->getTotalCount('user_id', TABLE_USERS);
+            $total_sellers= $model->getTotalCount('seller_id', TABLE_SELLER);
+            $total_products= $model->getTotalCount('product_id', TABLE_PRODUCTS);
+
+            $data = array(
+                'total_customers' => $total_customers[0]['totalcount'],
+                'total_sellers' => $total_sellers[0]['totalcount'],
+                'total_products' => $total_products[0]['totalcount'],
+                'total_earnings' => 0,
+            );
 
             $this->template->write_view("content", "index/dashboard", $data);
             $this->template->render();
