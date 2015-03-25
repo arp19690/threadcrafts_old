@@ -31,7 +31,7 @@
                             </div>
                             <div class="desc">Total Active Products</div>
                         </div>
-                        <a class="more" href="<?php echo base_url_seller("products?status=activated"); ?>">
+                        <a class="more" href="<?php echo base_url_seller("products"); ?>">
                             View all <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
