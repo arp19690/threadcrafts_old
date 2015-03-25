@@ -57,7 +57,7 @@
                 <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
                     <div class="dashboard-stat green">
                         <div class="visual">
-                            <i class="icon-list"></i>
+                            <i class="icon-th-large"></i>
                         </div>
                         <div class="details">
                             <div class="number">

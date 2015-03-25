@@ -41,7 +41,7 @@
         </li>
         <li class="has-sub ">
             <a href="javascript:;">
-                <i class="icon-file"></i> 
+                <i class="icon-th-large"></i> 
                 <span class="title">Products</span>
                 <span class="arrow "></span>
             </a>
