@@ -80,7 +80,7 @@
                                                 foreach ($document_record as $dKey => $dValue)
                                                 {
                                                     ?>
-                                                    <li><span><?php echo $dValue['sdc_document_type'] . ' (' . getSellerStatusText($dValue['sdc_status']) . ')'; ?></span><span><a href="<?php echo base_url($dValue['sdc_document_path']); ?>" target="_blank">View</a></span></li>
+                                                    <li><span><?php echo $dValue['sdc_document_type'] . ' (' . getSellerDocumentStatusText($dValue['sdc_status']) . ') '; ?></span><span><a href="<?php echo base_url($dValue['sdc_document_path']); ?>" target="_blank">View</a></span></li>
                                                     <?php
                                                 }
                                             }

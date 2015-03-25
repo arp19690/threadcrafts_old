@@ -78,7 +78,7 @@
     define("USER_IMG_WIDTH", 300);
     define("USER_IMG_HEIGHT", 300);
     define("USER_IMG_PATH", SITE_BASE_URL . "/resources/user-images");
-    
+
     define("SELLER_COVER_IMG_WIDTH", 1100);
     define("SELLER_COVER_IMG_HEIGHT", 360);
     define("SELLER_COVER_IMG_PATH", SITE_BASE_URL . "/resources/seller-cover-images");
@@ -86,7 +86,9 @@
     define("SELLER_LOGO_IMG_WIDTH", 400);
     define("SELLER_LOGO_IMG_HEIGHT", 400);
     define("SELLER_LOGO_PATH", "resources/seller-logos");
-    
+
+    $doc_type_array = array('pan card', 'aadhar card', 'electricity bill', 'address proof', 'drivers licence', 'passport', 'ration card');
+    define("SELLER_DOC_TYPE_ARRAY", json_encode($doc_type_array));
     define("SELLER_DOC_PATH", "resources/seller-docs");
 
     define("DISQUS_SHORTNAME", "threadcrafts");

@@ -1,24 +1,3 @@
-<?php
-    $result = array();
-    if (isset($record))
-    {
-        foreach ($record as $key => $value)
-        {
-            $result[$key] = $value;
-        }
-    }
-    else
-    {
-        $result["sb_bank_name"] = "";
-        $result["sb_account_holder"] = "";
-        $result["sb_account_number"] = "";
-        $result["sb_ifsc_code"] = "";
-    }
-
-    if (!isset($form_action))
-        $form_action = "";
-?>
-
 <!-- BEGIN PAGE -->  
 <div class="page-content">
     <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -49,29 +28,34 @@
                     </div>
                     <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="<?php echo $form_action; ?>" method="post" class="form-horizontal">                                               
+                        <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
                             <div class="control-group">
-                                <label class="control-label">Bank Name<span class="required">*</span></label>
+                                <label class="control-label">Document type<span class='required'>*</span></label>
                                 <div class="controls">
-                                    <input name="sb_bank_name" required="required" value="<?php echo set_value("sb_bank_name", $result["sb_bank_name"]); ?>" type="text" class="span6 m-wrap"/>
+                                    <select name='sdc_document_type[]' class='m-wrap span6'>
+                                        <option value=''>Please select</option>
+                                        <?php
+                                            $seller_doc_type = json_decode(SELLER_DOC_TYPE_ARRAY);
+                                            foreach ($seller_doc_type as $val)
+                                            {
+                                                echo '<option value="' . $val . '">' . ucwords($val) . '</option>';
+                                            }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
+
                             <div class="control-group">
-                                <label class="control-label">Account Holder Name<span class="required">*</span></label>
+                                <label class="control-label">Additional comments</label>
                                 <div class="controls">
-                                    <input name="sb_account_holder" required="required" value="<?php echo set_value("sb_account_holder", $result["sb_account_holder"]); ?>" type="text" class="span6 m-wrap"/>
+                                    <textarea name='sdc_additional_comments[]' class='m-wrap span6' placeholder="Additonal comments (optional)"></textarea>
                                 </div>
                             </div>
+
                             <div class="control-group">
-                                <label class="control-label">Account Number<span class="required">*</span></label>
+                                <label class="control-label">Upload document<span class='required'>*</span></label>
                                 <div class="controls">
-                                    <input name="sb_account_number" required="required" value="<?php echo set_value("sb_account_number", $result["sb_account_number"]); ?>" type="text" class="span6 m-wrap"/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">IFS Code<span class="required">*</span></label>
-                                <div class="controls">
-                                    <input name="sb_ifsc_code" required="required" value="<?php echo set_value("sb_ifsc_code", $result["sb_ifsc_code"]); ?>" type="text" class="span6 m-wrap"/>
+                                    <input type="file" name="seller_doc[]" class="m-wrap span6" required="required"/>
                                 </div>
                             </div>
 

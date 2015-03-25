@@ -151,31 +151,36 @@
             {
                 $arr = $this->input->post();
 
-                $ext = getFileExtension($_FILES['seller_doc']['name']);
-                $doc_name = getUniqueSellerDocumentName($ext);
-                $doc_path = SELLER_DOC_PATH . '/' . $doc_name;
-                $data_array = array(
-                    'sdc_seller_id' => $seller_id,
-                    'sdc_document_type' => addslashes($arr['sdc_document_type']),
-                    'sdc_document_path' => $doc_path,
-                    'sdc_status' => '1',
-                    'sdc_ipaddress' => USER_IP,
-                    'sdc_useragent' => USER_AGENT
-                );
-
-                $img_ext_Array = array('jpg', 'jpeg', 'png', 'gif');
-                if (in_array(strtolower($ext), $img_ext_Array))
+                foreach ($arr['sdc_document_type'] as $key => $value)
                 {
-                    list($width, $height, $type, $attr) = getimagesize($_FILES['seller_doc']['tmp_name']);
-                    uploadImage($_FILES['seller_doc']['tmp_name'], $doc_name, SELLER_DOC_PATH, $width);
-                }
-                else
-                {
-                    move_uploaded_file($_FILES['seller_doc']['tmp_name'], $doc_path);
+                    $ext = getFileExtension($_FILES['seller_doc']['name'][$key]);
+                    $doc_name = getUniqueSellerDocumentName($ext);
+                    $doc_path = SELLER_DOC_PATH . '/' . $doc_name;
+                    $data_array = array(
+                        'sdc_seller_id' => $seller_id,
+                        'sdc_document_type' => addslashes($value),
+                        'sdc_document_path' => $doc_path,
+                        'sdc_additional_comments' => addslashes($arr['sdc_additional_comments'][$key]),
+                        'sdc_status' => '1',
+                        'sdc_ipaddress' => USER_IP,
+                        'sdc_useragent' => USER_AGENT
+                    );
+
+                    $img_ext_Array = array('jpg', 'jpeg', 'png', 'gif');
+                    if (in_array(strtolower($ext), $img_ext_Array))
+                    {
+                        list($width, $height, $type, $attr) = getimagesize($_FILES['seller_doc']['tmp_name'][$key]);
+                        uploadImage($_FILES['seller_doc']['tmp_name'][$key], $doc_name, SELLER_DOC_PATH, $width);
+                    }
+                    else
+                    {
+                        move_uploaded_file($_FILES['seller_doc']['tmp_name'][$key], $doc_path);
+                    }
+
+                    // to insert new documents
+                    $model->insertData(TABLE_SELLER_DOCUMENTS, $data_array);
                 }
 
-                // to insert new documents
-                $model->insertData(TABLE_SELLER_DOCUMENTS, $data_array);
                 $this->session->set_flashdata("success", "Seller documents added");
                 redirect(base_url_admin('sellers/sellerDetail/' . $seller_id));
             }
