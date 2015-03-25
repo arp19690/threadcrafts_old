@@ -34,9 +34,9 @@
                 <span class="arrow "></span>
             </a>
             <ul class="sub">
-                <li ><a href="<?php echo base_url_admin("categories/grandCategories"); ?>">Grand Category</a></li>
-                <li ><a href="<?php echo base_url_admin("categories/parentCategories"); ?>">Parent Category</a></li>
-                <li ><a href="<?php echo base_url_admin("categories/childCategories"); ?>">Child Category</a></li>
+                <li ><a href="<?php echo base_url_admin("categories/grandCategories"); ?>">State</a></li>
+                <li ><a href="<?php echo base_url_admin("categories/parentCategories"); ?>">Category</a></li>
+                <li ><a href="<?php echo base_url_admin("categories/childCategories"); ?>">Sub-Category</a></li>
             </ul>
         </li>
         <li class="has-sub ">
