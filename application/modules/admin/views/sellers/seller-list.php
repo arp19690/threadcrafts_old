@@ -44,7 +44,7 @@
                                         $full_name = ucwords($a_value["seller_fullname"]);
                                         $seller_email = $a_value["seller_email"];
                                         $seller_mobile = $a_value["seller_mobile"];
-                                        $seller_status = $a_value["seller_status"] == '1' ? 'Active' : 'Deactivated';
+                                        $seller_status = getSellerStatusText($a_value["seller_status"]);
                                         ?>
                                         <tr>
                                             <td><?php echo $full_name; ?></td>
