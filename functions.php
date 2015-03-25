@@ -74,6 +74,21 @@
         }
     }
 
+    function getUniqueSellerDocumentName($ext, $string_length = 15)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength(time(), $string_length) . '.' . $ext;
+        $doc_path = SELLER_DOC_PATH . '/' . $random_number;
+        $is_exists = $model->is_exists('sdc_id', TABLE_SELLER_DOCUMENTS, array('seller_document_path' => $doc_path));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueSellerDocumentName($ext, $string_length);
+        }
+
+        return $random_number;
+    }
+
     function getUniqueSellerLogoImageName($ext, $string_length = 15)
     {
         require_once APPPATH . '/models/common_model.php';
@@ -83,7 +98,7 @@
         $is_exists = $model->is_exists('seller_id', TABLE_SELLER, array('seller_logo_image' => $image_name));
         if (!empty($is_exists))
         {
-            $random_number = getUniqueSellerLogoImageName($string_length);
+            $random_number = getUniqueSellerLogoImageName($ext, $string_length);
         }
 
         return $random_number;
