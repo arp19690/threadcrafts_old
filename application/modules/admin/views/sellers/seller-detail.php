@@ -33,7 +33,7 @@
                             <div class="clear">
                                 <div class="span2">
                                     <img src="<?php echo getImage($record['seller_logo_image']); ?>" alt="" style="max-width: 100%;"/>
-                                    <p><a href="#"><span class="icon-picture"></span>&nbsp;Change Logo</a></p>
+                                    <p><a href="#logoModal" role="button" class="btn" data-toggle="modal"><span class="icon-picture"></span>&nbsp;Change Logo</a></p>
                                 </div>
                                 <div class="span4">
                                     <h3>Seller details</h3>
