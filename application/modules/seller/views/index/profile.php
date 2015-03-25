@@ -35,10 +35,16 @@
                     <div class="tab-content">
                         <div class="tab-pane profile-classic row-fluid active" id="tab_1_1">
                             <div class='span12'>
-                                <h3>Logo</h3>
-                                <div class="span2">
-                                    <p><?php echo $page_title; ?></p>
+                                <h3><?php echo $page_title; ?></h3>
+                                <div class="span2 text-center">
+                                    <p>Logo</p>
                                     <img src="<?php echo getImage($record['seller_logo_image']); ?>" alt="<?php echo $page_title; ?>" style="max-width: 100%;max-height: 100px;"/>
+                                    <p><a href="#logoModal" role="button" data-toggle="modal" style="color: inherit;font-size: inherit;background: none;opacity: 1;position: static"><span class="icon-picture"></span>&nbsp;Change logo</a></p>
+                                </div>
+                                <div class="span9 text-center">
+                                    <p>Cover Image</p>
+                                    <img src="<?php echo getImage($record['seller_cover_image']); ?>" alt="<?php echo $page_title; ?>" style="max-width: 100%;max-height: 100px;"/>
+                                    <p><a href="#coverModal" role="button" data-toggle="modal" style="color: inherit"><span class="icon-picture"></span>&nbsp;Change cover</a></p>
                                 </div>
                             </div>
 
@@ -83,3 +89,45 @@
     <!-- END PAGE CONTAINER-->	
 </div>
 <!-- END PAGE -->
+
+<!-- Cover Modal -->
+<div id="coverModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Change cover</h3>
+    </div>
+    <div class="modal-body">
+        <form method="post" enctype="multipart/form-data" action="<?php echo base_url_seller('changeCover'); ?>">
+            <div class="control-group">
+                <label class="control-label">Choose image</label>
+                <div class="controls">
+                    <input type="file" name="cover_img" required="required" data-required="1" class="span6 m-wrap"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn green">Upload</button>
+    </div>
+</div>
+
+<!-- Logo Modal -->
+<div id="logoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Change logo</h3>
+    </div>
+    <div class="modal-body">
+        <form method="post" enctype="multipart/form-data" action="<?php echo base_url_seller('changeLogo'); ?>">
+            <div class="control-group">
+                <label class="control-label">Choose image</label>
+                <div class="controls">
+                    <input type="file" name="logo_img" required="required" data-required="1" class="span6 m-wrap"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn green">Upload</button>
+    </div>
+</div>

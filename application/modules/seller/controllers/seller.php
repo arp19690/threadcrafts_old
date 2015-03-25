@@ -179,5 +179,43 @@
             $this->template->render();
         }
 
+        public function changeCover()
+        {
+            if (isset($_FILES['cover_img']) && !empty($_FILES['cover_img']))
+            {
+            $seller_id = $this->seller_id;
+                $upload = changeSellerCover($seller_id);
+                if ($upload == TRUE)
+                {
+                    $this->session->set_flashdata("success", "Cover image uploaded");
+                }
+                else
+                {
+                    $this->session->set_flashdata("error", "An error occured while uploading image");
+                }
+
+                redirect(base_url_seller('profile'));
+            }
+        }
+
+        public function changeLogo()
+        {
+            if (isset($_FILES['logo_img']) && !empty($_FILES['logo_img']))
+            {
+            $seller_id = $this->seller_id;
+                $upload = changeSellerLogo($seller_id);
+                if ($upload == TRUE)
+                {
+                    $this->session->set_flashdata("success", "Logo uploaded");
+                }
+                else
+                {
+                    $this->session->set_flashdata("error", "An error occured while uploading logo");
+                }
+
+                redirect(base_url_seller('profile'));
+            }
+        }
+
     }
     
