@@ -143,6 +143,51 @@
             }
         }
 
+        public function addSellerDocument($seller_id)
+        {
+            $model = new Common_model();
+
+            if ($this->input->post())
+            {
+                $arr = $this->input->post();
+
+                $ext = getFileExtension($_FILES['seller_doc']['name']);
+                $doc_name = getUniqueSellerDocumentName($ext);
+                $doc_path = SELLER_DOC_PATH . '/' . $doc_name;
+                $data_array = array(
+                    'sdc_seller_id' => $seller_id,
+                    'sdc_document_type' => addslashes($arr['sdc_document_type']),
+                    'sdc_document_path' => $doc_path,
+                    'sdc_status' => '1',
+                    'sdc_ipaddress' => USER_IP,
+                    'sdc_useragent' => USER_AGENT
+                );
+
+                $img_ext_Array = array('jpg', 'jpeg', 'png', 'gif');
+                if (in_array(strtolower($ext), $img_ext_Array))
+                {
+                    list($width, $height, $type, $attr) = getimagesize($_FILES['seller_doc']['tmp_name']);
+                    uploadImage($_FILES['seller_doc']['tmp_name'], $doc_name, SELLER_DOC_PATH, $width);
+                }
+                else
+                {
+                    move_uploaded_file($_FILES['seller_doc']['tmp_name'], $doc_path);
+                }
+
+                // to insert new documents
+                $model->insertData(TABLE_SELLER_DOCUMENTS, $data_array);
+                $this->session->set_flashdata("success", "Seller documents added");
+                redirect(base_url_admin('sellers/sellerDetail/' . $seller_id));
+            }
+            else
+            {
+                $data["form_heading"] = "Add Seller Document";
+
+                $this->template->write_view("content", "sellers/seller-document-form", $data);
+                $this->template->render();
+            }
+        }
+
         public function deactivateSeller($seller_id)
         {
             if ($seller_id)
