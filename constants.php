@@ -83,6 +83,10 @@
     define("SELLER_COVER_IMG_HEIGHT", 360);
     define("SELLER_COVER_IMG_PATH", SITE_BASE_URL . "/resources/seller-cover-images");
 
+    define("SELLER_LOGO_IMG_WIDTH", 400);
+    define("SELLER_LOGO_IMG_HEIGHT", 400);
+    define("SELLER_LOGO_PATH", "resources/seller-logos");
+
     define("DISQUS_SHORTNAME", "threadcrafts");
     define("FACEBOOK_SOCIAL_LINK", "https://www.facebook.com/ThreadCraftsIn");
     define("TWITTER_SOCIAL_LINK", "https://twitter.com/ThreadCrafts");
@@ -98,8 +102,6 @@
     define("PRODUCT_IMG_PATH_SMALL", "resources/product-images/small");
 
     define("PRODUCT_DESC_MIN_LENGTH", 300);
-
-    define("SELLER_LOGO_PATH", "resources/seller-logos");
 
     define("MIN_PRODUCT_IMAGES", 3);
     define("MAX_PRODUCT_IMAGES", 5);
