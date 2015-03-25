@@ -28,10 +28,13 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane profile-classic row-fluid active" id="tab_1_1">
-                            <div class="seller-cover-div clear"></div>
+                            <div class="seller-cover-div clear"><p class="text-right"><a href="#coverModal" role="button" class="btn" data-toggle="modal" style="background: rgba(0,0,0,0.5);color: #fff;padding: 2px 5px;"><span class="icon-picture"></span>&nbsp;Change Cover</a></p></div>
 
                             <div class="clear">
-                                <div class="span2"><img src="<?php echo getImage($record['seller_logo_image']); ?>" alt="" style="max-width: 100%;"/></div>
+                                <div class="span2">
+                                    <img src="<?php echo getImage($record['seller_logo_image']); ?>" alt="" style="max-width: 100%;"/>
+                                    <p><a href="#"><span class="icon-picture"></span>&nbsp;Change Logo</a></p>
+                                </div>
                                 <div class="span4">
                                     <h3>Seller details</h3>
                                     <ul class="unstyled">
@@ -87,3 +90,47 @@
     <!-- END PAGE CONTAINER-->	
 </div>
 <!-- END PAGE -->
+
+<!-- Cover Modal -->
+<div id="coverModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Change cover</h3>
+    </div>
+    <div class="modal-body">
+        <form method="post" enctype="multipart/form-data" action="<?php echo base_url_seller('changeCover');?>">
+            <div class="control-group">
+                <label class="control-label">Choose image</label>
+                <div class="controls">
+                    <input type="hidden" name="seller_id" value="<?php echo $record['seller_id']; ?>"/>
+                    <input type="file" name="cover_img" required="required" data-required="1" class="span6 m-wrap"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn green">Upload</button>
+    </div>
+</div>
+
+<!-- Logo Modal -->
+<div id="logoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Change logo</h3>
+    </div>
+    <div class="modal-body">
+        <form method="post" enctype="multipart/form-data" action="<?php echo base_url_seller('changeLogo');?>">
+            <div class="control-group">
+                <label class="control-label">Choose image</label>
+                <div class="controls">
+                    <input type="hidden" name="seller_id" value="<?php echo $record['seller_id']; ?>"/>
+                    <input type="file" name="logo_img" required="required" data-required="1" class="span6 m-wrap"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn green">Upload</button>
+    </div>
+</div>
