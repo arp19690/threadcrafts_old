@@ -29,10 +29,10 @@
                             <div class="number">
                                 <?php echo number_format($total_products); ?>
                             </div>
-                            <div class="desc">Total Listed Products</div>
+                            <div class="desc">Total Active Products</div>
                         </div>
-                        <a class="more" href="<?php echo base_url_seller("products"); ?>">
-                            View more <i class="m-icon-swapright m-icon-white"></i>
+                        <a class="more" href="<?php echo base_url_seller("products?status=activated"); ?>">
+                            View all <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                             <div class="desc">Total Earnings</div>
                         </div>
                         <a class="more" href="<?php echo base_url_seller("#"); ?>">
-                            View more <i class="m-icon-swapright m-icon-white"></i>
+                            View all <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
                 </div>

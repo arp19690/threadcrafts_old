@@ -39,6 +39,28 @@
                 $whereCondArr['cc_name'] = $this->input->get('cc');
                 $data['page_title'] = 'Sort: ' . $this->input->get('cc');
             }
+            if ($this->input->get('status'))
+            {
+                switch ($this->input->get('status'))
+                {
+                    case 'deactivated':
+                        $whereCondArr['product_status'] = '0';
+                        break;
+                    case 'activated':
+                        $whereCondArr['product_status'] = '1';
+                        break;
+                    case 'review':
+                        $whereCondArr['product_status'] = '2';
+                        break;
+                    case 'incomplete':
+                        $whereCondArr['product_status'] = '3';
+                        break;
+                    case 'rejected':
+                        $whereCondArr['product_status'] = '4';
+                        break;
+                }
+                $data['page_title'] = 'Sort: ' . ucwords($this->input->get('status')) . ' Products';
+            }
 
             $data['meta_title'] = $data['page_title'] . ' | ' . SITE_NAME;
             $data["alldata"] = $custom_model->getAllProductsList("*", $whereCondArr);
