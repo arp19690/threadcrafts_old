@@ -86,6 +86,8 @@
     define("SELLER_LOGO_IMG_WIDTH", 400);
     define("SELLER_LOGO_IMG_HEIGHT", 400);
     define("SELLER_LOGO_PATH", "resources/seller-logos");
+    
+    define("SELLER_DOC_PATH", "resources/seller-docs");
 
     define("DISQUS_SHORTNAME", "threadcrafts");
     define("FACEBOOK_SOCIAL_LINK", "https://www.facebook.com/ThreadCraftsIn");
