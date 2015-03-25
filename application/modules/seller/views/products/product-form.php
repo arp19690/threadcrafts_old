@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">State<span class="required">*</span></label>
+                                <label class="control-label">State it belongs<span class="required">*</span></label>
                                 <div class="controls">
                                     <select name="product_grand_category" class="span6 m-wrap" id="gc_id">
                                         <?php
@@ -100,7 +100,7 @@
                                     if (!empty($result["product_parent_category"]))
                                     {
                                         echo '<div class="control-group">
-                                                    <label class="control-label">Parent Category<span class="required">*</span></label>
+                                                    <label class="control-label">Category<span class="required">*</span></label>
                                                     <div class="controls">
                                                         <select name="product_parent_category" class="span6 m-wrap" id="pc_id">';
 
@@ -136,7 +136,7 @@
                                     if (!empty($result["product_child_category"]))
                                     {
                                         echo '<div class="control-group">
-                                                    <label class="control-label">Child Category<span class="required">*</span></label>
+                                                    <label class="control-label">Sub-Category<span class="required">*</span></label>
                                                     <div class="controls">
                                                         <select name="product_child_category" class="span6 m-wrap" id="pc_id">';
 
