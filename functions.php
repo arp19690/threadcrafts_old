@@ -411,12 +411,11 @@
     {
         require_once APPPATH . '/models/custom_model.php';
         $custom_model = new Custom_model();
-        $fields = "product_id, cc_name, pc_name, gc_name, product_url_key";
+        $product_fields = "product_id, cc_name, pc_name, gc_name, product_url_key";
         $whereCondArr = array("product_id" => $product_id);
-        $record = $custom_model->getAllProductsList($fields, $whereCondArr);
-        $record = $record[0];
+        $record = $custom_model->getAllProductsDetails($product_id, $product_fields, 'pd_id', 'pi_id', $whereCondArr);
 
-        $path = "products/view/" . $record["gc_name"] . "/" . $record["pc_name"] . "/" . $record["cc_name"] . "/" . $record["product_url_key"];
+        $path = "products/view/" . rawurlencode($record["gc_name"]) . "/" . rawurlencode($record["pc_name"]) . "/" . rawurlencode($record["cc_name"]) . "/" . rawurlencode($record["product_url_key"]);
         $url = (base_url($path));
         return ($url);
     }
