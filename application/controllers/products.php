@@ -223,16 +223,16 @@
                     $similar_records = $custom_model->getAllProductsList($product_fields, array("product_id != " => $product_id, "pc_id" => $record["pc_id"]), 'rand()', 'DESC', 4);
 //                prd($similar_records);
 
-                    $breadcrumbArray = array(
-                        $record["gc_name"] => base_url("products/view/" . urlencode($record["gc_name"])),
-                        $record["pc_name"] => base_url("products/view/" . urlencode($record["gc_name"]) . "/" . urlencode($record["pc_name"])),
-                        $record["cc_name"] => base_url("products/view/" . urlencode($record["gc_name"]) . "/" . urlencode($record["pc_name"]) . "/" . urlencode($record["cc_name"])),
-                        $record["product_title"] => getProductUrl($product_id),
-                    );
-                    $data["breadcrumbArray"] = $breadcrumbArray;
                     $data["record"] = $record;
                     $data["similar_records"] = $similar_records;
 
+                    $breadcrumbArray = array(
+                        $record["gc_name"] => base_url("products/view/" . rawurlencode($record["gc_name"])),
+                        $record["pc_name"] => base_url("products/view/" . rawurlencode($record["gc_name"]) . "/" . rawurlencode($record["pc_name"])),
+                        $record["cc_name"] => base_url("products/view/" . rawurlencode($record["gc_name"]) . "/" . rawurlencode($record["pc_name"]) . "/" . rawurlencode($record["cc_name"])),
+                        $record["product_title"] => getProductUrl($product_id),
+                    );
+                    $data["breadcrumbArray"] = $breadcrumbArray;
                     $data["meta_title"] = stripslashes($record["product_title"]) . " | " . getSellerDisplayName($record['seller_fullname'], $record['seller_company_name']) . " | " . SITE_NAME;
                     $data["meta_keywords"] = stripslashes($record["product_meta_keywords"]);
                     $data["meta_description"] = stripslashes($record["product_meta_description"]);
