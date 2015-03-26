@@ -28,9 +28,10 @@
                 $orderByType = "DESC";
 
             $result = $this->db->select($fields);
+            $result = $result->group_by("product_id");
             $result = $result->join(TABLE_PRODUCTS . " as p", "p.product_id=pv.pv_product_id", "INNER");
+            $result = $result->join(TABLE_PRODUCT_IMAGES . " as pi", "pi_product_id=product_id AND pi_primary = 1", "LEFT");
             $result = $result->order_by($orderByFieldName, $orderByType);
-            $result = $result->group_by("pv.pv_product_id");
             $result = $result->limit($limit);
             $result = $result->get_where(TABLE_PRODUCT_VISIT . " as pv", $whereCondArr);
             $result = $result->result_array();
@@ -41,7 +42,9 @@
         public function getFeaturedProducts($fields, $whereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
         {
             $result = $this->db->select($fields);
+            $result = $result->group_by("product_id");
             $result = $result->join(TABLE_PRODUCTS . " as p", "p.product_id=f.feature_product_id", "LEFT");
+            $result = $result->join(TABLE_PRODUCT_IMAGES . " as pi", "pi_product_id=product_id AND pi_primary = 1", "LEFT");
 
             if ($orderByFieldName != NULL)
             {
