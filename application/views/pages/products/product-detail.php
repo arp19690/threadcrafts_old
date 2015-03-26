@@ -1,7 +1,7 @@
 <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery.colorbox-min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.zoom-picture').click(function(event) {
+    $(document).ready(function () {
+        $('.zoom-picture').click(function (event) {
             event.preventDefault();
             $.colorbox({
                 href: $(this).find('img').attr('src'),
@@ -22,11 +22,6 @@
         <!--  = Product =  -->
         <!--  ==========  -->
         <div class="row blocks-spacer">
-
-            <?php
-                $product_images = getProductImages($record['product_image_and_color']);
-            ?>
-
             <!--  ==========  -->
             <!--  = Preview Images =  -->
             <!--  ==========  -->
@@ -34,12 +29,12 @@
                 <div class="product-preview">
                     <div class="picture">
                         <a href="#" class="zoom-picture" title="Click to preview">
-                            <img src="<?php echo $product_images[0]['url']; ?>" alt="<?php echo $product_images[0]['url']; ?>" width="940" height="940" id="mainPreviewImg" />
+                            <img src="<?php echo getImage($record['images_arr'][0]['pi_image_path']); ?>" alt="<?php echo $record['images_arr'][0]['pi_image_title']; ?>" width="940" height="940" id="mainPreviewImg" />
                         </a>
                     </div>
                     <div class="thumbs clearfix">
                         <?php
-                            foreach ($product_images as $pImageKey => $pImageValue)
+                            foreach ($record['images_arr'] as $pImageKey => $pImageValue)
                             {
                                 $thumb_active_class = '';
                                 if ($pImageKey == 0)
@@ -48,7 +43,7 @@
                                 }
 
                                 echo '<div class="thumb ' . $thumb_active_class . '">
-                                                    <a href="#mainPreviewImg"><img class="lazy" src="' . $pImageValue['url'] . '" data-original="' . $pImageValue['url'] . '" alt="' . $record["product_title"] . '" width="940" height="940" /></a>
+                                                    <a href="#mainPreviewImg"><img class="lazy" src="' . getImage($pImageValue['pi_image_path']) . '" data-original="' . getImage($pImageValue['pi_image_path']) . '" alt="' . $pImageValue['pi_image_title'] . '" width="940" height="940" /></a>
                                                 </div>';
                             }
                         ?>
@@ -61,40 +56,21 @@
             <!--  ==========  -->
             <div class="span7">
                 <div class="product-title">
-                    <h1 class="name"><?php echo $record["product_title"]; ?></h1>
-                    <div class="meta">                        
-                        <?php
-                            if (!empty($record["product_striked_price"]))
-                            {
-//                                echo '<span class="striked">' . displayProductPrice($record["product_striked_price"], $record["profit_percent"]) . '</span>';
-                                echo '<span class="striked">' . number_format($record["product_striked_price"]) . '</span>';
-                            }
-                        ?>
-                        <span class="tag"><?php echo displayProductPrice($record["product_cost_price"], $record["profit_percent"]); ?></span>
+                    <h1 class="name"><?php echo stripslashes($record["product_title"]); ?></h1>
+                    <div class="meta">                    
+                        <span class="tag"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($record["product_price"], 2); ?></span>
                         <span class="stock">
                             <?php
-                                $orderType = $record["product_order_type"];
+                                $orderType = 'in-stock';
                                 $orderType_className = "btn-success";
-                                switch ($orderType)
-                                {
-                                    case "in-stock":
-                                        $orderType_className = "btn-success";
-                                        break;
-                                    case "pre-order":
-                                        $orderType_className = "btn-warning";
-                                        break;
-                                    case "out-of-stock":
-                                        $orderType_className = "btn-danger";
-                                        break;
-                                }
                             ?>
-                            <span class="btn <?php echo $orderType_className; ?>"><?php echo ucwords(str_replace("-", " ", $orderType)); ?></span> 
+                            <span class="btn <?php echo $orderType_className; ?>"><?php echo $orderType; ?></span> 
                         </span>
                     </div>
                 </div>
                 <div class="product-description">
-                    <p>Product Code: <strong><?php echo $record["product_code"]; ?></strong></p>
-                    <p><?php echo $record["product_description"]; ?></p>
+                    <p>Product Code: <strong>#<?php echo $record["product_code"]; ?></strong></p>
+                    <p><?php echo stripslashes($record["product_description"]); ?></p>
                     <hr />
 
                     <!--  ==========  -->
@@ -122,19 +98,8 @@
 
                             echo '<span id="product-color-here"></span>';
                             echo '<span id="availability-here" class="inline-block"></span>';
-
-                            if ($added_to_cart == "no")
-                            {
-                                $add_cart_class_name = "btn-danger";
-                                $add_cart_text = "Add to Cart";
-                            }
-                            else
-                            {
-                                $add_cart_class_name = "btn-success";
-                                $add_cart_text = "In my Cart";
-                            }
                         ?>
-                        <button class="add-to-cart-btn btn <?php echo $add_cart_class_name; ?> pull-right"><i class="icon-shopping-cart"></i> &nbsp; <?php echo $add_cart_text; ?></button>
+                        <button class="add-to-cart-btn btn btn-success pull-right"><i class="icon-shopping-cart"></i> &nbsp; Add to cart</button>
                     </form>
 
                     <hr />
@@ -196,8 +161,8 @@
                                 <?php
                             }
                         ?>                        
-                         <!--&nbsp;&nbsp; | &nbsp;&nbsp;<a href="<?php echo base_url("products/addToCompare/" . $record["product_id"]); ?>" >Add to compare</a>-->
-                        <!--&nbsp;&nbsp; | &nbsp;&nbsp;<i class="icon-envelope-alt"></i> <a href="#">Email to a friend</a>-->
+                 <!--&nbsp;&nbsp; | &nbsp;&nbsp;<a href="<?php echo base_url("products/addToCompare/" . $record["product_id"]); ?>" >Add to compare</a>-->
+                <!--&nbsp;&nbsp; | &nbsp;&nbsp;<i class="icon-envelope-alt"></i> <a href="#">Email to a friend</a>-->
                     </div>
 
                 </div>
@@ -226,8 +191,8 @@
                         <p>
                             <?php
                                 $model = new Common_model();
-                                $shipping_record = $model->fetchSelectedData("static_page_content", TABLE_STATIC_PAGES, array("static_page_key" => "shippingDetails"));
-                                echo $shipping_record[0]["static_page_content"];
+                                $shipping_record = $model->fetchSelectedData("static_page_content", TABLE_STATIC_PAGES, array("static_page_key" => "shipping-details"));
+                                echo stripslashes($shipping_record[0]["static_page_content"]);
                             ?>
                         </p>
                     </div>
@@ -245,17 +210,17 @@
                 <h3>Comments</h3>
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
-                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                    var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>'; // required: replace example with your forum shortname
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>'; // required: replace example with your forum shortname
 
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function() {
-                        var dsq = document.createElement('script');
-                        dsq.type = 'text/javascript';
-                        dsq.async = true;
-                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
                 </script>
                 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
                 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
@@ -320,7 +285,7 @@
                                                 echo '<span class="striked">' . number_format($srValue["product_striked_price"]) . '</span>';
                                             }
                                             ?>
-                                            <span class="red-clr"><?php echo displayProductPrice($srValue["product_cost_price"], $srValue["profit_percent"]); ?></span>
+                                            <span class="red-clr"><?php echo displayProductPrice($srValue["product_price"], $srValue["profit_percent"]); ?></span>
                                         </h4>
                                         <h5 class="no-margin"><?php echo $srValue["product_title"]; ?></h5>
                                     </div>
@@ -347,14 +312,14 @@
 ?>
 
 <script>
-    $(document).ready(function() {
-        $("#add-to-wishlist").click(function(event) {
+    $(document).ready(function () {
+        $("#add-to-wishlist").click(function (event) {
             event.preventDefault();
             var product_id = $(this).attr("href");
             var product_quantity = $("#product_quantity").val();
             $.ajax({
                 url: "<?php echo base_url("ajax/addToWishlist"); ?>" + "/" + product_id + "/" + product_quantity,
-                success: function(response) {
+                success: function (response) {
                     if (response == "added")
                     {
                         $("#add-to-wishlist").html("In my wishlist");
@@ -371,14 +336,14 @@
             });
         });
 
-        $('#product_size').change(function() {
+        $('#product_size').change(function () {
             var product_size = $(this).val();
             if (product_size != '')
             {
                 $('#product-color-here').html('Please wait...');
                 $.ajax({
                     url: '<?php echo base_url('ajax/getProductColorsOnSize/' . $record['product_id']); ?>/' + product_size,
-                    success: function(response) {
+                    success: function (response) {
                         $('#product-color-here').html(response);
                     }
                 });
@@ -389,7 +354,7 @@
             }
         });
 
-        $(document).on('click', '#product_color option', function() {
+        $(document).on('click', '#product_color option', function () {
             var stock = $(this).attr('data-stock');
             if (stock == '0' || stock == '')
             {

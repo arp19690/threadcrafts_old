@@ -196,71 +196,56 @@
 
         public function productDetail($url_key)
         {
+            require_once APPPATH . "controllers/index.php";
+            $indexController = new Index();
             $data = array();
             $model = new Common_model();
             $custom_model = new Custom_model();
-            $fields = "*";
-            $record = $custom_model->getAllProductsList($fields, array("url_key" => $url_key));
-            if ($record[0]["product_status"] == "0")
+            $product_record = $model->fetchSelectedData('product_id', TABLE_PRODUCTS, array("product_url_key" => $url_key, 'product_status' => '1'));
+
+            if (empty($product_record))
             {
-                require_once APPPATH . "controllers/index.php";
-                $indexController = new Index();
                 $indexController->pageNotFound();
             }
             else
             {
-                $product_id = $record[0]['product_id'];
-                $similar_records = $custom_model->getAllProductsList($fields, array("product_id != " => $product_id, "product_parent_category" => $record[0]["pc_id"]), "rand()", "DESC", "4");
+                $product_id = $product_record[0]['product_id'];
+                $product_fields = "*";
+                $detail_fields = "*";
+                $images_fields = "*";
+                $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields, array("product_url_key" => $url_key, 'product_status' => '1'));
+                if ($record["product_status"] == "0")
+                {
+                    $indexController->pageNotFound();
+                }
+                else
+                {
+                    $similar_records = $custom_model->getAllProductsList($product_fields, array("product_id != " => $product_id, "pc_id" => $record["pc_id"]), 'rand()', 'DESC', 4);
 //                prd($similar_records);
 
-                $is_in_wishlist = "no";
-                $added_to_cart = "no";
-                if (isset($this->session->userdata["user_id"]))
-                {
-                    $user_id = $this->session->userdata["user_id"];
-                    $wishlist_record = $model->is_exists("wishlist_id", TABLE_WISHLIST, array("product_id" => $product_id, "user_id" => $user_id));
-                    if (!empty($wishlist_record))
-                        $is_in_wishlist = "yes";
+                    $breadcrumbArray = array(
+                        $record["gc_name"] => base_url("products/view/" . urlencode($record["gc_name"])),
+                        $record["pc_name"] => base_url("products/view/" . urlencode($record["gc_name"]) . "/" . urlencode($record["pc_name"])),
+                        $record["cc_name"] => base_url("products/view/" . urlencode($record["gc_name"]) . "/" . urlencode($record["pc_name"]) . "/" . urlencode($record["cc_name"])),
+                        $record["product_title"] => getProductUrl($product_id),
+                    );
+                    $data["breadcrumbArray"] = $breadcrumbArray;
+                    $data["record"] = $record;
+                    $data["similar_records"] = $similar_records;
 
-                    $cart_record = $model->is_exists("cart_id", TABLE_SHOPPING_CART, array("product_id" => $product_id, "user_id" => $user_id));
-                    if (!empty($cart_record))
-                        $added_to_cart = "yes";
+                    $data["meta_title"] = stripslashes($record["product_title"]) . " | " . getSellerDisplayName($record['seller_fullname'], $record['seller_company_name']) . " | " . SITE_NAME;
+                    $data["meta_keywords"] = stripslashes($record["product_meta_keywords"]);
+                    $data["meta_description"] = stripslashes($record["product_meta_description"]);
+                    $data["meta_logo_image"] = getImage(@$record['images_arr'][0]['pi_image_path']);
+
+                    if (USER_IP != '127.0.0.1')
+                    {
+                        $this->addProductVisit($product_id);
+                    }
+
+                    $this->template->write_view("content", "pages/products/product-detail", $data);
+                    $this->template->render();
                 }
-                $data["is_in_wishlist"] = $is_in_wishlist;
-                $data["added_to_cart"] = $added_to_cart;
-
-                $breadcrumbArray = array(
-                    $record[0]["gc_name"] => base_url("products/view/" . urlencode($record[0]["gc_name"])),
-                    $record[0]["pc_name"] => base_url("products/view/" . urlencode($record[0]["gc_name"]) . "/" . urlencode($record[0]["pc_name"])),
-                    $record[0]["cc_name"] => base_url("products/view/" . urlencode($record[0]["gc_name"]) . "/" . urlencode($record[0]["pc_name"]) . "/" . urlencode($record[0]["cc_name"])),
-                    $record[0]["product_title"] => getProductUrl($record[0]["product_id"]),
-                );
-                $data["breadcrumbArray"] = $breadcrumbArray;
-                $data["record"] = $record[0];
-                $data["similar_records"] = $similar_records;
-
-                $data["meta_title"] = $record[0]["product_title"] . " | " . SITE_NAME;
-                $data["meta_keywords"] = $record[0]["meta_keywords"];
-                $data["meta_description"] = $record[0]["meta_description"];
-                $product_image = getProductImages($record[0]['product_image_and_color']);
-                $data["meta_logo_image"] = $product_image[0]['url'];
-
-                // storing the product visit in the table
-                $user_id = 0;
-                if (isset($this->session->userdata["user_id"]))
-                    $user_id = $this->session->userdata["user_id"];
-
-                $visit_data_array = array(
-                    "product_id" => $product_id,
-                    "user_id" => $user_id,
-                    "visit_time" => time(),
-                    "user_ipaddress" => USER_IP,
-                    "user_agent" => USER_AGENT
-                );
-                $model->insertData(TABLE_PRODUCT_VISIT, $visit_data_array);
-
-                $this->template->write_view("content", "pages/products/product-detail", $data);
-                $this->template->render();
             }
         }
 
@@ -465,4 +450,27 @@
             }
         }
 
+        public function addProductVisit($product_id, $user_id = NULL)
+        {
+            // storing the product visit in the table
+            if ($user_id == NULL)
+            {
+                $user_id = 0;
+                if (isset($this->session->userdata["user_id"]))
+                {
+                    $user_id = $this->session->userdata["user_id"];
+                }
+            }
+
+            $visit_data_array = array(
+                "pv_product_id" => $product_id,
+                "pv_user_id" => $user_id,
+                "pv_ipaddress" => USER_IP,
+                "pv_useragent" => USER_AGENT
+            );
+            $model = new Common_model();
+            $model->insertData(TABLE_PRODUCT_VISIT, $visit_data_array);
+        }
+
     }
+    
