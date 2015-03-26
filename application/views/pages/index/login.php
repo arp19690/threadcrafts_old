@@ -40,7 +40,7 @@
                                         &nbsp;
                                         <a class="lost_password" href="<?php echo base_url("forgot-password"); ?>">Lost Password?</a>
                                         &nbsp;|&nbsp;
-                                        <a class="lost_password" href="<?php echo base_url("register"); ?>">Create account?</a>
+                                        <a class="lost_password" href="<?php echo base_url("signup"); ?>">Create account?</a>
                                     </div>
                                 </div>
                             </form>

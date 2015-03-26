@@ -91,7 +91,7 @@
                                         {
                                             ?>
                                             <a href="#loginModal" role="button" data-toggle="modal">Login</a> or
-                                            <a href="#registerModal" role="button" data-toggle="modal">Register</a> or simply, 
+                                            <a href="#signupModal" role="button" data-toggle="modal">Signup</a> or simply, 
                                             <a href='<?php echo base_url('facebook-login'); ?>'><img src="<?php echo IMAGES_PATH . "/buttons/login-with-facebook.png"; ?>" alt="Login with facebook" width="140"/></a>
                                             <?php
                                         }

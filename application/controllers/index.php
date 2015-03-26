@@ -56,7 +56,7 @@
             $socialLib->loginWithFacebook();
         }
 
-        public function register()
+        public function signup()
         {
             if (!isset($this->session->userdata["user_id"]))
             {
@@ -117,12 +117,12 @@
                     $data = array();
 
                     $breadcrumbArray = array(
-                        "Register" => base_url("register"),
+                        "Signup" => base_url("signup"),
                     );
                     $data["breadcrumbArray"] = $breadcrumbArray;
-                    $data["meta_title"] = "Register | " . SITE_NAME;
+                    $data["meta_title"] = "Signup | " . SITE_NAME;
 
-                    $this->template->write_view("content", "pages/index/register", $data);
+                    $this->template->write_view("content", "pages/index/signup", $data);
                     $this->template->render();
                 }
             }

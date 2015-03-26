@@ -175,13 +175,13 @@
         </div>
 
         <!--  = Register =  -->
-        <div id="registerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div id="signupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="registerModalLabel"><span class="light">Register</span> To <?php echo SITE_NAME; ?></h3>
+                <h3 id="singupModalLabel"><span class="light">Signup</span> To <?php echo SITE_NAME; ?></h3>
             </div>
             <div class="modal-body">
-                <form method="post" action="<?php echo base_url("register"); ?>">
+                <form method="post" action="<?php echo base_url("signup"); ?>">
                     <input type='hidden' name='url' value='<?php echo current_url(); ?>'/>
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="first_name">First Name</label>
@@ -214,11 +214,11 @@
                     </p><br/>
 
                     <button type="submit" class="btn btn-danger input-block-level bold higher">
-                        REGISTER
+                        SIGNUP
                     </button>
                 </form>
                 <p class="center-align push-down-0">
-                    <a data-toggle="modal" role="button" href="#loginModal" data-dismiss="modal">Already Registered?</a>
+                    <a data-toggle="modal" role="button" href="#loginModal" data-dismiss="modal">Already have an account?</a>
                 </p>
             </div>
         </div>
@@ -249,7 +249,7 @@
 <script src="<?php echo JS_PATH; ?>/combined.js" type="text/javascript"></script>
 <?php
     $include_array = array(
-        'index/register',
+        'index/signup',
         'user/myAccount',
         'cart/checkoutStepTwo',
     );

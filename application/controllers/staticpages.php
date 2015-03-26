@@ -124,8 +124,7 @@
                 'shipping-details',
                 'terms',
                 'login',
-                'register',
-                'sign-up',
+                'signup',
                 'forgot-password',
             );
             foreach ($static_links_without_base_url as $slKey => $slValue)
