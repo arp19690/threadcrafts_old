@@ -16,7 +16,7 @@
                      data-speed="1000" 
                      data-start="500" 
                      data-easing="easeInOutBack">
-                     We give you best in-class authentic handiwork
+                    We give you best in-class authentic handiwork
                 </div>
 
                 <div class="caption lfl small_theme"
@@ -25,7 +25,7 @@
                      data-speed="1000" 
                      data-start="700" 
                      data-easing="easeInOutBack">
-                     Take a tour to our store to discover our wide range of hand-crafted and clothing products
+                    Take a tour to our store to discover our wide range of hand-crafted and clothing products
                 </div>
 
                 <a href="<?php echo base_url('products'); ?>" class="caption lfl btn btn-primary btn_theme"
@@ -80,7 +80,7 @@
                      data-speed="1000" 
                      data-start="500" 
                      data-easing="easeInOutBack">
-                     Accessories to look different?
+                    Accessories to look different?
                 </div>
 
                 <div class="caption lfl small_theme"
@@ -98,7 +98,7 @@
                    data-speed="1000" 
                    data-start="900" 
                    data-easing="easeInOutBack">
-                   See more...
+                    See more...
                 </a>
             </li><!-- /slide -->
 
@@ -220,7 +220,7 @@
                             $f_product_title = $fValue["product_title"];
                             $f_product_description = $fValue["product_description"];
                             $f_product_code = $fValue["product_code"];
-                            $f_product_cost_price = $fValue["product_cost_price"];
+                            $f_product_price = $fValue["product_price"];
                             $f_profit_percent = $fValue["profit_percent"];
                             $product_image = getProductImages($fValue["product_image_and_color"]);
                             ?>
@@ -240,7 +240,7 @@
                                         </div>
                                     </div>
                                     <div class="main-titles">
-                                        <h4 class="title"><?php echo displayProductPrice($f_product_cost_price, $f_profit_percent); ?></h4>
+                                        <h4 class="title"><?php echo displayProductPrice($f_product_price, $f_profit_percent); ?></h4>
                                         <h5 class="no-margin"><?php echo $f_product_title; ?></h5>
                                     </div>
                                     <!--<p class="desc"><?php echo substr($f_product_description, 0, 125); ?></p>-->
@@ -301,12 +301,11 @@
                     foreach ($new_products_array as $npKey => $npValue)
                     {
                         $np_product_id = $npValue["product_id"];
-                        $np_product_title = $npValue["product_title"];
-                        $np_product_description = $npValue["product_description"];
+                        $np_product_title = stripslashes($npValue["product_title"]);
+                        $np_product_description = stripslashes($npValue["product_description"]);
                         $np_product_code = $npValue["product_code"];
-                        $np_product_cost_price = $npValue["product_cost_price"];
-                        $np_profit_percent = $npValue["profit_percent"];
-                        $product_image = getProductImages($npValue["product_image_and_color"]);
+                        $np_product_price = $npValue["product_price"];
+                        $np_product_image = getImage($npValue['pi_image_path']);
                         ?>
                         <!--  ==========  -->
                         <!--  = Product =  -->
@@ -316,24 +315,17 @@
                                 <div class="product-inner">
                                     <div class="product-img">
                                         <div class="picture">
-                                            <img class="lazy" src="<?php echo $product_image[0]['url']; ?>" data-original="<?php echo $product_image[0]['url']; ?>" alt="<?php echo $np_product_title; ?>" width="540" height="374" />
+                                            <img class="lazy" src="<?php echo $np_product_image; ?>" data-original="<?php echo $np_product_image; ?>" alt="<?php echo stripslashes($npValue['pi_image_title']); ?>" width="540" height="374" />
                                             <div class="img-overlay">
                                                 <a href="<?php echo getProductUrl($np_product_id); ?>" class="btn more btn-primary">View</a>
-                                                <!--<a href="<?php echo base_url("products/addToCartGet/$np_product_id"); ?>" class="btn buy btn-danger">Add to Cart</a>-->
                                             </div>
                                         </div>
                                     </div>
                                     <div class="main-titles no-margin">
-                                        <h4 class="title"><?php echo displayProductPrice($np_product_cost_price, $np_profit_percent); ?></h4>
+                                        <h4 class="title"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($np_product_price, 2); ?></h4>
                                         <h5 class="no-margin"><?php echo $np_product_title; ?></h5>
                                     </div>
-                                    <!--<p class="desc"><?php echo substr($np_product_description, 0, 125); ?></p>-->
                                     <div class="desc"><?php echo substr($np_product_description, 0, 125); ?></div>
-                                    <!--                                    <div class="row-fluid hidden-line">
-                                                                            <div class="span6">
-                                                                                <a href="#" class="btn btn-small add-to-compare-ajax" title="Add to compare"><i class="icon-exchange"></i></a>
-                                                                            </div>
-                                                                        </div>-->
                                 </div>
                             </div>
                         </div> <!-- /product -->
@@ -378,12 +370,11 @@
                     foreach ($popular_products as $ppKey => $ppValue)
                     {
                         $pp_product_id = $ppValue["product_id"];
-                        $pp_product_title = $ppValue["product_title"];
-                        $pp_product_description = $ppValue["product_description"];
+                        $pp_product_title = stripslashes($ppValue["product_title"]);
+                        $pp_product_description = stripslashes($ppValue["product_description"]);
                         $pp_product_code = $ppValue["product_code"];
-                        $pp_product_cost_price = $ppValue["product_cost_price"];
-                        $pp_profit_percent = $ppValue["profit_percent"];
-                        $product_image = getProductImages($ppValue["product_image_and_color"]);
+                        $pp_product_price = $ppValue["product_price"];
+                        $pp_product_image = getImage($ppValue['pi_image_path']);
                         ?>
                         <!--  ==========  -->
                         <!--  = Product =  -->
@@ -393,7 +384,7 @@
                                 <div class="product-inner">
                                     <div class="product-img">
                                         <div class="picture">
-                                            <img class="lazy" src="<?php echo $product_image[0]['url']; ?>" data-original="<?php echo $product_image[0]['url']; ?>" alt="<?php echo $pp_product_title; ?>" width="540" height="412" />
+                                            <img class="lazy" src="<?php echo $pp_product_image; ?>" data-original="<?php echo $pp_product_image; ?>" alt="<?php echo stripslashes($ppValue['pi_image_path']); ?>" width="540" height="412" />
                                             <div class="img-overlay">
                                                 <a href="<?php echo getProductUrl($pp_product_id); ?>" class="btn more btn-primary">View</a>
                                                 <!--<a href="<?php echo base_url("products/addToCartGet/$pp_product_id"); ?>" class="btn buy btn-danger">Add to Cart</a>-->
@@ -401,24 +392,10 @@
                                         </div>
                                     </div>
                                     <div class="main-titles no-margin">
-                                        <h4 class="title"><?php echo displayProductPrice($pp_product_cost_price, $pp_profit_percent); ?></h4>
+                                        <h4 class="title"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($pp_product_price, 2); ?></h4>
                                         <h5 class="no-margin"><?php echo $pp_product_title . " (" . $pp_product_code . ")"; ?></h5>
                                     </div>
-                                    <!--<p class="desc"><?php echo substr($pp_product_description, 0, 125); ?></p>-->
                                     <div class="desc"><?php echo substr($pp_product_description, 0, 125); ?></div>
-                                    <!--                                    <div class="row-fluid hidden-line">
-                                                                            <div class="span6">
-                                                                                <a href="#" class="btn btn-small"><i class="icon-heart"></i></a>
-                                                                                <a href="#" class="btn btn-small"><i class="icon-exchange"></i></a>
-                                                                            </div>
-                                                                            <div class="span6 align-right">
-                                                                                <span class="icon-star stars-clr"></span>
-                                                                                <span class="icon-star stars-clr"></span>
-                                                                                <span class="icon-star"></span>
-                                                                                <span class="icon-star"></span>
-                                                                                <span class="icon-star"></span>
-                                                                            </div>
-                                                                        </div>-->
                                 </div>
                             </div>
                         </div> <!-- /product -->
@@ -430,4 +407,3 @@
         </div> <!-- /most popular -->
         <?php
     }
-?>

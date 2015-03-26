@@ -17,7 +17,8 @@
 
             $whereCondArr = array("product_status" => "1");
             $featured_records = $custom_model->getFeaturedProducts('product_id, product_title, product_code, product_price, product_description', $whereCondArr);
-            $new_products_array = $custom_model->getAllProductsList('product_id, product_title, product_code, product_price, product_description', $whereCondArr, 'product_id', 'DESC', 8);
+            $new_products_array = $custom_model->getAllProductsList('product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title', $whereCondArr, 'product_id', 'DESC', 8);
+//            prd($new_products_array);
             $popular_products = $custom_model->getPopularProducts('product_id, product_title, product_code, product_price, product_description', $whereCondArr);
 
             $data["featured_array"] = $featured_records;
