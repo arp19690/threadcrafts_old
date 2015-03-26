@@ -29,7 +29,7 @@
                                 <?php
                                     foreach ($category_name_records as $cKey => $cValue)
                                     {
-                                        echo '<a href="#" data-target=".filter--' . $cValue["cc_name"] . '" class="selectable"><i class="box"></i> ' . $cValue["cc_name"] . '</a>';
+                                        echo '<a href="#" data-target=".filter--' . $cValue . '" class="selectable"><i class="box"></i> ' . $cValue . '</a>';
                                     }
                                 ?>
 
@@ -134,7 +134,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="main-titles no-margin">
-                                                    <h4 class="title"><?php echo DEFAULT_CURRENCY_SYMBOL.number_format($product_price, 2); ?></h4>
+                                                    <h4 class="title"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($product_price, 2); ?></h4>
                                                     <h5 class="no-margin isotope--title"><?php echo $product_title; ?></h5>
                                                 </div>
                                             </div>

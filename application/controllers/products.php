@@ -74,20 +74,18 @@
 
         public function childList($pc_name)
         {
-            $category_name_records = array();
-            $gc_name = "";
             $model = new Common_model();
             $custom_model = new Custom_model();
             $record = $model->fetchSelectedData("pc_id", TABLE_PARENT_CATEGORY, array("pc_name" => $pc_name));
             $pc_id = $record[0]["pc_id"];
             $fields = "*";
-            $records = $custom_model->getAllProductsList($fields, array("product_parent_category" => $pc_id, "product_status" => "1"), "product_id", "DESC");
-            if (!empty($records))
+            $records = $custom_model->getAllProductsList($fields, array("pc_id" => $pc_id, "product_status" => "1"), "product_id", "DESC");
+            $gc_name = stripslashes($records[0]['gc_name']);
+            $pc_name = stripslashes($records[0]['pc_name']);
+            $category_name_records = array();
+            foreach ($records as $key => $value)
             {
-                $category_name_records = $model->fetchSelectedData("cc_name", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $pc_id), "cc_name");
-//            prd($records);
-
-                $gc_name = $records[0]["gc_name"];
+                $category_name_records[] = $value['cc_name'];
             }
 
             $data["records"] = $records;
@@ -95,7 +93,7 @@
             $data["product_page_heading"] = urldecode($pc_name);
             $breadcrumbArray = array(
                 $gc_name => base_url("products/view/" . urlencode($gc_name)),
-                urldecode($pc_name) => base_url("products/view/" . urlencode($gc_name) . "/" . urlencode($pc_name)),
+                $pc_name => base_url("products/view/" . rawurlencode($gc_name) . "/" . rawurlencode($pc_name)),
             );
             $data["breadcrumbArray"] = $breadcrumbArray;
             $data["meta_title"] = $records[0]["pc_name"] . " | " . SITE_NAME;
