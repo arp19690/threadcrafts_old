@@ -13,9 +13,13 @@
         public function getPopularProducts($fields, $whereCondArr = NULL, $orderByFieldName = null, $orderByType = null, $limit = "4")
         {
             if (empty($fields))
-                $fields = "COUNT(pv.product_id) as count";
+            {
+                $fields = "COUNT(pv.pv_product_id) as count";
+            }
             else
-                $fields .= ",COUNT(pv.product_id) as count";
+            {
+                $fields .= ", COUNT(pv.pv_product_id) as count";
+            }
 
             if ($orderByFieldName == NULL)
                 $orderByFieldName = "count";
@@ -24,20 +28,11 @@
                 $orderByType = "DESC";
 
             $result = $this->db->select($fields);
-            $result = $result->join(TABLE_PRODUCTS . " as p", "p.product_id=pv.product_id", "INNER");
+            $result = $result->join(TABLE_PRODUCTS . " as p", "p.product_id=pv.pv_product_id", "INNER");
             $result = $result->order_by($orderByFieldName, $orderByType);
-            $result = $result->group_by("pv.product_id");
+            $result = $result->group_by("pv.pv_product_id");
             $result = $result->limit($limit);
-
-            $tableName = TABLE_PRODUCT_VISIT . " as pv";
-            if ($whereCondArr == NULL)
-            {
-                $whereCondArr = array();
-            }
-            $whereCondArr["p.product_id !="] = "";
-
-            $result = $result->get_where($tableName, $whereCondArr);
-
+            $result = $result->get_where(TABLE_PRODUCT_VISIT . " as pv", $whereCondArr);
             $result = $result->result_array();
 
             return $result;
@@ -46,7 +41,7 @@
         public function getFeaturedProducts($fields, $whereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
         {
             $result = $this->db->select($fields);
-            $result = $result->join(TABLE_PRODUCTS . " as p", "p.product_id=f.product_id", "LEFT");
+            $result = $result->join(TABLE_PRODUCTS . " as p", "p.product_id=f.feature_product_id", "LEFT");
 
             if ($orderByFieldName != NULL)
             {
@@ -58,12 +53,7 @@
                 $result = $result->limit($limit);
             }
 
-            $tableName = TABLE_FEATURED . " as f";
-            if ($whereCondArr != NULL)
-                $result = $result->get_where($tableName, $whereCondArr);
-            else
-                $result = $result->get($tableName);
-
+            $result = $result->get_where(TABLE_FEATURED . " as f", $whereCondArr);
             $result = $result->result_array();
 
             return $result;

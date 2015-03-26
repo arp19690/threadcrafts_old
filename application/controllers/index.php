@@ -16,16 +16,12 @@
             $custom_model = new Custom_model();
 
             $whereCondArr = array("product_status" => "1");
+            $featured_records = $custom_model->getFeaturedProducts('product_id, product_title, product_code, product_price, product_description', $whereCondArr);
+            $new_products_array = $custom_model->getAllProductsList('product_id, product_title, product_code, product_price, product_description', $whereCondArr, 'product_id', 'DESC', 8);
+            $popular_products = $custom_model->getPopularProducts('product_id, product_title, product_code, product_price, product_description', $whereCondArr);
 
-            $featured_fields = "p.product_id, p.product_title, p.product_code, p.product_cost_price, p.product_description, p.profit_percent, p.product_image_and_color";
-            $featured_records = $custom_model->getFeaturedProducts($featured_fields, $whereCondArr);
             $data["featured_array"] = $featured_records;
-
-            $new_products_array = $model->fetchSelectedData($featured_fields, TABLE_PRODUCTS . " as p", $whereCondArr, "product_id", "DESC", "8");
             $data["new_products_array"] = $new_products_array;
-
-            $popular_fields = "p.product_id, p.product_title, p.product_code, p.product_cost_price, p.product_description, p.profit_percent, p.product_image_and_color";
-            $popular_products = $custom_model->getPopularProducts($popular_fields, $whereCondArr);
             $data["popular_products"] = $popular_products;
 
             $this->template->write_view("content", "pages/index/index", $data);
@@ -320,3 +316,4 @@
         }
 
     }
+    
