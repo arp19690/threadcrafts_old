@@ -87,7 +87,7 @@
             // to get product details and images now
             $model = new Common_model();
             $result[0]['details_arr'] = $details_Record = $model->fetchSelectedData($detail_fields, TABLE_PRODUCT_DETAILS, array('pd_product_id' => $product_id));
-            $result[0]['images_arr'] = $images_Record = $model->fetchSelectedData($images_fields, TABLE_PRODUCT_IMAGES, array('pi_product_id' => $product_id));
+            $result[0]['images_arr'] = $images_Record = $model->fetchSelectedData($images_fields, TABLE_PRODUCT_IMAGES, array('pi_product_id' => $product_id), 'pi_primary', 'DESC');
 
             return $result[0];
         }
@@ -99,8 +99,8 @@
             $result = $result->join(TABLE_PARENT_CATEGORY . " as pc", "pc.pc_id=cc.cc_pc_id", "INNER");
             $result = $result->join(TABLE_GRAND_CATEGORY . " as gc", "gc.gc_id=pc.pc_gc_id", "INNER");
             $result = $result->join(TABLE_SELLER . " as s", "s.seller_id=p.product_seller_id", "INNER");
-            $result = $result->join(TABLE_PRODUCT_IMAGES. " as pi", "product_id = pi_product_id AND pi_primary = 1", "LEFT");
-            $result = $result->join(TABLE_PRODUCT_DETAILS. " as pd", "product_id = pd_product_id", "LEFT");
+            $result = $result->join(TABLE_PRODUCT_IMAGES . " as pi", "product_id = pi_product_id AND pi_primary = 1", "LEFT");
+            $result = $result->join(TABLE_PRODUCT_DETAILS . " as pd", "product_id = pd_product_id", "LEFT");
 
             if ($orderByFieldName != NULL)
             {
