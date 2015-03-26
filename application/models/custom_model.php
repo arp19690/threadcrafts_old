@@ -102,11 +102,9 @@
             return $result[0];
         }
 
-        public function getAllProductsList($product_fields, $detail_fields = '*', $images_fields = '*', $whereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
+        public function getAllProductsList($product_fields, $productWhereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
         {
             $result = $this->db->select($product_fields);
-            $result = $result->join(TABLE_PRODUCT_DETAILS . " as pd", "pd.pd_product_id=p.product_id", "LEFT");
-            $result = $result->join(TABLE_PRODUCT_IMAGES . " as pi", "pi.pi_product_id=p.product_id", "LEFT");
             $result = $result->join(TABLE_CHILD_CATEGORY . " as cc", "cc.cc_id=p.product_child_category", "INNER");
             $result = $result->join(TABLE_PARENT_CATEGORY . " as pc", "pc.pc_id=cc.cc_pc_id", "INNER");
             $result = $result->join(TABLE_GRAND_CATEGORY . " as gc", "gc.gc_id=pc.pc_gc_id", "INNER");
@@ -122,21 +120,8 @@
                 $result = $result->limit($limit);
             }
 
-            $tableName = TABLE_PRODUCTS . " as p";
-            if ($whereCondArr != NULL)
-            {
-                $result = $result->get_where($tableName, $whereCondArr);
-            }
-            else
-            {
-                $result = $result->get($tableName);
-            }
-
+            $result = $result->get_where(TABLE_PRODUCTS . " as p", $productWhereCondArr);
             $result = $result->result_array();
-
-            // to get product details now
-            $model = new Common_model();
-            $detail_Record = $model->fetchSelectedData($detail_fields, TABLE_PRODUCT_DETAILS, $whereCondArr);
 
             return $result;
         }
