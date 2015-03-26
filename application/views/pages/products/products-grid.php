@@ -51,12 +51,11 @@
                                 </div>
                                 <?php
                                     $model = new Common_model();
-                                    $sub_sql = 'SELECT product_cost_price + ((product_cost_price*profit_percent)/100) as max_price FROM ' . TABLE_PRODUCTS . ' ORDER BY max_price DESC LIMIT 0,1';
-                                    $sql = 'SELECT product_cost_price + ((product_cost_price*profit_percent)/100) as min_price, (' . $sub_sql . ') as max_price FROM ' . TABLE_PRODUCTS . ' ORDER BY min_price LIMIT 0,1';
+                                    $sql = 'SELECT MAX(product_price) as max_price, MIN(product_price) as min_price FROM ' . TABLE_PRODUCTS;
                                     $record = $this->db->query($sql)->result_array();
                                 ?>
-                                <input type="text" data-initial="<?php echo $record[0]['max_price']; ?>" class="max-val pull-right" disabled />
-                                <input type="text" data-initial="<?php echo $record[0]['min_price']; ?>" class="min-val" disabled />
+                                <input type="text" data-initial="<?php echo round($record[0]['max_price'], 2); ?>" class="max-val pull-right" disabled />
+                                <input type="text" data-initial="<?php echo round($record[0]['min_price'], 2); ?>" class="min-val" disabled />
                             </div>
                         </div>
                     </div> <!-- /prices slider -->
@@ -110,13 +109,11 @@
                                 {
 //                                    prd($value);
                                     $product_id = $value["product_id"];
-                                    $product_title = $value["product_title"];
-//                                    $product_size = implode('|', $value['product_size_array']);
-//                                    $product_color = implode('|', $value['product_color_array']);
-                                    $product_price = getProductPrice($value["product_cost_price"], FALSE, TRUE, TRUE, $value["profit_percent"]);
+                                    $product_title = stripslashes($value["product_title"]);
+                                    $product_price = $value["product_price"];
                                     $category_name = $value["cc_name"];
-                                    $product_brand = "Thread Crafts";
-                                    $product_images = getProductImages($value['product_image_and_color']);
+                                    $product_brand = getSellerDisplayName($value['seller_fullname'], $value['seller_company_name']);
+                                    $product_image = getImage(NULL);
                                     $product_size = '';
                                     $product_color = '';
                                     ?>
@@ -129,7 +126,7 @@
                                             <div class="product-inner">
                                                 <div class="product-img">
                                                     <div class="picture">
-                                                        <img class="lazy" width="540" height="374" alt="<?php echo $product_title; ?>" src="<?php echo $product_images[0]['url']; ?>" data-original="<?php echo $product_images[0]['url']; ?>" />
+                                                        <img class="lazy" width="540" height="374" alt="<?php echo $product_title; ?>" src="<?php echo $product_image; ?>" data-original="<?php echo $product_image; ?>" />
                                                         <div class="img-overlay">
                                                             <a class="btn more btn-primary" href="<?php echo getProductUrl($product_id); ?>">View</a>
                                                             <!--<a class="btn buy btn-danger" href="<?php echo base_url("products/addToCartGet/$product_id"); ?>">Add to Cart</a>-->
@@ -137,22 +134,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="main-titles no-margin">
-                                                    <h4 class="title"><?php echo displayProductPrice($product_price, FALSE); ?></h4>
+                                                    <h4 class="title"><?php echo DEFAULT_CURRENCY_SYMBOL.number_format($product_price, 2); ?></h4>
                                                     <h5 class="no-margin isotope--title"><?php echo $product_title; ?></h5>
                                                 </div>
-                                                <!--                                                <div class="row-fluid hidden-line">
-                                                                                                    <div class="span6">
-                                                                                                        <a href="#" class="btn btn-small"><i class="icon-heart"></i></a>
-                                                                                                        <a href="#" class="btn btn-small"><i class="icon-exchange"></i></a>
-                                                                                                    </div>
-                                                                                                    <div class="span6 align-right">
-                                                                                                        <span class="icon-star stars-clr"></span>
-                                                                                                        <span class="icon-star stars-clr"></span>
-                                                                                                        <span class="icon-star"></span>
-                                                                                                        <span class="icon-star"></span>
-                                                                                                        <span class="icon-star"></span>
-                                                                                                    </div>
-                                                                                                </div>-->
                                             </div>
                                         </div>
                                     </div> <!-- /single product -->
