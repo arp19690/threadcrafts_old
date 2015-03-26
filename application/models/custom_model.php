@@ -95,6 +95,7 @@
         public function getAllProductsList($product_fields, $productWhereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
         {
             $result = $this->db->select($product_fields);
+            $result = $this->db->group_by('product_id');
             $result = $result->join(TABLE_CHILD_CATEGORY . " as cc", "cc.cc_id=p.product_child_category", "INNER");
             $result = $result->join(TABLE_PARENT_CATEGORY . " as pc", "pc.pc_id=cc.cc_pc_id", "INNER");
             $result = $result->join(TABLE_GRAND_CATEGORY . " as gc", "gc.gc_id=pc.pc_gc_id", "INNER");
