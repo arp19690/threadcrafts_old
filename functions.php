@@ -1,5 +1,17 @@
 <?php
 
+    function getSellerDisplayName($seller_fullname, $seller_company_name)
+    {
+        if (empty($seller_company_name))
+        {
+            return $seller_fullname;
+        }
+        else
+        {
+            return $seller_company_name;
+        }
+    }
+
     function changeSellerCover($seller_id)
     {
         require_once APPPATH . '/models/common_model.php';

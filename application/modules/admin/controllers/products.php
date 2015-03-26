@@ -218,22 +218,16 @@
         {
             if ($product_id)
             {
-                $model = new Common_model();
                 $custom_model = new Custom_model();
                 $data = array();
 
-                $record = $custom_model->getAllProductsList("*", array('p.product_id' => $product_id));
-                $record = $record[0];
-                unset($record["cc_id"], $record["pc_id"], $record["gc_id"], $record["pc_gc_id"], $record["cc_gc_id"], $record["cc_pc_id"]);
+                $product_fields = 'product_id, product_code, product_title, product_description, product_price, product_seller_price, product_profit_percent, product_shipping_charge, product_gift_charge, product_status, product_verified, seller_fullname, seller_company_name, seller_id';
+                $detail_fields = 'pd_id, pd_size, pd_color_name, pd_quantity, pd_min_quantity, pd_status';
+                $images_fields = 'pi_id, pi_image_title, pi_image_path';
+                $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields, NULL);
+//                prd($record);
 
-                $product_detail_record = $model->fetchSelectedData('*', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
-
-                $added_by_record = $model->fetchSelectedData("admin_username", TABLE_ADMIN, array("admin_id" => $record["product_added_by"]));
-
-                $record["product_added_by"] = $added_by_record[0]["admin_username"];
                 $data["record"] = $record;
-                $data["product_detail_record"] = $product_detail_record;
-
                 $this->template->write_view("content", "products/product-detail", $data);
                 $this->template->render();
             }
@@ -271,6 +265,14 @@
             }
         }
 
-    }
+        public function updateProductDetailStatus($pd_id, $code)
+        {
+            $model = new Common_model();
+            $product_record = $model->fetchSelectedData('pd_product_id', TABLE_PRODUCT_DETAILS, array('pd_id' => $pd_id));
+            $model->updateData(TABLE_PRODUCT_DETAILS, array('pd_status' => $code), array('pd_id' => $pd_id));
+            $this->session->set_flashdata('success', 'Product details status updated');
+            redirect(base_url_admin('products/productDetail/' . $product_record[0]['pd_product_id']));
+        }
 
+    }
     
