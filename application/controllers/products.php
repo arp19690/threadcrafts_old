@@ -128,45 +128,32 @@
         public function allProductsList($whereCondArr = NULL, $pageHeading = NULL)
         {
             $data = array();
-            $model = new Common_model();
             $custom_model = new Custom_model();
 
             if ($whereCondArr == NULL)
             {
                 if ($pageHeading == NULL)
+                {
                     $pageHeading = "All Products";
+                }
             }
             else
             {
                 if ($pageHeading == NULL)
+                {
                     $pageHeading = "Search results";
+                }
             }
-            $whereCondArr = array("product_status" => "1");
+            $whereCondArr['product_status'] = 1;
 
             $fields = "*";
             $records = $custom_model->getAllProductsList($fields, $whereCondArr, "product_id", "DESC");
 
-            $product_size_array = array();
-            $product_color_array = array();
+            $category_name_records = array();
             foreach ($records as $key => $value)
             {
-                $product_size_records = $model->fetchSelectedData('DISTINCT(product_size) as product_size', TABLE_PRODUCT_DETAILS, array('product_id' => $value['product_id']));
-                foreach ($product_size_records as $psKey => $psValue)
-                {
-                    $product_size_array[] = $psValue['product_size'];
-                }
-                $records[$key]['product_size_array'] = $product_size_array;
-
-                $product_color_records = $model->fetchSelectedData('DISTINCT(product_color) as product_color', TABLE_PRODUCT_DETAILS, array('product_id' => $value['product_id']));
-                foreach ($product_color_records as $psKey => $psValue)
-                {
-                    $product_color_array[] = $psValue['product_color'];
-                }
-                $records[$key]['product_color_array'] = $product_color_array;
+                $category_name_records[] = $value['cc_name'];
             }
-//            prd($records);
-
-            $category_name_records = $model->fetchSelectedData("cc_name", TABLE_CHILD_CATEGORY, NULL, "cc_name");
 
             $data["records"] = $records;
             $data["category_name_records"] = $category_name_records;
