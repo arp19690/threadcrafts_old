@@ -4,11 +4,11 @@
     {
         if (empty($seller_company_name))
         {
-            return $seller_fullname;
+            return stripslashes($seller_fullname);
         }
         else
         {
-            return $seller_company_name;
+            return stripslashes($seller_company_name);
         }
     }
 
