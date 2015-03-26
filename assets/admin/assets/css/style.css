@@ -4915,3 +4915,5 @@ Bootstrap Tree CSS changes(new in v1.1.2)
 .margin-top-20{margin-top: 20px;}
 .margin-top-40{margin-top: 40px;}
 .margin-top-60{margin-top: 60px;}
+ul.unstyled > li > span{color: #000;display: table-cell}
+ul.unstyled > li > span:first-child{min-width: 150px;color: #666}
