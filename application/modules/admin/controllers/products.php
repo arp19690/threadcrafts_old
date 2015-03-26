@@ -221,7 +221,7 @@
                 $custom_model = new Custom_model();
                 $data = array();
 
-                $product_fields = 'product_id, product_code, product_title, product_description, product_price, product_seller_price, product_profit_percent, product_shipping_charge, product_gift_charge, product_status, product_verified, seller_fullname, seller_company_name, seller_id';
+                $product_fields = 'product_id, product_code, product_title, product_description, product_price, product_seller_price, product_profit_percent, product_shipping_charge, product_gift_charge, product_status, product_verified, seller_fullname, seller_company_name, seller_id, product_status';
                 $detail_fields = 'pd_id, pd_size, pd_color_name, pd_quantity, pd_min_quantity, pd_status';
                 $images_fields = 'pi_id, pi_image_title, pi_image_path';
                 $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields, NULL);
@@ -263,6 +263,14 @@
                     }
                 }
             }
+        }
+
+        public function updateProductStatus($product_id, $code)
+        {
+            $model = new Common_model();
+            $model->updateData(TABLE_PRODUCTS, array('product_status' => $code), array('product_id' => $product_id));
+            $this->session->set_flashdata('success', 'Product status updated to ' . getProductStatusText($code));
+            redirect(base_url_admin('products/productDetail/' . $product_id));
         }
 
         public function updateProductDetailStatus($pd_id, $code)

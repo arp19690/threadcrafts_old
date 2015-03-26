@@ -7,6 +7,17 @@
             <div class="span12">
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->			
                 <h3 class="page-title"><?php echo stripslashes($record['product_title']); ?></h3>
+                <p><strong>Status: </strong><?php echo getProductStatusText($record['product_status']); ?></p>
+                <p><strong>Change status to: </strong>
+                    <?php
+                        for ($i = 0; $i <= 4; $i++)
+                        {
+                            $url = base_url_admin('products/updateProductStatus/' . $record['product_id'] . '/' . $i);
+                            $onclick_text = 'Are you sure to change status to ' . getProductStatusText($i);
+                            echo '<a href="' . $url . '" style="margin-left:10px" onclick="return confirm(\'' . $onclick_text . '\');">' . getProductStatusText($i) . '</a>, ';
+                        }
+                    ?>
+                </p>
                 <div class="actions pull-right">
                     <a class="btn green mini" href="<?php echo goBack(); ?>">
                         <i class="icon-arrow-left"></i>
