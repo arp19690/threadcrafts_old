@@ -14,7 +14,9 @@
         {
             $this->load->model('custom_model');
             $custom_model = new Custom_model();
-            $data["alldata"] = $custom_model->getAllProductsList("*");
+            $fields='product_id, product_title, product_code, product_price, product_seller_price, product_status, gc_name, pc_name, cc_name';
+            $whereCondArr=NULL;
+            $data["alldata"] = $custom_model->getAllProductsList($fields,$whereCondArr);
 //            prd($data);
 
             $this->template->write_view("content", "products/products-list", $data);
