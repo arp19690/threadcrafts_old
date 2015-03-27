@@ -83,7 +83,7 @@
                         <?php
                             foreach ($gc_records as $gKey => $gValue)
                             {
-                                echo '<li><a href="' . base_url("products/view/" . urlencode($gValue["gc_name"])) . '">' . $gValue["gc_name"] . '</a></li>';
+                                echo '<li><a href="' . base_url("products/view/" . rawurlencode($gValue["gc_name"])) . '">' . $gValue["gc_name"] . '</a></li>';
                             }
                         ?>
                     </ul>
