@@ -187,6 +187,7 @@
                 $detail_fields = "*";
                 $images_fields = "*";
                 $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields, array("product_url_key" => $url_key, 'product_status' => '1'));
+//                prd($record);
                 if ($record["product_status"] == "0")
                 {
                     $indexController->pageNotFound();
