@@ -79,7 +79,7 @@
                     <form action="<?php echo base_url("products/addToCart"); ?>" class="form form-inline clearfix validate-form" method='post'>
                         <input type='hidden' name='product_id' value='<?php echo $record["product_id"]; ?>'/>
                         <div class="numbered">
-                            <input type="text" name="product_quantity" value="1" class="tiny-size" id="product_quantity"/>
+                            <input type="text" name="product_quantity" value="<?php echo $record['pd_min_quantity'];?>" class="tiny-size" id="product_quantity" min="<?php echo $record['pd_min_quantity'];?>"/>
                             <span class="clickable add-one icon-plus-sign-alt"></span>
                             <span class="clickable remove-one icon-minus-sign-alt"></span>
                         </div>
