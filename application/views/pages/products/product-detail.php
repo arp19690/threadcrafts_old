@@ -160,11 +160,8 @@
                                 <i class="<?php echo $heart_class_name; ?> wishlist-heart"></i> <a href="<?php echo $record["product_id"]; ?>" id="" class="please_login" ><?php echo $wishlist_text; ?></a>
                                 <?php
                             }
-                        ?>                        
-                 <!--&nbsp;&nbsp; | &nbsp;&nbsp;<a href="<?php echo base_url("products/addToCompare/" . $record["product_id"]); ?>" >Add to compare</a>-->
-                <!--&nbsp;&nbsp; | &nbsp;&nbsp;<i class="icon-envelope-alt"></i> <a href="#">Email to a friend</a>-->
+                        ?>
                     </div>
-
                 </div>
             </div>
         </div>
