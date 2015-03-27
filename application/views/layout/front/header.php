@@ -58,9 +58,9 @@
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery-core-n-modernizer.min.js"></script>
         <script type="text/javascript">
-            if (window.location.hash && window.location.hash == '#_=_') {
-                window.location.hash = '';
-            }
+                    if (window.location.hash && window.location.hash == '#_=_') {
+                        window.location.hash = '';
+                    }
         </script>
     </head>
     <body class="">
@@ -86,14 +86,6 @@
                                         if (isset($this->session->userdata["user_id"]))
                                         {
                                             echo 'Welcome! <strong>' . $this->session->userdata["first_name"] . " " . $this->session->userdata["last_name"] . '</strong>';
-                                        }
-                                        else
-                                        {
-                                            ?>
-                                            <a href="#loginModal" role="button" data-toggle="modal">Login</a> or
-                                            <a href="#signupModal" role="button" data-toggle="modal">Signup</a> or simply, 
-                                            <a href='<?php echo base_url('facebook-login'); ?>'><img src="<?php echo IMAGES_PATH . "/buttons/login-with-facebook.png"; ?>" alt="Login with facebook" width="140"/></a>
-                                            <?php
                                         }
                                     ?>
                                 </div>
@@ -121,7 +113,7 @@
                                             else
                                             {
                                                 ?>
-                                                <a href="<?php echo base_url("checkout"); ?>" class="gray-link">Cart (<?php echo $this->cart->total_items(); ?>)</a>
+                                                <a href="#loginModal" role="button" data-toggle="modal">Login</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#signupModal" role="button" data-toggle="modal">Signup</a>
                                                 <?php
                                             }
                                         ?>
