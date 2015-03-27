@@ -195,9 +195,19 @@
                 {
                     $similar_records = $custom_model->getAllProductsList($product_fields, array("product_id != " => $product_id, "pc_id" => $record["pc_id"]), 'rand()', 'DESC', 4);
 //                prd($similar_records);
+                    $is_in_wishlist = FALSE;
+                    if (isset($this->session->userdata['user_id']))
+                    {
+                        $is_exists_wishlist = $model->fetchSelectedData('wishlist_id', TABLE_WISHLIST, array('wishlist_product_id' => $product_id, 'wishlist_user_id' => $this->session->userdata['user_id']));
+                        if (!empty($is_exists_wishlist))
+                        {
+                            $is_in_wishlist = TRUE;
+                        }
+                    }
 
                     $data["record"] = $record;
                     $data["similar_records"] = $similar_records;
+                    $data["is_in_wishlist"] = $is_in_wishlist;
 
                     $breadcrumbArray = array(
                         $record["gc_name"] => base_url("products/view/" . rawurlencode($record["gc_name"])),

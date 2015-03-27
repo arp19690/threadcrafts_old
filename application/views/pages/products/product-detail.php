@@ -135,7 +135,7 @@
                     <!-- More Buttons -->
                     <div class="store-buttons">
                         <?php
-                            if ($is_in_wishlist == "yes")
+                            if ($is_in_wishlist == TRUE)
                             {
                                 $heart_class_name = "icon-heart";
                                 $wishlist_text = "In my wishlist";
