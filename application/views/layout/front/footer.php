@@ -60,7 +60,7 @@
                     </div>
                     <ul class="nav bold">
                         <li><a href="<?php echo base_url(); ?>">Home</a></li>
-                        <li><a href="<?php echo base_url("blog"); ?>">Blog</a></li>
+                        <li><a href="<?php echo base_url("blog"); ?>" target="_blank">Blog</a></li>
                         <li><a href="<?php echo base_url("products"); ?>">Products</a></li>
                         <li><a href="<?php echo base_url("contact-us"); ?>">Contact Us</a></li>
                         <?php
