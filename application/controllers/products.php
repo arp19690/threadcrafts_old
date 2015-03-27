@@ -222,59 +222,6 @@
             }
         }
 
-        public function addToCartGet($product_id, $redirect_url = NULL)
-        {
-            if ($redirect_url == NULL)
-                $redirect_url = base_url();
-
-            if ($product_id)
-            {
-                $model = new Common_model();
-
-                $product_detail = $model->fetchSelectedData("product_title,product_cost_price,product_status, profit_percent", TABLE_PRODUCTS, array("product_id" => $product_id));
-                if ($product_detail[0]["product_status"] == "1")
-                {
-                    $product_size_color_record = $model->fetchSelectedData('product_size, product_color, product_stock', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
-
-                    if ($product_size_color_record[0]['product_stock'] <= 0)
-                    {
-                        $this->session->set_flashdata("error", "<strong>Sorry!</strong> We are out of stock, you may try selecting differenct color/size");
-                        redirect($redirect_url);
-                    }
-                    else
-                    {
-                        $options_array = array();
-                        if (!empty($product_size_color_record[0]["product_size"]))
-                            $options_array["product_size"] = $product_size_color_record[0]["product_size"];
-                        if (!empty($product_size_color_record[0]["product_color"]))
-                            $options_array["product_color"] = $product_size_color_record[0]["product_color"];
-
-                        $options_array['profit_percent'] = $product_detail[0]['profit_percent'];
-
-                        $data = array(
-                            'id' => $product_id,
-                            'qty' => "1",
-                            'price' => $product_detail[0]["product_cost_price"],
-                            'name' => $product_detail[0]["product_title"],
-                            'options' => $options_array
-                        );
-
-                        if (count($this->cart->contents() == 0))
-                        {
-                            $this->cart->insert($data);
-                        }
-                        else
-                        {
-                            $this->cart->update($data);
-                        }
-                        $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
-                    }
-                }
-            }
-
-            redirect($redirect_url);
-        }
-
         public function addToCart($redirect_url = NULL)
         {
             if ($redirect_url == NULL)
