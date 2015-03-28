@@ -153,6 +153,10 @@
                 <form method="post" action="<?php echo base_url("login"); ?>">
                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                     <div class="control-group">
+                        <a href="<?php echo base_url('facebook-login'); ?>"><img src="<?php echo IMAGES_PATH; ?>/login-with-facebook.png" alt="Login with Facebook" title="Login with Facebook" width="220" height="40"/></a>
+                    </div>
+                    <div class="control-group"><p class="text-center">or,</p></div>
+                    <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="user_email">Email</label>
                         <div class="controls">
                             <input type="text" class="input-block-level" id="user_email" placeholder="Email" name="user_email" required="required"/>
@@ -184,6 +188,10 @@
                 <form method="post" action="<?php echo base_url("signup"); ?>">
                     <input type='hidden' name='url' value='<?php echo current_url(); ?>'/>
                     <div class="control-group">
+                        <a href="<?php echo base_url('facebook-login'); ?>"><img src="<?php echo IMAGES_PATH; ?>/login-with-facebook.png" alt="Login with Facebook" title="Login with Facebook" width="220" height="40"/></a>
+                    </div>
+                    <div class="control-group"><p class="text-center">or,</p></div>
+                    <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="first_name">First Name</label>
                         <div class="controls">
                             <input type="text" class="input-block-level" id="first_name" placeholder="First Name" name="first_name" required="required">
@@ -210,7 +218,7 @@
 
                     <p class="center-align push-down-0">
                         By using <?php echo SITE_NAME; ?>, I agree to the<br/>
-                        <a href="<?php echo base_url('static/terms'); ?>">Terms &amp; Conditions</a>
+                        <a href="<?php echo base_url('static/terms'); ?>" target="_blank">Terms &amp; Conditions</a>
                     </p><br/>
 
                     <button type="submit" class="btn btn-danger input-block-level bold higher">
@@ -289,30 +297,30 @@
 ?>
 <script src="<?php echo JS_PATH; ?>/custom.js" type="text/javascript"></script>
 <script>
-    $(document).ready(function () {
-        $(".item-in-cart .icon-remove-sign").click(function () {
-            var rowid = $(this).attr("href");
-            $.ajax({
-                dataType: "json",
-                url: "<?php echo base_url("ajax/removeProductFromCartAjax"); ?>" + "/" + rowid,
-                success: function (response) {
-                    if (response.total_items == "0")
-                    {
-                        $("#cartContainer .open-panel").remove();
-                        $("#cartContainer .cart .items span.dark-clr").html("(0)");
-                        $("#cartContainer .cart .dark-clr").html("0");
-                        location.reload();
-                    }
-                    else
-                    {
-                        $(".cart_total_value").html(response.cart_price);
-                        $(".cart_total_items").html("(" + response.total_items + ")");
-                        $(".higher-line .gray-link .cart_total_items").html(response.total_items);
-                    }
-                }
+            $(document).ready(function () {
+                $(".item-in-cart .icon-remove-sign").click(function () {
+                    var rowid = $(this).attr("href");
+                    $.ajax({
+                        dataType: "json",
+                        url: "<?php echo base_url("ajax/removeProductFromCartAjax"); ?>" + "/" + rowid,
+                        success: function (response) {
+                            if (response.total_items == "0")
+                            {
+                                $("#cartContainer .open-panel").remove();
+                                $("#cartContainer .cart .items span.dark-clr").html("(0)");
+                                $("#cartContainer .cart .dark-clr").html("0");
+                                location.reload();
+                            }
+                            else
+                            {
+                                $(".cart_total_value").html(response.cart_price);
+                                $(".cart_total_items").html("(" + response.total_items + ")");
+                                $(".higher-line .gray-link .cart_total_items").html(response.total_items);
+                            }
+                        }
+                    });
+                });
             });
-        });
-    });
 </script>
 
 <?php
@@ -339,7 +347,7 @@
 
         </script>
         <!--Google Analytics END-->
-        
+
         <script type="text/javascript" async defer src="https://apis.google.com/js/platform.js?publisherid=101035726513260358778"></script>
         <?php
     }
