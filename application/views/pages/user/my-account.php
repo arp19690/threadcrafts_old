@@ -24,7 +24,6 @@
                                 <ul class="nav nav-pills nav-stacked my-account-sidebar">
                                     <li class="active"><a href="#dashboard">Account Dashboard <i class="icon-caret-right pull-right"></i></a></li>
                                     <li><a href="#wishlist">My Wishlist <i class="icon-caret-right pull-right"></i></a></li>
-                                    <li><a href="#myBlogs">My Blogs <i class="icon-caret-right pull-right"></i></a></li>
                                     <li><a href="#changepassword">Change Password <i class="icon-caret-right pull-right"></i></a></li>
                                 </ul>
                             </div>
@@ -81,15 +80,9 @@
                     <h3 class="push-down-20"><span class="light">Account</span> Dashboard</h3>
                     <form action="<?php echo base_url("updateAccountInfo"); ?>" method="post" class="tab-content validate-form" enctype="multipart/form-data">
                         <div class="control-group">
-                            <label class="control-label" for="first_name">First Name<span class="red-clr bold">*</span></label>
+                            <label class="control-label" for="user_fullname">Full Name<span class="red-clr bold">*</span></label>
                             <div class="controls">
-                                <input type="text" id="first_name" name="first_name" placeholder="Input your First Name" class="span4 required" required="required" value="<?php echo $user_record["first_name"]; ?>"/>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="last_name">Last Name<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <input type="text" id="last_name" name="last_name" placeholder="Input your Last Name" class="span4 required" required="required" value="<?php echo $user_record["last_name"]; ?>"/>
+                                <input type="text" id="user_fullname" name="user_fullname" placeholder="Input your First Name" class="span4 required" required="required" value="<?php echo $user_record["user_fullname"]; ?>"/>
                             </div>
                         </div>
                         <div class="control-group">
@@ -189,7 +182,7 @@
                                                 <input type="text" name="product_quantity" class="tiny-size" value="<?php echo $wrValue["product_quantity"]; ?>" />
                                             </td>
                                             <td class="price">
-                                                <?php echo displayProductPrice($wrValue["product_cost_price"], $wrValue["profit_percent"]); ?>
+                                                <?php echo DEFAULT_CURRENCY_SYMBOL . number_format($wrValue["product_price"], 2); ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -214,69 +207,6 @@
                         else
                         {
                             echo '<p>No products in your wishlist</p>';
-                        }
-                    ?>
-                </section>
-
-                <hr />
-
-                <!--  ==========  -->
-                <!--  = My Blogs =  -->
-                <!--  ==========  -->
-                <section id="myBlogs">
-                    <h3 class="push-down-20"><span class="light">My</span> Blogs</h3>
-                    <?php
-                        if (!empty($my_blog_records))
-                        {
-                            ?>
-                            <table class="table table-items push-down-50">
-                                <thead>
-                                    <tr>
-                                        <th colspan="">Title</th>
-                                        <th><div class="align-right">Status</div></th>
-                                <th><div class="align-right">Date-Time</div></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($my_blog_records as $mbKey => $mbValue)
-                                    {
-                                        ?>
-                                        <tr>
-                                            <td class="desc">
-                                                <a href="<?php echo base_url('blog/read/' . $mbValue["blog_id"]); ?>" target="_blank"><?php echo $mbValue["blog_title"]; ?></a>
-                                                &nbsp;&nbsp;<a title="Edit Blog" href="<?php echo base_url('blog/edit/' . $mbValue["blog_id"]); ?>" class='black-clr'><i class='icon-pencil'></i></a>
-                                                &nbsp;&nbsp;<a title="Remove Blog" onclick="return confirm('Sure you want to remove your blog?');" href="<?php echo base_url('blog/delete/' . $mbValue["blog_id"]); ?>" class='black-clr'><i class='icon-remove'></i></a>
-                                            </td>
-                                            <td class="price">
-                                                <?php
-                                                $blog_status = $mbValue["blog_status"];
-                                                if ($blog_status == "1")
-                                                {
-                                                    $blog_status = "Active";
-                                                }
-                                                else
-                                                {
-                                                    $blog_status = "Under Review";
-                                                }
-                                                echo $blog_status;
-                                                ?>
-                                            </td>
-                                            <td class="price">
-                                                <?php echo date("d M, y", strtotime($mbValue["creation_timestamp"])); ?><br/>
-                                                <?php echo date("g:i a", strtotime($mbValue["creation_timestamp"])); ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                            <?php
-                        }
-                        else
-                        {
-                            echo '<p>You have not written any blogs yet. <a href="' . base_url('blog/write') . '" target="_blank">Write a blog</a></p>';
                         }
                     ?>
                 </section>
@@ -315,35 +245,35 @@
 </div> <!-- /container -->
 
 <script>
-                                        $(document).ready(function() {
-                                            $(".my-account-remove-from-wishlist").click(function() {
-                                                var product_id = $(this).attr("href");
-                                                $.ajax({
-                                                    url: "<?php echo base_url("user/removeFromWishlist"); ?>" + "/" + product_id,
-                                                    success: function(response) {
-                                                        $(".header-wishlist").html('Wishlist (' + response + ')');
-                                                    }
-                                                });
-                                            });
+    $(document).ready(function () {
+        $(".my-account-remove-from-wishlist").click(function () {
+            var product_id = $(this).attr("href");
+            $.ajax({
+                url: "<?php echo base_url("user/removeFromWishlist"); ?>" + "/" + product_id,
+                success: function (response) {
+                    $(".header-wishlist").html('Wishlist (' + response + ')');
+                }
+            });
+        });
 
-                                            $(".my-account-compare-list button.close").click(function() {
-                                                var compare_id = $(this).attr("id");
-                                                $.ajax({
-                                                    url: "<?php echo base_url("user/removeFromCompare"); ?>" + "/" + compare_id,
-                                                    success: function(response) {
-                                                        if (response == "0")
-                                                        {
-                                                            $(".my-account-compare-list").remove();
-                                                        }
-                                                    }
-                                                });
-                                            });
+        $(".my-account-compare-list button.close").click(function () {
+            var compare_id = $(this).attr("id");
+            $.ajax({
+                url: "<?php echo base_url("user/removeFromCompare"); ?>" + "/" + compare_id,
+                success: function (response) {
+                    if (response == "0")
+                    {
+                        $(".my-account-compare-list").remove();
+                    }
+                }
+            });
+        });
 
-                                            $(".remove-all-compare").click(function() {
-                                                $.ajax({
-                                                    url: "<?php echo base_url("user/removeFromCompare/all"); ?>"
-                                                });
-                                                $(".my-account-compare-list").remove();
-                                            });
-                                        });
+        $(".remove-all-compare").click(function () {
+            $.ajax({
+                url: "<?php echo base_url("user/removeFromCompare/all"); ?>"
+            });
+            $(".my-account-compare-list").remove();
+        });
+    });
 </script>

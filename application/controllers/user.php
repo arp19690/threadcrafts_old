@@ -38,7 +38,7 @@
                 $wishlist_records = $model->getAllDataFromJoin("p.product_id,product_title,product_price,wishlist_product_quantity,wishlist_comments", TABLE_WISHLIST . " as w", $tableArrayWithJoinCondition, "LEFT", $whereCondArr, "wishlist_id", "DESC");
                 $data["wishlist_records"] = $wishlist_records;
 
-                $user_records = $model->fetchSelectedData("user_gender,user_dob,user_contact,", TABLE_USERS, array("user_id" => $user_id));
+                $user_records = $model->fetchSelectedData("user_fullname, user_gender,user_dob,user_contact,", TABLE_USERS, array("user_id" => $user_id));
 //                prd($user_records);
                 $data["user_record"] = $user_records[0];
 
@@ -86,11 +86,11 @@
                 $model = new Common_model();
                 $user_id = $this->session->userdata["user_id"];
 
-                $whereCondArr = array("product_id" => $product_id, "user_id" => $user_id);
+                $whereCondArr = array("product_id" => $product_id, "wishlist_user_id" => $user_id);
 
                 $model->deleteData(TABLE_WISHLIST, $whereCondArr);
 
-                $wishlist_count_record = $model->fetchSelectedData("COUNT(wishlist_id) as total", TABLE_WISHLIST, array("user_id" => $user_id));
+                $wishlist_count_record = $model->fetchSelectedData("COUNT(wishlist_id) as total", TABLE_WISHLIST, array("wishlist_user_id" => $user_id));
                 echo $wishlist_count_record[0]["total"];
             }
         }

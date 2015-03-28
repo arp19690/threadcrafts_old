@@ -97,15 +97,13 @@
                                             if (isset($this->session->userdata["user_id"]))
                                             {
                                                 $model = new Common_model();
-                                                $wishlist_count_array = $model->getTotalCount("wishlist_id", TABLE_WISHLIST, array("user_id" => $this->session->userdata["user_id"]));
+                                                $wishlist_count_array = $model->getTotalCount("wishlist_id", TABLE_WISHLIST, array("wishlist_user_id" => $this->session->userdata["user_id"]));
                                                 $myWishlistCount = $wishlist_count_array[0]["totalcount"];
                                                 ?>
                                                 <a href="<?php echo base_url("my-account"); ?>" class="gray-link">My account</a>
                                                 &nbsp; | &nbsp; 
                                                 <a href="<?php echo base_url("my-account#wishlist"); ?>" class="gray-link header-wishlist">Wishlist (<?php echo $myWishlistCount; ?>)</a>
-                                                &nbsp; | &nbsp;  
-                                                <a href="<?php echo base_url("checkout"); ?>" class="gray-link">Cart (<span class="cart_total_items"><?php echo $this->cart->total_items(); ?></span>)</a>
-                                                &nbsp; | &nbsp;  
+                                                &nbsp; | &nbsp;
                                                 <a href="<?php echo base_url("logout"); ?>" class="gray-link">Sign out</a>
                                                 &nbsp;
                                                 <?php
