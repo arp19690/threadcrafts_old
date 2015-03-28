@@ -170,7 +170,7 @@
             <div class="span12">
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
-                        <a href="#tab-1" data-toggle="tab">Description</a>
+                        <a href="#tab-1" data-toggle="tab">Seller Details</a>
                     </li>
                     <li>
                         <a href="#tab-2" data-toggle="tab">Shipping Details</a>
@@ -178,8 +178,15 @@
                 </ul>
                 <div class="tab-content">
                     <div class="fade in tab-pane active" id="tab-1">
-                        <h3>Product Description</h3>
-                        <p><?php echo $record["product_description"]; ?></p>
+                        <div class="seller-details">
+                            <div class="span1">
+                                <img src="<?php echo getImage($record['seller_logo_image']); ?>" alt="<?php echo getSellerDisplayName($record['seller_fullname'], $record['seller_company_name']); ?>" width="75" height="75"/>
+                            </div>
+                            <div class="span10">
+                                <h3><?php echo getSellerDisplayName($record['seller_fullname'], $record['seller_company_name']); ?></h3>
+                                <p><?php echo stripslashes($record['seller_bio']); ?></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="fade tab-pane" id="tab-2">
                         <p>
