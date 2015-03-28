@@ -14,6 +14,22 @@
                             <h2>Signup</h2>
                             <form method="post" action="<?php echo base_url("signup"); ?>" class="login form-horizontal validate-form">
                                 <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
+                                <div class="control-group m0">
+                                    <label for="" class="control-label"></label>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <a href="<?php echo base_url('facebook-login'); ?>" class="login-fb-btn"><img src="<?php echo IMAGES_PATH; ?>/login-with-facebook.png" alt="Login with Facebook" title="Login with Facebook" width="230" height="40"/></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="control-group m0">
+                                    <label for="" class="control-label"></label>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <p class="m0">or,</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="control-group">
                                     <label for="first_name" class="control-label">First Name <span class="required">*</span></label>
                                     <div class="controls">
@@ -47,10 +63,7 @@
 
                                 <div class="control-group">
                                     <div class="controls">		
-                                        <p class="push-down-0">
-                                            By using <?php echo SITE_NAME; ?>, I agree to the<br/>
-                                            <a href="<?php echo base_url('static/terms'); ?>" target="_blank">Terms &amp; Conditions</a>
-                                        </p>
+                                        <p class="push-down-0">By clicking on signup button, I agree to the<br/><a href="<?php echo base_url('static/terms'); ?>" target="_blank">Terms &amp; Conditions</a> of <?php echo SITE_NAME;?></p>
                                     </div>
                                 </div>
 
