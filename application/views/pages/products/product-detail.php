@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/colorbox/colorbox.css"/>
 <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery.colorbox-min.js"></script>
 <script>
     $(document).ready(function () {

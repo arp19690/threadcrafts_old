@@ -52,7 +52,6 @@
         <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico"/>        
         <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/style.css"/>
         <link rel="stylesheet" type="text/css" href="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/css/smoothness/jquery-ui-1.10.3.custom.min.css"/>
-        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/colorbox/colorbox.css"/>
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery-core-n-modernizer.min.js"></script>
         <script type="text/javascript">
