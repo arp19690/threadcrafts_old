@@ -28,28 +28,22 @@
                 $model = new Common_model();
                 $custom_model = new Custom_model();
                 $user_id = $this->session->userdata["user_id"];
-                $user_full_name = $this->session->userdata["first_name"] . " " . $this->session->userdata["last_name"];
+                $user_full_name = $this->session->userdata["user_fullname"];
 
-                $whereCondArr = array("user_id" => $user_id, "product_status" => "1");
+                $whereCondArr = array("wishlist_user_id" => $user_id, "product_status" => "1");
                 $tableArrayWithJoinCondition = array(
-                    TABLE_PRODUCTS . " as p" => "p.product_id = w.product_id"
+                    TABLE_PRODUCTS . " as p" => "p.product_id = wishlist_product_id"
                 );
 
-                $wishlist_records = $model->getAllDataFromJoin("p.product_id,product_title,product_cost_price,w.product_quantity,user_comments, product_image_and_color", TABLE_WISHLIST . " as w", $tableArrayWithJoinCondition, "LEFT", $whereCondArr, "wishlist_id", "DESC");
+                $wishlist_records = $model->getAllDataFromJoin("p.product_id,product_title,product_price,wishlist_product_quantity,wishlist_comments", TABLE_WISHLIST . " as w", $tableArrayWithJoinCondition, "LEFT", $whereCondArr, "wishlist_id", "DESC");
                 $data["wishlist_records"] = $wishlist_records;
 
-                $my_blog_records = $model->fetchSelectedData("blog_id, blog_title, blog_status, creation_timestamp", TABLE_BLOGS, array("user_id" => $user_id), "blog_id", "DESC");
-                $data["my_blog_records"] = $my_blog_records;
-
-                $compare_records = $model->getAllDataFromJoin("p.product_title, c.compare_id", TABLE_COMPARE . " as c", array(TABLE_PRODUCTS . " as p" => "p.product_id = c.product_id"), "LEFT", $whereCondArr, "compare_id", "DESC");
-                $data["compare_records"] = $compare_records;
-
-                $user_records = $model->fetchSelectedData("first_name,last_name,user_gender,user_dob,user_contact,user_location,user_postcode,user_address", TABLE_USERS, array("user_id" => $user_id));
+                $user_records = $model->fetchSelectedData("user_fullname, user_gender,user_dob,user_contact,", TABLE_USERS, array("user_id" => $user_id));
 //                prd($user_records);
                 $data["user_record"] = $user_records[0];
 
                 $breadcrumbArray = array(
-                    "My Account" => base_url("myAccount"),
+                    "My Account" => base_url("my-account"),
                 );
                 $data["breadcrumbArray"] = $breadcrumbArray;
                 $data["meta_title"] = ucwords($user_full_name) . " | " . SITE_NAME;
@@ -92,11 +86,11 @@
                 $model = new Common_model();
                 $user_id = $this->session->userdata["user_id"];
 
-                $whereCondArr = array("product_id" => $product_id, "user_id" => $user_id);
+                $whereCondArr = array("product_id" => $product_id, "wishlist_user_id" => $user_id);
 
                 $model->deleteData(TABLE_WISHLIST, $whereCondArr);
 
-                $wishlist_count_record = $model->fetchSelectedData("COUNT(wishlist_id) as total", TABLE_WISHLIST, array("user_id" => $user_id));
+                $wishlist_count_record = $model->fetchSelectedData("COUNT(wishlist_id) as total", TABLE_WISHLIST, array("wishlist_user_id" => $user_id));
                 echo $wishlist_count_record[0]["total"];
             }
         }
@@ -135,7 +129,7 @@
                 $this->session->set_userdata("last_name", trim($arr["last_name"]));
                 $this->session->set_flashdata("success", "<strong>Success!</strong> Account details updated");
             }
-            redirect(base_url("myAccount"));
+            redirect(base_url("my-account"));
         }
 
         public function updatePassword()
@@ -168,7 +162,7 @@
                     $this->session->set_flashdata("warning", "<strong>Warning!</strong> Password fields cannot be left blank.");
                 }
             }
-            redirect(base_url("myAccount"));
+            redirect(base_url("my-account"));
         }
 
         public function saveWishlist()
@@ -179,21 +173,21 @@
                 $arr = $this->input->post();
                 $user_id = $this->session->userdata["user_id"];
                 $product_quantity = $arr["product_quantity"];
-                $user_comments = $arr["user_comments"];
+                $wishlist_comments = $arr["wishlist_comments"];
                 $product_id = $arr["product_id"];
 
                 $data_array = array(
                     "product_id" => $product_id,
                     "user_id" => $user_id,
                     "product_quantity" => $product_quantity,
-                    "user_comments" => $user_comments,
+                    "wishlist_comments" => $wishlist_comments,
                     "user_ipaddress" => $this->session->userdata["ip_address"],
                     "user_agent" => $this->session->userdata["user_agent"],
                 );
 
                 $model->updateData(TABLE_WISHLIST, $data_array, array("user_id" => $user_id, "product_id" => $product_id));
                 $this->session->set_flashdata('success', 'Your wishlist has been updated successfully');
-                redirect(base_url('myAccount#wishlist'));
+                redirect(base_url('my-account#wishlist'));
             }
         }
 

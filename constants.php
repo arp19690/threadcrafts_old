@@ -1,4 +1,5 @@
 <?php
+
     if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "threadcrafts.in")
     {
         define("SITE_BASE_URL", "https://threadcrafts.in/");    // When running on server    
@@ -11,7 +12,7 @@
         {
             $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             header("Location:$redirect");
-        }        
+        }
     }
     elseif ($_SERVER["REMOTE_ADDR"] == "127.0.0.1")
     {
@@ -44,7 +45,7 @@
     define("TWITTER_DATA_WIDGET_ID", "440245931166822400");
     define("FACEBOOK_CALLBACK_URL", SITE_BASE_URL . "index/loginWithFacebook");
 
-    define("SITE_NAME", "Thread Crafts");
+    define("SITE_NAME", "Threadcrafts");
     define("SITE_TAGLINE", "Authentic weaves of culture");
     define("SITE_TITLE", SITE_NAME . " | " . SITE_TAGLINE);
     define("SITE_EMAIL", "support@threadcrafts.in");
@@ -78,37 +79,44 @@
     define("USER_IMG_HEIGHT", 300);
     define("USER_IMG_PATH", SITE_BASE_URL . "/resources/user-images");
 
+    define("SELLER_COVER_IMG_WIDTH", 1100);
+    define("SELLER_COVER_IMG_HEIGHT", 360);
+    define("SELLER_COVER_IMG_PATH", SITE_BASE_URL . "/resources/seller-cover-images");
+
+    define("SELLER_LOGO_IMG_WIDTH", 400);
+    define("SELLER_LOGO_IMG_HEIGHT", 400);
+    define("SELLER_LOGO_PATH", "resources/seller-logos");
+
+    $doc_type_array = array('pan card', 'aadhar card', 'electricity bill', 'address proof', 'drivers licence', 'passport', 'ration card');
+    define("SELLER_DOC_TYPE_ARRAY", json_encode($doc_type_array));
+    define("SELLER_DOC_PATH", "resources/seller-docs");
+
     define("DISQUS_SHORTNAME", "threadcrafts");
     define("FACEBOOK_SOCIAL_LINK", "https://www.facebook.com/ThreadCraftsIn");
     define("TWITTER_SOCIAL_LINK", "https://twitter.com/ThreadCrafts");
     define("GOOGLE_PLUS_SOCIAL_LINK", "https://www.google.com/+ThreadCraftsJodhpur");
     define("ANDROID_APP_URL", "#");
-
-    define("PRODUCT_IMG_WIDTH", 700);
-    define("PRODUCT_IMG_HEIGHT", NULL);
-
-    define("PRODUCT_PURCHASES_DOCS_PATH", "resources/product-purchases-docs");
-
-    define("PRODUCT_IMG_PATH", "resources/product-images");
-
-    define("BLOG_IMG_PATH", "resources/blog-images");
-    define("BLOG_IMG_WIDTH", 500);
-    define("BLOG_IMG_HEIGHT", NULL);
-
     define("NO_PRODUCT_IMG_PATH", IMAGES_PATH . "/no-image.png");
 
+    define("PRODUCT_IMG_WIDTH_SMALL", 300);
+    define("PRODUCT_IMG_HEIGHT_SMALL", NULL);
+    define("PRODUCT_IMG_WIDTH_LARGE", 700);
+    define("PRODUCT_IMG_HEIGHT_LARGE", NULL);
+    define("PRODUCT_IMG_PATH_LARGE", "resources/product-images");
+    define("PRODUCT_IMG_PATH_SMALL", "resources/product-images/small");
+
+    define("PRODUCT_DESC_MIN_LENGTH", 300);
+
+    define("MIN_PRODUCT_IMAGES", 3);
     define("MAX_PRODUCT_IMAGES", 5);
-
-    define("MIN_PRICE_FOR_SHIPPING", 300);
-    define('MIN_SHIPPING_CHARGE', 50);
-    define('MIN_SHIPPING_CHARGE_PLUS_ADDITIONAL', 10);
-
-    define("INTERNATIONAL_SHIPPING_CHARGE_BASE", 1100);
-    define("INTERNATIONAL_SHIPPING_CHARGE_ADDITIONAL", 350);
 
     define("SHIPPING_PARTNER", "gati");
     define("SHIPPING_CODE", "GATI");
 
-    define("TAX_PROFIT_MARGIN_PERCENT", 100);
+    define("TAX_PROFIT_MARGIN_PERCENT", 20);
     define("TAX_PAYPAL_PERCENT", 5);
+
+    define("SERVICE_TAX_PERCENT", 14);
+    define("PAYMENT_PROCESSING_TAX_PERCENT", 3.5);
+    define("CONVENIENCE_FEE_PERCENT", 2);
     

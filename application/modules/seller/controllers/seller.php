@@ -10,7 +10,10 @@
         {
             parent::__construct();
             $this->template->set_template('seller');
-            $this->seller_id = $this->session->userdata("seller_id");
+            if (isset($this->session->userdata["seller_id"]))
+            {
+                $this->seller_id = $this->session->userdata["seller_id"];
+            }
         }
 
         public function index()
@@ -92,12 +95,18 @@
         public function dashboard()
         {
             $model = new Common_model();
+            $seller_id = $this->seller_id;
+
+            $total_products = $model->getTotalCount('product_id', TABLE_PRODUCTS, array('product_seller_id' => $seller_id, 'product_status' => '1'));
+            $total_inactive_products = $model->getTotalCount('product_id', TABLE_PRODUCTS, array('product_seller_id' => $seller_id, 'product_status !=' => '1'));
 
             $data = array(
-                'total_earnings'=>0,
-                'total_products'=>0,
+                'total_earnings' => 0,
+                'total_products' => $total_products[0]['totalcount'],
+                'total_inactive_products' => $total_inactive_products[0]['totalcount'],
             );
 
+            $data['meta_title'] = 'Seller Dashboard | ' . SITE_NAME;
             $this->template->write_view("content", "index/dashboard", $data);
             $this->template->render();
         }
@@ -111,6 +120,7 @@
 
         public function changepassword()
         {
+            $data['meta_title'] = 'Change Password | ' . SITE_NAME;
             $this->template->write_view("content", "index/changepassword");
             $this->template->render();
 
@@ -152,6 +162,59 @@
                     $this->session->set_flashdata('error', "Old password does not match");
                 }
                 redirect(base_url_seller("changepassword"));
+            }
+        }
+
+        public function profile()
+        {
+            $seller_id = $this->seller_id;
+            $model = new Common_model();
+            $record = $model->fetchSelectedData('*', TABLE_SELLER, array('seller_id' => $seller_id));
+            $bank_record = $model->fetchSelectedData('*', TABLE_SELLER_BANK, array('sb_seller_id' => $seller_id, 'sb_status' => '1'));
+
+            $data['record'] = $record[0];
+            $data['bank_record'] = @$bank_record[0];
+            $data['page_title'] = empty($record[0]['seller_company_name']) == TRUE ? $record[0]['seller_fullname'] : $record[0]['seller_company_name'];
+            $data['meta_title'] = $data['page_title'] . ' | ' . SITE_NAME;
+            $this->template->write_view("content", "index/profile", $data);
+            $this->template->render();
+        }
+
+        public function changeCover()
+        {
+            if (isset($_FILES['cover_img']) && !empty($_FILES['cover_img']))
+            {
+            $seller_id = $this->seller_id;
+                $upload = changeSellerCover($seller_id);
+                if ($upload == TRUE)
+                {
+                    $this->session->set_flashdata("success", "Cover image uploaded");
+                }
+                else
+                {
+                    $this->session->set_flashdata("error", "An error occured while uploading image");
+                }
+
+                redirect(base_url_seller('profile'));
+            }
+        }
+
+        public function changeLogo()
+        {
+            if (isset($_FILES['logo_img']) && !empty($_FILES['logo_img']))
+            {
+            $seller_id = $this->seller_id;
+                $upload = changeSellerLogo($seller_id);
+                if ($upload == TRUE)
+                {
+                    $this->session->set_flashdata("success", "Logo uploaded");
+                }
+                else
+                {
+                    $this->session->set_flashdata("error", "An error occured while uploading logo");
+                }
+
+                redirect(base_url_seller('profile'));
             }
         }
 

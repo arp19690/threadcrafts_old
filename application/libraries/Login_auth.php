@@ -28,17 +28,16 @@
                     //login successful
 
                     $data_array = array(
-                        "user_id" => $record["user_id"],
-                        "login_time" => time(),
-                        "user_agent" => $this->ci->session->userdata["user_agent"],
-                        "user_ipaddress" => $this->ci->session->userdata["ip_address"]);
+                        "ul_user_id" => $record["user_id"],
+                        "ul_login_time" => time(),
+                        "ul_useragent" => $this->ci->session->userdata["user_agent"],
+                        "ul_ipaddress" => $this->ci->session->userdata["ip_address"]);
                     $model->insertData(TABLE_USER_LOG, $data_array);
 
                     $user_array = array(
                         "user_id" => $record["user_id"],
                         "user_email" => $record["user_email"],
-                        "first_name" => $record["first_name"],
-                        "last_name" => $record["last_name"],
+                        "user_fullname" => stripslashes($record["user_fullname"]),
                         "user_session_expire_time" => time() + USER_TIMEOUT_TIME,
                     );
 
@@ -65,8 +64,7 @@
                 if ($error_redirect_to == NULL)
                     $error_redirect_to = base_url();
 
-                $this->ci->session->
-                        set_flashdata('error', "<strong>Error!</strong> Invalid Email or Password.");
+                $this->ci->session->set_flashdata('error', "<strong>Error!</strong> Invalid Email or Password.");
                 redirect($error_redirect_to);
             }
         }
@@ -106,21 +104,23 @@
             }
 
             if ($redirect_to == NULL)
+            {
                 $redirect_to = base_url();
+            }
 
             if ($user_id != NULL || !empty($user_id))
             {
                 $model = $this->ci->Common_model;
 
-                $record = $model->fetchSelectedData("user_log_id", TABLE_USER_LOG, array("user_id" => $user_id, "logout_time" => ""), "user_log_id", "DESC", "1");
-                $user_log_id = $record[0]["user_log_id"];
+                $record = $model->fetchSelectedData("ul_id", TABLE_USER_LOG, array("ul_user_id" => $user_id, "ul_logout_time" => ""), "ul_id", "DESC", "1");
+                $ul_id = $record[0]["ul_id"];
 
                 $update_data_array = array();
-                $update_data_array["logout_time"] = time();
+                $update_data_array["ul_logout_time"] = time();
 
                 $whereCondArr = array();
-                $whereCondArr["user_log_id"] = $user_log_id;
-                $whereCondArr["user_id"] = $user_id;
+                $whereCondArr["ul_id"] = $ul_id;
+                $whereCondArr["ul_user_id"] = $user_id;
 
                 $model->updateData(TABLE_USER_LOG, $update_data_array, $whereCondArr);
             }
@@ -129,7 +129,9 @@
             $this->ci->session->unset_userdata();
             $this->ci->session->sess_destroy();
             if ($logout_message != NULL)
+            {
                 $this->ci->session->set_flashdata('error', $logout_message);
+            }
 
             redirect($redirect_to);
         }
@@ -141,7 +143,7 @@
             $tableArrayWithJoinCondition = array(
                 TABLE_PRODUCTS . " as p" => "p.product_id = sc.product_id"
             );
-            $fields = "p.product_id, product_title, product_cost_price, product_quantity,sc.product_size,sc.product_color,product_status";
+            $fields = "p.product_id, product_title, product_price, product_quantity,sc.product_size,sc.product_color,product_status";
             $cart_records = $model->getAllDataFromJoin($fields, TABLE_SHOPPING_CART . " as sc", $tableArrayWithJoinCondition, "INNER", $whereCondArr);
             if (!empty($cart_records))
             {
@@ -159,7 +161,7 @@
                         $data = array(
                             'id' => $value["product_id"],
                             'qty' => $value["product_quantity"],
-                            'price' => $value["product_cost_price"],
+                            'price' => $value["product_price"],
                             'name' => $value["product_title"],
                             'options' => $options_array
                         );

@@ -83,39 +83,28 @@
             }
         }
 
-        public function getProductColorsOnSize($product_id)
+        public function getProductColorsOnSize($product_id, $product_size)
         {
             if ($product_id)
             {
                 $str = '';
-                $model = new Common_model();
                 $custom_model = new Custom_model();
-                $record = $custom_model->getAllProductsList('product_detail_array', array('product_id' => $product_id));
+                $record = $custom_model->getAllProductsDetails($product_id, 'product_id', 'pd_id, pd_color_name', 'pi_id', array('product_id' => $product_id, 'pd_size' => $product_size));
 //                prd($record);
                 if (!empty($record))
                 {
-                    $product_detail_array = json_decode($record[0]['product_detail_array']);
-                    if (!empty($product_detail_array))
+                    $str .= '&nbsp;';
+                    $str .= '<select name="product_color" id="product_color" class="span2 required" required="required">';
+                    $str .= '<option value="">Choose Color</option>';
+                    foreach ($record['details_arr'] as $key => $value)
                     {
-                        $str .= '&nbsp;';
-                        $str .= '<select name="product_color" id="product_color" class="span2 required" required="required">';
-                        $str .= '<option value="">Choose Color</option>';
-                        foreach ($product_detail_array as $key => $value)
-                        {
-                            if (!empty($value->color))
-                            {
-                                foreach ($value->color as $cKey => $cValue)
-                                {
-                                    if (!empty($cValue))
-                                        $str .= '<option value="' . trim($cValue) . '" data-stock="' . $value->stock[$cKey] . '">' . ucwords(trim($cValue)) . '</option>';
-                                }
-                            }
-                        }
-                        $str .= '</select>';
+                        $str .= '<option value="' . stripslashes($value['pd_color_name']) . '">' . stripslashes($value['pd_color_name']) . '</option>';
                     }
+                    $str .= '</select>';
                 }
                 echo $str;
             }
         }
 
     }
+    

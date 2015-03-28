@@ -56,12 +56,11 @@
     $route['facebook-login'] = 'index/loginsocial/facebook';
     $route['login'] = 'index/login';
     $route['logout'] = 'index/logout';
-    $route['register'] = 'index/register';
-    $route['sign-up'] = 'index/register';
+    $route['signup'] = 'index/signup';
     $route['forgot-password'] = 'index/forgotpassword';
     
     $route['activation/(:any)'] = 'index/activation/$1';
-    $route['myAccount'] = 'user/myAccount';
+    $route['my-account'] = 'user/myAccount';
     $route['updateAccountInfo'] = 'user/updateAccountInfo';
     $route['updatePassword'] = 'user/updatePassword';
     $route['checkout'] = 'cart/checkoutStepOne';

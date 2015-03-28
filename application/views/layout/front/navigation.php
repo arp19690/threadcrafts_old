@@ -84,7 +84,7 @@
                                 </ul>
                             </li>
                             <li><a href="<?php echo base_url("products"); ?>">All Products</a></li>
-                            <li><a href="<?php echo base_url("blog"); ?>">Blog</a></li>
+                            <li><a href="<?php echo base_url("blog"); ?>" target="_blank">Blog</a></li>
                             <?php
                                 if (!isset($this->session->userdata["user_id"]))
                                 {

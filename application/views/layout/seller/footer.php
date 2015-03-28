@@ -50,6 +50,13 @@
         var input = jQuery(".gMapLocation")[i];
         var autocomplete = new google.maps.places.Autocomplete(input);
     }
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('.login-success').slideUp();
+            $('.login-error').slideUp();
+        }, 3000);
+    });
 </script>
 </body>
 <!-- END BODY -->

@@ -58,9 +58,9 @@
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery-core-n-modernizer.min.js"></script>
         <script type="text/javascript">
-            if (window.location.hash && window.location.hash == '#_=_') {
-                window.location.hash = '';
-            }
+                    if (window.location.hash && window.location.hash == '#_=_') {
+                        window.location.hash = '';
+                    }
         </script>
     </head>
     <body class="">
@@ -85,15 +85,7 @@
                                     <?php
                                         if (isset($this->session->userdata["user_id"]))
                                         {
-                                            echo 'Welcome! <strong>' . $this->session->userdata["first_name"] . " " . $this->session->userdata["last_name"] . '</strong>';
-                                        }
-                                        else
-                                        {
-                                            ?>
-                                            <a href="#loginModal" role="button" data-toggle="modal">Login</a> or
-                                            <a href="#registerModal" role="button" data-toggle="modal">Register</a> or simply, 
-                                            <a href='<?php echo base_url('facebook-login'); ?>'><img src="<?php echo IMAGES_PATH . "/buttons/login-with-facebook.png"; ?>" alt="Login with facebook" width="140"/></a>
-                                            <?php
+                                            echo 'Welcome! <strong>' . $this->session->userdata["user_fullname"] . '</strong>';
                                         }
                                     ?>
                                 </div>
@@ -105,15 +97,13 @@
                                             if (isset($this->session->userdata["user_id"]))
                                             {
                                                 $model = new Common_model();
-                                                $wishlist_count_array = $model->getTotalCount("wishlist_id", TABLE_WISHLIST, array("user_id" => $this->session->userdata["user_id"]));
+                                                $wishlist_count_array = $model->getTotalCount("wishlist_id", TABLE_WISHLIST, array("wishlist_user_id" => $this->session->userdata["user_id"]));
                                                 $myWishlistCount = $wishlist_count_array[0]["totalcount"];
                                                 ?>
-                                                <a href="<?php echo base_url("myAccount"); ?>" class="gray-link">My account</a>
+                                                <a href="<?php echo base_url("my-account"); ?>" class="gray-link">My account</a>
                                                 &nbsp; | &nbsp; 
-                                                <a href="<?php echo base_url("myAccount#wishlist"); ?>" class="gray-link header-wishlist">Wishlist (<?php echo $myWishlistCount; ?>)</a>
-                                                &nbsp; | &nbsp;  
-                                                <a href="<?php echo base_url("checkout"); ?>" class="gray-link">Cart (<span class="cart_total_items"><?php echo $this->cart->total_items(); ?></span>)</a>
-                                                &nbsp; | &nbsp;  
+                                                <a href="<?php echo base_url("my-account#wishlist"); ?>" class="gray-link header-wishlist">Wishlist (<?php echo $myWishlistCount; ?>)</a>
+                                                &nbsp; | &nbsp;
                                                 <a href="<?php echo base_url("logout"); ?>" class="gray-link">Sign out</a>
                                                 &nbsp;
                                                 <?php
@@ -121,7 +111,7 @@
                                             else
                                             {
                                                 ?>
-                                                <a href="<?php echo base_url("checkout"); ?>" class="gray-link">Cart (<?php echo $this->cart->total_items(); ?>)</a>
+                                                <a href="#loginModal" role="button" data-toggle="modal">Login</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#signupModal" role="button" data-toggle="modal">Signup</a>
                                                 <?php
                                             }
                                         ?>

@@ -20,16 +20,23 @@
                     <h2 class="pacifico"><?php echo SITE_NAME; ?> &nbsp;</h2>
                     <div><?php echo $about_us_short_content; ?></div>
                 </div>
-                <div class="span4">
-                    <div class="main-titles lined">
-                        <h3 class="title">Facebook</h3>
-                    </div>
-                    <div class="bordered">
-                        <div class="fill-iframe">
-                            <div class="fb-like-box" data-href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+                <?php
+                    if (!isMobileDevice())
+                    {
+                        ?>
+                        <div class="span4">
+                            <div class="main-titles lined">
+                                <h3 class="title">Facebook</h3>
+                            </div>
+                            <div class="bordered">
+                                <div class="fill-iframe">
+                                    <div class="fb-like-box" data-href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <?php
+                    }
+                ?>
                 <div class="span4">
                     <div class="main-titles lined">
                         <h3 class="title"><span class="light">Newsletters</span> Signup</h3>
@@ -60,7 +67,7 @@
                     </div>
                     <ul class="nav bold">
                         <li><a href="<?php echo base_url(); ?>">Home</a></li>
-                        <li><a href="<?php echo base_url("blog"); ?>">Blog</a></li>
+                        <li><a href="<?php echo base_url("blog"); ?>" target="_blank">Blog</a></li>
                         <li><a href="<?php echo base_url("products"); ?>">Products</a></li>
                         <li><a href="<?php echo base_url("contact-us"); ?>">Contact Us</a></li>
                         <?php
@@ -83,7 +90,7 @@
                         <?php
                             foreach ($gc_records as $gKey => $gValue)
                             {
-                                echo '<li><a href="' . base_url("products/view/" . urlencode($gValue["gc_name"])) . '">' . $gValue["gc_name"] . '</a></li>';
+                                echo '<li><a href="' . base_url("products/view/" . rawurlencode($gValue["gc_name"])) . '">' . $gValue["gc_name"] . '</a></li>';
                             }
                         ?>
                     </ul>
@@ -153,6 +160,10 @@
                 <form method="post" action="<?php echo base_url("login"); ?>">
                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                     <div class="control-group">
+                        <a href="<?php echo base_url('facebook-login'); ?>"><img src="<?php echo IMAGES_PATH; ?>/login-with-facebook.png" alt="Login with Facebook" title="Login with Facebook" width="220" height="40"/></a>
+                    </div>
+                    <div class="control-group"><p class="text-center">or,</p></div>
+                    <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="user_email">Email</label>
                         <div class="controls">
                             <input type="text" class="input-block-level" id="user_email" placeholder="Email" name="user_email" required="required"/>
@@ -175,14 +186,18 @@
         </div>
 
         <!--  = Register =  -->
-        <div id="registerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div id="signupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="registerModalLabel"><span class="light">Register</span> To <?php echo SITE_NAME; ?></h3>
+                <h3 id="singupModalLabel"><span class="light">Signup</span> To <?php echo SITE_NAME; ?></h3>
             </div>
             <div class="modal-body">
-                <form method="post" action="<?php echo base_url("register"); ?>">
+                <form method="post" action="<?php echo base_url("signup"); ?>">
                     <input type='hidden' name='url' value='<?php echo current_url(); ?>'/>
+                    <div class="control-group">
+                        <a href="<?php echo base_url('facebook-login'); ?>"><img src="<?php echo IMAGES_PATH; ?>/login-with-facebook.png" alt="Login with Facebook" title="Login with Facebook" width="220" height="40"/></a>
+                    </div>
+                    <div class="control-group"><p class="text-center">or,</p></div>
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="first_name">First Name</label>
                         <div class="controls">
@@ -210,15 +225,15 @@
 
                     <p class="center-align push-down-0">
                         By using <?php echo SITE_NAME; ?>, I agree to the<br/>
-                        <a href="<?php echo base_url('static/terms'); ?>">Terms &amp; Conditions</a>
+                        <a href="<?php echo base_url('static/terms'); ?>" target="_blank">Terms &amp; Conditions</a>
                     </p><br/>
 
                     <button type="submit" class="btn btn-danger input-block-level bold higher">
-                        REGISTER
+                        SIGNUP
                     </button>
                 </form>
                 <p class="center-align push-down-0">
-                    <a data-toggle="modal" role="button" href="#loginModal" data-dismiss="modal">Already Registered?</a>
+                    <a data-toggle="modal" role="button" href="#loginModal" data-dismiss="modal">Already have an account?</a>
                 </p>
             </div>
         </div>
@@ -249,8 +264,8 @@
 <script src="<?php echo JS_PATH; ?>/combined.js" type="text/javascript"></script>
 <?php
     $include_array = array(
-        'index/register',
-        'user/myAccount',
+        'index/signup',
+        'user/my-account',
         'cart/checkoutStepTwo',
     );
 
@@ -289,30 +304,30 @@
 ?>
 <script src="<?php echo JS_PATH; ?>/custom.js" type="text/javascript"></script>
 <script>
-    $(document).ready(function () {
-        $(".item-in-cart .icon-remove-sign").click(function () {
-            var rowid = $(this).attr("href");
-            $.ajax({
-                dataType: "json",
-                url: "<?php echo base_url("ajax/removeProductFromCartAjax"); ?>" + "/" + rowid,
-                success: function (response) {
-                    if (response.total_items == "0")
-                    {
-                        $("#cartContainer .open-panel").remove();
-                        $("#cartContainer .cart .items span.dark-clr").html("(0)");
-                        $("#cartContainer .cart .dark-clr").html("0");
-                        location.reload();
-                    }
-                    else
-                    {
-                        $(".cart_total_value").html(response.cart_price);
-                        $(".cart_total_items").html("(" + response.total_items + ")");
-                        $(".higher-line .gray-link .cart_total_items").html(response.total_items);
-                    }
-                }
+            $(document).ready(function () {
+                $(".item-in-cart .icon-remove-sign").click(function () {
+                    var rowid = $(this).attr("href");
+                    $.ajax({
+                        dataType: "json",
+                        url: "<?php echo base_url("ajax/removeProductFromCartAjax"); ?>" + "/" + rowid,
+                        success: function (response) {
+                            if (response.total_items == "0")
+                            {
+                                $("#cartContainer .open-panel").remove();
+                                $("#cartContainer .cart .items span.dark-clr").html("(0)");
+                                $("#cartContainer .cart .dark-clr").html("0");
+                                location.reload();
+                            }
+                            else
+                            {
+                                $(".cart_total_value").html(response.cart_price);
+                                $(".cart_total_items").html("(" + response.total_items + ")");
+                                $(".higher-line .gray-link .cart_total_items").html(response.total_items);
+                            }
+                        }
+                    });
+                });
             });
-        });
-    });
 </script>
 
 <?php
@@ -339,6 +354,8 @@
 
         </script>
         <!--Google Analytics END-->
+
+        <script type="text/javascript" async defer src="https://apis.google.com/js/platform.js?publisherid=101035726513260358778"></script>
         <?php
     }
 ?>

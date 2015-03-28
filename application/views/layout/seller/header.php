@@ -4,7 +4,7 @@
 
     if (!isset($meta_title))
     {
-        $meta_title = 'Seller\'s Panel';
+        $meta_title = 'Seller\'s Panel | ' . SITE_NAME;
     }
 ?>
 <!DOCTYPE html>
@@ -14,9 +14,9 @@
     <!-- BEGIN HEAD -->
     <head>
         <meta charset="utf-8" />
-        <title><?php echo $meta_title . ' | ' . SITE_NAME; ?></title>
+        <title><?php echo $meta_title; ?></title>
         <meta name="robots" content="nofollow, noindex"/>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
         <meta content="" name="description" />
         <meta content="" name="author" />
         <link href="<?php echo ADMIN_ASSETS_PATH; ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -37,7 +37,7 @@
         <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico" />
 
         <script src="<?php echo ADMIN_ASSETS_PATH; ?>/js/jquery-1.8.3.min.js"></script>	
-        
+
         <style>
             .header .nav #header_notification_bar{margin-top: 6px}
         </style>
@@ -131,6 +131,7 @@
                                 <i class="icon-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a href="<?php echo base_url_seller("profile"); ?>"><i class="icon-user" style="margin-right: 5px;"></i>My Profile</a></li>
                                 <li><a href="<?php echo base_url_seller("changepassword"); ?>"><i class="icon-cogs" style="margin-right: 5px;"></i>Change Password</a></li>
                                 <li><a href="<?php echo base_url_seller("logout"); ?>"><i class="icon-off" style="margin-right: 5px;"></i>Logout</a></li>
                             </ul>

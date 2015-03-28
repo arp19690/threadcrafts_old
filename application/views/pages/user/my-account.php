@@ -22,9 +22,8 @@
                         <div class="span3" id="spyMenu">
                             <div class="widget">
                                 <ul class="nav nav-pills nav-stacked my-account-sidebar">
-                                    <li class="active"><a href="#dashboard">Account Dashboard <i class="icon-caret-right pull-right"></i></a></li>
+                                    <li class="active"><a href="#dashboard">Personal Details <i class="icon-caret-right pull-right"></i></a></li>
                                     <li><a href="#wishlist">My Wishlist <i class="icon-caret-right pull-right"></i></a></li>
-                                    <li><a href="#myBlogs">My Blogs <i class="icon-caret-right pull-right"></i></a></li>
                                     <li><a href="#changepassword">Change Password <i class="icon-caret-right pull-right"></i></a></li>
                                 </ul>
                             </div>
@@ -68,34 +67,25 @@
             <!--  = Main content =  -->
             <!--  ==========  -->
             <section class="span9">
-
-                <!--  ==========  -->
-                <!--  = Title =  -->
-                <!--  ==========  -->
-                <div class="underlined push-down-20">
-                    <h3><span class="light">My</span> Account</h3>
-                </div> <!-- /title -->
-
-
                 <section id="dashboard">
-                    <h3 class="push-down-20"><span class="light">Account</span> Dashboard</h3>
+                    <h3 class="push-down-20"><span class="light">Personal</span> Details</h3>
                     <form action="<?php echo base_url("updateAccountInfo"); ?>" method="post" class="tab-content validate-form" enctype="multipart/form-data">
                         <div class="control-group">
-                            <label class="control-label" for="first_name">First Name<span class="red-clr bold">*</span></label>
+                            <label class="control-label" for="user_fullname">Full Name<span class="red-clr bold">*</span></label>
                             <div class="controls">
-                                <input type="text" id="first_name" name="first_name" placeholder="Input your First Name" class="span4 required" required="required" value="<?php echo $user_record["first_name"]; ?>"/>
+                                <input type="text" id="user_fullname" name="user_fullname" placeholder="Input your First Name" class="span4 required" required="required" value="<?php echo $user_record["user_fullname"]; ?>"/>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="last_name">Last Name<span class="red-clr bold">*</span></label>
+                            <label class="control-label" for="user_contact">Contact Number<span class="red-clr bold">*</span></label>
                             <div class="controls">
-                                <input type="text" id="last_name" name="last_name" placeholder="Input your Last Name" class="span4 required" required="required" value="<?php echo $user_record["last_name"]; ?>"/>
+                                <input type="text" id="user_contact" name="user_contact" placeholder="Input your Contact Number" maxlength="20" class="span4 required" required="required" value="<?php echo $user_record["user_contact"]; ?>"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="user_gender">Gender<span class="red-clr bold">*</span></label>
                             <div class="controls">
-                                <select class="span4 required" name="user_gender" required="required">
+                                <select class=" required" name="user_gender" required="required">
                                     <?php
                                         if ($user_record["user_gender"] == 'male')
                                         {
@@ -111,36 +101,6 @@
                                     <option value="male" <?php echo set_select('user_gender', $user_record["user_gender"], $male_select); ?>>Male</option>
                                     <option value="female" <?php echo set_select('user_gender', $user_record["user_gender"], $female_select); ?>>Female</option>
                                 </select>
-                            </div>
-                        </div>
-                        <!--                        <div class="control-group">
-                                                    <label class="control-label" for="user_dob">Date of Birth<span class="red-clr bold">*</span></label>
-                                                    <div class="controls">
-                                                        <input type="text" id="user_dob" name="user_dob" placeholder="Input your Date of Birth" class="span4 datepicker" required="required" value="<?php echo $user_record["user_dob"]; ?>"/>
-                                                    </div>
-                                                </div>-->
-                        <div class="control-group">
-                            <label class="control-label" for="user_contact">Contact Number<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <input type="text" id="user_contact" name="user_contact" placeholder="Input your Contact Number" maxlength="20" class="span4 required" required="required" value="<?php echo $user_record["user_contact"]; ?>"/>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="user_address">Address<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <textarea id="user_address" name="user_address" rows="3" placeholder="Input your Address" class="span4 required" required="required" style="resize: none;"><?php echo $user_record["user_address"]; ?></textarea>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="user_location">Location<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <input type="text" id="user_location" name="user_location" placeholder="Input your Location" class="span4 required gMapLocation" required="required" value="<?php echo $user_record["user_location"]; ?>"/>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="user_postcode">Postcode<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <input type="text" id="user_postcode" name="user_postcode" placeholder="Input your Postcode" maxlength="10" class="span4 required" required="required" value="<?php echo $user_record["user_postcode"]; ?>"/>
                             </div>
                         </div>
                         <div class="control-group">
@@ -189,7 +149,7 @@
                                                 <input type="text" name="product_quantity" class="tiny-size" value="<?php echo $wrValue["product_quantity"]; ?>" />
                                             </td>
                                             <td class="price">
-                                                <?php echo displayProductPrice($wrValue["product_cost_price"], $wrValue["profit_percent"]); ?>
+                                                <?php echo DEFAULT_CURRENCY_SYMBOL . number_format($wrValue["product_price"], 2); ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -220,69 +180,6 @@
 
                 <hr />
 
-                <!--  ==========  -->
-                <!--  = My Blogs =  -->
-                <!--  ==========  -->
-                <section id="myBlogs">
-                    <h3 class="push-down-20"><span class="light">My</span> Blogs</h3>
-                    <?php
-                        if (!empty($my_blog_records))
-                        {
-                            ?>
-                            <table class="table table-items push-down-50">
-                                <thead>
-                                    <tr>
-                                        <th colspan="">Title</th>
-                                        <th><div class="align-right">Status</div></th>
-                                <th><div class="align-right">Date-Time</div></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($my_blog_records as $mbKey => $mbValue)
-                                    {
-                                        ?>
-                                        <tr>
-                                            <td class="desc">
-                                                <a href="<?php echo base_url('blog/read/' . $mbValue["blog_id"]); ?>" target="_blank"><?php echo $mbValue["blog_title"]; ?></a>
-                                                &nbsp;&nbsp;<a title="Edit Blog" href="<?php echo base_url('blog/edit/' . $mbValue["blog_id"]); ?>" class='black-clr'><i class='icon-pencil'></i></a>
-                                                &nbsp;&nbsp;<a title="Remove Blog" onclick="return confirm('Sure you want to remove your blog?');" href="<?php echo base_url('blog/delete/' . $mbValue["blog_id"]); ?>" class='black-clr'><i class='icon-remove'></i></a>
-                                            </td>
-                                            <td class="price">
-                                                <?php
-                                                $blog_status = $mbValue["blog_status"];
-                                                if ($blog_status == "1")
-                                                {
-                                                    $blog_status = "Active";
-                                                }
-                                                else
-                                                {
-                                                    $blog_status = "Under Review";
-                                                }
-                                                echo $blog_status;
-                                                ?>
-                                            </td>
-                                            <td class="price">
-                                                <?php echo date("d M, y", strtotime($mbValue["creation_timestamp"])); ?><br/>
-                                                <?php echo date("g:i a", strtotime($mbValue["creation_timestamp"])); ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                            <?php
-                        }
-                        else
-                        {
-                            echo '<p>You have not written any blogs yet. <a href="' . base_url('blog/write') . '" target="_blank">Write a blog</a></p>';
-                        }
-                    ?>
-                </section>
-
-                <hr />
-
                 <!--Change Password Section-->
 
                 <section id="changepassword">
@@ -291,7 +188,7 @@
                         <div class="control-group">
                             <label class="control-label" for="new_password">New Password<span class="red-clr bold">*</span></label>
                             <div class="controls">
-                                <input type="password" id="new_password" name="new_password" placeholder="Input your New Password" class="span4 required" required="required" />
+                                <input type="password" id="new_password" name="new_password" placeholder="Input New Password" class="span4 required" required="required" />
                             </div>
                         </div>
                         <div class="control-group">
@@ -315,35 +212,35 @@
 </div> <!-- /container -->
 
 <script>
-                                        $(document).ready(function() {
-                                            $(".my-account-remove-from-wishlist").click(function() {
-                                                var product_id = $(this).attr("href");
-                                                $.ajax({
-                                                    url: "<?php echo base_url("user/removeFromWishlist"); ?>" + "/" + product_id,
-                                                    success: function(response) {
-                                                        $(".header-wishlist").html('Wishlist (' + response + ')');
-                                                    }
-                                                });
-                                            });
+    $(document).ready(function () {
+        $(".my-account-remove-from-wishlist").click(function () {
+            var product_id = $(this).attr("href");
+            $.ajax({
+                url: "<?php echo base_url("user/removeFromWishlist"); ?>" + "/" + product_id,
+                success: function (response) {
+                    $(".header-wishlist").html('Wishlist (' + response + ')');
+                }
+            });
+        });
 
-                                            $(".my-account-compare-list button.close").click(function() {
-                                                var compare_id = $(this).attr("id");
-                                                $.ajax({
-                                                    url: "<?php echo base_url("user/removeFromCompare"); ?>" + "/" + compare_id,
-                                                    success: function(response) {
-                                                        if (response == "0")
-                                                        {
-                                                            $(".my-account-compare-list").remove();
-                                                        }
-                                                    }
-                                                });
-                                            });
+        $(".my-account-compare-list button.close").click(function () {
+            var compare_id = $(this).attr("id");
+            $.ajax({
+                url: "<?php echo base_url("user/removeFromCompare"); ?>" + "/" + compare_id,
+                success: function (response) {
+                    if (response == "0")
+                    {
+                        $(".my-account-compare-list").remove();
+                    }
+                }
+            });
+        });
 
-                                            $(".remove-all-compare").click(function() {
-                                                $.ajax({
-                                                    url: "<?php echo base_url("user/removeFromCompare/all"); ?>"
-                                                });
-                                                $(".my-account-compare-list").remove();
-                                            });
-                                        });
+        $(".remove-all-compare").click(function () {
+            $.ajax({
+                url: "<?php echo base_url("user/removeFromCompare/all"); ?>"
+            });
+            $(".my-account-compare-list").remove();
+        });
+    });
 </script>

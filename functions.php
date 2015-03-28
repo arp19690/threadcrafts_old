@@ -1,5 +1,289 @@
 <?php
 
+    function getSellerDisplayName($seller_fullname, $seller_company_name)
+    {
+        if (empty($seller_company_name))
+        {
+            return stripslashes($seller_fullname);
+        }
+        else
+        {
+            return stripslashes($seller_company_name);
+        }
+    }
+
+    function changeSellerCover($seller_id)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+
+        // get the extension of the image
+        $ext = getFileExtension($_FILES['cover_img']['name']);
+        $allowed_ext = array('jpg', 'jpeg', 'png', 'gif');
+
+        list($img_width, $img_height, $img_type, $img_attr) = getimagesize($_FILES["cover_img"]['tmp_name']);
+
+        // if a valid image
+        if (in_array(strtolower($ext), $allowed_ext) && $img_width == SELLER_COVER_IMG_WIDTH && $img_height == SELLER_COVER_IMG_HEIGHT)
+        {
+            // unlink the previous image
+            $seller_record = $model->fetchSelectedData('seller_cover_image', TABLE_SELLER, array('seller_id' => $seller_id));
+            if (!empty($seller_record[0]['seller_cover_image']))
+            {
+                @unlink($seller_record[0]['seller_cover_image']);
+            }
+
+            // get a random image name
+            $fileName = getUniqueCoverImageName($ext);
+            // upload the image
+            uploadImage($_FILES['cover_img']['tmp_name'], $fileName, SELLER_COVER_IMG_PATH, SELLER_COVER_IMG_WIDTH, SELLER_COVER_IMG_HEIGHT);
+
+            // update into the database
+            $cover_image_name = SELLER_COVER_IMG_PATH . '/' . $fileName;
+            $model->updateData(TABLE_SELLER, array('seller_cover_image' => $cover_image_name), array('seller_id' => $seller_id));
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    function changeSellerLogo($seller_id)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+
+        // get the extension of the image
+        $ext = getFileExtension($_FILES['logo_img']['name']);
+        $allowed_ext = array('jpg', 'jpeg', 'png', 'gif');
+
+        list($img_width, $img_height, $img_type, $img_attr) = getimagesize($_FILES["logo_img"]['tmp_name']);
+
+        // if a valid image
+        if (in_array(strtolower($ext), $allowed_ext) && $img_width == SELLER_COVER_IMG_WIDTH && $img_height == SELLER_COVER_IMG_HEIGHT)
+        {
+            // unlink the previous image
+            $seller_record = $model->fetchSelectedData('seller_logo_image', TABLE_SELLER, array('seller_id' => $seller_id));
+            if (!empty($seller_record[0]['seller_logo_image']))
+            {
+                @unlink($seller_record[0]['seller_logo_image']);
+            }
+
+            // get a random image name
+            $fileName = getUniqueSellerLogoImageName($ext);
+            // upload the image
+            uploadImage($_FILES['logo_img']['tmp_name'], $fileName, SELLER_LOGO_PATH, SELLER_LOGO_IMG_WIDTH, SELLER_LOGO_IMG_HEIGHT);
+
+            // update into the database
+            $logo_image_name = SELLER_LOGO_PATH . '/' . $fileName;
+            $model->updateData(TABLE_SELLER, array('seller_logo_image' => $logo_image_name), array('seller_id' => $seller_id));
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    function getUniqueSellerDocumentName($ext, $string_length = 15)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength(time(), $string_length) . '.' . $ext;
+        $doc_path = SELLER_DOC_PATH . '/' . $random_number;
+        $is_exists = $model->is_exists('sdc_id', TABLE_SELLER_DOCUMENTS, array('sdc_document_path' => $doc_path));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueSellerDocumentName($ext, $string_length);
+        }
+
+        return $random_number;
+    }
+
+    function getUniqueSellerLogoImageName($ext, $string_length = 15)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength(time(), $string_length) . '.' . $ext;
+        $image_name = SELLER_LOGO_PATH . '/' . $random_number;
+        $is_exists = $model->is_exists('seller_id', TABLE_SELLER, array('seller_logo_image' => $image_name));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueSellerLogoImageName($ext, $string_length);
+        }
+
+        return $random_number;
+    }
+
+    function getUniqueSellerCoverImageName($ext, $string_length = 15)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength(time(), $string_length) . '.' . $ext;
+        $image_name = SELLER_COVER_IMG_PATH . '/' . $random_number;
+        $is_exists = $model->is_exists('seller_id', TABLE_SELLER, array('seller_cover_image' => $image_name));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueSellerCoverImageName($string_length);
+        }
+
+        return $random_number;
+    }
+
+    function isValidImageExt($ext)
+    {
+        $valid_ext_Arr = array('jpg', 'jpeg', 'png', 'gif');
+        $returnValue = TRUE;
+        if (!in_array(strtolower($ext), $valid_ext_Arr))
+        {
+            $returnValue = FALSE;
+        }
+
+        return $returnValue;
+    }
+
+    function getWebsiteContactStatusText($status)
+    {
+        if ($status == '0')
+        {
+            $text = 'Rejected';
+        }
+        elseif ($status == '1')
+        {
+            $text = 'Resolved';
+        }
+        elseif ($status == '2')
+        {
+            $text = 'Open';
+        }
+        elseif ($status == '3')
+        {
+            $text = 'Pending';
+        }
+
+        return $text;
+    }
+
+    function getSellerStatusText($seller_status)
+    {
+        if ($seller_status == '0')
+        {
+            $text = 'Deactivated';
+        }
+        elseif ($seller_status == '1')
+        {
+            $text = 'Activated';
+        }
+        elseif ($seller_status == '2')
+        {
+            $text = 'Waiting for activation';
+        }
+        elseif ($seller_status == '3')
+        {
+            $text = 'Rejected';
+        }
+
+        return $text;
+    }
+
+    function getSellerDocumentStatusText($code)
+    {
+        if ($code == '0')
+        {
+            $text = 'Rejected';
+        }
+        elseif ($code == '1')
+        {
+            $text = 'Approved';
+        }
+        elseif ($code == '2')
+        {
+            $text = 'Under review';
+        }
+
+        return $text;
+    }
+
+    function getProductStatusText($product_status)
+    {
+        if ($product_status == '0')
+        {
+            $text = 'Deactivated';
+        }
+        elseif ($product_status == '1')
+        {
+            $text = 'Approved';
+        }
+        elseif ($product_status == '2')
+        {
+            $text = 'Waiting for review';
+        }
+        elseif ($product_status == '3')
+        {
+            $text = 'Incomplete details';
+        }
+        elseif ($product_status == '4')
+        {
+            $text = 'Rejected';
+        }
+
+        return $text;
+    }
+
+    function addProfitPercentToPrice($actual_price, $profit_percent, $shipping_charge)
+    {
+        $seller_price = $actual_price + $shipping_charge;
+        $add_profit_percent = $seller_price + ($seller_price * ($profit_percent / 100));
+        $add_service_tax = $add_profit_percent + ($add_profit_percent * (SERVICE_TAX_PERCENT / 100));
+        $add_payment_tax = $add_service_tax + ($add_service_tax * (PAYMENT_PROCESSING_TAX_PERCENT / 100));
+        $add_convenience_tax = $add_payment_tax + ($add_payment_tax * (CONVENIENCE_FEE_PERCENT / 100));
+
+        $output = $add_convenience_tax;
+        return round($output, 2);
+    }
+
+    function getUniqueProductURLKey($product_title, $suffix = NULL)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $product_title = str_replace(' ', '-', urldecode($product_title));
+        $is_exists = $model->is_exists('product_code', TABLE_PRODUCTS, array('product_code' => $product_title));
+        if (!empty($is_exists))
+        {
+            $suffix = '-' . getRandomNumberLength($product_title, 2);
+            $product_title = getUniqueProductURLKey($product_title, $suffix);
+        }
+
+        return strtolower($product_title);
+    }
+
+    function goBack($steps = '1')
+    {
+        if (getClientBrowserName() == 'Google Chrome')
+        {
+            return 'javascript:history.back(-' . $steps . ')';
+        }
+        else
+        {
+            return 'javascript:history.go(-' . $steps . ');';
+        }
+    }
+
+    function getUniqueProductCode($string_length = 6)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength(time(), $string_length);
+        $is_exists = $model->is_exists('product_code', TABLE_PRODUCTS, array('product_code' => $random_number));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueProductCode($string_length);
+        }
+
+        return $random_number;
+    }
+
     function sendMail($to_email, $subject, $message, $from_email = SITE_EMAIL, $from_name = SITE_NAME_DISPLAY)
     {
         if (USER_IP != '127.0.0.1')
@@ -8,20 +292,6 @@
             $email_model = new Email_model();
             $email_model->sendMail($to_email, $subject, $message, $from_email, $from_name);
         }
-    }
-
-    function getUniqueBlogUrlKey($url_key)
-    {
-        $url_key=  urlencode($url_key);
-        $model = new Common_model();
-        $records = $model->is_exists('blog_id', TABLE_BLOGS, array('url_key' => $url_key));
-        if (!empty($records))
-        {
-            $url_key = $url_key . '-' . $records[0]['blog_id'];
-            getUniqueBlogUrlKey($url_key);
-        }
-
-        return $url_key;
     }
 
     function parse_address_google($address)
@@ -70,16 +340,13 @@
         $random = generateUniqueKeyEverytime();
         $new_id = strtoupper('TCO' . substr($random, 0, 6));
         $is_exists = $model->is_exists('payment_id', TABLE_PAYMENT, array('order_id' => $new_id));
-        if (empty($is_exists))
-        {
-            //valid
-            return $new_id;
-        }
-        else
+        if (!empty($is_exists))
         {
             //invalid
-            getUniqueOrderId();
+            $new_id = getUniqueOrderId();
         }
+
+        return $new_id;
     }
 
     function generateUniqueKeyEverytime($str = NULL)
@@ -87,11 +354,24 @@
         return md5(uniqid(USE_SALT . time() . $str, true));
     }
 
-    function uploadImage($source, $destination, $width, $height = NULL)
+    function uploadImage($fileTmpname, $destFilename, $base_path, $width, $height = NULL)
     {
         require_once APPPATH . '/libraries/SimpleImage.php';
-        $SimpleImage = new SimpleImage();
-        $SimpleImage->uploadImage($source, $destination, $width, $height);
+        $img = new SimpleImage();
+        $img->load($fileTmpname);
+
+        if ($height == NULL || empty($height))
+        {
+            $img->resizeToWidth($width);
+        }
+        else
+        {
+            $img->resize($width, $height);
+        }
+
+        //save image
+        $path = $base_path . "/" . $destFilename;
+        $img->save($path);
     }
 
     function getNWordsFromString($text, $numberOfWords = 20)
@@ -141,15 +421,34 @@
 
     function getProductUrl($product_id)
     {
-        require_once(APPPATH . 'controllers/products.php');
-        $products = new Products();
-        return $products->getProductUrl($product_id);
+        require_once APPPATH . '/models/custom_model.php';
+        $custom_model = new Custom_model();
+        $product_fields = "product_id, cc_name, pc_name, gc_name, product_url_key";
+        $whereCondArr = array("product_id" => $product_id);
+        $record = $custom_model->getAllProductsDetails($product_id, $product_fields, 'pd_id', 'pi_id', $whereCondArr);
+
+        $path = "products/view/" . rawurlencode($record["gc_name"]) . "/" . rawurlencode($record["pc_name"]) . "/" . rawurlencode($record["cc_name"]) . "/" . rawurlencode($record["product_url_key"]);
+        $url = (base_url($path));
+        return ($url);
     }
 
     function calculateTax($actualAmount, $tax = TAX_PROFIT_MARGIN_PERCENT)
     {
         $result = $actualAmount * ($tax / 100);
         return $result;
+    }
+
+    function getImage($image_path_filename)
+    {
+        if (is_file($image_path_filename))
+        {
+            $output = base_url($image_path_filename);
+        }
+        else
+        {
+            $output = NO_PRODUCT_IMG_PATH;
+        }
+        return $output;
     }
 
     function getProductImages($product_img_array)
@@ -164,10 +463,10 @@
         {
             foreach ($product_img_array as $key => $value)
             {
-                if (is_file(PRODUCT_IMG_PATH . "/" . $value))
+                if (is_file(PRODUCT_IMG_PATH_LARGE . "/" . $value))
                 {
                     $color = $key;
-                    $url = getUrl(PRODUCT_IMG_PATH . "/" . $value) . "?" . time();
+                    $url = getUrl(PRODUCT_IMG_PATH_LARGE . "/" . $value) . "?" . time();
                 }
                 else
                 {
@@ -431,6 +730,29 @@
 
         return $os_platform;
     }
+    
+        function isMobileDevice()
+    {
+        $aMobileUA = array(
+            '/iphone/i' => 'iPhone',
+            '/ipod/i' => 'iPod',
+            '/ipad/i' => 'iPad',
+            '/android/i' => 'Android',
+            '/blackberry/i' => 'BlackBerry',
+            '/webos/i' => 'Mobile'
+        );
+
+        //Return true if Mobile User Agent is detected
+        foreach ($aMobileUA as $sMobileKey => $sMobileOS)
+        {
+            if (preg_match($sMobileKey, $_SERVER['HTTP_USER_AGENT']))
+            {
+                return true;
+            }
+        }
+        //Otherwise return false..  
+        return false;
+    }
 
     //    This is a function to get current page url
     function curPageURL()
@@ -508,7 +830,7 @@
 
     function getRandomNumberLength($str, $length = "8")
     {
-        return substr(uniqid(md5($str . time()), true), -$length);
+        return str_replace('.', '-', substr(uniqid(md5($str . time()), true), -$length));
     }
 
     function getTimeAgo($time)

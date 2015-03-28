@@ -23,6 +23,14 @@
                 $loginAuth = new AdminLogin_auth();
                 $loginAuth->checkIfLoggedIn();
             }
+            elseif ($this->CI->router->fetch_module() == "seller")
+            {
+                $this->CI->template->set_template('seller');
+
+                require_once APPPATH.'/libraries/SellerLogin_auth.php';
+                $loginAuth = new SellerLogin_auth();
+                $loginAuth->checkIfLoggedIn();
+            }
             else
             {
                 $loginAuth = new Login_auth();
@@ -39,3 +47,4 @@
         }
 
     }
+    

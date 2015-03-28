@@ -21,6 +21,22 @@
                                     }
                                 ?>
                                 <input type="hidden" name="url" value="<?php echo $url; ?>"/>
+                                <div class="control-group m0">
+                                    <label for="" class="control-label"></label>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <a href="<?php echo base_url('facebook-login'); ?>" class="login-fb-btn"><img src="<?php echo IMAGES_PATH; ?>/login-with-facebook.png" alt="Login with Facebook" title="Login with Facebook" width="230" height="40"/></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="control-group m0">
+                                    <label for="" class="control-label"></label>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <p class="m0">or,</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="control-group">
                                     <label for="user_email" class="control-label">Email <span class="required">*</span></label>
                                     <div class="controls">
@@ -40,7 +56,7 @@
                                         &nbsp;
                                         <a class="lost_password" href="<?php echo base_url("forgot-password"); ?>">Lost Password?</a>
                                         &nbsp;|&nbsp;
-                                        <a class="lost_password" href="<?php echo base_url("register"); ?>">Create account?</a>
+                                        <a class="lost_password" href="<?php echo base_url("signup"); ?>">Create account?</a>
                                     </div>
                                 </div>
                             </form>

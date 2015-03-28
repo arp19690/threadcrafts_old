@@ -27,46 +27,46 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <?php echo number_format($totalusers); ?>
+                                <?php echo number_format($total_customers); ?>
                             </div>
                             <div class="desc">									
-                                Users
+                                Customers
                             </div>
                         </div>
                         <a class="more" href="<?php echo base_url("admin/users"); ?>">
-                            View more <i class="m-icon-swapright m-icon-white"></i>
+                            View all <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
                 </div>
                 <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
                     <div class="dashboard-stat purple">
                         <div class="visual">
-                            <i class="icon-th-large"></i>
+                            <i class="icon-user-md"></i>
                         </div>
                         <div class="details">
                             <div class="number">
-                                <?php echo number_format($totalproducts); ?>
+                                <?php echo number_format($total_sellers); ?>
                             </div>
-                            <div class="desc">Products</div>
+                            <div class="desc">Sellers</div>
                         </div>
-                        <a class="more" href="<?php echo base_url("admin/products"); ?>">
-                            View more <i class="m-icon-swapright m-icon-white"></i>
+                        <a class="more" href="<?php echo base_url("admin/sellers"); ?>">
+                            View all <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
                 </div>
                 <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
                     <div class="dashboard-stat green">
                         <div class="visual">
-                            <i class="icon-money"></i>
+                            <i class="icon-th-large"></i>
                         </div>
                         <div class="details">
                             <div class="number">
-                                <?php echo DEFAULT_CURRENCY_SYMBOL . number_format($totalinrearnings, 2); ?>
+                                <?php echo number_format($total_products); ?>
                             </div>
-                            <div class="desc">Earnings in INR</div>
+                            <div class="desc">Products</div>
                         </div>
-                        <a class="more" href="<?php echo base_url("#"); ?>">
-                            View more <i class="m-icon-swapright m-icon-white"></i>
+                        <a class="more" href="<?php echo base_url_admin("products"); ?>">
+                            View all <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
                 </div>
@@ -77,12 +77,12 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <?php echo '$' . number_format($totalusdearnings, 2); ?>
+                                <?php echo DEFAULT_CURRENCY_SYMBOL . number_format($total_earnings, 2); ?>
                             </div>
-                            <div class="desc">Earnings in USD</div>
+                            <div class="desc">Earnings</div>
                         </div>
                         <a class="more" href="<?php echo base_url("#"); ?>">
-                            View more <i class="m-icon-swapright m-icon-white"></i>
+                            View all <i class="m-icon-swapright m-icon-white"></i>
                         </a>						
                     </div>
                 </div>

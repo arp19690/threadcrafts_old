@@ -54,7 +54,7 @@
                     else
                     {
                         $this->session->set_flashdata("error", "Grand category name already exists");
-                        redirect(base_url("admin/categories/addGrandCategory"));
+                        redirect(base_url_admin("categories/addGrandCategory"));
                     }
                 }
                 else
@@ -69,10 +69,10 @@
                     else
                     {
                         $this->session->set_flashdata("error", "Grand category name already exists");
-                        redirect(base_url("admin/categories/editGrandCategory/" . $gc_id));
+                        redirect(base_url_admin("categories/editGrandCategory/" . $gc_id));
                     }
                 }
-                redirect(base_url("admin/categories/grandCategories"));
+                redirect(base_url_admin("categories/grandCategories"));
             }
         }
 
@@ -84,13 +84,13 @@
                 $record = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, array("gc_id" => $gc_id));
                 $data["record"] = $record[0];
                 $data["form_heading"] = "Edit grand category";
-                $data["form_action"] = base_url("admin/categories/addGrandCategory");
+                $data["form_action"] = base_url_admin("categories/addGrandCategory");
                 $this->template->write_view("content", "categories/grand-category-form", $data);
                 $this->template->render();
             }
             else
             {
-                redirect(base_url("admin/categories/grandCategories"));
+                redirect(base_url_admin("categories/grandCategories"));
             }
         }
 
@@ -134,12 +134,12 @@
                     {
                         $model->insertData(TABLE_PARENT_CATEGORY, $arr);
                         $this->session->set_flashdata("success", "Parent category added");
-                        redirect(base_url("admin/categories/parentCategories"));
+                        redirect(base_url_admin("categories/parentCategories"));
                     }
                     else
                     {
                         $this->session->set_flashdata("error", "Parent category name already exists");
-                        redirect(base_url("admin/categories/addParentCategory"));
+                        redirect(base_url_admin("categories/addParentCategory"));
                     }
                 }
                 else
@@ -150,12 +150,12 @@
                     {
                         $model->updateData(TABLE_PARENT_CATEGORY, $arr, array("pc_id" => $pc_id));
                         $this->session->set_flashdata("success", "Parent category edited");
-                        redirect(base_url("admin/categories/parentCategories"));
+                        redirect(base_url_admin("categories/parentCategories"));
                     }
                     else
                     {
                         $this->session->set_flashdata("error", "Parent category name already exists");
-                        redirect(base_url("admin/categories/editParentCategory/" . $pc_id));
+                        redirect(base_url_admin("categories/editParentCategory/" . $pc_id));
                     }
                 }
             }
@@ -171,13 +171,13 @@
                 $data["record"] = $record[0];
                 $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
                 $data["form_heading"] = "Edit parent category";
-                $data["form_action"] = base_url("admin/categories/addParentCategory");
+                $data["form_action"] = base_url_admin("categories/addParentCategory");
                 $this->template->write_view("content", "categories/parent-category-form", $data);
                 $this->template->render();
             }
             else
             {
-                redirect(base_url("admin/categories/parentCategories"));
+                redirect(base_url_admin("categories/parentCategories"));
             }
         }
 
@@ -224,12 +224,12 @@
                     {
                         $model->insertData(TABLE_CHILD_CATEGORY, $arr);
                         $this->session->set_flashdata("success", "Child category added");
-                        redirect(base_url("admin/categories/childCategories"));
+                        redirect(base_url_admin("categories/childCategories"));
                     }
                     else
                     {
                         $this->session->set_flashdata("error", "Child category name already exists");
-                        redirect(base_url("admin/categories/addChildCategory"));
+                        redirect(base_url_admin("categories/addChildCategory"));
                     }
                 }
                 else
@@ -240,12 +240,12 @@
                     {
                         $model->updateData(TABLE_CHILD_CATEGORY, $arr, array("cc_id" => $cc_id));
                         $this->session->set_flashdata("success", "Child category edited");
-                        redirect(base_url("admin/categories/childCategories"));
+                        redirect(base_url_admin("categories/childCategories"));
                     }
                     else
                     {
                         $this->session->set_flashdata("error", "Child category name already exists");
-                        redirect(base_url("admin/categories/editChildCategory/" . $cc_id));
+                        redirect(base_url_admin("categories/editChildCategory/" . $cc_id));
                     }
                 }
             }
@@ -262,13 +262,13 @@
                 $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
                 $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id"=>$record[0]["cc_gc_id"]), "pc_name");
                 $data["form_heading"] = "Edit child category";
-                $data["form_action"] = base_url("admin/categories/addChildCategory");
+                $data["form_action"] = base_url_admin("categories/addChildCategory");
                 $this->template->write_view("content", "categories/child-category-form", $data);
                 $this->template->render();
             }
             else
             {
-                redirect(base_url("admin/categories/childCategories"));
+                redirect(base_url_admin("categories/childCategories"));
             }
         }
 
@@ -282,7 +282,7 @@
                 $model->deleteData(TABLE_CHILD_CATEGORY, array("cc_gc_id" => $gc_id));
                 $this->session->set_flashdata("success", "Grand category removed");
             }
-            redirect(base_url("admin/categories/grandCategories"));
+            redirect(base_url_admin("categories/grandCategories"));
         }
 
         public function deleteParentCategory($pc_id)
@@ -293,7 +293,7 @@
                 $model->deleteData(TABLE_PARENT_CATEGORY, array("pc_id" => $pc_id));
                 $this->session->set_flashdata("success", "Parent category removed");
             }
-            redirect(base_url("admin/categories/parentCategories"));
+            redirect(base_url_admin("categories/parentCategories"));
         }
 
         public function deleteChildCategory($cc_id)
@@ -304,7 +304,7 @@
                 $model->deleteData(TABLE_CHILD_CATEGORY, array("cc_id" => $cc_id));
                 $this->session->set_flashdata("success", "Child category removed");
             }
-            redirect(base_url("admin/categories/childCategories"));
+            redirect(base_url_admin("categories/childCategories"));
         }
 
         public function getParentCategoriesAjax($gc_id)

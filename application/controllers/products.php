@@ -51,20 +51,20 @@
 
         public function parentList($gc_name)
         {
-            $model = new Common_model();
             $custom_model = new Custom_model();
-            $record = $model->fetchSelectedData("gc_id", TABLE_GRAND_CATEGORY, array("gc_name" => $gc_name));
-            $gc_id = $record[0]["gc_id"];
             $fields = "*";
-            $records = $custom_model->getAllProductsList($fields, array("product_grand_category" => $gc_id, "product_status" => "1"), "product_id", "DESC");
-            $category_name_records = $model->fetchSelectedData("cc_name", TABLE_CHILD_CATEGORY, array("cc_gc_id" => $gc_id), "cc_name");
-//            prd($records);
+            $records = $custom_model->getAllProductsList($fields, array("gc_name" => $gc_name, "product_status" => "1"), "product_id", "DESC");
+            $category_name_records = array();
+            foreach ($records as $key => $value)
+            {
+                $category_name_records[] = $value['cc_name'];
+            }
 
             $data["records"] = $records;
             $data["category_name_records"] = $category_name_records;
             $data["product_page_heading"] = urldecode($gc_name);
             $breadcrumbArray = array(
-                urldecode($gc_name) => base_url("products/view/" . urlencode($gc_name)),
+                urldecode($gc_name) => base_url("products/view/" . rawurlencode($gc_name)),
             );
             $data["breadcrumbArray"] = $breadcrumbArray;
             $data["meta_title"] = $records[0]["gc_name"] . " | " . SITE_NAME;
@@ -74,20 +74,14 @@
 
         public function childList($pc_name)
         {
-            $category_name_records = array();
-            $gc_name = "";
-            $model = new Common_model();
             $custom_model = new Custom_model();
-            $record = $model->fetchSelectedData("pc_id", TABLE_PARENT_CATEGORY, array("pc_name" => $pc_name));
-            $pc_id = $record[0]["pc_id"];
             $fields = "*";
-            $records = $custom_model->getAllProductsList($fields, array("product_parent_category" => $pc_id, "product_status" => "1"), "product_id", "DESC");
-            if (!empty($records))
+            $records = $custom_model->getAllProductsList($fields, array("pc_name" => $pc_name, "product_status" => "1"), "product_id", "DESC");
+            $gc_name = stripslashes($records[0]['gc_name']);
+            $category_name_records = array();
+            foreach ($records as $key => $value)
             {
-                $category_name_records = $model->fetchSelectedData("cc_name", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $pc_id), "cc_name");
-//            prd($records);
-
-                $gc_name = $records[0]["gc_name"];
+                $category_name_records[] = $value['cc_name'];
             }
 
             $data["records"] = $records;
@@ -95,7 +89,7 @@
             $data["product_page_heading"] = urldecode($pc_name);
             $breadcrumbArray = array(
                 $gc_name => base_url("products/view/" . urlencode($gc_name)),
-                urldecode($pc_name) => base_url("products/view/" . urlencode($gc_name) . "/" . urlencode($pc_name)),
+                $pc_name => base_url("products/view/" . rawurlencode($gc_name) . "/" . rawurlencode($pc_name)),
             );
             $data["breadcrumbArray"] = $breadcrumbArray;
             $data["meta_title"] = $records[0]["pc_name"] . " | " . SITE_NAME;
@@ -105,32 +99,25 @@
 
         public function productsList($cc_name)
         {
-            $category_name_records = array();
-            $gc_name = "";
-            $pc_name = "";
-
-            $model = new Common_model();
             $custom_model = new Custom_model();
-            $record = $model->fetchSelectedData("cc_id", TABLE_CHILD_CATEGORY, array("cc_name" => $cc_name));
-            $cc_id = $record[0]["cc_id"];
             $fields = "*";
-            $records = $custom_model->getAllProductsList($fields, array("product_child_category" => $cc_id, "product_status" => "1"), "product_id", "DESC");
-            if (!empty($records))
-            {
-                $category_name_records = $model->fetchSelectedData("cc_name", TABLE_CHILD_CATEGORY, array("cc_id" => $cc_id), "cc_name");
-//            prd($records);
-
-                $gc_name = $records[0]["gc_name"];
-                $pc_name = $records[0]["pc_name"];
-            }
+            $records = $custom_model->getAllProductsList($fields, array("cc_name" => $cc_name, "product_status" => "1"), "product_id", "DESC");
+            $gc_name = $records[0]["gc_name"];
+            $pc_name = $records[0]["pc_name"];
 
             $data["records"] = $records;
+
+            $category_name_records = array();
+            foreach ($records as $key => $value)
+            {
+                $category_name_records[] = $value['cc_name'];
+            }
             $data["category_name_records"] = $category_name_records;
             $data["product_page_heading"] = urldecode($cc_name);
             $breadcrumbArray = array(
-                $gc_name => base_url("products/view/" . urlencode($gc_name)),
-                urldecode($pc_name) => base_url("products/view/" . urlencode($gc_name) . "/" . urlencode($pc_name)),
-                urldecode($cc_name) => base_url("products/view/" . urlencode($gc_name) . "/" . urlencode($pc_name) . "/" . urlencode($cc_name)),
+                $gc_name => base_url("products/view/" . rawurlencode($gc_name)),
+                urldecode($pc_name) => base_url("products/view/" . rawurlencode($gc_name) . "/" . rawurlencode($pc_name)),
+                urldecode($cc_name) => base_url("products/view/" . rawurlencode($gc_name) . "/" . rawurlencode($pc_name) . "/" . rawurlencode($cc_name)),
             );
             $data["breadcrumbArray"] = $breadcrumbArray;
             $data["meta_title"] = $records[0]["cc_name"] . " | " . SITE_NAME;
@@ -141,46 +128,32 @@
         public function allProductsList($whereCondArr = NULL, $pageHeading = NULL)
         {
             $data = array();
-            $model = new Common_model();
             $custom_model = new Custom_model();
 
             if ($whereCondArr == NULL)
             {
-                $whereCondArr = array("product_status" => "1");
                 if ($pageHeading == NULL)
+                {
                     $pageHeading = "All Products";
+                }
             }
             else
             {
-                $whereCondArr["product_status"] = "1";
                 if ($pageHeading == NULL)
+                {
                     $pageHeading = "Search results";
+                }
             }
+            $whereCondArr['product_status'] = 1;
 
             $fields = "*";
             $records = $custom_model->getAllProductsList($fields, $whereCondArr, "product_id", "DESC");
 
-            $product_size_array = array();
-            $product_color_array = array();
+            $category_name_records = array();
             foreach ($records as $key => $value)
             {
-                $product_size_records = $model->fetchSelectedData('DISTINCT(product_size) as product_size', TABLE_PRODUCT_DETAILS, array('product_id' => $value['product_id']));
-                foreach ($product_size_records as $psKey => $psValue)
-                {
-                    $product_size_array[] = $psValue['product_size'];
-                }
-                $records[$key]['product_size_array'] = $product_size_array;
-
-                $product_color_records = $model->fetchSelectedData('DISTINCT(product_color) as product_color', TABLE_PRODUCT_DETAILS, array('product_id' => $value['product_id']));
-                foreach ($product_color_records as $psKey => $psValue)
-                {
-                    $product_color_array[] = $psValue['product_color'];
-                }
-                $records[$key]['product_color_array'] = $product_color_array;
+                $category_name_records[] = $value['cc_name'];
             }
-//            prd($records);
-
-            $category_name_records = $model->fetchSelectedData("cc_name", TABLE_CHILD_CATEGORY, NULL, "cc_name");
 
             $data["records"] = $records;
             $data["category_name_records"] = $category_name_records;
@@ -196,125 +169,68 @@
 
         public function productDetail($url_key)
         {
+            require_once APPPATH . "controllers/index.php";
+            $indexController = new Index();
             $data = array();
             $model = new Common_model();
             $custom_model = new Custom_model();
-            $fields = "*";
-            $record = $custom_model->getAllProductsList($fields, array("url_key" => $url_key));
-            if ($record[0]["product_status"] == "0")
+            $product_record = $model->fetchSelectedData('product_id', TABLE_PRODUCTS, array("product_url_key" => $url_key, 'product_status' => '1'));
+
+            if (empty($product_record))
             {
-                require_once APPPATH . "controllers/index.php";
-                $indexController = new Index();
                 $indexController->pageNotFound();
             }
             else
             {
-                $product_id = $record[0]['product_id'];
-                $similar_records = $custom_model->getAllProductsList($fields, array("product_id != " => $product_id, "product_parent_category" => $record[0]["pc_id"]), "rand()", "DESC", "4");
+                $product_id = $product_record[0]['product_id'];
+                $product_fields = "*";
+                $detail_fields = "*";
+                $images_fields = "*";
+                $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields, array("product_url_key" => $url_key, 'product_status' => '1'));
+//                prd($record);
+                if ($record["product_status"] == "0")
+                {
+                    $indexController->pageNotFound();
+                }
+                else
+                {
+                    $similar_records = $custom_model->getAllProductsList($product_fields, array("product_id != " => $product_id, "pc_id" => $record["pc_id"]), 'rand()', 'DESC', 4);
 //                prd($similar_records);
-
-                $is_in_wishlist = "no";
-                $added_to_cart = "no";
-                if (isset($this->session->userdata["user_id"]))
-                {
-                    $user_id = $this->session->userdata["user_id"];
-                    $wishlist_record = $model->is_exists("wishlist_id", TABLE_WISHLIST, array("product_id" => $product_id, "user_id" => $user_id));
-                    if (!empty($wishlist_record))
-                        $is_in_wishlist = "yes";
-
-                    $cart_record = $model->is_exists("cart_id", TABLE_SHOPPING_CART, array("product_id" => $product_id, "user_id" => $user_id));
-                    if (!empty($cart_record))
-                        $added_to_cart = "yes";
-                }
-                $data["is_in_wishlist"] = $is_in_wishlist;
-                $data["added_to_cart"] = $added_to_cart;
-
-                $breadcrumbArray = array(
-                    $record[0]["gc_name"] => base_url("products/view/" . urlencode($record[0]["gc_name"])),
-                    $record[0]["pc_name"] => base_url("products/view/" . urlencode($record[0]["gc_name"]) . "/" . urlencode($record[0]["pc_name"])),
-                    $record[0]["cc_name"] => base_url("products/view/" . urlencode($record[0]["gc_name"]) . "/" . urlencode($record[0]["pc_name"]) . "/" . urlencode($record[0]["cc_name"])),
-                    $record[0]["product_title"] => getProductUrl($record[0]["product_id"]),
-                );
-                $data["breadcrumbArray"] = $breadcrumbArray;
-                $data["record"] = $record[0];
-                $data["similar_records"] = $similar_records;
-
-                $data["meta_title"] = $record[0]["product_title"] . " | " . SITE_NAME;
-                $data["meta_keywords"] = $record[0]["meta_keywords"];
-                $data["meta_description"] = $record[0]["meta_description"];
-                $product_image = getProductImages($record[0]['product_image_and_color']);
-                $data["meta_logo_image"] = $product_image[0]['url'];
-
-                // storing the product visit in the table
-                $user_id = 0;
-                if (isset($this->session->userdata["user_id"]))
-                    $user_id = $this->session->userdata["user_id"];
-
-                $visit_data_array = array(
-                    "product_id" => $product_id,
-                    "user_id" => $user_id,
-                    "visit_time" => time(),
-                    "user_ipaddress" => USER_IP,
-                    "user_agent" => USER_AGENT
-                );
-                $model->insertData(TABLE_PRODUCT_VISIT, $visit_data_array);
-
-                $this->template->write_view("content", "pages/products/product-detail", $data);
-                $this->template->render();
-            }
-        }
-
-        public function addToCartGet($product_id, $redirect_url = NULL)
-        {
-            if ($redirect_url == NULL)
-                $redirect_url = base_url();
-
-            if ($product_id)
-            {
-                $model = new Common_model();
-
-                $product_detail = $model->fetchSelectedData("product_title,product_cost_price,product_status, profit_percent", TABLE_PRODUCTS, array("product_id" => $product_id));
-                if ($product_detail[0]["product_status"] == "1")
-                {
-                    $product_size_color_record = $model->fetchSelectedData('product_size, product_color, product_stock', TABLE_PRODUCT_DETAILS, array('product_id' => $product_id));
-
-                    if ($product_size_color_record[0]['product_stock'] <= 0)
+                    $is_in_wishlist = FALSE;
+                    if (isset($this->session->userdata['user_id']))
                     {
-                        $this->session->set_flashdata("error", "<strong>Sorry!</strong> We are out of stock, you may try selecting differenct color/size");
-                        redirect($redirect_url);
+                        $is_exists_wishlist = $model->fetchSelectedData('wishlist_id', TABLE_WISHLIST, array('wishlist_product_id' => $product_id, 'wishlist_user_id' => $this->session->userdata['user_id']));
+                        if (!empty($is_exists_wishlist))
+                        {
+                            $is_in_wishlist = TRUE;
+                        }
                     }
-                    else
+
+                    $data["record"] = $record;
+                    $data["similar_records"] = $similar_records;
+                    $data["is_in_wishlist"] = $is_in_wishlist;
+
+                    $breadcrumbArray = array(
+                        $record["gc_name"] => base_url("products/view/" . rawurlencode($record["gc_name"])),
+                        $record["pc_name"] => base_url("products/view/" . rawurlencode($record["gc_name"]) . "/" . rawurlencode($record["pc_name"])),
+                        $record["cc_name"] => base_url("products/view/" . rawurlencode($record["gc_name"]) . "/" . rawurlencode($record["pc_name"]) . "/" . rawurlencode($record["cc_name"])),
+                        $record["product_title"] => getProductUrl($product_id),
+                    );
+                    $data["breadcrumbArray"] = $breadcrumbArray;
+                    $data["meta_title"] = stripslashes($record["product_title"]) . " | " . getSellerDisplayName($record['seller_fullname'], $record['seller_company_name']) . " | " . SITE_NAME;
+                    $data["meta_keywords"] = stripslashes($record["product_meta_keywords"]);
+                    $data["meta_description"] = stripslashes($record["product_meta_description"]);
+                    $data["meta_logo_image"] = getImage(@$record['images_arr'][0]['pi_image_path']);
+
+                    if (USER_IP != '127.0.0.1')
                     {
-                        $options_array = array();
-                        if (!empty($product_size_color_record[0]["product_size"]))
-                            $options_array["product_size"] = $product_size_color_record[0]["product_size"];
-                        if (!empty($product_size_color_record[0]["product_color"]))
-                            $options_array["product_color"] = $product_size_color_record[0]["product_color"];
-
-                        $options_array['profit_percent'] = $product_detail[0]['profit_percent'];
-
-                        $data = array(
-                            'id' => $product_id,
-                            'qty' => "1",
-                            'price' => $product_detail[0]["product_cost_price"],
-                            'name' => $product_detail[0]["product_title"],
-                            'options' => $options_array
-                        );
-
-                        if (count($this->cart->contents() == 0))
-                        {
-                            $this->cart->insert($data);
-                        }
-                        else
-                        {
-                            $this->cart->update($data);
-                        }
-                        $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
+                        $this->addProductVisit($product_id);
                     }
+
+                    $this->template->write_view("content", "pages/products/product-detail", $data);
+                    $this->template->render();
                 }
             }
-
-            redirect($redirect_url);
         }
 
         public function addToCart($redirect_url = NULL)
@@ -355,7 +271,7 @@
                         $this->cart->update($data);
                     }
                     $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
-                    redirect($this->getProductUrl($arr["product_id"]));
+                    redirect(getProductUrl($arr["product_id"]));
                 }
             }
             else
@@ -397,24 +313,6 @@
                 $this->session->set_flashdata("warning", "<strong>Just a sec!</strong> You will need to login to add a product to compare list");
             }
             redirect(getProductUrl($product_id));
-        }
-
-        public function getProductUrl($product_id)
-        {
-            if ($product_id)
-            {
-                $model = new Common_model();
-                $custom_model = new Custom_model();
-                $fields = "product_id,cc_name,pc_name,gc_name,url_key";
-                $whereCondArr = array("product_id" => $product_id);
-                $record = $custom_model->getAllProductsList($fields, $whereCondArr);
-                $record = $record[0];
-
-                $path = "products/view/" . $record["gc_name"] . "/" . $record["pc_name"] . "/" . $record["cc_name"] . "/" . $record["url_key"];
-                $url = base_url($path);
-                $url = str_replace(" ", "-", $url);
-                return $url;
-            }
         }
 
         public function search()
@@ -483,4 +381,27 @@
             }
         }
 
+        public function addProductVisit($product_id, $user_id = NULL)
+        {
+            // storing the product visit in the table
+            if ($user_id == NULL)
+            {
+                $user_id = 0;
+                if (isset($this->session->userdata["user_id"]))
+                {
+                    $user_id = $this->session->userdata["user_id"];
+                }
+            }
+
+            $visit_data_array = array(
+                "pv_product_id" => $product_id,
+                "pv_user_id" => $user_id,
+                "pv_ipaddress" => USER_IP,
+                "pv_useragent" => USER_AGENT
+            );
+            $model = new Common_model();
+            $model->insertData(TABLE_PRODUCT_VISIT, $visit_data_array);
+        }
+
     }
+    

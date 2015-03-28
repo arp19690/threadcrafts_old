@@ -1,4 +1,6 @@
-
+<style>
+    body{margin: 0 !important}
+</style>
 <div class="container">
     <div class="push-up blocks-spacer">
         <div class="row">
@@ -18,7 +20,7 @@
                     Looks like something went wrong! The page you were looking for is not here. 
                 </p>
                 <p class="center-align size-16 push-down-50">
-                    Let's go back to <a href="<?php echo base_url(); ?>">Home</a> 
+                    Let's go back <a href="<?php echo base_url(); ?>" class="btn btn-primary">Home</a> 
                 </p>
 
             </section> <!-- /main content -->

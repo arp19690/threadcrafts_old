@@ -83,37 +83,6 @@
             <!--  = Sidebar =  -->
             <!--  ==========  -->
             <aside class="span4">
-
-                <!--  ==========  -->
-                <!--  = Company Info with Google Maps =  -->
-                <!--  ==========  -->
-                <article class="company-info">
-                    <div class="row">
-                        <div class="span3">
-                            <h3 class="push-down-30"><span class="light">Company</span> Info</h3>
-
-                            <p>
-                                <strong class="opensans dark-clr"><?php echo SITE_NAME; ?></strong>
-                                <br />
-                                Jodhpur, Rajasthan,
-                                <br />
-                                India
-                            </p>
-
-                            <p>
-                                <strong class="opensans dark-clr">Phone Line 1:</strong> <?php echo SITE_CONTACT_NUMBER; ?>
-                                <br/>
-                                <strong class="opensans dark-clr">Phone Line 2:</strong> <?php echo SITE_CONTACT_NUMBER_ARPIT; ?>
-                                <br />
-                                <strong class="opensans dark-clr">Email:</strong> <a href="mailto:<?php echo SITE_EMAIL; ?>"><?php echo SITE_EMAIL; ?></a>
-                            </p>
-                        </div>
-                    </div>
-
-                </article>
-                
-                <hr/>
-
                 <!--  ==========  -->
                 <!--  = Twitter Widget =  -->
                 <!--  ==========  -->
@@ -121,7 +90,7 @@
                     <div class="underlined">
                         <h3><span class="light">Twitter</span> Feed</h3>
                     </div>
-                    <a class="twitter-timeline"  href="<?php echo TWITTER_SOCIAL_LINK; ?>"  data-widget-id="<?php echo TWITTER_DATA_WIDGET_ID; ?>">Tweets by @ThreadCrafts</a>
+                    <a class="twitter-timeline"  href="<?php echo TWITTER_SOCIAL_LINK; ?>"  data-widget-id="<?php echo TWITTER_DATA_WIDGET_ID; ?>">Tweets by @<?php echo SITE_NAME; ?></a>
                     <script>!function(d, s, id) {
                             var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
                             if (!d.getElementById(id)) {

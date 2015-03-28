@@ -20,7 +20,7 @@
                     <div class="portlet-body">
                         <div class="clearfix">
                             <div class="btn-group">
-                                <a href="<?php echo base_url("admin/discountcoupon/addCoupon"); ?>"><button class="btn green">
+                                <a href="<?php echo base_url_admin("discountcoupon/addCoupon"); ?>"><button class="btn green">
                                         Add New <i class="icon-plus"></i>
                                     </button></a>
                             </div>
@@ -29,10 +29,10 @@
                                 <button class="btn dropdown-toggle" data-toggle="dropdown">Type <i class="icon-angle-down"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?php echo base_url("admin/discountcoupon/"); ?>">All Coupons</a></li>
-                                    <li><a href="<?php echo base_url("admin/discountcoupon/index/active"); ?>">Active Coupons</a></li>
-                                    <li><a href="<?php echo base_url("admin/discountcoupon/index/deactive"); ?>">Deactive Coupons</a></li>
-                                    <li><a href="<?php echo base_url("admin/discountcoupon/index/expired"); ?>">Expired Coupons</a></li>
+                                    <li><a href="<?php echo base_url_admin("discountcoupon/"); ?>">All Coupons</a></li>
+                                    <li><a href="<?php echo base_url_admin("discountcoupon/index/active"); ?>">Active Coupons</a></li>
+                                    <li><a href="<?php echo base_url_admin("discountcoupon/index/deactive"); ?>">Deactive Coupons</a></li>
+                                    <li><a href="<?php echo base_url_admin("discountcoupon/index/expired"); ?>">Expired Coupons</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -44,9 +44,8 @@
                                     <th>Available</th>
                                     <th>Start-Time</th>
                                     <th>End-Time</th>
-                                    <th>Change Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,30 +58,34 @@
                                         $dc_code = $a_value["dc_code"];
                                         $dc_available = $a_value["dc_count_available"];
                                         $dc_percent = $a_value["dc_percent"];
-                                        $start_time = date("d M Y g:i a", ($a_value["dc_start_time"]));
-                                        $end_time = date("d M Y g:i a", ($a_value["dc_end_time"]));
-                                        $dc_status = $a_value["dc_status"];
-
-                                        if ($dc_status == "1")
-                                        {
-                                            $dc_status = "Active";
-                                            $change_status_code = 0;
-                                        }
-                                        else
-                                        {
-                                            $dc_status = "Deactive";
-                                            $change_status_code = 1;
-                                        }
+                                        $start_time = date("d-M-Y h:i A", strtotime($a_value["dc_start_time"]));
+                                        $end_time = date("d-M-Y h:i A", strtotime($a_value["dc_end_time"]));
+                                        $dc_status = $a_value["dc_status"] == '1' ? 'Active' : 'Deactivated';
                                         ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url("admin/discountcoupon/detail/$dc_id"); ?>" title="View Coupon Detail"><?php echo $dc_title . " (" . $dc_code . ")"; ?></a></td>
+                                            <td><a href="<?php echo base_url_admin("discountcoupon/detail/$dc_id"); ?>" title="View Coupon Detail"><?php echo $dc_title . " (" . $dc_code . ")"; ?></a></td>
                                             <td><?php echo $dc_percent; ?>%</td>
                                             <td><?php echo $dc_available; ?></td>
                                             <td><?php echo $start_time; ?></td>
                                             <td><?php echo $end_time; ?></td>
-                                            <td class="center">(<?php echo $dc_status; ?>)&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url("admin/discountcoupon/changeStatus/" . $dc_id . "/" . $change_status_code); ?>" onclick="return confirm('Are you sure to change status ?');"><i class="icon-pencil"></i></a></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/discountcoupon/editCoupon/" . $dc_id); ?>"><i class="icon-pencil"></i></a></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/discountcoupon/deleteCoupon/" . $dc_id); ?>" onclick="return confirm('Are you sure to delete this coupon ?');"><i class="icon-remove"></i></a></td>
+                                            <td class="center"><?php echo $dc_status; ?></td>
+                                            <td class="center">
+                                                <a href="<?php echo base_url_admin("discountcoupon/editCoupon/" . $dc_id); ?>"><i class="icon-pencil"></i>&nbsp;Edit</a><br/>
+                                                <?php
+                                                if ($a_value["dc_status"] == '0')
+                                                {
+                                                    ?>
+                                                    <a href="<?php echo base_url_admin("discountcoupon/changeStatus/" . $dc_id . "/1"); ?>" onclick="return confirm('Are you sure to activate ?');"><i class="icon-check"></i>&nbsp;<?php echo $dc_status; ?></a><br/>
+                                                    <?php
+                                                }
+                                                else
+                                                {
+                                                    ?>                                           
+                                                    <a href="<?php echo base_url_admin("discountcoupon/changeStatus/" . $dc_id . "/0"); ?>" onclick="return confirm('Are you sure to deactivate ?');"><i class="icon-remove-circle"></i>&nbsp;<?php echo $dc_status; ?></a><br/>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </td>
                                         </tr>
                                         <?php
                                     }

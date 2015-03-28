@@ -29,19 +29,6 @@
             </section> <!-- /main content -->
 
             <div class='span4'>
-
-                <div id="google-ads">
-                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                    <!-- ThreadCrafts Login Page Side Ad -->
-                    <ins class="adsbygoogle"
-                         style="display:inline-block;width:300px;height:250px"
-                         data-ad-client="ca-pub-4948458398051754"
-                         data-ad-slot="4205222425"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-
                 <!--  ==========  -->
                 <!--  = Twitter Widget =  -->
                 <!--  ==========  -->
@@ -49,8 +36,8 @@
                     <div class="underlined">
                         <h3><span class="light">Twitter</span> Feed</h3>
                     </div>
-                    <a class="twitter-timeline"  href="<?php echo TWITTER_SOCIAL_LINK; ?>"  data-widget-id="<?php echo TWITTER_DATA_WIDGET_ID; ?>">Tweets by @ThreadCrafts</a>
-                    <script>!function(d, s, id) {
+                    <a class="twitter-timeline"  href="<?php echo TWITTER_SOCIAL_LINK; ?>"  data-widget-id="<?php echo TWITTER_DATA_WIDGET_ID; ?>">Tweets by @<?php echo SITE_NAME; ?></a>
+                    <script>!function (d, s, id) {
                             var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
                             if (!d.getElementById(id)) {
                                 js = d.createElement(s);

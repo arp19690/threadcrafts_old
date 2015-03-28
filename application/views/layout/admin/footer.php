@@ -30,7 +30,7 @@
 
 <script src="<?php echo ADMIN_ASSETS_PATH; ?>/js/app.js"></script>		
 <script>
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
         // initiate layout and plugins
         App.setPage("table_editable");
         App.init();
@@ -50,6 +50,13 @@
         var input = jQuery(".gMapLocation")[i];
         var autocomplete = new google.maps.places.Autocomplete(input);
     }
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('.login-success').slideUp();
+            $('.login-error').slideUp();
+        }, 3000);
+    });
 </script>
 </body>
 <!-- END BODY -->

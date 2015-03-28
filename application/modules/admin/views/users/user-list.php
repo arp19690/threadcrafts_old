@@ -20,7 +20,7 @@
                     <div class="portlet-body">
                         <div class="clearfix">
                             <div class="btn-group">
-                                <a href="<?php echo base_url("admin/users/addUser"); ?>"><button class="btn green">
+                                <a href="<?php echo base_url_admin("users/addUser"); ?>"><button class="btn green">
                                         Add New <i class="icon-plus"></i>
                                     </button></a>
                             </div>
@@ -30,12 +30,9 @@
                                 <tr>
                                     <th>Full Name</th>
                                     <th>Email</th>
-                                    <th class="hidden-phone">Address</th>
-                                    <th>Location</th>
                                     <th>Contact</th>
                                     <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Deactivate</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,27 +41,34 @@
                                     foreach ($alldata as $a_key => $a_value)
                                     {
                                         $user_id = $a_value["user_id"];
-                                        $full_name = ucwords($a_value["first_name"] . " " . $a_value["last_name"]);
+                                        $full_name = ucwords($a_value["user_fullname"]);
                                         $user_email = $a_value["user_email"];
-                                        $user_address = $a_value["user_address"];
-                                        $user_location = $a_value["user_location"];
                                         $user_contact = $a_value["user_contact"];
-                                        $user_status = $a_value["user_status"];
-
-                                        if ($user_status == "1")
-                                            $user_status = "Active";
-                                        else
-                                            $user_status = "Deactive";
+                                        $user_status = $a_value["user_status"] == '1' ? 'Active' : 'Deactivated';
                                         ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url("admin/users/userDetail/$user_id"); ?>" title="View Detail"><?php echo $full_name; ?></a></td>
+                                            <td><?php echo $full_name; ?></td>
                                             <td><?php echo $user_email; ?></td>
-                                            <td class="hidden-phone"><?php echo $user_address; ?></td>
-                                            <td><?php echo $user_location; ?></td>
                                             <td><?php echo $user_contact; ?></td>
                                             <td class="center"><?php echo $user_status; ?></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/users/editUser/" . $user_id); ?>"><i class="icon-pencil"></i></a></td>
-                                            <td class="center"><a href="<?php echo base_url("admin/users/deactivateUser/" . $user_id); ?>" onclick="return confirm('Are you sure to deactivate <?php echo $full_name; ?> ?');"><i class="icon-warning-sign"></i></a></td>
+                                            <td class="center">
+                                                <a href="<?php echo base_url_admin("users/userDetail/" . $user_id); ?>" title="View Detail"><i class="icon-search"></i>&nbsp;Details</a><br/>
+                                                <a href="<?php echo base_url_admin("users/editUser/" . $user_id); ?>"><i class="icon-pencil"></i>&nbsp;Edit</a><br/>
+                                                <?php
+                                                if ($a_value["user_status"] == '1')
+                                                {
+                                                    ?>
+                                                    <a href="<?php echo base_url_admin("users/deactivateUser/" . $user_id); ?>" onclick="return confirm('Are you sure to deactivate <?php echo $full_name; ?> ?');"><i class="icon-warning-sign"></i>&nbsp;Deactivate</a><br/>
+                                                    <?php
+                                                }
+                                                else
+                                                {
+                                                    ?>   
+                                                        <a href="<?php echo base_url_admin("users/activateUser/" . $user_id); ?>" onclick="return confirm('Are you sure to activate <?php echo $full_name; ?> ?');"><i class="icon-check"></i>&nbsp;Activate</a><br/>                                    
+                                                        <?php
+                                                    }
+                                                    ?>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
