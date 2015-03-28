@@ -22,7 +22,7 @@
                         <div class="span3" id="spyMenu">
                             <div class="widget">
                                 <ul class="nav nav-pills nav-stacked my-account-sidebar">
-                                    <li class="active"><a href="#dashboard">Account Dashboard <i class="icon-caret-right pull-right"></i></a></li>
+                                    <li class="active"><a href="#dashboard">Personal Details <i class="icon-caret-right pull-right"></i></a></li>
                                     <li><a href="#wishlist">My Wishlist <i class="icon-caret-right pull-right"></i></a></li>
                                     <li><a href="#changepassword">Change Password <i class="icon-caret-right pull-right"></i></a></li>
                                 </ul>
@@ -77,7 +77,7 @@
 
 
                 <section id="dashboard">
-                    <h3 class="push-down-20"><span class="light">Account</span> Dashboard</h3>
+                    <h3 class="push-down-20"><span class="light">Personal</span> Details</h3>
                     <form action="<?php echo base_url("updateAccountInfo"); ?>" method="post" class="tab-content validate-form" enctype="multipart/form-data">
                         <div class="control-group">
                             <label class="control-label" for="user_fullname">Full Name<span class="red-clr bold">*</span></label>
