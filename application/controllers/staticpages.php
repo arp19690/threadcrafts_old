@@ -24,7 +24,8 @@
                         $record[0]["static_page_title"] => base_url("static/" . $record[0]["static_page_key"])
                     );
                     $data["breadcrumbArray"] = $breadcrumbArray;
-                    $data["static_page_title"] = $record[0]["static_page_title"];
+                    $data["static_page_title"] = stripslashes($record[0]["static_page_title"]);
+                    $data["meta_title"] = stripslashes($record[0]["static_page_title"]) . ' | ' . SITE_NAME;
                     $data["content"] = $record[0]["static_page_content"];
 
                     $this->template->write_view("content", "pages/static/static-content", $data);
