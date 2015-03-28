@@ -28,14 +28,14 @@
                 $model = new Common_model();
                 $custom_model = new Custom_model();
                 $user_id = $this->session->userdata["user_id"];
-                $user_full_name = $this->session->userdata["first_name"] . " " . $this->session->userdata["last_name"];
+                $user_full_name = $this->session->userdata["user_fullname"];
 
                 $whereCondArr = array("user_id" => $user_id, "product_status" => "1");
                 $tableArrayWithJoinCondition = array(
                     TABLE_PRODUCTS . " as p" => "p.product_id = w.product_id"
                 );
 
-                $wishlist_records = $model->getAllDataFromJoin("p.product_id,product_title,product_cost_price,w.product_quantity,user_comments, product_image_and_color", TABLE_WISHLIST . " as w", $tableArrayWithJoinCondition, "LEFT", $whereCondArr, "wishlist_id", "DESC");
+                $wishlist_records = $model->getAllDataFromJoin("p.product_id,product_title,product_price,w.product_quantity,user_comments, product_image_and_color", TABLE_WISHLIST . " as w", $tableArrayWithJoinCondition, "LEFT", $whereCondArr, "wishlist_id", "DESC");
                 $data["wishlist_records"] = $wishlist_records;
 
                 $my_blog_records = $model->fetchSelectedData("blog_id, blog_title, blog_status, creation_timestamp", TABLE_BLOGS, array("user_id" => $user_id), "blog_id", "DESC");
