@@ -43,9 +43,7 @@
         <meta property="og:locale" content="en_US" />
         <!--Google plus essentials START-->
         <link href="https://plus.google.com/+ThreadCraftsJodhpur" rel="publisher" />
-        <script type="text/javascript" async defer
-                src="https://apis.google.com/js/platform.js?publisherid=101035726513260358778">
-        </script>
+        <script type="text/javascript" async defer src="https://apis.google.com/js/platform.js?publisherid=101035726513260358778"></script>
         <!--Google plus essentials END-->
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo IMAGES_PATH; ?>/apple-touch/144.png"/>
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo IMAGES_PATH; ?>/apple-touch/114.png"/>
@@ -64,17 +62,23 @@
         </script>
     </head>
     <body class="">
-        <div id="fb-root"></div>
-        <script>(function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id))
-                    return;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&amp;appId=<?php echo FACEBOOK_APP_ID; ?>";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-        <div class="please-wait-currency"><h1>Please wait...</h1><h3>while we do the calculation with currency exchange prices for you</h3></div>       
+        <?php
+            if (!isMobileDevice())
+            {
+                ?>
+                <div id="fb-root"></div>
+                <script>(function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id))
+                            return;
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&amp;appId=<?php echo FACEBOOK_APP_ID; ?>";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));</script>
+                <?php
+            }
+        ?>
         <header id="header">
             <div class="master-wrapper">
                 <div class="darker-row">
@@ -172,4 +176,4 @@
         </header>
         <?php
             $this->load->view('layout/front/navigation');
-        ?>
+            
