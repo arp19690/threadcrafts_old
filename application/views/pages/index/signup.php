@@ -43,12 +43,6 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="user_location" class="control-label">Location <span class="required">*</span></label>
-                                    <div class="controls">
-                                        <input class="input-text required gMapLocation" name="user_location" placeholder="Input your Location" id="user_location" type="text" required="required"/>
-                                    </div>
-                                </div>
-                                <div class="control-group">
                                     <label for="user_email" class="control-label">Email <span class="required">*</span></label>
                                     <div class="controls">
                                         <input class="input-text required" name="user_email" id="user_email" placeholder="Input your Email Address" type="text" required="required"/>
