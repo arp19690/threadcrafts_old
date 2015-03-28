@@ -83,37 +83,6 @@
             <!--  = Sidebar =  -->
             <!--  ==========  -->
             <aside class="span4">
-
-                <!--  ==========  -->
-                <!--  = Company Info with Google Maps =  -->
-                <!--  ==========  -->
-                <article class="company-info">
-                    <div class="row">
-                        <div class="span3">
-                            <h3 class="push-down-30"><span class="light">Company</span> Info</h3>
-
-                            <p>
-                                <strong class="opensans dark-clr"><?php echo SITE_NAME; ?></strong>
-                                <br />
-                                Jodhpur, Rajasthan,
-                                <br />
-                                India
-                            </p>
-
-                            <p>
-                                <strong class="opensans dark-clr">Phone Line 1:</strong> <?php echo SITE_CONTACT_NUMBER; ?>
-                                <br/>
-                                <strong class="opensans dark-clr">Phone Line 2:</strong> <?php echo SITE_CONTACT_NUMBER_ARPIT; ?>
-                                <br />
-                                <strong class="opensans dark-clr">Email:</strong> <a href="mailto:<?php echo SITE_EMAIL; ?>"><?php echo SITE_EMAIL; ?></a>
-                            </p>
-                        </div>
-                    </div>
-
-                </article>
-                
-                <hr/>
-
                 <!--  ==========  -->
                 <!--  = Twitter Widget =  -->
                 <!--  ==========  -->
