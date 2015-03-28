@@ -128,7 +128,7 @@
             }
             else
             {
-                redirect(base_url("myAccount"));
+                redirect(base_url("my-account"));
             }
         }
 
@@ -161,7 +161,7 @@
             }
             else
             {
-                redirect(base_url("myAccount"));
+                redirect(base_url("my-account"));
             }
         }
 

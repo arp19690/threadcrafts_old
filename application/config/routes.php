@@ -60,7 +60,7 @@
     $route['forgot-password'] = 'index/forgotpassword';
     
     $route['activation/(:any)'] = 'index/activation/$1';
-    $route['myAccount'] = 'user/myAccount';
+    $route['my-account'] = 'user/myAccount';
     $route['updateAccountInfo'] = 'user/updateAccountInfo';
     $route['updatePassword'] = 'user/updatePassword';
     $route['checkout'] = 'cart/checkoutStepOne';

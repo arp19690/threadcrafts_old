@@ -100,9 +100,9 @@
                                                 $wishlist_count_array = $model->getTotalCount("wishlist_id", TABLE_WISHLIST, array("user_id" => $this->session->userdata["user_id"]));
                                                 $myWishlistCount = $wishlist_count_array[0]["totalcount"];
                                                 ?>
-                                                <a href="<?php echo base_url("myAccount"); ?>" class="gray-link">My account</a>
+                                                <a href="<?php echo base_url("my-account"); ?>" class="gray-link">My account</a>
                                                 &nbsp; | &nbsp; 
-                                                <a href="<?php echo base_url("myAccount#wishlist"); ?>" class="gray-link header-wishlist">Wishlist (<?php echo $myWishlistCount; ?>)</a>
+                                                <a href="<?php echo base_url("my-account#wishlist"); ?>" class="gray-link header-wishlist">Wishlist (<?php echo $myWishlistCount; ?>)</a>
                                                 &nbsp; | &nbsp;  
                                                 <a href="<?php echo base_url("checkout"); ?>" class="gray-link">Cart (<span class="cart_total_items"><?php echo $this->cart->total_items(); ?></span>)</a>
                                                 &nbsp; | &nbsp;  

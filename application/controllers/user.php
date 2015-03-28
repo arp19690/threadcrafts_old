@@ -49,7 +49,7 @@
                 $data["user_record"] = $user_records[0];
 
                 $breadcrumbArray = array(
-                    "My Account" => base_url("myAccount"),
+                    "My Account" => base_url("my-account"),
                 );
                 $data["breadcrumbArray"] = $breadcrumbArray;
                 $data["meta_title"] = ucwords($user_full_name) . " | " . SITE_NAME;
@@ -135,7 +135,7 @@
                 $this->session->set_userdata("last_name", trim($arr["last_name"]));
                 $this->session->set_flashdata("success", "<strong>Success!</strong> Account details updated");
             }
-            redirect(base_url("myAccount"));
+            redirect(base_url("my-account"));
         }
 
         public function updatePassword()
@@ -168,7 +168,7 @@
                     $this->session->set_flashdata("warning", "<strong>Warning!</strong> Password fields cannot be left blank.");
                 }
             }
-            redirect(base_url("myAccount"));
+            redirect(base_url("my-account"));
         }
 
         public function saveWishlist()
@@ -193,7 +193,7 @@
 
                 $model->updateData(TABLE_WISHLIST, $data_array, array("user_id" => $user_id, "product_id" => $product_id));
                 $this->session->set_flashdata('success', 'Your wishlist has been updated successfully');
-                redirect(base_url('myAccount#wishlist'));
+                redirect(base_url('my-account#wishlist'));
             }
         }
 

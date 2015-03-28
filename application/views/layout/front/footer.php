@@ -265,7 +265,7 @@
 <?php
     $include_array = array(
         'index/signup',
-        'user/myAccount',
+        'user/my-account',
         'cart/checkoutStepTwo',
     );
 

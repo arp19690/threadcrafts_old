@@ -397,7 +397,7 @@
                 $this->cart->destroy();
 
                 $this->session->set_flashdata("success", "<strong>Success</strong> Your order has been placed successfully.");
-                redirect(base_url('myAccount#myOrders'));
+                redirect(base_url('my-account#myOrders'));
             }
             else
             {
@@ -706,7 +706,7 @@
             $this->cart->destroy();
 
             $this->session->set_flashdata("success", "<strong>Success</strong> Your order has been placed successfully.");
-            redirect(base_url('myAccount#myOrders'));
+            redirect(base_url('my-account#myOrders'));
         }
 
         public function paymentGateway()
