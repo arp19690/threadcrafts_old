@@ -28,17 +28,16 @@
                     //login successful
 
                     $data_array = array(
-                        "user_id" => $record["user_id"],
-                        "login_time" => time(),
-                        "user_agent" => $this->ci->session->userdata["user_agent"],
-                        "user_ipaddress" => $this->ci->session->userdata["ip_address"]);
+                        "ul_user_id" => $record["user_id"],
+                        "ul_login_time" => time(),
+                        "ul_useragent" => $this->ci->session->userdata["user_agent"],
+                        "ul_ipaddress" => $this->ci->session->userdata["ip_address"]);
                     $model->insertData(TABLE_USER_LOG, $data_array);
 
                     $user_array = array(
                         "user_id" => $record["user_id"],
                         "user_email" => $record["user_email"],
-                        "first_name" => $record["first_name"],
-                        "last_name" => $record["last_name"],
+                        "user_fullname" => stripslashes($record["user_fullname"]),
                         "user_session_expire_time" => time() + USER_TIMEOUT_TIME,
                     );
 
@@ -65,8 +64,7 @@
                 if ($error_redirect_to == NULL)
                     $error_redirect_to = base_url();
 
-                $this->ci->session->
-                        set_flashdata('error', "<strong>Error!</strong> Invalid Email or Password.");
+                $this->ci->session->set_flashdata('error', "<strong>Error!</strong> Invalid Email or Password.");
                 redirect($error_redirect_to);
             }
         }
