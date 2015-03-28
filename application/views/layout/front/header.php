@@ -85,7 +85,7 @@
                                     <?php
                                         if (isset($this->session->userdata["user_id"]))
                                         {
-                                            echo 'Welcome! <strong>' . $this->session->userdata["first_name"] . " " . $this->session->userdata["last_name"] . '</strong>';
+                                            echo 'Welcome! <strong>' . $this->session->userdata["user_fullname"] . '</strong>';
                                         }
                                     ?>
                                 </div>
