@@ -1,185 +1,195 @@
+<?php
+    if (!isMobileDevice())
+    {
+        ?>
+        <!--  ==========  -->
+        <!--  = Slider Revolution =  -->
+        <!--  ==========  -->
+        <div class="fullwidthbanner-container">
+            <div class="fullwidthbanner">
+                <ul>
+                    <li data-transition="premium-random" data-slotamount="3">
+                        <img src="<?php echo IMAGES_PATH; ?>/slider/1.jpg" alt="slider img" width="1400" height="377" />
 
+                        <!-- texts -->
+                        <div class="caption lfl big_theme"
+                             data-x="120" 
+                             data-y="120"
+                             data-speed="1000" 
+                             data-start="500" 
+                             data-easing="easeInOutBack">
+                            We give you best in-class authentic handiwork
+                        </div>
 
-<!--  ==========  -->
-<!--  = Slider Revolution =  -->
-<!--  ==========  -->
-<div class="fullwidthbanner-container">
-    <div class="fullwidthbanner">
-        <ul>
-            <li data-transition="premium-random" data-slotamount="3">
-                <img src="<?php echo IMAGES_PATH; ?>/slider/1.jpg" alt="slider img" width="1400" height="377" />
+                        <div class="caption lfl small_theme"
+                             data-x="120" 
+                             data-y="190"
+                             data-speed="1000" 
+                             data-start="700" 
+                             data-easing="easeInOutBack">
+                            Take a tour to our store to discover our wide range of hand-crafted and clothing products
+                        </div>
 
-                <!-- texts -->
-                <div class="caption lfl big_theme"
-                     data-x="120" 
-                     data-y="120"
-                     data-speed="1000" 
-                     data-start="500" 
-                     data-easing="easeInOutBack">
-                    We give you best in-class authentic handiwork
-                </div>
+                        <a href="<?php echo base_url('products'); ?>" class="caption lfl btn btn-primary btn_theme"
+                           data-x="120" 
+                           data-y="260"
+                           data-speed="1000" 
+                           data-start="900" 
+                           data-easing="easeInOutBack">
+                            TAKE TOUR
+                        </a>
+                    </li><!-- /slide -->
 
-                <div class="caption lfl small_theme"
-                     data-x="120" 
-                     data-y="190"
-                     data-speed="1000" 
-                     data-start="700" 
-                     data-easing="easeInOutBack">
-                    Take a tour to our store to discover our wide range of hand-crafted and clothing products
-                </div>
+                    <li data-transition="premium-random" data-slotamount="3">
+                        <img src="<?php echo IMAGES_PATH; ?>/slider/2.jpg" alt="slider img" width="1400" height="377" />
 
-                <a href="<?php echo base_url('products'); ?>" class="caption lfl btn btn-primary btn_theme"
-                   data-x="120" 
-                   data-y="260"
-                   data-speed="1000" 
-                   data-start="900" 
-                   data-easing="easeInOutBack">
-                    TAKE TOUR
-                </a>
-            </li><!-- /slide -->
+                        <!-- texts -->
+                        <div class="caption lfl big_theme"
+                             data-x="120" 
+                             data-y="120"
+                             data-speed="1000" 
+                             data-start="500" 
+                             data-easing="easeInOutBack">
+                            Exclusive Royal Ethnic Collection
+                        </div>
 
-            <li data-transition="premium-random" data-slotamount="3">
-                <img src="<?php echo IMAGES_PATH; ?>/slider/2.jpg" alt="slider img" width="1400" height="377" />
+                        <div class="caption lfl small_theme"
+                             data-x="120" 
+                             data-y="190"
+                             data-speed="1000" 
+                             data-start="700" 
+                             data-easing="easeInOutBack">
+                            Accessories, Bangles, Clothing, Turbans
+                        </div>
 
-                <!-- texts -->
-                <div class="caption lfl big_theme"
-                     data-x="120" 
-                     data-y="120"
-                     data-speed="1000" 
-                     data-start="500" 
-                     data-easing="easeInOutBack">
-                    Exclusive Royal Ethnic Collection
-                </div>
+                        <a href="<?php echo base_url('products'); ?>" class="caption lfl btn btn-primary btn_theme"
+                           data-x="120" 
+                           data-y="260"
+                           data-speed="1000" 
+                           data-start="900" 
+                           data-easing="easeInOutBack">
+                            AND MUCH MORE ...
+                        </a>
+                    </li><!-- /slide -->
 
-                <div class="caption lfl small_theme"
-                     data-x="120" 
-                     data-y="190"
-                     data-speed="1000" 
-                     data-start="700" 
-                     data-easing="easeInOutBack">
-                    Accessories, Bangles, Clothing, Turbans
-                </div>
+                    <li data-transition="premium-random" data-slotamount="3">
+                        <img src="<?php echo IMAGES_PATH; ?>/slider/3.jpg" alt="slider img" width="1400" height="377" />
 
-                <a href="<?php echo base_url('products'); ?>" class="caption lfl btn btn-primary btn_theme"
-                   data-x="120" 
-                   data-y="260"
-                   data-speed="1000" 
-                   data-start="900" 
-                   data-easing="easeInOutBack">
-                    AND MUCH MORE ...
-                </a>
-            </li><!-- /slide -->
+                        <!-- texts -->
+                        <div class="caption lfl big_theme"
+                             data-x="120" 
+                             data-y="120"
+                             data-speed="1000" 
+                             data-start="500" 
+                             data-easing="easeInOutBack">
+                            Accessories to look different?
+                        </div>
 
-            <li data-transition="premium-random" data-slotamount="3">
-                <img src="<?php echo IMAGES_PATH; ?>/slider/3.jpg" alt="slider img" width="1400" height="377" />
+                        <div class="caption lfl small_theme"
+                             data-x="120" 
+                             data-y="190"
+                             data-speed="1000" 
+                             data-start="700" 
+                             data-easing="easeInOutBack">
+                            Where else to go? On Thread Crafts we give you the best accessories for any occasion or party
+                        </div>
 
-                <!-- texts -->
-                <div class="caption lfl big_theme"
-                     data-x="120" 
-                     data-y="120"
-                     data-speed="1000" 
-                     data-start="500" 
-                     data-easing="easeInOutBack">
-                    Accessories to look different?
-                </div>
+                        <a href="<?php echo base_url('products'); ?>" class="caption lfl btn btn-primary btn_theme"
+                           data-x="120" 
+                           data-y="260"
+                           data-speed="1000" 
+                           data-start="900" 
+                           data-easing="easeInOutBack">
+                            See more...
+                        </a>
+                    </li><!-- /slide -->
 
-                <div class="caption lfl small_theme"
-                     data-x="120" 
-                     data-y="190"
-                     data-speed="1000" 
-                     data-start="700" 
-                     data-easing="easeInOutBack">
-                    Where else to go? On Thread Crafts we give you the best accessories for any occasion or party
-                </div>
-
-                <a href="<?php echo base_url('products'); ?>" class="caption lfl btn btn-primary btn_theme"
-                   data-x="120" 
-                   data-y="260"
-                   data-speed="1000" 
-                   data-start="900" 
-                   data-easing="easeInOutBack">
-                    See more...
-                </a>
-            </li><!-- /slide -->
-
-            <!--            <li data-transition="premium-random" data-slotamount="3">
-                            <img src="<?php echo IMAGES_PATH; ?>/slider/4.jpg" alt="slider img" width="1400" height="377" />
-            
-                             texts 
-                            <div class="caption lfl big_theme"
-                                 data-x="120" 
-                                 data-y="140"
-                                 data-speed="1000" 
-                                 data-start="500" 
-                                 data-easing="easeInOutBack">
-                                Over 1000 Satisfied Customers
-                            </div>
-            
-                            <div class="caption lfl small_theme"
-                                 data-x="120" 
-                                 data-y="210"
-                                 data-speed="1000" 
-                                 data-start="700" 
-                                 data-easing="easeInOutBack">
-                                Take a look at our profile page on the <a href="http://themeforest.net/user/ProteusThemes" target="_blank">ThemeForest</a>! 
-                            </div>
-            
-                            <a href="http://proteusthemes.ticksy.com/" class="caption lfl btn btn-primary btn_theme"
-                               data-x="120" 
-                               data-y="280"
-                               data-speed="1000" 
-                               data-start="900" 
-                               data-easing="easeInOutBack">
-                                We provide support on Ticksy
-                            </a>
-                        </li>-->
-            <!-- /slide -->
-        </ul>
-        <div class="tp-bannertimer"></div>
-    </div>
-    <!--  ==========  -->
-    <!--  = Nav Arrows =  -->
-    <!--  ==========  -->
-    <div id="sliderRevLeft"><i class="icon-chevron-left"></i></div>
-    <div id="sliderRevRight"><i class="icon-chevron-right"></i></div>
-</div> <!-- /slider revolution -->
+                    <!--            <li data-transition="premium-random" data-slotamount="3">
+                                    <img src="<?php echo IMAGES_PATH; ?>/slider/4.jpg" alt="slider img" width="1400" height="377" />
+                    
+                                     texts 
+                                    <div class="caption lfl big_theme"
+                                         data-x="120" 
+                                         data-y="140"
+                                         data-speed="1000" 
+                                         data-start="500" 
+                                         data-easing="easeInOutBack">
+                                        Over 1000 Satisfied Customers
+                                    </div>
+                    
+                                    <div class="caption lfl small_theme"
+                                         data-x="120" 
+                                         data-y="210"
+                                         data-speed="1000" 
+                                         data-start="700" 
+                                         data-easing="easeInOutBack">
+                                        Take a look at our profile page on the <a href="http://themeforest.net/user/ProteusThemes" target="_blank">ThemeForest</a>! 
+                                    </div>
+                    
+                                    <a href="http://proteusthemes.ticksy.com/" class="caption lfl btn btn-primary btn_theme"
+                                       data-x="120" 
+                                       data-y="280"
+                                       data-speed="1000" 
+                                       data-start="900" 
+                                       data-easing="easeInOutBack">
+                                        We provide support on Ticksy
+                                    </a>
+                                </li>-->
+                    <!-- /slide -->
+                </ul>
+                <div class="tp-bannertimer"></div>
+            </div>
+            <!--  ==========  -->
+            <!--  = Nav Arrows =  -->
+            <!--  ==========  -->
+            <div id="sliderRevLeft"><i class="icon-chevron-left"></i></div>
+            <div id="sliderRevRight"><i class="icon-chevron-right"></i></div>
+        </div> <!-- /slider revolution -->
+        <?php
+    }
+?>
 
 <!--  ==========  -->
 <!--  = Main container =  -->
 <!--  ==========  -->
 <div class="container">
-    <div class="row">
-        <div class="span12">
-            <div class="push-up over-slider blocks-spacer">
-
-                <!--  ==========  -->
-                <!--  = Three Banners =  -->
-                <!--  ==========  -->
-                <div class="row">
-                    <div class="span4">
-                        <a href="#" class="btn btn-block banner">
-                            <span class="title"><span class="light">CLASSIC</span> PRODUCTS</span>
-                            <em>wide variety of authentic, classy products</em>
-                        </a>
-                    </div>
-                    <div class="span4">
-                        <a href="#" class="btn btn-block colored banner">
-                            <span class="title"><span class="light">FREE</span> SHIPPING</span>
-                            <em>anywhere within India</em>
-                        </a>
-                    </div>
-                    <div class="span4">
-                        <a href="#" class="btn btn-block banner">
-                            <span class="title"><span class="light">INTERNATIONAL</span> SHIPPING</span>
-                            <em>we will soon start shipping to every continent</em>
-                        </a>
-                    </div>
-                </div> <!-- /three banners -->
-            </div>
-        </div>
-    </div>
-
     <?php
+        if (!isMobileDevice())
+        {
+            ?>
+            <div class="row">
+                <div class="span12">
+                    <div class="push-up over-slider blocks-spacer">
+
+                        <!--  ==========  -->
+                        <!--  = Three Banners =  -->
+                        <!--  ==========  -->
+                        <div class="row">
+                            <div class="span4">
+                                <a href="#" class="btn btn-block banner">
+                                    <span class="title"><span class="light">CLASSIC</span> PRODUCTS</span>
+                                    <em>wide variety of authentic, classy products</em>
+                                </a>
+                            </div>
+                            <div class="span4">
+                                <a href="#" class="btn btn-block colored banner">
+                                    <span class="title"><span class="light">FREE</span> SHIPPING</span>
+                                    <em>anywhere within India</em>
+                                </a>
+                            </div>
+                            <div class="span4">
+                                <a href="#" class="btn btn-block banner">
+                                    <span class="title"><span class="light">INTERNATIONAL</span> SHIPPING</span>
+                                    <em>we will soon start shipping to every continent</em>
+                                </a>
+                            </div>
+                        </div> <!-- /three banners -->
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+
         if (!empty($featured_array))
         {
             ?>

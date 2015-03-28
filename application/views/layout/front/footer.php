@@ -20,16 +20,23 @@
                     <h2 class="pacifico"><?php echo SITE_NAME; ?> &nbsp;</h2>
                     <div><?php echo $about_us_short_content; ?></div>
                 </div>
-                <div class="span4">
-                    <div class="main-titles lined">
-                        <h3 class="title">Facebook</h3>
-                    </div>
-                    <div class="bordered">
-                        <div class="fill-iframe">
-                            <div class="fb-like-box" data-href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+                <?php
+                    if (!isMobileDevice())
+                    {
+                        ?>
+                        <div class="span4">
+                            <div class="main-titles lined">
+                                <h3 class="title">Facebook</h3>
+                            </div>
+                            <div class="bordered">
+                                <div class="fill-iframe">
+                                    <div class="fb-like-box" data-href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <?php
+                    }
+                ?>
                 <div class="span4">
                     <div class="main-titles lined">
                         <h3 class="title"><span class="light">Newsletters</span> Signup</h3>
