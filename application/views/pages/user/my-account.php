@@ -67,15 +67,6 @@
             <!--  = Main content =  -->
             <!--  ==========  -->
             <section class="span9">
-
-                <!--  ==========  -->
-                <!--  = Title =  -->
-                <!--  ==========  -->
-                <div class="underlined push-down-20">
-                    <h3><span class="light">My</span> Account</h3>
-                </div> <!-- /title -->
-
-
                 <section id="dashboard">
                     <h3 class="push-down-20"><span class="light">Personal</span> Details</h3>
                     <form action="<?php echo base_url("updateAccountInfo"); ?>" method="post" class="tab-content validate-form" enctype="multipart/form-data">
@@ -86,9 +77,15 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label class="control-label" for="user_contact">Contact Number<span class="red-clr bold">*</span></label>
+                            <div class="controls">
+                                <input type="text" id="user_contact" name="user_contact" placeholder="Input your Contact Number" maxlength="20" class="span4 required" required="required" value="<?php echo $user_record["user_contact"]; ?>"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label class="control-label" for="user_gender">Gender<span class="red-clr bold">*</span></label>
                             <div class="controls">
-                                <select class="span4 required" name="user_gender" required="required">
+                                <select class=" required" name="user_gender" required="required">
                                     <?php
                                         if ($user_record["user_gender"] == 'male')
                                         {
@@ -104,36 +101,6 @@
                                     <option value="male" <?php echo set_select('user_gender', $user_record["user_gender"], $male_select); ?>>Male</option>
                                     <option value="female" <?php echo set_select('user_gender', $user_record["user_gender"], $female_select); ?>>Female</option>
                                 </select>
-                            </div>
-                        </div>
-                        <!--                        <div class="control-group">
-                                                    <label class="control-label" for="user_dob">Date of Birth<span class="red-clr bold">*</span></label>
-                                                    <div class="controls">
-                                                        <input type="text" id="user_dob" name="user_dob" placeholder="Input your Date of Birth" class="span4 datepicker" required="required" value="<?php echo $user_record["user_dob"]; ?>"/>
-                                                    </div>
-                                                </div>-->
-                        <div class="control-group">
-                            <label class="control-label" for="user_contact">Contact Number<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <input type="text" id="user_contact" name="user_contact" placeholder="Input your Contact Number" maxlength="20" class="span4 required" required="required" value="<?php echo $user_record["user_contact"]; ?>"/>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="user_address">Address<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <textarea id="user_address" name="user_address" rows="3" placeholder="Input your Address" class="span4 required" required="required" style="resize: none;"><?php echo $user_record["user_address"]; ?></textarea>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="user_location">Location<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <input type="text" id="user_location" name="user_location" placeholder="Input your Location" class="span4 required gMapLocation" required="required" value="<?php echo $user_record["user_location"]; ?>"/>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="user_postcode">Postcode<span class="red-clr bold">*</span></label>
-                            <div class="controls">
-                                <input type="text" id="user_postcode" name="user_postcode" placeholder="Input your Postcode" maxlength="10" class="span4 required" required="required" value="<?php echo $user_record["user_postcode"]; ?>"/>
                             </div>
                         </div>
                         <div class="control-group">
@@ -221,7 +188,7 @@
                         <div class="control-group">
                             <label class="control-label" for="new_password">New Password<span class="red-clr bold">*</span></label>
                             <div class="controls">
-                                <input type="password" id="new_password" name="new_password" placeholder="Input your New Password" class="span4 required" required="required" />
+                                <input type="password" id="new_password" name="new_password" placeholder="Input New Password" class="span4 required" required="required" />
                             </div>
                         </div>
                         <div class="control-group">
