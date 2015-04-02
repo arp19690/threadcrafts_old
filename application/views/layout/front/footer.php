@@ -154,7 +154,7 @@
         <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="loginModalLabel"><span class="light">Login</span> To <?php echo SITE_NAME; ?></h3>
+                <h3 id="loginModalLabel"><span class="light">Login To</span> <?php echo SITE_NAME; ?></h3>
             </div>
             <div class="modal-body">
                 <form method="post" action="<?php echo base_url("login"); ?>">
@@ -189,7 +189,7 @@
         <div id="signupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="singupModalLabel"><span class="light">Signup</span> To <?php echo SITE_NAME; ?></h3>
+                <h3 id="singupModalLabel"><span class="light">Signup To</span> <?php echo SITE_NAME; ?></h3>
             </div>
             <div class="modal-body">
                 <form method="post" action="<?php echo base_url("signup"); ?>">
