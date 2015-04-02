@@ -29,9 +29,10 @@
 
                     $data_array = array(
                         "ul_user_id" => $record["user_id"],
-                        "ul_login_time" => time(),
-                        "ul_useragent" => $this->ci->session->userdata["user_agent"],
-                        "ul_ipaddress" => $this->ci->session->userdata["ip_address"]);
+                        "ul_login_time" => date('Y-m-d H:i:s'),
+                        "ul_useragent" => USER_AGENT,
+                        "ul_ipaddress" => USER_IP,
+                    );
                     $model->insertData(TABLE_USER_LOG, $data_array);
 
                     $user_array = array(
@@ -110,11 +111,11 @@
             {
                 $model = $this->ci->Common_model;
 
-                $record = $model->fetchSelectedData("ul_id", TABLE_USER_LOG, array("ul_user_id" => $user_id, "ul_logout_time" => ""), "ul_id", "DESC", "1");
+                $record = $model->fetchSelectedData("ul_id", TABLE_USER_LOG, array("ul_user_id" => $user_id, "ul_logout_time" => NULL), "ul_id", "DESC", "1");
                 $ul_id = $record[0]["ul_id"];
 
                 $update_data_array = array();
-                $update_data_array["ul_logout_time"] = time();
+                $update_data_array["ul_logout_time"] = date('Y-m-d H:i:s');
 
                 $whereCondArr = array();
                 $whereCondArr["ul_id"] = $ul_id;
@@ -135,3 +136,4 @@
         }
 
     }
+    
