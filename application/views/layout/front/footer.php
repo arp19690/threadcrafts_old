@@ -13,17 +13,17 @@
     $popular_records = $custom_model->getPopularProducts("p.product_id,p.product_title", array("product_status" => "1"), NULL, NULL, "7");
 ?>
 <footer>
-    <div class="foot-light">
-        <div class="container">
-            <div class="row">
-                <div class="span4">
-                    <h2 class="pacifico"><?php echo SITE_NAME; ?> &nbsp;</h2>
-                    <div><?php echo $about_us_short_content; ?></div>
-                </div>
-                <?php
-                    if (!isMobileDevice())
-                    {
-                        ?>
+    <?php
+        if (!isMobileDevice())
+        {
+            ?>
+            <div class="foot-light">
+                <div class="container">
+                    <div class="row">
+                        <div class="span4">
+                            <h2 class="pacifico"><?php echo SITE_NAME; ?> &nbsp;</h2>
+                            <div><?php echo $about_us_short_content; ?></div>
+                        </div>
                         <div class="span4">
                             <div class="main-titles lined">
                                 <h3 class="title">Facebook</h3>
@@ -34,30 +34,30 @@
                                 </div>
                             </div>
                         </div>
-                        <?php
-                    }
-                ?>
-                <div class="span4">
-                    <div class="main-titles lined">
-                        <h3 class="title"><span class="light">Newsletters</span> Signup</h3>
-                    </div>
-                    <p>Signup for our newsletters and we will keep you posted about the promotional offers and schemes. We do not spam.</p>
+                        <div class="span4">
+                            <div class="main-titles lined">
+                                <h3 class="title"><span class="light">Newsletters</span> Signup</h3>
+                            </div>
+                            <p>Signup for our newsletters and we will keep you posted about the promotional offers and schemes. We do not spam.</p>
 
-                    <div id="mc_embed_signup">
-                        <form action="<?php echo base_url("index/newsletterSignup"); ?>" method="post"  name="mc-embedded-subscribe-form" class="validate form form-inline validate-form">
-                            <div class="mc-field-group">
-                                <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
-                                <input type="email" value="" placeholder="Enter your e-mail address" name="user_email" class="required email" id="mce-EMAIL">
-                                <input type="submit" value="Subscribe" name="subscribe"  class="btn btn-primary">
+                            <div id="mc_embed_signup">
+                                <form action="<?php echo base_url("index/newsletterSignup"); ?>" method="post"  name="mc-embedded-subscribe-form" class="validate form form-inline validate-form">
+                                    <div class="mc-field-group">
+                                        <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
+                                        <input type="email" value="" placeholder="Enter your e-mail address" name="user_email" class="required email" id="mce-EMAIL">
+                                        <input type="submit" value="Subscribe" name="subscribe"  class="btn btn-primary">
+                                    </div>
+
+                                </form>
                             </div>
 
-                        </form>
+                        </div>
                     </div>
-
                 </div>
             </div>
-        </div>
-    </div> 
+            <?php
+        }
+    ?>
     <div class="foot-dark">
         <div class="container">
             <div class="row">

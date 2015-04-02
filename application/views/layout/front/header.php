@@ -55,9 +55,9 @@
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery-core-n-modernizer.min.js"></script>
         <script type="text/javascript">
-                    if (window.location.hash && window.location.hash == '#_=_') {
-                        window.location.hash = '';
-                    }
+            if (window.location.hash && window.location.hash == '#_=_') {
+                window.location.hash = '';
+            }
         </script>
     </head>
     <body class="">
@@ -161,15 +161,22 @@
                             <span class="tagline"><?php echo SITE_TAGLINE; ?></span> 
                         </a>
                     </div>
-                    <div class="span5">
-                        <div class="top-right">
-                            <div class="icons">
-                                <a href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-facebook"></span></a>
-                                <a href="<?php echo TWITTER_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-twitter"></span></a>
-                                <!--<a href="<?php echo ANDROID_APP_URL; ?>" target="_blank"><span class="zocial-android"></span></a>-->
+                    <?php
+                        if (!isMobileDevice())
+                        {
+                            ?>
+                            <div class="span5">
+                                <div class="top-right">
+                                    <div class="icons">
+                                        <a href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-facebook"></span></a>
+                                        <a href="<?php echo TWITTER_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-twitter"></span></a>
+                                        <!--<a href="<?php echo ANDROID_APP_URL; ?>" target="_blank"><span class="zocial-android"></span></a>-->
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                            <?php
+                        }
+                    ?>
                 </div>
             </div>
         </header>
