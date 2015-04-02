@@ -188,6 +188,7 @@
                 $data_array = array(
                     "ul_user_id" => $returnArray["session_array"]["user_id"],
                     "ul_login_time" => date('Y-m-d H:i:s'),
+                    "ul_login_via" => 'facebook',
                     "ul_useragent" => USER_AGENT,
                     "ul_ipaddress" => USER_IP,
                 );
