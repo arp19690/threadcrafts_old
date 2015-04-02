@@ -42,7 +42,7 @@
 //                prd($user_records);
                 $data["user_record"] = $user_records[0];
 
-                $user_address_records = $model->fetchSelectedData('ua_line1, ua_line2, ua_location, ua_postcode', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1'));
+                $user_address_records = $model->fetchSelectedData('ua_id, ua_line1, ua_line2, ua_location, ua_postcode', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1', 'ua_deleted' => '0'));
                 $data["user_address_records"] = $user_address_records;
 
                 $breadcrumbArray = array(
@@ -192,6 +192,24 @@
                 $this->session->set_flashdata('success', 'Your wishlist has been updated successfully');
                 redirect(base_url('my-account#wishlist'));
             }
+        }
+
+        public function removeAddress()
+        {
+            if (isset($this->session->userdata["user_id"]) && $this->input->get('id'))
+            {
+                $enc_ua_id = $this->input->get('id');
+                $user_id = $this->session->userdata["user_id"];
+                $ua_id = getEncryptedString($enc_ua_id, 'decode');
+                $model = new Common_model();
+                $is_valid = $model->is_exists('ua_id', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_id' => $ua_id, 'ua_deleted' => '0'));
+                if (!empty($is_valid))
+                {
+                    $model->updateData(TABLE_USER_ADDRESSES, array('ua_deleted' => '1'), array('ua_user_id' => $user_id, 'ua_id' => $ua_id, 'ua_deleted' => '0'));
+                    $this->session->set_flashdata('success', 'Address successfully removed');
+                }
+            }
+            redirect(base_url('my-account#address'));
         }
 
     }

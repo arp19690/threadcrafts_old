@@ -58,6 +58,7 @@
     $route['logout'] = 'index/logout';
     $route['signup'] = 'index/signup';
     $route['forgot-password'] = 'index/forgotpassword';
+    $route['remove-address'] = 'user/removeAddress';
     
     $route['activation/(:any)'] = 'index/activation/$1';
     $route['my-account'] = 'user/myAccount';

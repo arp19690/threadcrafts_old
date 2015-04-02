@@ -124,7 +124,7 @@
                                 <th>Address Line 1</th>
                                 <th>Address Line 2</th>
                                 <th>Location</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -138,9 +138,9 @@
                                             <td class="desc"><?php echo stripslashes($uaValue['ua_line1']); ?></td>
                                             <td class="desc"><?php echo empty($uaValue['ua_line2']) == TRUE ? 'NA' : stripslashes($uaValue['ua_line2']); ?></td>
                                             <td class="desc"><?php echo (stripslashes($uaValue['ua_location'])) . (!empty($uaValue['ua_postcode']) == TRUE ? (' - ' . $uaValue['ua_postcode']) : ''); ?></td>
-                                            <td class="desc">
-                                                <a href="#" title="Edit address"><span class="icon icon-pencil"></span></a>
-                                                <a href="#" title="Remove address" style="margin-left: 15px;"><span class="icon icon-trash"></span></a>
+                                            <td class="desc" style="text-align: center">
+                                                <a href="<?php echo base_url('edit-address?id='.  getEncryptedString($uaValue['ua_id']));?>" title="Edit address"><span class="icon icon-pencil"></span></a>
+                                                <a href="<?php echo base_url('remove-address?id='.  getEncryptedString($uaValue['ua_id']));?>" title="Remove address" onclick="return confirm('Sure you want to remove this address?');" style="margin-left: 15px;"><span class="icon icon-trash"></span></a>
                                             </td>
                                         </tr>
                                         <?php
