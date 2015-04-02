@@ -188,8 +188,8 @@
                 $data_array = array(
                     "ul_user_id" => $returnArray["session_array"]["user_id"],
                     "ul_login_time" => date('Y-m-d H:i:s'),
-                    "ul_useragent" => $this->ci->session->userdata["user_agent"],
-                    "ul_ipaddress" => $this->ci->session->userdata["ip_address"],
+                    "ul_useragent" => USER_AGENT,
+                    "ul_ipaddress" => USER_IP,
                 );
                 $model->insertData(TABLE_USER_LOG, $data_array);
 
@@ -201,7 +201,7 @@
 
                 $this->ci->load->library('Login_auth');
                 $loginAuth = new Login_auth();
-                $loginAuth->checkAndAddCartIfAny($returnArray["session_array"]["user_id"]);
+//                $loginAuth->checkAndAddCartIfAny($returnArray["session_array"]["user_id"]);
 //                prd($returnArray["session_array"]["user_id"]);
             }
 
