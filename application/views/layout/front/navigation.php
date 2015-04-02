@@ -13,7 +13,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <script>
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             var url = window.location.href;
                             var page = url.substr(url.lastIndexOf('/') + 1);
                             $('#mainNavigation a[href*="' + page + '"]').parent('li').addClass('active');
@@ -25,7 +25,7 @@
                             <li class="dropdown">
                                 <a href="<?php echo base_url(); ?>" class="dropdown-toggle"> Home </a>
                             </li>
-                            <li class="dropdown dropdown-megamenu">
+                            <li class="dropdown dropdown-megamenu hidden-phone">
                                 <a href="#" class="dropdown-toggle"> Megamenu <b class="caret"></b> </a>
                                 <ul class="dropdown-menu megamenu container"><!-- .col-2 for min-width:320px, .col-3 for min-width:480px -->
                                     <li class="row">
@@ -104,99 +104,107 @@
                         </form>
                     </div><!-- /.nav-collapse -->
                 </div>
-                <!--  ==========  -->
-                <!--  = Cart =  -->
-                <!--  ==========  -->
-                <div class="span3">
-                    <div class="cart-container" id="cartContainer">
-                        <div class="cart">
-                            <p class="items">CART <span class="dark-clr cart_total_items">(<?php echo $this->cart->total_items(); ?>)</span></p>
-                            <!--<p class="dark-clr hidden-tablet cart_total_value"><?php echo displayProductPrice($this->cart->total(), FALSE); ?></p>-->
-                            <a href="<?php echo base_url("checkout"); ?>" class="btn btn-danger">
-                                <i class="icon-shopping-cart"></i>
-                            </a>
-                        </div>
 
-                        <div class="open-panel">
-                            <?php
-                                $cart_subtotal = 0;
-                                if (count($this->cart->contents()) > 0)
-                                {
-                                    foreach ($this->cart->contents() as $cpKey => $cpValue)
+                <?php
+                    if (!isMobileDevice())
+                    {
+                        ?>
+                        <!--  ==========  -->
+                        <!--  = Cart =  -->
+                        <!--  ==========  -->
+                        <div class="span3 hidden-phone">
+                            <div class="cart-container" id="cartContainer">
+                                <div class="cart">
+                                    <p class="items">CART <span class="dark-clr cart_total_items">(<?php echo $this->cart->total_items(); ?>)</span></p>
+                                    <!--<p class="dark-clr hidden-tablet cart_total_value"><?php echo displayProductPrice($this->cart->total(), FALSE); ?></p>-->
+                                    <a href="<?php echo base_url("checkout"); ?>" class="btn btn-danger">
+                                        <i class="icon-shopping-cart"></i>
+                                    </a>
+                                </div>
+
+                                <div class="open-panel">
+                                    <?php
+                                    $cart_subtotal = 0;
+                                    if (count($this->cart->contents()) > 0)
                                     {
-                                        $record = $model->fetchSelectedData('product_image_and_color, profit_percent', TABLE_PRODUCTS, array('product_id' => $cpValue["id"]));
-                                        $productImages = getProductImages($record[0]['product_image_and_color']);
-                                        ?>
-                                        <div class="item-in-cart clearfix">
-                                            <div class="image">
-                                                <img src="<?php echo $productImages[0]['url']; ?>" width="124" height="124" alt="<?php echo $cpValue["name"]; ?>" />
-                                            </div>
-                                            <div class="desc">
-                                                <strong><a href="<?php echo getProductUrl($cpValue["id"]); ?>"><?php echo $cpValue["name"]; ?></a></strong>
+                                        foreach ($this->cart->contents() as $cpKey => $cpValue)
+                                        {
+                                            $record = $model->fetchSelectedData('product_image_and_color, profit_percent', TABLE_PRODUCTS, array('product_id' => $cpValue["id"]));
+                                            $productImages = getProductImages($record[0]['product_image_and_color']);
+                                            ?>
+                                            <div class="item-in-cart clearfix">
+                                                <div class="image">
+                                                    <img src="<?php echo $productImages[0]['url']; ?>" width="124" height="124" alt="<?php echo $cpValue["name"]; ?>" />
+                                                </div>
+                                                <div class="desc">
+                                                    <strong><a href="<?php echo getProductUrl($cpValue["id"]); ?>"><?php echo $cpValue["name"]; ?></a></strong>
 
+                                                    <?php
+                                                    if (isset($cpValue["options"]["product_size"]) && !empty($cpValue["options"]["product_size"]))
+                                                    {
+                                                        ?>
+                                                        <span class="light-clr qty">
+                                                            Size: <?php echo $cpValue["options"]["product_size"]; ?>,
+                                                            &nbsp;
+                                                        </span>
+                                                        <?php
+                                                    }
+
+                                                    if (isset($cpValue["options"]["product_color"]) && !empty($cpValue["options"]["product_color"]))
+                                                    {
+                                                        ?>
+                                                        <span class="light-clr qty">
+                                                            Color: <?php echo $cpValue["options"]["product_color"]; ?>,
+                                                            &nbsp;
+                                                        </span>
+                                                        <?php
+                                                    }
+                                                    ?>
+
+                                                    <span class="light-clr qty">
+                                                        Quantity: <?php echo $cpValue["qty"]; ?>
+                                                        &nbsp;
+                                                        <a href="<?php echo $cpValue["rowid"]; ?>" class="icon-remove-sign" title="Remove Product"></a>
+                                                    </span>
+
+                                                </div>
                                                 <?php
-                                                if (isset($cpValue["options"]["product_size"]) && !empty($cpValue["options"]["product_size"]))
-                                                {
-                                                    ?>
-                                                    <span class="light-clr qty">
-                                                        Size: <?php echo $cpValue["options"]["product_size"]; ?>,
-                                                        &nbsp;
-                                                    </span>
-                                                    <?php
-                                                }
-
-                                                if (isset($cpValue["options"]["product_color"]) && !empty($cpValue["options"]["product_color"]))
-                                                {
-                                                    ?>
-                                                    <span class="light-clr qty">
-                                                        Color: <?php echo $cpValue["options"]["product_color"]; ?>,
-                                                        &nbsp;
-                                                    </span>
-                                                    <?php
-                                                }
+                                                $price = getProductPrice($cpValue["subtotal"], FALSE, TRUE, TRUE, $record[0]["profit_percent"]);
+                                                $cart_subtotal = $cart_subtotal + $price;
                                                 ?>
-
-                                                <span class="light-clr qty">
-                                                    Quantity: <?php echo $cpValue["qty"]; ?>
-                                                    &nbsp;
-                                                    <a href="<?php echo $cpValue["rowid"]; ?>" class="icon-remove-sign" title="Remove Product"></a>
-                                                </span>
-
+                                                <div class="price">
+                                                    <strong><?php echo displayProductPrice($cpValue["subtotal"], $record[0]["profit_percent"]); ?></strong>
+                                                </div>
                                             </div>
                                             <?php
-                                            $price = getProductPrice($cpValue["subtotal"], FALSE, TRUE, TRUE, $record[0]["profit_percent"]);
-                                            $cart_subtotal = $cart_subtotal + $price;
-                                            ?>
-                                            <div class="price">
-                                                <strong><?php echo displayProductPrice($cpValue["subtotal"], $record[0]["profit_percent"]); ?></strong>
+                                        }
+                                        ?>
+
+                                        <div class="summary">
+                                            <div class="line">
+                                                <div class="row-fluid">
+                                                    <div class="span6">Cart Subtotal:</div>
+                                                    <div class="span6 align-right size-16 cart_total_value"><?php echo displayProductPrice($cart_subtotal, FALSE); ?></div>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="proceed">
+                                            <a href="<?php echo base_url("checkout"); ?>" class="btn btn-danger pull-right bold higher">CHECKOUT <i class="icon-shopping-cart"></i></a>
+                                            <!--<small>Shipping costs and taxes extra, if any.</small>-->
                                         </div>
                                         <?php
                                     }
+                                    else
+                                    {
+                                        echo '<p class="empty">No products in your cart.</p>';
+                                    }
                                     ?>
-
-                                    <div class="summary">
-                                        <div class="line">
-                                            <div class="row-fluid">
-                                                <div class="span6">Cart Subtotal:</div>
-                                                <div class="span6 align-right size-16 cart_total_value"><?php echo displayProductPrice($cart_subtotal, FALSE); ?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="proceed">
-                                        <a href="<?php echo base_url("checkout"); ?>" class="btn btn-danger pull-right bold higher">CHECKOUT <i class="icon-shopping-cart"></i></a>
-                                        <!--<small>Shipping costs and taxes extra, if any.</small>-->
-                                    </div>
-                                    <?php
-                                }
-                                else
-                                {
-                                    echo '<p class="empty">No products in your cart.</p>';
-                                }
-                            ?>
-                        </div>
-                    </div>
-                </div> <!-- /cart -->
+                                </div>
+                            </div>
+                        </div> <!-- /cart -->
+                        <?php
+                    }
+                ?>
             </div>
         </div>
     </div>

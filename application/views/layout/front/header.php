@@ -165,7 +165,7 @@
                         if (!isMobileDevice())
                         {
                             ?>
-                            <div class="span5">
+                            <div class="span5 hidden-phone">
                                 <div class="top-right">
                                     <div class="icons">
                                         <a href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-facebook"></span></a>

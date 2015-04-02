@@ -17,7 +17,7 @@
         if (!isMobileDevice())
         {
             ?>
-            <div class="foot-light">
+            <div class="foot-light hidden-phone">
                 <div class="container">
                     <div class="row">
                         <div class="span4">
