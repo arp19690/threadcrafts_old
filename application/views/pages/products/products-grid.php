@@ -27,9 +27,14 @@
                             <div class="accordion-inner">
 
                                 <?php
+                                    $exclude_cat_arr = array();
                                     foreach ($category_name_records as $cKey => $cValue)
                                     {
-                                        echo '<a href="#" data-target=".filter--' . $cValue . '" class="selectable"><i class="box"></i> ' . $cValue . '</a>';
+                                        if (!in_array($cValue, $exclude_cat_arr))
+                                        {
+                                            $exclude_cat_arr[] = $cValue;
+                                            echo '<a href="#" data-target=".filter--' . $cValue . '" class="selectable"><i class="box"></i> ' . $cValue . '</a>';
+                                        }
                                     }
                                 ?>
 
