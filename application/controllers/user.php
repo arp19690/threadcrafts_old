@@ -38,9 +38,12 @@
                 $wishlist_records = $model->getAllDataFromJoin("p.product_id,product_title,product_price,wishlist_product_quantity,wishlist_comments", TABLE_WISHLIST . " as w", $tableArrayWithJoinCondition, "LEFT", $whereCondArr, "wishlist_id", "DESC");
                 $data["wishlist_records"] = $wishlist_records;
 
-                $user_records = $model->fetchSelectedData("user_fullname, user_gender,user_dob,user_contact,", TABLE_USERS, array("user_id" => $user_id));
+                $user_records = $model->fetchSelectedData("user_fullname, user_gender,user_contact,", TABLE_USERS, array("user_id" => $user_id));
 //                prd($user_records);
                 $data["user_record"] = $user_records[0];
+
+                $user_address_records = $model->fetchSelectedData('ua_line1, ua_line2, ua_location, ua_postcode', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1'));
+                $data["user_address_records"] = $user_address_records;
 
                 $breadcrumbArray = array(
                     "My Account" => base_url("my-account"),

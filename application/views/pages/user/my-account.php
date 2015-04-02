@@ -23,6 +23,7 @@
                             <div class="widget">
                                 <ul class="nav nav-pills nav-stacked my-account-sidebar">
                                     <li class="active"><a href="#dashboard">Personal Details <i class="icon-caret-right pull-right"></i></a></li>
+                                    <li><a href="#address">Saved Addresses <i class="icon-caret-right pull-right"></i></a></li>
                                     <li><a href="#changepassword">Change Password <i class="icon-caret-right pull-right"></i></a></li>
                                 </ul>
                             </div>
@@ -31,27 +32,27 @@
                                 if (!empty($compare_records))
                                 {
                                     ?>
-                                    <div class="widget widget__compare my-account-compare-list">
-                                        <h3><span class="light">Compare</span> Products</h3>
-                                        <?php
-                                        foreach ($compare_records as $crKey => $crValue)
-                                        {
-                                            echo '<div class="alert alert-info white-bg in fade">
+                                    <!--                                    <div class="widget widget__compare my-account-compare-list">
+                                                                            <h3><span class="light">Compare</span> Products</h3>
+                                    <?php
+                                    foreach ($compare_records as $crKey => $crValue)
+                                    {
+                                        echo '<div class="alert alert-info white-bg in fade">
                                                             <button type="button" id="' . $crValue["compare_id"] . '" class="close" data-dismiss="alert">&times;</button>
                                                            ' . $crValue["product_title"] . '
                                                         </div>';
-                                        }
-                                        ?>
-                                        <div class="push-down-25"></div>
-                                        <div class="row-fluid">
-                                            <div class="span6">
-                                                <a href="#" class="margin-top-10 block remove-all-compare">Clear All</a>
-                                            </div>
-                                            <div class="span6">
-                                                <a href="<?php echo $crValue["compare_id"]; ?>" class="btn btn-primary btn-block bold higher remove-from-compare">COMPARE</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    }
+                                    ?>
+                                                                            <div class="push-down-25"></div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="span6">
+                                                                                    <a href="#" class="margin-top-10 block remove-all-compare">Clear All</a>
+                                                                                </div>
+                                                                                <div class="span6">
+                                                                                    <a href="<?php echo $crValue["compare_id"]; ?>" class="btn btn-primary btn-block bold higher remove-from-compare">COMPARE</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>-->
                                     <?php
                                 }
                             ?>
@@ -112,6 +113,51 @@
                 </section>
 
                 <hr />
+
+                <!--Saved Addresses Section-->
+
+                <section id="address">
+                    <h3 class="push-down-20"><span class="light">Saved</span> Addresses</h3>
+                    <table class="table table-items push-down-50">
+                        <thead>
+                            <tr>
+                                <th>Address Line 1</th>
+                                <th>Address Line 2</th>
+                                <th>Location</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                if (!empty($user_address_records))
+                                {
+                                    foreach ($user_address_records as $uaKey => $uaValue)
+                                    {
+                                        ?>
+                                        <tr>
+                                            <td class="desc"><?php echo stripslashes($uaValue['ua_line1']); ?></td>
+                                            <td class="desc"><?php echo empty($uaValue['ua_line2']) == TRUE ? 'NA' : stripslashes($uaValue['ua_line2']); ?></td>
+                                            <td class="desc"><?php echo (stripslashes($uaValue['ua_location'])) . (!empty($uaValue['ua_postcode']) == TRUE ? (' - ' . $uaValue['ua_postcode']) : ''); ?></td>
+                                            <td class="desc">
+                                                <a href="#" title="Edit address"><span class="icon icon-pencil"></span></a>
+                                                <a href="#" title="Remove address" style="margin-left: 15px;"><span class="icon icon-trash"></span></a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                else
+                                {
+                                    ?>
+                                <td>No addresses found</td>
+                                <?php
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </section>
+
+                <hr/>
 
                 <!--Change Password Section-->
 
