@@ -198,11 +198,6 @@
                 {
                     $this->ci->session->set_userdata($sKey, $sValue);
                 }
-
-                $this->ci->load->library('Login_auth');
-                $loginAuth = new Login_auth();
-//                $loginAuth->checkAndAddCartIfAny($returnArray["session_array"]["user_id"]);
-//                prd($returnArray["session_array"]["user_id"]);
             }
 
             if (isset($returnArray["return_url"]) && !empty($returnArray["return_url"]))
