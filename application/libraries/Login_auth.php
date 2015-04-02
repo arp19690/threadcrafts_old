@@ -46,8 +46,6 @@
                         $this->ci->session->set_userdata($key, $value);
                     }
 
-                    $this->checkAndAddCartIfAny($record["user_id"]);
-
                     if ($success_redirect_to == NULL)
                         $success_redirect_to = base_url();
 
@@ -134,42 +132,6 @@
             }
 
             redirect($redirect_to);
-        }
-
-        public function checkAndAddCartIfAny($user_id)
-        {
-            $model = new Common_model();
-            $whereCondArr = array("user_id" => $user_id);
-            $tableArrayWithJoinCondition = array(
-                TABLE_PRODUCTS . " as p" => "p.product_id = sc.product_id"
-            );
-            $fields = "p.product_id, product_title, product_price, product_quantity,sc.product_size,sc.product_color,product_status";
-            $cart_records = $model->getAllDataFromJoin($fields, TABLE_SHOPPING_CART . " as sc", $tableArrayWithJoinCondition, "INNER", $whereCondArr);
-            if (!empty($cart_records))
-            {
-                foreach ($cart_records as $key => $value)
-                {
-                    if ($value["product_status"] == "1")
-                    {
-                        $options_array = array();
-                        if (!empty($value["product_size"]))
-                            $options_array["product_size"] = $value["product_size"];
-
-                        if (!empty($value["product_color"]))
-                            $options_array["product_color"] = $value["product_color"];
-
-                        $data = array(
-                            'id' => $value["product_id"],
-                            'qty' => $value["product_quantity"],
-                            'price' => $value["product_price"],
-                            'name' => $value["product_title"],
-                            'options' => $options_array
-                        );
-
-                        $this->ci->cart->insert($data);
-                    }
-                }
-            }
         }
 
     }
