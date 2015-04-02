@@ -95,12 +95,12 @@
                         else
                         {
                             // register here
-                            $newpassword=  getRandomNumberLength($user_profile["email"]);
+                            $newpassword = getRandomNumberLength($user_profile["email"]);
                             $insert_data_array = array(
                                 "user_fullname" => $user_profile["name"],
                                 "user_gender" => $user_profile["gender"],
                                 "user_email" => $user_profile["email"],
-                                "user_password" =>  md5($newpassword),
+                                "user_password" => md5($newpassword),
                                 "user_status" => "1",
                                 "user_facebook_id" => $user_profile["id"],
                                 "user_facebook_username" => $user_profile["username"],
@@ -114,9 +114,9 @@
 
                             // to insert into the newsletters db table
                             $newsletter_data_array = array(
-                                "user_email" => $user_profile["email"],
-                                "user_ipaddress" => USER_IP,
-                                "user_useragent" => USER_AGENT,
+                                "newsletter_email" => $user_profile["email"],
+                                "newsletter_ipaddress" => USER_IP,
+                                "newsletter_useragent" => USER_AGENT,
                             );
                             $model->insertData(TABLE_NEWSLETTER, $newsletter_data_array);
 
@@ -124,6 +124,7 @@
                                 "user_id" => $record_array[0]["maxid"],
                                 "user_fullname" => $user_profile["name"],
                                 "user_email" => $user_profile["email"],
+                                "user_session_expire_time" => time() + USER_TIMEOUT_TIME,
                             );
 
                             $returnArray["flash_type"] = "success";
@@ -148,6 +149,7 @@
                             "user_id" => $is_email_exists[0]["user_id"],
                             "user_fullname" => $user_profile["name"],
                             "user_email" => $is_email_exists[0]["user_email"],
+                            "user_session_expire_time" => time() + USER_TIMEOUT_TIME,
                         );
 
                         if (empty($has_facebook_id))
