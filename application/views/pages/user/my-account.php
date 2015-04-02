@@ -23,7 +23,6 @@
                             <div class="widget">
                                 <ul class="nav nav-pills nav-stacked my-account-sidebar">
                                     <li class="active"><a href="#dashboard">Personal Details <i class="icon-caret-right pull-right"></i></a></li>
-                                    <li><a href="#wishlist">My Wishlist <i class="icon-caret-right pull-right"></i></a></li>
                                     <li><a href="#changepassword">Change Password <i class="icon-caret-right pull-right"></i></a></li>
                                 </ul>
                             </div>
@@ -110,72 +109,6 @@
                         </div>
 
                     </form>
-                </section>
-
-                <hr />
-
-                <!--  ==========  -->
-                <!--  = Wishlist =  -->
-                <!--  ==========  -->
-                <section id="wishlist">
-                    <h3 class="push-down-20"><span class="light">My</span> Wishlist</h3>
-                    <?php
-                        if (!empty($wishlist_records))
-                        {
-                            ?>
-                            <table class="table table-items push-down-50">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Product</th>
-                                        <th><div class="align-center">Quantity</div></th>
-                                <th><div class="align-right">Price</div></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($wishlist_records as $wrKey => $wrValue)
-                                    {
-                                        $productImages = getProductImages($wrValue["product_image_and_color"]);
-                                        ?>
-                                    <form action="<?php echo base_url('user/saveWishlist'); ?>" method="post" class="form">
-                                        <input type="hidden" name="product_id" value="<?php echo$wrValue["product_id"]; ?>"/>
-                                        <tr>
-                                            <td class="image"><img src="<?php echo $productImages[0]['url']; ?>" alt="<?php echo $wrValue["product_title"]; ?>" width="124" height="124" /></td>
-                                            <td class="desc">
-                                                <?php echo$wrValue["product_title"]; ?> &nbsp; 
-                                                <a title="Remove Item" class="icon-remove-sign my-account-remove-from-wishlist" data-delete-next="true" href="<?php echo $wrValue["product_id"]; ?>"></a>
-                                            </td>
-                                            <td class="qty">
-                                                <input type="text" name="product_quantity" class="tiny-size" value="<?php echo $wrValue["product_quantity"]; ?>" />
-                                            </td>
-                                            <td class="price">
-                                                <?php echo DEFAULT_CURRENCY_SYMBOL . number_format($wrValue["product_price"], 2); ?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no-border" colspan="4">
-                                                <div class="three-quarters">
-                                                    <input type="text" name="user_comments" class="input-block-level" placeholder="You can enter your comment here" maxlength="150" value="<?php echo $wrValue["user_comments"]; ?>"/>
-                                                </div>  
-                                                <div class="one-quarter span1 alignright">
-                                                    <!--<button class="btn btn-primary btn-block higher bold">SAVE</button>-->
-                                                    <input type="submit" class="btn btn-primary btn-block higher bold" value="SAVE"/>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </form>
-                                    <?php
-                                }
-                                ?>
-                                </tbody>
-                            </table>
-                            <?php
-                        }
-                        else
-                        {
-                            echo '<p>No products in your wishlist</p>';
-                        }
-                    ?>
                 </section>
 
                 <hr />
