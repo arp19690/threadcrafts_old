@@ -105,6 +105,8 @@
                                                 ?>
                                                 <a href="<?php echo base_url("my-account"); ?>" class="gray-link">My account</a>
                                                 &nbsp; | &nbsp; 
+                                                <a href="<?php echo base_url("my-orders"); ?>" class="gray-link">My orders</a>
+                                                &nbsp; | &nbsp; 
                                                 <a href="<?php echo base_url("my-account#wishlist"); ?>" class="gray-link header-wishlist">Wishlist (<?php echo $myWishlistCount; ?>)</a>
                                                 &nbsp; | &nbsp;
                                                 <a href="<?php echo base_url("logout"); ?>" class="gray-link">Sign out</a>
