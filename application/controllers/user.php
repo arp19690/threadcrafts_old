@@ -212,5 +212,25 @@
             redirect(base_url('my-account#address'));
         }
 
+        public function myOrders()
+        {
+            if (isset($this->session->userdata["user_id"]))
+            {
+                $custom_model = new Custom_model();
+                $user_id = $this->session->userdata["user_id"];
+
+                $records = $custom_model->getMyOrdersList($user_id);
+                prd($records);
+                $breadcrumbArray = array(
+                    "My Orders" => base_url("my-orders"),
+                );
+
+                $data["breadcrumbArray"] = $breadcrumbArray;
+                $data["meta_title"] = "My orders | " . SITE_NAME;
+                $this->template->write_view("content", "pages/user/my-orders", $data);
+                $this->template->render();
+            }
+        }
+
     }
     

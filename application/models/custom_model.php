@@ -170,7 +170,29 @@
             return $data;
         }
 
-        public function getMyOrdersList($user_id = null, $orderByType = "DESC", $limit = NULL, $package_status = null, $displayAllFields = false, $whereCondArr = null)
+        public function getMyOrdersList($user_id, $fields = null, $whereCondArr = null, $orderByField = 'sd_id', $orderByType = "DESC", $limit = NULL)
+        {
+            if ($fields == NULL)
+            {
+                $fields = 'sd_quantity, sd_order_id, sd_shipping_fullname, sd_shipping_contact, sd_shipping_email, sd_shipping_address, sd_shipping_city, sd_shipping_postcode, sd_total_price, sd_timestamp, sd_status, pd_color_name, pd_size, product_title, pi_image_path, sod_order_id, sod_order_status';
+            }
+
+            $whereCondArr['sd_user_id'] = $user_id;
+            $whereCondArr['pi_status'] = '1';
+            $records = $this->db->select($fields)
+                    ->join(TABLE_PRODUCT_DETAILS . ' as pd', 'pd_id = sd_pd_id', 'INNER')
+                    ->join(TABLE_PRODUCTS . ' as p', 'product_id = pd_product_id', 'INNER')
+                    ->join(TABLE_PRODUCT_IMAGES . ' as pi', 'product_id = pi_product_id', 'LEFT')
+                    ->join(TABLE_SHIPPING_ORDER_DETAILS . ' as sod', 'sod_sd_id = sd_id', 'LEFT')
+                    ->order_by($orderByField, $orderByType)
+                    ->limit($limit)
+                    ->get_where(TABLE_SHIPPING_DETAILS . ' as sd', $whereCondArr)
+                    ->result_array();
+
+            return $records;
+        }
+
+        public function getMyOrdersList_old($user_id = null, $orderByType = "DESC", $limit = NULL, $package_status = null, $displayAllFields = false, $whereCondArr = null)
         {
             $fields = "payment_id, sd.product_id, sd.product_quantity,package_status, py.payment_timestamp as payment_time, p.product_title, p.product_code, p.product_cost_price, product_image_and_color";
             if ($displayAllFields)
@@ -182,8 +204,7 @@
                     ->join(TABLE_PAYMENT . ' as py', 'py.sd_id = sd.sd_id', 'LEFT')
                     ->join(TABLE_PRODUCTS . ' as p', 'p.product_id= sd.product_id', 'LEFT')
                     ->where('payment_id !=', '')
-                    ->order_by('py.payment_id', 'DESC')
-            ;
+                    ->order_by('py.payment_id', 'DESC');
 
             if ($whereCondArr != NULL)
             {
@@ -213,11 +234,6 @@
 
 //            prd($shipping_records);
             return $shipping_records;
-        }
-
-        public function getSellerEarnings($seller_id, $fields = '*', $whereCondArr = NULL, $orderByName = 'payment_id', $orderType = 'DESC', $limit = NULL)
-        {
-            
         }
 
     }

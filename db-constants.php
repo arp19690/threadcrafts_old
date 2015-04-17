@@ -8,8 +8,8 @@
     define("TABLE_SELLER_LOG", "seller_log");
     define("TABLE_USER_LOG", "user_log");
     define("TABLE_EMAILS_SENT", "emails_sent");
-    
-    
+
+
     define("TABLE_GRAND_CATEGORY", "category_grand");
     define("TABLE_PARENT_CATEGORY", "category_parent");
     define("TABLE_CHILD_CATEGORY", "category_child");
@@ -25,6 +25,7 @@
     define("TABLE_PRODUCT_VISIT", "product_visit");
     define("TABLE_COUNTRY", "countries");
     define("TABLE_SHIPPING_DETAILS", "shipping_details");
+    define("TABLE_SHIPPING_ORDER_DETAILS", "shipping_order_details");
     define("TABLE_WEBSITE_CONTACT", "website_contact");
     define("TABLE_REPLY_MESSAGES", "reply_messages");
     define("TABLE_PAYMENT", "payment");
