@@ -11,7 +11,6 @@
                     <div class="the-content">
                         <p><span style="line-height: 1.5em;"></span></p>
                         <div class="woocommerce">
-                            <h2>Forgot Password</h2>
                             <form method="post" action="<?php echo base_url("forgot-password"); ?>" class="login form-horizontal validate-form">
                                 <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                                 <div class="control-group">

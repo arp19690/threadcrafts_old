@@ -225,6 +225,11 @@
                 $data = array();
                 $data["meta_title"] = "Forgot Password | " . SITE_NAME;
 
+                $breadcrumbArray = array(
+                    "Forgot Password" => base_url("forgot-password"),
+                );
+                $data["breadcrumbArray"] = $breadcrumbArray;
+
                 $this->template->write_view("content", "pages/index/forgot-password", $data);
                 $this->template->render();
             }
