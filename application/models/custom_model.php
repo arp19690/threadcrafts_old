@@ -82,7 +82,10 @@
                 $result = $result->limit($limit);
             }
 
-            $whereCondArr['product_id'] = $product_id;
+            if ($product_id != NULL || $product_id != 0)
+            {
+                $whereCondArr['product_id'] = $product_id;
+            }
             $result = $result->get_where(TABLE_PRODUCTS . " as p", $whereCondArr);
 
             $result = $result->result_array();
@@ -243,7 +246,7 @@
         {
             if ($fields == NULL)
             {
-                $fields = 'product_id, product_title, cart_quantity, pi_image_path, product_price, cart_id, pd_color_name, pd_size';
+                $fields = 'product_id, product_title, cart_quantity, pi_image_path, product_price, cart_id, pd_color_name, pd_size, pd_id';
             }
 
             $whereCondArr['cart_user_id'] = $user_id;
