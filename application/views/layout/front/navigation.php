@@ -108,6 +108,17 @@
                 <?php
                     if (!isMobileDevice())
                     {
+                        $cart_subtotal = 0;
+                        $cart_records = array();
+                        if (isset($this->session->userdata["user_id"]))
+                        {
+                            $user_id = $this->session->userdata["user_id"];
+                            $cart_records = $custom_model->getCartDetails($user_id);
+                            foreach ($cart_records as $key => $value)
+                            {
+                                $cart_subtotal = $cart_subtotal + $value['product_price'];
+                            }
+                        }
                         ?>
                         <!--  ==========  -->
                         <!--  = Cart =  -->
@@ -115,8 +126,8 @@
                         <div class="span3 hidden-phone">
                             <div class="cart-container" id="cartContainer">
                                 <div class="cart">
-                                    <p class="items">CART <span class="dark-clr cart_total_items">(<?php echo $this->cart->total_items(); ?>)</span></p>
-                                    <!--<p class="dark-clr hidden-tablet cart_total_value"><?php echo displayProductPrice($this->cart->total(), FALSE); ?></p>-->
+                                    <p class="items">CART <span class="dark-clr cart_total_items">(<?php echo count($cart_records) ?>)</span></p>
+                                    <p class="dark-clr hidden-tablet cart_total_value"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($cart_subtotal, 2); ?></p>
                                     <a href="<?php echo base_url("checkout"); ?>" class="btn btn-danger">
                                         <i class="icon-shopping-cart"></i>
                                     </a>
@@ -124,56 +135,38 @@
 
                                 <div class="open-panel">
                                     <?php
-                                    $cart_subtotal = 0;
-                                    if (count($this->cart->contents()) > 0)
+                                    if (!empty($cart_records))
                                     {
-                                        foreach ($this->cart->contents() as $cpKey => $cpValue)
+                                        foreach ($cart_records as $cpKey => $cpValue)
                                         {
-                                            $record = $model->fetchSelectedData('product_image_and_color, profit_percent', TABLE_PRODUCTS, array('product_id' => $cpValue["id"]));
-                                            $productImages = getProductImages($record[0]['product_image_and_color']);
                                             ?>
                                             <div class="item-in-cart clearfix">
                                                 <div class="image">
-                                                    <img src="<?php echo $productImages[0]['url']; ?>" width="124" height="124" alt="<?php echo $cpValue["name"]; ?>" />
+                                                    <img src="<?php echo getImage($cpValue['pi_image_path']); ?>" width="124" height="124" alt="<?php echo stripslashes($cpValue["product_title"]); ?>" />
                                                 </div>
                                                 <div class="desc">
-                                                    <strong><a href="<?php echo getProductUrl($cpValue["id"]); ?>"><?php echo $cpValue["name"]; ?></a></strong>
-
-                                                    <?php
-                                                    if (isset($cpValue["options"]["product_size"]) && !empty($cpValue["options"]["product_size"]))
-                                                    {
-                                                        ?>
-                                                        <span class="light-clr qty">
-                                                            Size: <?php echo $cpValue["options"]["product_size"]; ?>,
-                                                            &nbsp;
-                                                        </span>
-                                                        <?php
-                                                    }
-
-                                                    if (isset($cpValue["options"]["product_color"]) && !empty($cpValue["options"]["product_color"]))
-                                                    {
-                                                        ?>
-                                                        <span class="light-clr qty">
-                                                            Color: <?php echo $cpValue["options"]["product_color"]; ?>,
-                                                            &nbsp;
-                                                        </span>
-                                                        <?php
-                                                    }
-                                                    ?>
+                                                    <strong><a href="<?php echo getProductUrl($cpValue["product_id"]); ?>"><?php echo stripslashes($cpValue["product_title"]); ?></a></strong>
 
                                                     <span class="light-clr qty">
-                                                        Quantity: <?php echo $cpValue["qty"]; ?>
+                                                        Size: <?php echo $cpValue["pd_size"]; ?>,
                                                         &nbsp;
-                                                        <a href="<?php echo $cpValue["rowid"]; ?>" class="icon-remove-sign" title="Remove Product"></a>
+                                                    </span>
+
+
+                                                    <span class="light-clr qty">
+                                                        Color: <?php echo $cpValue["pd_color_name"]; ?>,
+                                                        &nbsp;
+                                                    </span>
+
+                                                    <span class="light-clr qty">
+                                                        Quantity: <?php echo $cpValue["cart_quantity"]; ?>
+                                                        &nbsp;
+                                                        <a href="<?php echo $cpValue["cart_id"]; ?>" class="icon-remove-sign" title="Remove Product"></a>
                                                     </span>
 
                                                 </div>
-                                                <?php
-                                                $price = getProductPrice($cpValue["subtotal"], FALSE, TRUE, TRUE, $record[0]["profit_percent"]);
-                                                $cart_subtotal = $cart_subtotal + $price;
-                                                ?>
                                                 <div class="price">
-                                                    <strong><?php echo displayProductPrice($cpValue["subtotal"], $record[0]["profit_percent"]); ?></strong>
+                                                    <strong><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($cpValue["product_price"], 2); ?></strong>
                                                 </div>
                                             </div>
                                             <?php
@@ -184,7 +177,7 @@
                                             <div class="line">
                                                 <div class="row-fluid">
                                                     <div class="span6">Cart Subtotal:</div>
-                                                    <div class="span6 align-right size-16 cart_total_value"><?php echo displayProductPrice($cart_subtotal, FALSE); ?></div>
+                                                    <div class="span6 align-right size-16 cart_total_value"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($cart_subtotal, 2); ?></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -249,4 +242,3 @@
         </div>
         <?php
     }
-?>
