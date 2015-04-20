@@ -132,7 +132,7 @@
                         'sd_shipping_postcode' => trim($user_address['ua_postcode']),
                     );
 
-                    $model->deleteData(TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_status' => '1'));
+                    $model->deleteData(TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_status' => '1', 'sd_paid' => '0', 'sd_order_id' => ''));
                     // to get profit percent on the category to calculate seller earning, and shipping charge
                     $product_detail = $custom_model->getAllProductsDetails(NULL, 'product_shipping_charge, cc_profit_percent', 'pd_id', 'pi_id', array('pd_id' => $value['pd_id']));
 
@@ -159,19 +159,6 @@
             $this->load->view("pages/cart/checkout/checkout-step-3", $data);
         }
 
-        public function removeCouponCode($coupon_code)
-        {
-            if ($coupon_code && isset($this->session->userdata["cart_discount"]))
-            {
-                $this->session->unset_userdata('cart_discount');
-
-                $this->db->set('dc_count_available', 'dc_count_available + 1', FALSE);
-                $this->db->where('dc_code', $coupon_code);
-                $this->db->update(TABLE_DISCOUNT_COUPONS);
-            }
-            redirect(base_url("checkout"));
-        }
-
         public function paymentMethod()
         {
             $data = array();
@@ -188,6 +175,19 @@
             $data['user_contact'] = $user_record[0]['user_contact'];
             $data['total_amount'] = $amount_record[0]['sd_total_price'];
             $this->load->view("pages/cart/checkout/payment-method", $data);
+        }
+
+        public function removeCouponCode($coupon_code)
+        {
+            if ($coupon_code && isset($this->session->userdata["cart_discount"]))
+            {
+                $this->session->unset_userdata('cart_discount');
+
+                $this->db->set('dc_count_available', 'dc_count_available + 1', FALSE);
+                $this->db->where('dc_code', $coupon_code);
+                $this->db->update(TABLE_DISCOUNT_COUPONS);
+            }
+            redirect(base_url("checkout"));
         }
 
         public function paypalCheckout()
