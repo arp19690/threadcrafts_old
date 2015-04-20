@@ -303,27 +303,6 @@
     }
 ?>
 <script src="<?php echo JS_PATH; ?>/custom.js" type="text/javascript"></script>
-<script>
-            $(document).ready(function () {
-                $(".item-in-cart .icon-remove-sign").click(function () {
-                    var cnfm = confirm('Sure you want to remove this product from your cart?');
-                    if (cnfm == true)
-                    {
-                        var cart_id = $(this).attr("data-cart");
-                        $.ajax({
-                            dataType: "json",
-                            url: "<?php echo base_url("ajax/removeProductFromCartAjax"); ?>" + "/" + cart_id,
-                            success: function (response) {
-                                if (response)
-                                {
-                                    location.reload();
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-</script>
 
 <?php
     if (USER_IP != '127.0.0.1')

@@ -58,6 +58,7 @@
             if (window.location.hash && window.location.hash == '#_=_') {
                 window.location.hash = '';
             }
+            var baseUrl = '<?php echo base_url(); ?>';
         </script>
     </head>
     <body class="">

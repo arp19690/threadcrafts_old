@@ -15,10 +15,10 @@
             if (isset($this->session->userdata["user_id"]))
             {
                 $user_id = $this->session->userdata["user_id"];
-                $model->deleteData(TABLE_SHOPPING_CART, array('cart_id'=>$cart_id,'cart_user_id'=>$user_id));
+                $model->deleteData(TABLE_SHOPPING_CART, array('cart_id' => $cart_id, 'cart_user_id' => $user_id));
             }
 
-            $response_array=$custom_model->getCartDetails($user_id);
+            $response_array = $custom_model->getCartDetails($user_id);
             echo json_encode($response_array);
         }
 

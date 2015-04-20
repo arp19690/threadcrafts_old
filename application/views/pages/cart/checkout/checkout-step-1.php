@@ -25,6 +25,7 @@
             $cart_subtotal = 0;
             foreach ($cart_records as $crKey => $crValue)
             {
+                $cart_id = $crValue["cart_id"];
                 $product_id = $crValue["product_id"];
                 $product_title = stripslashes($crValue["product_title"]);
                 $cart_quantity = $crValue["cart_quantity"];
@@ -35,7 +36,7 @@
                 $product_image = getImage($crValue['pi_image_path']);
 //                prd($product_images);
                 ?>
-                <tr>
+                <tr class="item-in-cart">
                     <td class="image">
                         <img src="<?php echo $product_image ?>" alt="<?php echo $product_title; ?>" width="124" height="124" />
                     </td>
@@ -64,17 +65,16 @@
                         }
                         ?>
 
-                        <a href="removeFromCart" title = "Remove Item" class = "icon-remove-sign" data-cart = "<?php echo $product_id; ?>"></a>
+                        <a href="#removeFromCart" title="Remove Item" class="icon-remove-sign" data-cart="<?php echo $cart_id; ?>"></a>
 
                     </td>
-                    <td class = "qty"> <?php echo $cart_quantity; ?></td>
+                    <td class="qty"> <?php echo $cart_quantity; ?></td>
                     <td class="price">
-                        <?php echo DEFAULT_CURRENCY_SYMBOL.number_format($product_price, 2); ?>
+                        <?php echo DEFAULT_CURRENCY_SYMBOL . number_format($product_price, 2); ?>
                     </td>
                 </tr>
                 <?php
             }
-
             $grand_total = $cart_subtotal;
             ?>
 
@@ -153,3 +153,4 @@
     }
 
     $this->load->view("pages/cart/checkout/footer");
+    

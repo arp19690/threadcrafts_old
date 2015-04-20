@@ -31,6 +31,7 @@
 
         <!--  = Google Fonts =  -->
         <script type="text/javascript">
+            var baseUrl='<?php echo base_url();?>';
             WebFontConfig = {
                 google: {
                     families: ['Open+Sans:400,700,400italic,700italic:latin,latin-ext,cyrillic', 'Pacifico::latin']
