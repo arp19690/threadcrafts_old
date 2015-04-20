@@ -116,6 +116,7 @@
     define("TAX_PROFIT_MARGIN_PERCENT", 20);
     define("TAX_PAYPAL_PERCENT", 5);
 
+    define("VAT_TAX_PERCENT", 10.67);
     define("SERVICE_TAX_PERCENT", 14);
     define("PAYMENT_PROCESSING_TAX_PERCENT", 3.5);
     define("CONVENIENCE_FEE_PERCENT", 2);
