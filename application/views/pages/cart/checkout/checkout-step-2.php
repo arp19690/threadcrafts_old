@@ -70,35 +70,6 @@
 
     <hr />
 
-    <!--Billing details starts from here-->
-
-    <h3 class="offset2">Billing Address:</h3>
-
-    <div class="billing_address">
-        <ul class="address-ul">
-            <?php
-                foreach ($address_records as $sKey => $sValue)
-                {
-                    ?>
-                    <li>
-                        <div class="address-outer">
-                            <div class="radio-div"><input type="radio" name="billing_address" value="<?php echo $sValue['ua_id']; ?>" id="b-<?php echo $sValue['ua_id']; ?>" class="required" required="required"/></div>
-                            <div class="text">
-                                <label for="b-<?php echo $sValue['ua_id']; ?>">
-                                    <p><?php echo stripslashes($sValue['ua_line1']); ?></p>
-                                    <p><?php echo stripslashes($sValue['ua_line2']); ?></p>
-                                    <p><?php echo stripslashes($sValue['ua_location']); ?></p>
-                                    <p><?php echo stripslashes($sValue['ua_postcode']); ?></p>
-                                </label>
-                            </div>
-                        </div>
-                    </li>
-                    <?php
-                }
-            ?>
-        </ul>
-    </div>
-
     <p class="right-align" style="margin-top: 20px">
         In the next step you will confirm your order &nbsp; &nbsp;
         <input type="submit" class="btn btn-primary higher bold" value="CONTINUE" name="bttn_submit_two"/>
