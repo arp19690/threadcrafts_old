@@ -90,7 +90,7 @@
             // to get product details and images now
             $model = new Common_model();
             $result[0]['details_arr'] = $details_Record = $model->fetchSelectedData($detail_fields, TABLE_PRODUCT_DETAILS, array('pd_product_id' => $product_id));
-            $result[0]['images_arr'] = $images_Record = $model->fetchSelectedData($images_fields, TABLE_PRODUCT_IMAGES, array('pi_product_id' => $product_id), 'pi_primary', 'DESC');
+            $result[0]['images_arr'] = $images_Record = $model->fetchSelectedData($images_fields, TABLE_PRODUCT_IMAGES, array('pi_product_id' => $product_id), 'pi_primary', 'ASC');
 
             return $result[0];
         }
