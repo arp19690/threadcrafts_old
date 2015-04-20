@@ -72,6 +72,7 @@
     $route['checkout/paypalCheckout'] = 'cart/paypalCheckout';
     $route['checkout/paypalSuccess'] = 'cart/paypalSuccess';
     $route['checkout/paymentCancel'] = 'cart/paymentCancel';
+    $route['verify-razor-transaction'] = 'razorpay/verifyTransactionAjax';
 
     /* End of file routes.php */
 /* Location: ./application/config/routes.php */
