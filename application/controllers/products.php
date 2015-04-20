@@ -236,43 +236,47 @@
         public function addToCart($redirect_url = NULL)
         {
             if ($redirect_url == NULL)
+            {
                 $redirect_url = base_url();
+            }
 
             if ($this->input->post())
             {
                 $model = new Common_model();
+                $custom_model = new Custom_model();
+                $user_id = $this->session->userdata['user_id'];
                 $arr = $this->input->post();
 
-                $product_detail = $model->fetchSelectedData("product_title,product_cost_price,product_status, profit_percent", TABLE_PRODUCTS, array("product_id" => $arr["product_id"]));
-                if ($product_detail[0]["product_status"] == "1")
+                $product_details = $custom_model->getAllProductsDetails($arr['product_id'], 'product_id', 'pd_id', 'pi_id', array('pd_product_id' => $arr['product_id'], 'pd_color_name' => $arr['product_color'], 'pd_size' => $arr['product_size']));
+//                prd($product_details);
+                if (!empty($product_details))
                 {
-                    $options_array = array();
-                    if (isset($arr["product_size"]))
-                        $options_array["product_size"] = $arr["product_size"];
-                    if (isset($arr["product_color"]))
-                        $options_array["product_color"] = $arr["product_color"];
-
-                    $options_array["profit_percent"] = $product_detail[0]["profit_percent"];
-
-                    $data = array(
-                        'id' => $arr["product_id"],
-                        'qty' => $arr["product_quantity"],
-                        'price' => $product_detail[0]["product_cost_price"],
-                        'name' => $product_detail[0]["product_title"],
-                        'options' => $options_array
-                    );
-
-                    if (count($this->cart->contents() == 0))
+                    $pd_id = $product_details['details_arr'][0]['pd_id'];
+                    $is_exist = $model->is_exists('cart_id', TABLE_SHOPPING_CART, array('cart_pd_id' => $pd_id, 'cart_quantity' => $arr['product_quantity'], 'cart_user_id' => $user_id));
+                    if (empty($is_exist))
                     {
-                        $this->cart->insert($data);
+                        $data_array = array(
+                            'cart_pd_id' => $pd_id,
+                            'cart_quantity' => $arr['product_quantity'],
+                            'cart_user_id' => $user_id,
+                            'cart_ipaddress' => USER_IP,
+                            'cart_useragent' => USER_AGENT
+                        );
+                        $model->insertData(TABLE_SHOPPING_CART, $data_array);
+                        $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
                     }
                     else
                     {
-                        $this->cart->update($data);
+                        $this->session->set_flashdata("warning", "This product is already in your cart");
                     }
-                    $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
                     redirect(getProductUrl($arr["product_id"]));
                 }
+                else
+                {
+                    $this->session->set_flashdata("warning", "<strong>Sorry!</strong> Unexpected error occurred");
+                }
+
+                redirect(base_url());
             }
             else
             {
