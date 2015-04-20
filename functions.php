@@ -86,6 +86,20 @@
         }
     }
 
+    function getUniqueOrderId($id, $string_length = 6)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = 'TCO' . getRandomNumberLength($id . time(), $string_length);
+        $is_exists = $model->is_exists('sod_id', TABLE_SHIPPING_ORDER_DETAILS, array('sod_order_id' => $random_number));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueOrderId($id, $string_length);
+        }
+
+        return $random_number;
+    }
+
     function getUniqueSellerDocumentName($ext, $string_length = 15)
     {
         require_once APPPATH . '/models/common_model.php';
@@ -331,22 +345,6 @@
 
 //        prd($address_out);
         return $address_out;
-    }
-
-    function getUniqueOrderId()
-    {
-        require_once APPPATH . '/models/common_model.php';
-        $model = new Common_model();
-        $random = generateUniqueKeyEverytime();
-        $new_id = strtoupper('TCO' . substr($random, 0, 6));
-        $is_exists = $model->is_exists('payment_id', TABLE_PAYMENT, array('order_id' => $new_id));
-        if (!empty($is_exists))
-        {
-            //invalid
-            $new_id = getUniqueOrderId();
-        }
-
-        return $new_id;
     }
 
     function generateUniqueKeyEverytime($str = NULL)
@@ -730,8 +728,8 @@
 
         return $os_platform;
     }
-    
-        function isMobileDevice()
+
+    function isMobileDevice()
     {
         $aMobileUA = array(
             '/iphone/i' => 'iPhone',
