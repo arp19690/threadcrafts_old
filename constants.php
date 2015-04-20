@@ -7,6 +7,8 @@
         define("FACEBOOK_APP_ID", "351474381662422");
         define("FACEBOOK_SECRET_ID", "355af5a727e13b8669fb00c6e9e85199");
 
+        define('RAZORPAY_KEY', 'rzp_test_aKlLFaLZaTwxmw');
+
         // redirect to HTTPS 
         if ($_SERVER['HTTPS'] != "on")
         {
@@ -20,6 +22,8 @@
 
         define("FACEBOOK_APP_ID", "1399753200274986");
         define("FACEBOOK_SECRET_ID", "f874ac703456d51b060f9c684a29934c");
+
+        define('RAZORPAY_KEY', 'rzp_test_aKlLFaLZaTwxmw');
     }
 
     define('IS_LIVE', FALSE);
