@@ -79,6 +79,9 @@
             $model = new Common_model();
             $user_id = $this->session->userdata["user_id"];
 
+            $user_record = $model->fetchSelectedData("user_fullname, user_email, user_contact", TABLE_USERS, array("user_id" => $user_id));
+            $data["user_record"] = $user_record[0];
+
             $address_records = $model->fetchSelectedData('*', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1', 'ua_deleted' => '0'));
             $data["address_records"] = $address_records;
 
