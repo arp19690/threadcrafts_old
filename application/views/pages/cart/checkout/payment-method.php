@@ -34,10 +34,17 @@
         "key": "<?php echo RAZORPAY_KEY; ?>",
         "amount": total_amount * 100,
         "name": "<?php echo SITE_NAME; ?>",
-        "description": "Please pay <?php echo DEFAULT_CURRENCY .' '. $total_amount; ?>",
+        "description": "Secure gateway",
         "image": "<?php echo IMAGES_PATH . '/logo.png'; ?>",
         "handler": function (response) {
-            alert(response.razorpay_payment_id);
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('verify-razor-transaction'); ?>',
+                data: {razorpay_payment_id: response.razorpay_payment_id},
+                success: function (sucess_data) {
+
+                }
+            });
         },
         "prefill": {
             "name": "<?php echo $this->session->userdata['user_fullname']; ?>",
