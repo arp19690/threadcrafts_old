@@ -306,26 +306,21 @@
 <script>
             $(document).ready(function () {
                 $(".item-in-cart .icon-remove-sign").click(function () {
-                    var rowid = $(this).attr("href");
-                    $.ajax({
-                        dataType: "json",
-                        url: "<?php echo base_url("ajax/removeProductFromCartAjax"); ?>" + "/" + rowid,
-                        success: function (response) {
-                            if (response.total_items == "0")
-                            {
-                                $("#cartContainer .open-panel").remove();
-                                $("#cartContainer .cart .items span.dark-clr").html("(0)");
-                                $("#cartContainer .cart .dark-clr").html("0");
-                                location.reload();
+                    var cnfm = confirm('Sure you want to remove this product from your cart?');
+                    if (cnfm == true)
+                    {
+                        var cart_id = $(this).attr("data-cart");
+                        $.ajax({
+                            dataType: "json",
+                            url: "<?php echo base_url("ajax/removeProductFromCartAjax"); ?>" + "/" + cart_id,
+                            success: function (response) {
+                                if (response)
+                                {
+                                    location.reload();
+                                }
                             }
-                            else
-                            {
-                                $(".cart_total_value").html(response.cart_price);
-                                $(".cart_total_items").html("(" + response.total_items + ")");
-                                $(".higher-line .gray-link .cart_total_items").html(response.total_items);
-                            }
-                        }
-                    });
+                        });
+                    }
                 });
             });
 </script>

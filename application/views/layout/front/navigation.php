@@ -161,7 +161,7 @@
                                                     <span class="light-clr qty">
                                                         Quantity: <?php echo $cpValue["cart_quantity"]; ?>
                                                         &nbsp;
-                                                        <a href="<?php echo $cpValue["cart_id"]; ?>" class="icon-remove-sign" title="Remove Product"></a>
+                                                        <a href="#removeFromCart" class="icon-remove-sign" data-cart="<?php echo $cpValue["cart_id"]; ?>" title="Remove Product"></a>
                                                     </span>
 
                                                 </div>

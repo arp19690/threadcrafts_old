@@ -8,50 +8,17 @@
             parent::__construct();
         }
 
-        public function removeProductFromCartAjax($rowid)
+        public function removeProductFromCartAjax($cart_id)
         {
-            $temp_data_array = array();
-            $whereCondArr = array();
-
-            foreach ($this->cart->contents() as $items)
-            {
-                if ($items["rowid"] == $rowid)
-                {
-                    $temp_data_array = $items;
-                    $items["qty"] = 0;
-                    $this->cart->update($items);
-                }
-            }
-
+            $model = new Common_model();
+            $custom_model = new Custom_model();
             if (isset($this->session->userdata["user_id"]))
             {
-                $model = new Common_model();
                 $user_id = $this->session->userdata["user_id"];
-
-                $whereCondArr = array(
-                    "user_id" => $user_id,
-                    "product_id" => $temp_data_array["id"],
-                    "product_quantity" => $temp_data_array["qty"],
-                );
-
-                if (isset($temp_data_array["options"]["product_size"]))
-                {
-                    $whereCondArr["product_size"] = $temp_data_array["options"]["product_size"];
-                }
-
-                if (isset($temp_data_array["options"]["product_color"]))
-                {
-                    $whereCondArr["product_color"] = $temp_data_array["options"]["product_color"];
-                }
-
-                $model->deleteData(TABLE_SHOPPING_CART, $whereCondArr);
+                $model->deleteData(TABLE_SHOPPING_CART, array('cart_id'=>$cart_id,'cart_user_id'=>$user_id));
             }
 
-            $response_array = array(
-                "total_items" => $this->cart->total_items(),
-                "cart_price" => displayProductPrice($this->cart->total())
-            );
-
+            $response_array=$custom_model->getCartDetails($user_id);
             echo json_encode($response_array);
         }
 
