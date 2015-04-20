@@ -179,6 +179,14 @@
             $data["step2_class"] = "done";
             $data["step3_class"] = "done";
             $data["step4_class"] = "active";
+
+            $model = new Common_model();
+            $user_id = $this->session->userdata["user_id"];
+            $user_record = $model->fetchSelectedData('user_contact', TABLE_USERS, array('user_id' => $user_id));
+            $amount_record = $model->fetchSelectedData('sd_total_price', TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_order_id' => '', 'sd_paid' => '0'), 'sd_id', 'DESC', 1);
+
+            $data['user_contact'] = $user_record[0]['user_contact'];
+            $data['total_amount'] = $amount_record[0]['sd_total_price'];
             $this->load->view("pages/cart/checkout/payment-method", $data);
         }
 
