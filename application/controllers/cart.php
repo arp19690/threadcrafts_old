@@ -96,104 +96,66 @@
         public function checkoutStepThree()
         {
             $data = array();
+            $custom_model = new Custom_model();
             $model = new Common_model();
+            $user_id = $this->session->userdata["user_id"];
 
             $data["step1_class"] = "done";
             $data["step2_class"] = "done";
             $data["step3_class"] = "active";
             $data["step4_class"] = "";
 
-            $fields = "p.product_id,p.product_title,p.product_price,sc.cart_id,sc.product_quantity,sc.product_size,sc.product_color, p.profit_percent, product_image_and_color";
-            $tableArrayWithJoinCondition = array(
-                TABLE_PRODUCTS . " as p" => "p.product_id = sc.product_id"
-            );
-
-            $whereCondArr = array("product_status" => "1", "user_id" => $this->session->userdata["user_id"]);
-            $cart_records = $model->getAllDataFromJoin($fields, TABLE_SHOPPING_CART . " as sc", $tableArrayWithJoinCondition, "INNER", $whereCondArr);
+            $cart_records = $custom_model->getCartDetails($user_id);
             $data["cart_records"] = $cart_records;
 
-            $cart_subtotal = 0;
-            $product_id_csv = array();
-            foreach ($cart_records as $crKey => $crValue)
-            {
-                $product_id_csv[] = array($crValue["product_id"] => array('product_size' => $crValue["product_size"], 'product_color' => $crValue["product_color"]));
-                $product_quantity_array[] = $crValue["product_quantity"];
-                $product_id_arr["product_id"] = $crValue["product_id"];
-                $cart_id_arr["cart_id"] = $crValue["cart_id"];
-                $cart_subtotal = $cart_subtotal + (getProductPrice($crValue["product_price"], FALSE, TRUE, FALSE, $crValue["profit_percent"]) * $crValue["product_quantity"]);
-            }
-
-            $product_weight = $model->fetchSelectedData("SUM(product_weight) as totalweight", TABLE_PRODUCTS, $product_id_arr);
-            $totalweight = $product_weight[0]["totalweight"];
-
-            $this->load->library('ShippingCalculatorNew');
-            $ShippingCalculator = new ShippingCalculatorNew();
-
-            $shipping_code = SHIPPING_CODE;
-            $shipping_charges = "0";
-            $shipping_charges_in_inr = "0";
-
+            $total_shipping_charge = 0;
+            $total_vat = 0;
             if ($this->input->post() && $this->input->post('bttn_submit_two'))
             {
+                $arr = $this->input->post();
 //                prd($this->input->post());
 
-                $shipping_charges_in_inr = $ShippingCalculator->calculateShippingCharge($cart_subtotal, $totalweight, $this->input->post("shipping_country"));
-                $shipping_charges = $shipping_charges_in_inr;
+                $user_address = $model->fetchSelectedData('ua_line1, ua_line2, ua_location, ua_postcode', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1', 'ua_id' => $arr['shipping_address']));
+                $user_address = $user_address[0];
 
-                $arr = $this->input->post();
+                foreach ($cart_records as $key => $value)
+                {
+                    $whereCondArr = array(
+                        'sd_user_id' => $user_id,
+                        'sd_pd_id' => $value['pd_id'],
+                        'sd_quantity' => $value['cart_quantity'],
+                        'sd_shipping_contact' => $arr['shipping_contact'],
+                        'sd_shipping_email' => $arr['billing_email'],
+                        'sd_product_price' => $value['product_price'],
+                        'sd_shipping_address' => trim($user_address['ua_line1'] . ' ' . $user_address['ua_line2']),
+                        'sd_shipping_location' => trim($user_address['ua_location']),
+                        'sd_shipping_postcode' => trim($user_address['ua_postcode']),
+                    );
 
-                $getLocationCityState = parse_address_google($arr['billing_city']);
+                    $model->deleteData(TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_status' => '1'));
+                    // to get profit percent on the category to calculate seller earning, and shipping charge
+                    $product_detail = $custom_model->getAllProductsDetails(NULL, 'product_shipping_charge, cc_profit_percent', 'pd_id', 'pi_id', array('pd_id' => $value['pd_id']));
 
-                // updating the users table for the address details, from the billing details
-                $user_data_array = array();
-                $user_data_array["user_country"] = $getLocationCityState['country'];
-                $user_data_array["user_state"] = $getLocationCityState['state'];
-                $user_data_array["user_city"] = $getLocationCityState['city'];
-                $model->updateData(TABLE_USERS, $user_data_array, array('user_id' => $this->session->userdata["user_id"]));
+                    $shipping_charge = $product_detail['product_shipping_charge'];
+                    $profit_percent = $product_detail['cc_profit_percent'];
+                    $total_price = ($value['product_price'] * $value['cart_quantity']) + $shipping_charge;
+                    $seller_earning = $value['product_price'] - ($value['product_price'] * ($profit_percent / 100)) + $shipping_charge;
+                    $total_shipping_charge = $total_shipping_charge + $shipping_charge;
+                    $vat_collected = $total_price * (VAT_TAX_PERCENT / 100);
+                    $total_vat = $total_vat + $vat_collected;
 
-                // creating an array of session to be carried onto next step for checkout.
-                $data_array = array(
-                    "user_id" => $this->session->userdata["user_id"],
-                    "product_id_array" => $product_id_csv,
-                    "product_quantity_array" => $product_quantity_array,
-                    "shipping_first_name" => trim($arr["shipping_first_name"]),
-                    "shipping_last_name" => trim($arr["shipping_last_name"]),
-                    "shipping_contact" => trim($arr["shipping_contact"]),
-                    "shipping_email" => trim($arr["shipping_email"]),
-                    "shipping_address" => trim($arr["shipping_address"]),
-                    "shipping_city" => trim($arr["shipping_city"]),
-                    "shipping_postcode" => trim($arr["shipping_postcode"]),
-                    "shipping_country" => trim($arr["shipping_country"]),
-                    "billing_first_name" => trim($arr["billing_first_name"]),
-                    "billing_last_name" => trim($arr["billing_last_name"]),
-                    "billing_contact" => trim($arr["billing_contact"]),
-                    "billing_email" => trim($arr["billing_email"]),
-                    "billing_address" => trim($arr["billing_address"]),
-                    "billing_city" => trim($arr["billing_city"]),
-                    "billing_postcode" => trim($arr["billing_postcode"]),
-                    "billing_country" => trim($arr["billing_country"]),
-                    "shipping_total_weight" => $product_weight[0]["totalweight"],
-                    "shipping_charge_in_inr" => $shipping_charges_in_inr,
-                    "total_price" => getProductPrice($cart_subtotal, FALSE, FALSE) + $shipping_charges_in_inr,
-                    "user_currency" => getCurrentCurrency(),
-                    "shipping_mode" => $shipping_code,
-                    "shipping_partner" => SHIPPING_PARTNER,
-                    "user_ipaddress" => $this->session->userdata["ip_address"],
-                    "user_agent" => $this->session->userdata["user_agent"],
-                );
-                $this->session->set_userdata("cart_session", $data_array);
+                    $whereCondArr['sd_ipaddress'] = USER_IP;
+                    $whereCondArr['sd_useragent'] = USER_AGENT;
+                    $whereCondArr['sd_shipping_fullname'] = ucwords($arr['shipping_fullname']);
+                    $whereCondArr['sd_shipping_charge'] = $shipping_charge;
+                    $whereCondArr['sd_seller_earning'] = $seller_earning;
+                    $whereCondArr['sd_total_price'] = $total_price + $total_vat;
+                    $whereCondArr['sd_vat_collected'] = $vat_collected;
+                    $model->insertData(TABLE_SHIPPING_DETAILS, $whereCondArr);
+                }
             }
-
-            $current_currency = getCurrentCurrency();
-            if ($current_currency != "INR")
-            {
-                $shipping_charges = convertCurrency("INR", getCurrentCurrency(), $shipping_charges);
-            }
-
-            $shipping_charges = round($shipping_charges, 2);
-
-            $data["shipping_charges"] = $shipping_charges;
-
+            $data['total_vat'] = $total_vat;
+            $data['total_shipping_charge'] = $total_shipping_charge;
             $this->load->view("pages/cart/checkout/checkout-step-3", $data);
         }
 
