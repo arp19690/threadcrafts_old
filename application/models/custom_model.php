@@ -184,10 +184,13 @@
                     ->join(TABLE_PRODUCTS . ' as p', 'product_id = pd_product_id', 'INNER')
                     ->join(TABLE_PRODUCT_IMAGES . ' as pi', 'product_id = pi_product_id', 'LEFT')
                     ->join(TABLE_SHIPPING_ORDER_DETAILS . ' as sod', 'sod_sd_id = sd_id', 'LEFT')
-                    ->order_by($orderByField, $orderByType)
-                    ->limit($limit)
-                    ->get_where(TABLE_SHIPPING_DETAILS . ' as sd', $whereCondArr)
-                    ->result_array();
+                    ->order_by($orderByField, $orderByType);
+
+            if ($limit != NULL)
+            {
+                $records = $records->limit($limit);
+            }
+            $records = $records->get_where(TABLE_SHIPPING_DETAILS . ' as sd', $whereCondArr)->result_array();
 
             return $records;
         }
@@ -234,6 +237,31 @@
 
 //            prd($shipping_records);
             return $shipping_records;
+        }
+
+        public function getCartDetails($user_id, $fields = NULL, $whereCondArr = null, $orderByField = 'cart_id', $orderByType = "DESC", $limit = NULL)
+        {
+            if ($fields == NULL)
+            {
+                $fields = 'product_id, product_title, cart_quantity, pi_image_path, product_price, cart_id, pd_color_name, pd_size';
+            }
+
+            $whereCondArr['cart_user_id'] = $user_id;
+            $whereCondArr['cart_status'] = '1';
+            $whereCondArr['pi_primary'] = '1';
+            $records = $this->db->select($fields)
+                    ->join(TABLE_PRODUCT_DETAILS . ' as pd', 'pd_id = cart_pd_id', 'INNER')
+                    ->join(TABLE_PRODUCTS . ' as p', 'product_id = pd_product_id', 'INNER')
+                    ->join(TABLE_PRODUCT_IMAGES . ' as pi', 'product_id = pi_product_id', 'LEFT')
+                    ->order_by($orderByField, $orderByType);
+
+            if ($limit != NULL)
+            {
+                $records = $records->limit($limit);
+            }
+            $records = $records->get_where(TABLE_SHOPPING_CART . ' as sc', $whereCondArr)->result_array();
+
+            return $records;
         }
 
     }
