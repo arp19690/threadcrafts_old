@@ -116,7 +116,7 @@
                             $cart_records = $custom_model->getCartDetails($user_id);
                             foreach ($cart_records as $key => $value)
                             {
-                                $cart_subtotal = $cart_subtotal + $value['product_price'];
+                                $cart_subtotal = $cart_subtotal + ($value["cart_quantity"] * $value["product_price"]);
                             }
                         }
                         ?>
@@ -139,6 +139,7 @@
                                     {
                                         foreach ($cart_records as $cpKey => $cpValue)
                                         {
+                                            $total_price = $cpValue["cart_quantity"] * $cpValue["product_price"];
                                             ?>
                                             <div class="item-in-cart clearfix">
                                                 <div class="image">
@@ -151,7 +152,6 @@
                                                         Size: <?php echo $cpValue["pd_size"]; ?>,
                                                         &nbsp;
                                                     </span>
-
 
                                                     <span class="light-clr qty">
                                                         Color: <?php echo $cpValue["pd_color_name"]; ?>,
@@ -166,7 +166,7 @@
 
                                                 </div>
                                                 <div class="price">
-                                                    <strong><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($cpValue["product_price"], 2); ?></strong>
+                                                    <strong><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($total_price, 2); ?></strong>
                                                 </div>
                                             </div>
                                             <?php
