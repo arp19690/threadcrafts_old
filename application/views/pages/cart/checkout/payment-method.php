@@ -11,6 +11,7 @@
         <span class="light">Netbanking / Debit card / Credit card</span> &nbsp; &nbsp; &nbsp; 
         <a href="<?php echo base_url("cart/paymentGateway"); ?>" class="btn btn-success"><i class="icon-credit-card"></i>&nbsp;&nbsp;Pay Now</a>
     </h3>
+    <p style="margin-top: 10px;">(Recommended for Non-Indian bank accounts)</p>
 </div>
 
 <!--<hr />
@@ -21,11 +22,10 @@
         <span class="light">PayPal</span> &nbsp; &nbsp; &nbsp; 
         <a href="<?php echo base_url("checkout/paypalCheckout"); ?>"><img src="<?php echo IMAGES_PATH; ?>/buttons/paypal.gif" alt="PayPal" width="145" height="42" /></a>
     </h3>
-    <p>(For Non-Indian bank accounts)</p>
+    <p style="margin-top: 10px;">(Recommended for Non-Indian bank accounts)</p>
 </div>-->
 
 <hr />
 
 <?php
     $this->load->view("pages/cart/checkout/footer");
-?>
