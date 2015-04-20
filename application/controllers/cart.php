@@ -25,11 +25,8 @@
 
         public function checkoutStepOne()
         {
-            require_once APPPATH . "/hooks/CartHook.php";
-            $CartHook = new CartHook();
-            $CartHook->addProductsFromCartToDB();
-
             $model = new Common_model();
+            $custom_model = new Custom_model();
             if ($this->input->get('coupon_code'))
             {
                 $coupon_code = $this->input->get('coupon_code');
@@ -64,18 +61,14 @@
             }
 
             $data = array();
+            $user_id=$this->session->userdata["user_id"];
 
             $data["step1_class"] = "active";
             $data["step2_class"] = "";
             $data["step3_class"] = "";
             $data["step4_class"] = "";
 
-            $fields = "p.product_id,p.product_title,p.product_cost_price,sc.cart_id,sc.product_quantity,sc.product_size,sc.product_color, p.profit_percent, product_image_and_color";
-            $tableArrayWithJoinCondition = array(
-                TABLE_PRODUCTS . " as p" => "p.product_id = sc.product_id"
-            );
-            $whereCondArr = array("product_status" => "1", "user_id" => $this->session->userdata["user_id"]);
-            $cart_records = $model->getAllDataFromJoin($fields, TABLE_SHOPPING_CART . " as sc", $tableArrayWithJoinCondition, "INNER", $whereCondArr);
+            $cart_records = $custom_model->getCartDetails($user_id);
             $data["cart_records"] = $cart_records;
 
             $this->load->view("pages/cart/checkout/checkout-step-1", $data);
@@ -110,7 +103,7 @@
             $data["step3_class"] = "active";
             $data["step4_class"] = "";
 
-            $fields = "p.product_id,p.product_title,p.product_cost_price,sc.cart_id,sc.product_quantity,sc.product_size,sc.product_color, p.profit_percent, product_image_and_color";
+            $fields = "p.product_id,p.product_title,p.product_price,sc.cart_id,sc.product_quantity,sc.product_size,sc.product_color, p.profit_percent, product_image_and_color";
             $tableArrayWithJoinCondition = array(
                 TABLE_PRODUCTS . " as p" => "p.product_id = sc.product_id"
             );
@@ -127,7 +120,7 @@
                 $product_quantity_array[] = $crValue["product_quantity"];
                 $product_id_arr["product_id"] = $crValue["product_id"];
                 $cart_id_arr["cart_id"] = $crValue["cart_id"];
-                $cart_subtotal = $cart_subtotal + (getProductPrice($crValue["product_cost_price"], FALSE, TRUE, FALSE, $crValue["profit_percent"]) * $crValue["product_quantity"]);
+                $cart_subtotal = $cart_subtotal + (getProductPrice($crValue["product_price"], FALSE, TRUE, FALSE, $crValue["profit_percent"]) * $crValue["product_quantity"]);
             }
 
             $product_weight = $model->fetchSelectedData("SUM(product_weight) as totalweight", TABLE_PRODUCTS, $product_id_arr);
@@ -298,7 +291,7 @@
                     $product_name = $value["product_title"];
                     $product_weight = $value["product_weight"];
                     $product_quantity = $value["product_quantity"];
-                    $price_with_tax = getProductPrice($value["product_cost_price"], FALSE, FALSE, FALSE);
+                    $price_with_tax = getProductPrice($value["product_price"], FALSE, FALSE, FALSE);
                     $price = convertCurrency("INR", "USD", $price_with_tax);
 
                     if ($discount_percent > 0 && !empty($discount_percent))

@@ -26,54 +26,50 @@
             foreach ($cart_records as $crKey => $crValue)
             {
                 $product_id = $crValue["product_id"];
-                $product_title = $crValue["product_title"];
-                $product_quantity = $crValue["product_quantity"];
-                $profit_percent = $crValue["profit_percent"];
-                $product_cost_price = getProductPrice($crValue["product_cost_price"], FALSE, TRUE, TRUE, $profit_percent);
-                $product_color = $crValue["product_color"];
-                $product_size = $crValue["product_size"];
-                $cart_subtotal = $cart_subtotal + ($product_cost_price * $product_quantity);
-                $product_images = getProductImages($crValue['product_image_and_color']);
+                $product_title = stripslashes($crValue["product_title"]);
+                $cart_quantity = $crValue["cart_quantity"];
+                $product_price = $crValue["product_price"];
+                $pd_color_name = $crValue["pd_color_name"];
+                $pd_size = $crValue["pd_size"];
+                $cart_subtotal = $cart_subtotal + ($product_price * $cart_quantity);
+                $product_image = getImage($crValue['pi_image_path']);
 //                prd($product_images);
                 ?>
                 <tr>
                     <td class="image">
-                        <img src="<?php echo $product_images[0]['url']; ?>" alt="<?php echo $product_title; ?>" width="124" height="124" />
+                        <img src="<?php echo $product_image ?>" alt="<?php echo $product_title; ?>" width="124" height="124" />
                     </td>
                     <td class="desc">
                         <?php echo $product_title; ?> - &nbsp; 
 
                         <?php
-                        if (!empty($product_size))
+                        if (!empty($pd_size))
                         {
                             ?>
                             <span class="light-clr qty">
-                                Size: <?php echo $product_size; ?>,
+                                Size: <?php echo $pd_size; ?>,
                                 &nbsp;
                             </span>
                             <?php
                         }
 
-                        if (!empty($product_color))
+                        if (!empty($pd_color_name))
                         {
                             ?>
                             <span class="light-clr qty">
-                                Color: <?php echo $product_color; ?>
+                                Color: <?php echo $pd_color_name; ?>
                                 &nbsp;
                             </span>
                             <?php
                         }
                         ?>
 
-                        <a title = "Remove Item" class = "icon-remove-sign" href = "<?php echo $product_id; ?>"></a>
+                        <a href="removeFromCart" title = "Remove Item" class = "icon-remove-sign" data-cart = "<?php echo $product_id; ?>"></a>
 
                     </td>
-                    <td class = "qty">
-                        <?php echo $product_quantity;
-                        ?>
-                    </td>
+                    <td class = "qty"> <?php echo $cart_quantity; ?></td>
                     <td class="price">
-                        <?php echo displayProductPrice($product_cost_price, FALSE); ?>
+                        <?php echo DEFAULT_CURRENCY_SYMBOL.number_format($product_price, 2); ?>
                     </td>
                 </tr>
                 <?php
@@ -157,4 +153,3 @@
     }
 
     $this->load->view("pages/cart/checkout/footer");
-?>

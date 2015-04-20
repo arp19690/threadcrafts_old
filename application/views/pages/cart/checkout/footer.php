@@ -2,7 +2,6 @@
 </div>
 </div>
 
-
 </section> <!-- /main content -->
 
 </div>
@@ -28,7 +27,6 @@
 
 <!--  = Isotope =  -->
 <script src="<?php echo JS_PATH; ?>/isotope/jquery.isotope.min.js" type="text/javascript"></script>
-
 
 <!--  = Google Maps API =  -->
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>

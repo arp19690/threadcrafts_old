@@ -46,23 +46,17 @@
             })();
         </script>
 
-        <!-- Twitter Bootstrap -->
-        <link href="<?php echo CSS_PATH; ?>/bootstrap.css" rel="stylesheet">
-        <link href="<?php echo CSS_PATH; ?>/responsive.css" rel="stylesheet">
         <!-- Slider Revolution -->
         <link rel="stylesheet" href="<?php echo JS_PATH; ?>/rs-plugin/css/settings.css" type="text/css"/>
         <!-- jQuery UI -->
         <link rel="stylesheet" href="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/css/smoothness/jquery-ui-1.10.3.custom.min.css" type="text/css"/>
-        <!-- PrettyPhoto -->
-        <link rel="stylesheet" href="<?php echo JS_PATH; ?>/prettyphoto/css/prettyPhoto.css" type="text/css"/>
         <!-- main styles -->
 
-        <link href="<?php echo CSS_PATH; ?>/main.css" rel="stylesheet">
-        <link href="<?php echo CSS_PATH; ?>/custom.css" rel="stylesheet">
+        <link href="<?php echo CSS_PATH; ?>/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery.min.js"></script>
         <!-- Modernizr -->
-        <script src="<?php echo JS_PATH; ?>/modernizr.custom.56918.js"></script>    
+        <script src="<?php echo JS_PATH; ?>/modernizr.custom.min.js"></script>    
 
         <!-- Fav and touch icons -->
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo IMAGES_PATH; ?>/apple-touch/144.png">
@@ -129,7 +123,7 @@
                                             </div>
                                             <div class="span2">
                                                 <div class="right-align">
-                                                    <span id="siteseal"><script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=atw69pYbG1pNJ7mL9O9ic3YNP7hEP9uv8Jl3S2x0MNBmYY37yIHvz"></script></span>
+                                                    <!--<span id="siteseal"><script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=atw69pYbG1pNJ7mL9O9ic3YNP7hEP9uv8Jl3S2x0MNBmYY37yIHvz"></script></span>-->
                                                 </div>
                                             </div>
                                         </div>
