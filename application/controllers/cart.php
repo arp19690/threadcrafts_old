@@ -61,7 +61,7 @@
             }
 
             $data = array();
-            $user_id=$this->session->userdata["user_id"];
+            $user_id = $this->session->userdata["user_id"];
 
             $data["step1_class"] = "active";
             $data["step2_class"] = "";
@@ -79,11 +79,8 @@
             $model = new Common_model();
             $user_id = $this->session->userdata["user_id"];
 
-            $user_record = $model->fetchSelectedData("first_name,last_name,user_address,user_contact,user_city,user_postcode,user_country,user_email", TABLE_USERS, array("user_id" => $user_id));
-            $data["user_record"] = $user_record[0];
-
-            $country_records = $model->fetchSelectedData("*", TABLE_COUNTRY, NULL, 'country_name', 'ASC');
-            $data["country_records"] = $country_records;
+            $address_records = $model->fetchSelectedData('*', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1', 'ua_deleted' => '0'));
+            $data["address_records"] = $address_records;
 
             $data["step1_class"] = "done";
             $data["step2_class"] = "active";
