@@ -31,13 +31,13 @@
 
         <!--  = Google Fonts =  -->
         <script type="text/javascript">
-            var baseUrl='<?php echo base_url();?>';
+            var baseUrl = '<?php echo base_url(); ?>';
             WebFontConfig = {
                 google: {
                     families: ['Open+Sans:400,700,400italic,700italic:latin,latin-ext,cyrillic', 'Pacifico::latin']
                 }
             };
-            (function() {
+            (function () {
                 var wf = document.createElement('script');
                 wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
                 wf.type = 'text/javascript';
@@ -124,7 +124,14 @@
                                             </div>
                                             <div class="span2">
                                                 <div class="right-align">
-                                                    <!--<span id="siteseal"><script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=atw69pYbG1pNJ7mL9O9ic3YNP7hEP9uv8Jl3S2x0MNBmYY37yIHvz"></script></span>-->
+                                                    <?php
+                                                        if (USER_IP != '127.0.0.1')
+                                                        {
+                                                            ?>
+                                                            <span id="siteseal"><script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=atw69pYbG1pNJ7mL9O9ic3YNP7hEP9uv8Jl3S2x0MNBmYY37yIHvz"></script></span>
+                                                            <?php
+                                                        }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
