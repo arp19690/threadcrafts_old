@@ -58,7 +58,7 @@
                 $model->insertData(TABLE_PAYMENTS, $payment_array);
 
                 // emptying the shopping cart for the customer now
-                $model->deleteData(TABLE_SHOPPING_CART, array('user_id' => $user_id, 'cart_status' => '1'));
+                $model->deleteData(TABLE_SHOPPING_CART, array('cart_user_id' => $user_id, 'cart_status' => '1'));
                 return json_encode(array('response' => 'success', 'order_id' => $order_id));
             }
         }
