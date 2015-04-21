@@ -157,6 +157,32 @@
         return $returnValue;
     }
 
+    function getOrderStatusText($status)
+    {
+        if ($status == '0')
+        {
+            $text = 'New';
+        }
+        elseif ($status == '1')
+        {
+            $text = 'Dispatched';
+        }
+        elseif ($status == '2')
+        {
+            $text = 'Delivered';
+        }
+        elseif ($status == '3')
+        {
+            $text = 'Cancelled';
+        }
+        elseif ($status == '4')
+        {
+            $text = 'Rejected';
+        }
+
+        return $text;
+    }
+
     function getWebsiteContactStatusText($status)
     {
         if ($status == '0')
