@@ -28,7 +28,7 @@
     define("TABLE_SHIPPING_ORDER_DETAILS", "shipping_order_details");
     define("TABLE_WEBSITE_CONTACT", "website_contact");
     define("TABLE_REPLY_MESSAGES", "reply_messages");
-    define("TABLE_PAYMENTS", "payment");
+    define("TABLE_PAYMENTS", "payments");
     define("TABLE_BLOGS", "blogs");
     define("TABLE_CLIENTS", "my_clients");
     define("TABLE_PURCHASES", "my_purchases");
