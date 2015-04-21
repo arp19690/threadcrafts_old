@@ -42,8 +42,8 @@
                             <tr>
                                 <th>Order ID</th>
                                 <th>Shipping Details</th>
-                                <th>Price</th>
                                 <th>Status</th>
+                                <th style="text-align: right;">Price</th>
                                 <th style="text-align: center">Details</th>
                             </tr>
                         </thead>
@@ -56,9 +56,9 @@
                                         ?>
                                         <tr>
                                             <td class="desc">#<?php echo stripslashes($value['sd_order_id']); ?></td>
-                                            <td class="desc"><?php echo stripslashes(trim($value['sd_shipping_address'] . ' ' . $value['sd_shipping_location'] . ' ' . $value['sd_shipping_postcode'])); ?></td>
-                                            <td class="desc"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($value['payment_amount'], 2); ?></td>
-                                            <td class="desc"><?php echo getOrderStatusText($value['sod_order_status']); ?></td>
+                                            <td class=""><?php echo stripslashes(trim($value['sd_shipping_address'] . ' ' . $value['sd_shipping_location'] . ' ' . $value['sd_shipping_postcode'])); ?></td>
+                                            <td class=""><?php echo getOrderStatusText($value['sod_order_status']); ?></td>
+                                            <td class="price"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($value['payment_amount'], 2); ?></td>
                                             <td class="desc" style="text-align: center">
                                                 <a href="#" title="View order details" class="btn btn-success"><span class="icon icon-search"></span>&nbsp;Details</a>
                                             </td>
