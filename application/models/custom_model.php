@@ -177,23 +177,23 @@
         {
             if ($fields == NULL)
             {
-                $fields = 'sd_quantity, sd_order_id, sd_shipping_fullname, sd_shipping_contact, sd_shipping_email, sd_shipping_address, sd_shipping_city, sd_shipping_postcode, sd_total_price, sd_timestamp, sd_status, pd_color_name, pd_size, product_title, pi_image_path, sod_order_id, sod_order_status';
+                $fields = 'sd_quantity, sd_order_id, sd_shipping_fullname, sd_shipping_contact, sd_shipping_email, sd_shipping_address, sd_shipping_location, sd_shipping_postcode, sd_total_price, sd_timestamp, sd_status, pd_color_name, pd_size, product_title, pi_image_path, sod_order_id, sod_order_status';
             }
 
             $whereCondArr['sd_user_id'] = $user_id;
-            $whereCondArr['pi_status'] = '1';
+            $whereCondArr['pi_primary'] = '1';
             $records = $this->db->select($fields)
+                    ->join(TABLE_SHIPPING_DETAILS . ' as sd', 'sod_order_id = sd_order_id', 'LEFT')
                     ->join(TABLE_PRODUCT_DETAILS . ' as pd', 'pd_id = sd_pd_id', 'INNER')
                     ->join(TABLE_PRODUCTS . ' as p', 'product_id = pd_product_id', 'INNER')
                     ->join(TABLE_PRODUCT_IMAGES . ' as pi', 'product_id = pi_product_id', 'LEFT')
-                    ->join(TABLE_SHIPPING_ORDER_DETAILS . ' as sod', 'sod_sd_id = sd_id', 'LEFT')
                     ->order_by($orderByField, $orderByType);
 
             if ($limit != NULL)
             {
                 $records = $records->limit($limit);
             }
-            $records = $records->get_where(TABLE_SHIPPING_DETAILS . ' as sd', $whereCondArr)->result_array();
+            $records = $records->get_where(TABLE_SHIPPING_ORDER_DETAILS . ' as sod', $whereCondArr)->result_array();
 
             return $records;
         }
