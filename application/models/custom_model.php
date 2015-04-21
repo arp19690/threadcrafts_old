@@ -177,7 +177,7 @@
         {
             if ($fields == NULL)
             {
-                $fields = 'sd_quantity, sd_order_id, sd_shipping_fullname, sd_shipping_contact, sd_shipping_email, sd_shipping_address, sd_shipping_location, sd_shipping_postcode, sd_total_price, sd_timestamp, sd_status, pd_color_name, pd_size, product_title, pi_image_path, sod_order_id, sod_order_status';
+                $fields = 'sd_quantity, sd_order_id, sd_shipping_fullname, sd_shipping_contact, sd_shipping_email, sd_shipping_address, sd_shipping_location, sd_shipping_postcode, payment_amount, sd_timestamp, sd_status, pd_color_name, pd_size, product_title, pi_image_path, sod_order_id, sod_order_status';
             }
 
             $whereCondArr['sd_user_id'] = $user_id;
@@ -187,6 +187,8 @@
                     ->join(TABLE_PRODUCT_DETAILS . ' as pd', 'pd_id = sd_pd_id', 'INNER')
                     ->join(TABLE_PRODUCTS . ' as p', 'product_id = pd_product_id', 'INNER')
                     ->join(TABLE_PRODUCT_IMAGES . ' as pi', 'product_id = pi_product_id', 'LEFT')
+                    ->join(TABLE_PAYMENTS . ' as py', 'payment_sod_id = sod_id', 'LEFT')
+                    ->group_by('sd_order_id')
                     ->order_by($orderByField, $orderByType);
 
             if ($limit != NULL)
@@ -210,6 +212,7 @@
                     ->join(TABLE_PAYMENT . ' as py', 'py.sd_id = sd.sd_id', 'LEFT')
                     ->join(TABLE_PRODUCTS . ' as p', 'p.product_id= sd.product_id', 'LEFT')
                     ->where('payment_id !=', '')
+                    ->group_by('sd_order_id')
                     ->order_by('py.payment_id', 'DESC');
 
             if ($whereCondArr != NULL)

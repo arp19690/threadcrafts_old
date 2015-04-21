@@ -40,26 +40,27 @@
                     <table class="table table-items push-down-50">
                         <thead>
                             <tr>
-                                <th>Address Line 1</th>
-                                <th>Address Line 2</th>
-                                <th>Location</th>
-                                <th style="text-align: center">Action</th>
+                                <th>Order ID</th>
+                                <th>Shipping Details</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th style="text-align: center">Details</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                if (!empty($user_address_records))
+                                if (!empty($records))
                                 {
-                                    foreach ($user_address_records as $uaKey => $uaValue)
+                                    foreach ($records as $key => $value)
                                     {
                                         ?>
                                         <tr>
-                                            <td class="desc"><?php echo stripslashes($uaValue['ua_line1']); ?></td>
-                                            <td class="desc"><?php echo empty($uaValue['ua_line2']) == TRUE ? 'NA' : stripslashes($uaValue['ua_line2']); ?></td>
-                                            <td class="desc"><?php echo (stripslashes($uaValue['ua_location'])) . (!empty($uaValue['ua_postcode']) == TRUE ? (' - ' . $uaValue['ua_postcode']) : ''); ?></td>
+                                            <td class="desc">#<?php echo stripslashes($value['sd_order_id']); ?></td>
+                                            <td class="desc"><?php echo stripslashes(trim($value['sd_shipping_address'] . ' ' . $value['sd_shipping_location'] . ' ' . $value['sd_shipping_postcode'])); ?></td>
+                                            <td class="desc"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($value['payment_amount'], 2); ?></td>
+                                            <td class="desc"><?php echo getOrderStatusText($value['sod_order_status']); ?></td>
                                             <td class="desc" style="text-align: center">
-                                                <a href="<?php echo base_url('edit-address?id='.  getEncryptedString($uaValue['ua_id']));?>" title="Edit address"><span class="icon icon-pencil"></span></a>
-                                                <a href="<?php echo base_url('remove-address?id='.  getEncryptedString($uaValue['ua_id']));?>" title="Remove address" onclick="return confirm('Sure you want to remove this address?');" style="margin-left: 15px;"><span class="icon icon-trash"></span></a>
+                                                <a href="#" title="View order details" class="btn btn-success"><span class="icon icon-search"></span>&nbsp;Details</a>
                                             </td>
                                         </tr>
                                         <?php
@@ -68,7 +69,7 @@
                                 else
                                 {
                                     ?>
-                                <td>No addresses found</td>
+                                <td>You have not placed any order</td>
                                 <?php
                             }
                         ?>

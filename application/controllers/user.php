@@ -220,11 +220,12 @@
                 $user_id = $this->session->userdata["user_id"];
 
                 $records = $custom_model->getMyOrdersList($user_id);
-                prd($records);
+//                prd($records);
                 $breadcrumbArray = array(
                     "My Orders" => base_url("my-orders"),
                 );
 
+                $data["records"] = $records;
                 $data["breadcrumbArray"] = $breadcrumbArray;
                 $data["meta_title"] = "My orders | " . SITE_NAME;
                 $this->template->write_view("content", "pages/user/my-orders", $data);
