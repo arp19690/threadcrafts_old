@@ -1,5 +1,17 @@
 <?php
     $this->load->view("pages/cart/checkout/header");
+
+    if (!empty($user_address_arr))
+    {
+        ?>
+        <div class="push-down-20">
+            <p>
+                <strong>Deliver my order at:</strong> 
+                <span style="font-size: 16px;"><?php echo stripslashes(trim($user_address_arr['ua_line1'] . ' ' . $user_address_arr['ua_line2'] . ' ' . $user_address_arr['ua_location'] . ' ' . $user_address_arr['ua_postcode'])); ?></span>
+            </p>
+        </div>
+        <?php
+    }
 ?>
 
 <!--  ==========  -->

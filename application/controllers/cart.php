@@ -155,6 +155,8 @@
                     $model->insertData(TABLE_SHIPPING_DETAILS, $whereCondArr);
                 }
             }
+            
+            $data['user_address_arr'] = $user_address;
             $data['total_shipping_charge'] = $total_shipping_charge;
             $this->load->view("pages/cart/checkout/checkout-step-3", $data);
         }
