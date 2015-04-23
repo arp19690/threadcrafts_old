@@ -191,7 +191,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h3 id="singupModalLabel"><span class="light">Signup To</span> <?php echo SITE_NAME; ?></h3>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="max-height: 415px;">
                 <form method="post" action="<?php echo base_url("signup"); ?>">
                     <input type='hidden' name='url' value='<?php echo current_url(); ?>'/>
                     <div class="control-group">
