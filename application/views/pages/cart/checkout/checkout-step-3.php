@@ -73,7 +73,7 @@
         </tr>
 
         <?php
-            $total_product_price = getProductPrice($cart_subtotal, FALSE, FALSE);
+            $total_product_price = $cart_subtotal;
             $discount = "0";
             if (isset($this->session->userdata["cart_discount"]))
             {
@@ -89,7 +89,8 @@
                 <?php
             }
 
-            $total = round($total_product_price - $discount + $total_shipping_charge + $total_vat, 2);
+            $total = round($total_product_price - $discount + $total_shipping_charge, 2);
+            $total_vat = round($total * (VAT_TAX_PERCENT / 100), 2);
         ?>
         <tr>
             <td colspan="2" rowspan="1">
@@ -104,7 +105,7 @@
                 &nbsp;
             </td>
             <td class="stronger">Total:</td>
-            <td class="stronger"><div class="size-16 align-right"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($total, 2); ?></div></td>
+            <td class="stronger"><div class="size-16 align-right"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($total + $total_vat, 2); ?></div></td>
         </tr>
     </tbody>
 </table>
