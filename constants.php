@@ -68,7 +68,7 @@
 
     define("ADMIN_TIMEOUT_TIME", 1800);
     define("SELLER_TIMEOUT_TIME", 1800);
-    define("USER_TIMEOUT_TIME", 1800);
+    define("USER_TIMEOUT_TIME", 3600);
     define("USER_IP", $_SERVER["REMOTE_ADDR"]);
     define("USER_AGENT", $_SERVER["HTTP_USER_AGENT"]);
 
