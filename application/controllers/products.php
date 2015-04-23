@@ -350,7 +350,7 @@
                 $data["category_name_records"] = $category_name_records;
                 $data["product_page_heading"] = $pageHeading;
                 $breadcrumbArray = array(
-                    $query => current_url(),
+                    'Search: ' . $query => current_url(),
                 );
                 $data["breadcrumbArray"] = $breadcrumbArray;
                 $data["meta_title"] = $pageHeading . " | " . SITE_NAME;
