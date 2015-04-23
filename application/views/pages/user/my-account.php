@@ -117,7 +117,11 @@
                 <!--Saved Addresses Section-->
 
                 <section id="address">
-                    <h3 class="push-down-20"><span class="light">Saved</span> Addresses</h3>
+                    <h3 class="push-down-20">
+                        <span class="light">Saved</span> Addresses
+                        <a href="#" class="btn btn-success pull-right"><span class="icon icon-plus"></span>&nbsp;Add new</a>
+                    </h3>
+                    <p class="pull-right"></p>
                     <table class="table table-items push-down-50">
                         <thead>
                             <tr>
