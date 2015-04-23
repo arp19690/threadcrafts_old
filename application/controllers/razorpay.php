@@ -45,8 +45,16 @@
                 // to insert the discount coupon details as well, if any
                 if (isset($this->session->userdata["cart_discount"]))
                 {
-                    $data_array['sod_discount_coupon'] = $this->session->userdata["cart_discount"]["coupon_code"];
+                    $discount_coupon = $this->session->userdata["cart_discount"]["coupon_code"];
+                    $data_array['sod_discount_coupon'] = $discount_coupon;
                     $data_array['sod_discount_percent'] = $this->session->userdata["cart_discount"]["discount_percent"];
+
+                    // decrementing the coupon code avaialable count by 1
+                    $this->db->set('dc_count_available', 'dc_count_available - 1', FALSE);
+                    $this->db->where('dc_code', $discount_coupon);
+                    $this->db->update(TABLE_DISCOUNT_COUPONS);
+
+                    // unsetting the cart_discount session
                     $this->session->unset_userdata('cart_discount');
                 }
                 $model->insertData(TABLE_SHIPPING_ORDER_DETAILS, $data_array);
