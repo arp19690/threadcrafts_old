@@ -62,7 +62,34 @@
                 </tr>
                 <?php
             }
+
+            $total_product_price = $cart_subtotal;
+            $discount = "0";
+            if (isset($this->session->userdata["cart_discount"]))
+            {
+                $discount_percent = $this->session->userdata["cart_discount"]["discount_percent"];
+                $discount = $total_product_price * ($discount_percent / 100);
+                ?>
+                <tr>
+                    <td colspan="2" rowspan="1">&nbsp;</td>
+                    <td class="stronger">Discount:</td>
+                    <td class="stronger"><div class="align-right"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($discount, 2); ?></div></td>
+                </tr>
+                <?php
+            }
+
+            $cart_tmp_subtotal = $total_product_price - $discount;
+            $total = $cart_tmp_subtotal + $total_shipping_charge;
+            $total_vat = $total * (VAT_TAX_PERCENT / 100);
         ?>
+
+        <tr>
+            <td colspan="2" rowspan="1">
+                &nbsp;
+            </td>
+            <td class="stronger">Subtotal:</td>
+            <td class="stronger"><div class="align-right"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($cart_tmp_subtotal, 2); ?></div></td>
+        </tr>
 
         <tr>
             <td colspan="2" rowspan="1">
@@ -72,26 +99,6 @@
             <td class="stronger"><div class="align-right"><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($total_shipping_charge, 2); ?></div></td>
         </tr>
 
-        <?php
-            $total_product_price = $cart_subtotal;
-            $discount = "0";
-            if (isset($this->session->userdata["cart_discount"]))
-            {
-                $discount_percent = $this->session->userdata["cart_discount"]["discount_percent"];
-                $discount = $total_product_price * ($discount_percent / 100);
-                $round_discount = round($total_product_price * ($discount_percent / 100), 2);
-                ?>
-                <tr>
-                    <td colspan="2" rowspan="1">&nbsp;</td>
-                    <td class="stronger">Discount:</td>
-                    <td class="stronger"><div class="align-right"><?php echo getAddedCurrentCurrencySymbolWithPrice($round_discount); ?></div></td>
-                </tr>
-                <?php
-            }
-
-            $total = round($total_product_price - $discount + $total_shipping_charge, 2);
-            $total_vat = round($total * (VAT_TAX_PERCENT / 100), 2);
-        ?>
         <tr>
             <td colspan="2" rowspan="1">
                 &nbsp;
