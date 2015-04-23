@@ -7,7 +7,8 @@
         {
             $output = $subtotal - ($subtotal * ($discount_percent / 100));
         }
-        $output = $output + $shipping_charge + ($output * ($vat_percent / 100));
+        $output = $output + $shipping_charge;
+        $output = $output + ($output * ($vat_percent / 100));
         return $output;
     }
 
