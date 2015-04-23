@@ -96,11 +96,13 @@
                         <form class="navbar-form pull-right" action="<?php echo base_url("products/search"); ?>" method="get">
                             <button type="submit"><span class="icon-search"></span></button>
                             <?php
-                                $user_search_query = "";
-                                if (isset($this->session->userdata["user_search_query"]))
-                                    $user_search_query = $this->session->userdata["user_search_query"];
+                                $search_query = "";
+                                if ($this->input->get('search'))
+                                {
+                                    $search_query = urldecode($this->input->get('search'));
+                                }
                             ?>
-                            <input type="text" class="span1" name="search" id="navSearchInput" value="<?php echo $user_search_query; ?>" placeholder="Search" autocomplete="off"/>
+                            <input type="text" class="span1" name="search" id="navSearchInput" value="<?php echo $search_query; ?>" placeholder="Search" autocomplete="off"/>
                         </form>
                     </div><!-- /.nav-collapse -->
                 </div>
