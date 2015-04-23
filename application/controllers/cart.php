@@ -25,11 +25,8 @@
 
         public function checkoutStepOne()
         {
-            require_once APPPATH . "/hooks/CartHook.php";
-            $CartHook = new CartHook();
-            $CartHook->addProductsFromCartToDB();
-
             $model = new Common_model();
+            $custom_model = new Custom_model();
             if ($this->input->get('coupon_code'))
             {
                 $coupon_code = $this->input->get('coupon_code');
@@ -37,25 +34,20 @@
                     "dc_code" => $coupon_code,
                     "dc_status" => "1",
                     "dc_count_available >" => "0",
-                    "dc_end_time >" => "'" . time() . "'",
+                    "dc_end_time >" => "'" . date('Y-m-d H:m:s') . "'",
                 );
-                $is_exists = $model->is_exists("dc_id, dc_percent", TABLE_DISCOUNT_COUPONS, $couponWhereCond);
+                $is_exists = $model->is_exists("dc_percent", TABLE_DISCOUNT_COUPONS, $couponWhereCond);
                 if (empty($is_exists))
                 {
-                    $this->session->set_flashdata("warning", "<strong>Oops!</strong> Invalid coupon code");
+                    $this->session->set_flashdata("warning", "Invalid coupon code");
                 }
                 else
                 {
-                    $dc_id = $is_exists[0]["dc_id"];
                     $dc_percent = $is_exists[0]["dc_percent"];
                     $cart_discount_array = array(
                         "coupon_code" => $coupon_code,
                         "discount_percent" => $dc_percent
                     );
-
-                    $this->db->set('dc_count_available', 'dc_count_available-1', FALSE);
-                    $this->db->where('dc_id', $dc_id);
-                    $this->db->update(TABLE_DISCOUNT_COUPONS);
 
                     $this->session->set_userdata("cart_discount", $cart_discount_array);
                 }
@@ -64,18 +56,14 @@
             }
 
             $data = array();
+            $user_id = $this->session->userdata["user_id"];
 
             $data["step1_class"] = "active";
             $data["step2_class"] = "";
             $data["step3_class"] = "";
             $data["step4_class"] = "";
 
-            $fields = "p.product_id,p.product_title,p.product_cost_price,sc.cart_id,sc.product_quantity,sc.product_size,sc.product_color, p.profit_percent, product_image_and_color";
-            $tableArrayWithJoinCondition = array(
-                TABLE_PRODUCTS . " as p" => "p.product_id = sc.product_id"
-            );
-            $whereCondArr = array("product_status" => "1", "user_id" => $this->session->userdata["user_id"]);
-            $cart_records = $model->getAllDataFromJoin($fields, TABLE_SHOPPING_CART . " as sc", $tableArrayWithJoinCondition, "INNER", $whereCondArr);
+            $cart_records = $custom_model->getCartDetails($user_id);
             $data["cart_records"] = $cart_records;
 
             $this->load->view("pages/cart/checkout/checkout-step-1", $data);
@@ -86,11 +74,11 @@
             $model = new Common_model();
             $user_id = $this->session->userdata["user_id"];
 
-            $user_record = $model->fetchSelectedData("first_name,last_name,user_address,user_contact,user_city,user_postcode,user_country,user_email", TABLE_USERS, array("user_id" => $user_id));
+            $user_record = $model->fetchSelectedData("user_fullname, user_email, user_contact", TABLE_USERS, array("user_id" => $user_id));
             $data["user_record"] = $user_record[0];
 
-            $country_records = $model->fetchSelectedData("*", TABLE_COUNTRY, NULL, 'country_name', 'ASC');
-            $data["country_records"] = $country_records;
+            $address_records = $model->fetchSelectedData('*', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1', 'ua_deleted' => '0'));
+            $data["address_records"] = $address_records;
 
             $data["step1_class"] = "done";
             $data["step2_class"] = "active";
@@ -103,118 +91,74 @@
         public function checkoutStepThree()
         {
             $data = array();
+            $custom_model = new Custom_model();
             $model = new Common_model();
+            $user_id = $this->session->userdata["user_id"];
 
             $data["step1_class"] = "done";
             $data["step2_class"] = "done";
             $data["step3_class"] = "active";
             $data["step4_class"] = "";
 
-            $fields = "p.product_id,p.product_title,p.product_cost_price,sc.cart_id,sc.product_quantity,sc.product_size,sc.product_color, p.profit_percent, product_image_and_color";
-            $tableArrayWithJoinCondition = array(
-                TABLE_PRODUCTS . " as p" => "p.product_id = sc.product_id"
-            );
-
-            $whereCondArr = array("product_status" => "1", "user_id" => $this->session->userdata["user_id"]);
-            $cart_records = $model->getAllDataFromJoin($fields, TABLE_SHOPPING_CART . " as sc", $tableArrayWithJoinCondition, "INNER", $whereCondArr);
+            $cart_records = $custom_model->getCartDetails($user_id);
             $data["cart_records"] = $cart_records;
 
-            $cart_subtotal = 0;
-            $product_id_csv = array();
-            foreach ($cart_records as $crKey => $crValue)
-            {
-                $product_id_csv[] = array($crValue["product_id"] => array('product_size' => $crValue["product_size"], 'product_color' => $crValue["product_color"]));
-                $product_quantity_array[] = $crValue["product_quantity"];
-                $product_id_arr["product_id"] = $crValue["product_id"];
-                $cart_id_arr["cart_id"] = $crValue["cart_id"];
-                $cart_subtotal = $cart_subtotal + (getProductPrice($crValue["product_cost_price"], FALSE, TRUE, FALSE, $crValue["profit_percent"]) * $crValue["product_quantity"]);
-            }
-
-            $product_weight = $model->fetchSelectedData("SUM(product_weight) as totalweight", TABLE_PRODUCTS, $product_id_arr);
-            $totalweight = $product_weight[0]["totalweight"];
-
-            $this->load->library('ShippingCalculatorNew');
-            $ShippingCalculator = new ShippingCalculatorNew();
-
-            $shipping_code = SHIPPING_CODE;
-            $shipping_charges = "0";
-            $shipping_charges_in_inr = "0";
-
+            $total_shipping_charge = 0;
             if ($this->input->post() && $this->input->post('bttn_submit_two'))
             {
+                $arr = $this->input->post();
 //                prd($this->input->post());
 
-                $shipping_charges_in_inr = $ShippingCalculator->calculateShippingCharge($cart_subtotal, $totalweight, $this->input->post("shipping_country"));
-                $shipping_charges = $shipping_charges_in_inr;
+                $user_address = $model->fetchSelectedData('ua_line1, ua_line2, ua_location, ua_postcode', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1', 'ua_id' => $arr['shipping_address']));
+                $user_address = $user_address[0];
 
-                $arr = $this->input->post();
+                foreach ($cart_records as $key => $value)
+                {
+                    $whereCondArr = array(
+                        'sd_user_id' => $user_id,
+                        'sd_pd_id' => $value['pd_id'],
+                        'sd_quantity' => $value['cart_quantity'],
+                        'sd_shipping_contact' => $arr['shipping_contact'],
+                        'sd_shipping_email' => $arr['billing_email'],
+                        'sd_product_price' => $value['product_price'],
+                        'sd_shipping_address' => trim($user_address['ua_line1'] . ' ' . $user_address['ua_line2']),
+                        'sd_shipping_location' => trim($user_address['ua_location']),
+                        'sd_shipping_postcode' => trim($user_address['ua_postcode']),
+                    );
 
-                $getLocationCityState = parse_address_google($arr['billing_city']);
+                    $model->deleteData(TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_status' => '1', 'sd_paid' => '0', 'sd_order_id' => NULL));
+                    // to get profit percent on the category to calculate seller earning, and shipping charge
+                    $product_detail = $custom_model->getAllProductsDetails(NULL, 'product_shipping_charge, cc_profit_percent', 'pd_id', 'pi_id', array('pd_id' => $value['pd_id']));
 
-                // updating the users table for the address details, from the billing details
-                $user_data_array = array();
-                $user_data_array["user_country"] = $getLocationCityState['country'];
-                $user_data_array["user_state"] = $getLocationCityState['state'];
-                $user_data_array["user_city"] = $getLocationCityState['city'];
-                $model->updateData(TABLE_USERS, $user_data_array, array('user_id' => $this->session->userdata["user_id"]));
+                    $discount_percent = 0;
+                    if (isset($this->session->userdata["cart_discount"]))
+                    {
+                        $discount_percent = $this->session->userdata["cart_discount"]["discount_percent"];
+                        $whereCondArr['sd_discount_coupon'] = $this->session->userdata["cart_discount"]["coupon_code"];
+                        $whereCondArr['sd_discount_percent'] = $discount_percent;
+                    }
 
-                // creating an array of session to be carried onto next step for checkout.
-                $data_array = array(
-                    "user_id" => $this->session->userdata["user_id"],
-                    "product_id_array" => $product_id_csv,
-                    "product_quantity_array" => $product_quantity_array,
-                    "shipping_first_name" => trim($arr["shipping_first_name"]),
-                    "shipping_last_name" => trim($arr["shipping_last_name"]),
-                    "shipping_contact" => trim($arr["shipping_contact"]),
-                    "shipping_email" => trim($arr["shipping_email"]),
-                    "shipping_address" => trim($arr["shipping_address"]),
-                    "shipping_city" => trim($arr["shipping_city"]),
-                    "shipping_postcode" => trim($arr["shipping_postcode"]),
-                    "shipping_country" => trim($arr["shipping_country"]),
-                    "billing_first_name" => trim($arr["billing_first_name"]),
-                    "billing_last_name" => trim($arr["billing_last_name"]),
-                    "billing_contact" => trim($arr["billing_contact"]),
-                    "billing_email" => trim($arr["billing_email"]),
-                    "billing_address" => trim($arr["billing_address"]),
-                    "billing_city" => trim($arr["billing_city"]),
-                    "billing_postcode" => trim($arr["billing_postcode"]),
-                    "billing_country" => trim($arr["billing_country"]),
-                    "shipping_total_weight" => $product_weight[0]["totalweight"],
-                    "shipping_charge_in_inr" => $shipping_charges_in_inr,
-                    "total_price" => getProductPrice($cart_subtotal, FALSE, FALSE) + $shipping_charges_in_inr,
-                    "user_currency" => getCurrentCurrency(),
-                    "shipping_mode" => $shipping_code,
-                    "shipping_partner" => SHIPPING_PARTNER,
-                    "user_ipaddress" => $this->session->userdata["ip_address"],
-                    "user_agent" => $this->session->userdata["user_agent"],
-                );
-                $this->session->set_userdata("cart_session", $data_array);
+                    $shipping_charge = $product_detail['product_shipping_charge'];
+                    $profit_percent = $product_detail['cc_profit_percent'];
+                    $sub_total = ($value['product_price'] * $value['cart_quantity']);
+                    $total_shipping_charge = $total_shipping_charge + $shipping_charge;
+                    $discount_amount = $sub_total * ($discount_percent / 100);
+                    $seller_earning = $sub_total - ($sub_total * ($profit_percent / 100)) + $shipping_charge - $discount_amount;
+
+                    $whereCondArr['sd_ipaddress'] = USER_IP;
+                    $whereCondArr['sd_useragent'] = USER_AGENT;
+                    $whereCondArr['sd_shipping_fullname'] = ucwords($arr['shipping_fullname']);
+                    $whereCondArr['sd_shipping_charge'] = $shipping_charge;
+                    $whereCondArr['sd_seller_earning'] = $seller_earning;
+                    $whereCondArr['sd_vat_collected'] = ($sub_total + $shipping_charge - $discount_amount) * (VAT_TAX_PERCENT / 100);
+                    $whereCondArr['sd_total_price'] = getFinalPriceForCheckout($sub_total, $discount_percent, $shipping_charge, VAT_TAX_PERCENT);
+                    $model->insertData(TABLE_SHIPPING_DETAILS, $whereCondArr);
+                }
             }
-
-            $current_currency = getCurrentCurrency();
-            if ($current_currency != "INR")
-            {
-                $shipping_charges = convertCurrency("INR", getCurrentCurrency(), $shipping_charges);
-            }
-
-            $shipping_charges = round($shipping_charges, 2);
-
-            $data["shipping_charges"] = $shipping_charges;
-
+            
+            $data['user_address_arr'] = $user_address;
+            $data['total_shipping_charge'] = $total_shipping_charge;
             $this->load->view("pages/cart/checkout/checkout-step-3", $data);
-        }
-
-        public function removeCouponCode($coupon_code)
-        {
-            if ($coupon_code && isset($this->session->userdata["cart_discount"]))
-            {
-                $this->session->unset_userdata('cart_discount');
-
-                $this->db->set('dc_count_available', 'dc_count_available + 1', FALSE);
-                $this->db->where('dc_code', $coupon_code);
-                $this->db->update(TABLE_DISCOUNT_COUPONS);
-            }
-            redirect(base_url("checkout"));
         }
 
         public function paymentMethod()
@@ -224,7 +168,24 @@
             $data["step2_class"] = "done";
             $data["step3_class"] = "done";
             $data["step4_class"] = "active";
+
+            $model = new Common_model();
+            $user_id = $this->session->userdata["user_id"];
+            $user_record = $model->fetchSelectedData('user_contact', TABLE_USERS, array('user_id' => $user_id));
+            $amount_record = $model->fetchSelectedData('SUM(sd_total_price) as subtotal', TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_order_id' => NULL, 'sd_paid' => '0', 'sd_status' => '1'), 'sd_id', 'DESC', 1);
+
+            $data['user_contact'] = $user_record[0]['user_contact'];
+            $data['final_amount'] = round($amount_record[0]['subtotal'], 2);
             $this->load->view("pages/cart/checkout/payment-method", $data);
+        }
+
+        public function removeCouponCode()
+        {
+            if (isset($this->session->userdata["cart_discount"]))
+            {
+                $this->session->unset_userdata('cart_discount');
+            }
+            redirect(base_url("checkout"));
         }
 
         public function paypalCheckout()
@@ -298,7 +259,7 @@
                     $product_name = $value["product_title"];
                     $product_weight = $value["product_weight"];
                     $product_quantity = $value["product_quantity"];
-                    $price_with_tax = getProductPrice($value["product_cost_price"], FALSE, FALSE, FALSE);
+                    $price_with_tax = getProductPrice($value["product_price"], FALSE, FALSE, FALSE);
                     $price = convertCurrency("INR", "USD", $price_with_tax);
 
                     if ($discount_percent > 0 && !empty($discount_percent))
@@ -427,289 +388,7 @@
             redirect(base_url('checkout'));
         }
 
-        public function checkoutPayU()
-        {
-//            prd($this->session->userdata['cart_session']['total_price']);
-            // Merchant key here as provided by Payu
-            $MERCHANT_KEY = "JBZaLc";
-
-// Merchant Salt as provided by Payu
-            $SALT = "GQs7yium";
-
-// End point - change to https://secure.payu.in for LIVE mode
-            $PAYU_BASE_URL = PAYU_BASE_URL;
-
-            $action = '';
-
-            $posted = array();
-            if (!empty($_POST))
-            {
-                //print_r($_POST);
-                if (!empty($_POST['hash']))
-                {
-                    $this->savePayuDetails($_POST);
-                    die;
-                }
-                else
-                {
-                    foreach ($_POST as $key => $value)
-                    {
-                        $posted[$key] = $value;
-                    }
-                }
-            }
-
-            $formError = 0;
-
-            if (empty($posted['txnid']))
-            {
-                // Generate random transaction id
-                $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
-            }
-            else
-            {
-                $txnid = $posted['txnid'];
-            }
-            $hash = '';
-// Hash Sequence
-            $hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
-            if (empty($posted['hash']) && sizeof($posted) > 0)
-            {
-                if (
-                        empty($posted['key']) || empty($posted['txnid']) || empty($posted['amount']) || empty($posted['firstname']) || empty($posted['email']) || empty($posted['phone']) || empty($posted['productinfo']) || empty($posted['surl']) || empty($posted['furl']) || empty($posted['service_provider'])
-                )
-                {
-                    $formError = 1;
-                }
-                else
-                {
-                    //$posted['productinfo'] = json_encode(json_decode('[{"name":"tutionfee","description":"","value":"500","isRequired":"false"},{"name":"developmentfee","description":"monthly tution fee","value":"1500","isRequired":"false"}]'));
-                    $hashVarsSeq = explode('|', $hashSequence);
-                    $hash_string = '';
-                    foreach ($hashVarsSeq as $hash_var)
-                    {
-                        $hash_string .= isset($posted[$hash_var]) ? $posted[$hash_var] : '';
-                        $hash_string .= '|';
-                    }
-
-                    $hash_string .= $SALT;
-
-
-                    $hash = strtolower(hash('sha512', $hash_string));
-                    $action = $PAYU_BASE_URL . '/_payment';
-                }
-            }
-            elseif (!empty($posted['hash']))
-            {
-                $hash = $posted['hash'];
-                $action = $PAYU_BASE_URL . '/_payment';
-            }
-
-            $firstname = $this->session->userdata['cart_session']['billing_first_name'];
-            $lastname = $this->session->userdata['cart_session']['billing_last_name'];
-            $amount = $this->session->userdata['cart_session']['total_price'];
-            $email = $this->session->userdata['cart_session']['shipping_email'];
-            $phone = $this->session->userdata['cart_session']['shipping_contact'];
-            $address1 = $this->session->userdata['cart_session']['billing_address'];
-            $address2 = '';
-            $city = $this->session->userdata['cart_session']['billing_city'];
-            $state = '';
-            $country = $this->session->userdata['cart_session']['billing_country'];
-            $zipcode = $this->session->userdata['cart_session']['billing_postcode'];
-            $productinfo = 'To ' . SITE_NAME;
-            $success_url = current_url();
-            $cancel_url = base_url('cart/paymentCancel');
-            $failure_url = base_url('cart/paymentCancel');
-
-            $str = '
-                        <form action="' . $action . '" method="post" name="payuForm" id="payuForm">
-                        <input type="hidden" name="key" value="' . $MERCHANT_KEY . '" />
-                        <input type="hidden" name="hash" value="' . $hash . '"/>
-                        <input type="hidden" name="txnid" value="' . $txnid . '" />
-                        <input type="hidden" name="amount" value="' . $amount . '" />
-                        <input type="hidden" name="firstname" value="' . $firstname . '" />
-                        <input type="hidden" name="lastname" value="' . $lastname . '" />
-                        <input type="hidden" name="email" value="' . $email . '" />
-                        <input type="hidden" name="phone" value="' . $phone . '" />
-                        <input type="hidden" name="address1" value="' . $address1 . '" />
-                        <input type="hidden" name="address2" value="' . $address2 . '" />
-                        <input type="hidden" name="city" value="' . $city . '" />
-                        <input type="hidden" name="state" value="' . $state . '" />
-                        <input type="hidden" name="country" value="' . $country . '" />
-                        <input type="hidden" name="zipcode" value="' . $zipcode . '" />
-                        <input type="hidden" name="productinfo" value="' . $productinfo . '" />
-                        <input type="hidden" name="surl" value="' . $success_url . '" />
-                        <input type="hidden" name="curl" value="' . $cancel_url . '" />
-                        <input type="hidden" name="furl" value="' . $failure_url . '" />
-                        <input type="hidden" name="service_provider" value="payu_paisa" />
-                        </form>
-                        <script>window.document.payuForm.submit();</script>
-                            ';
-
-            echo $str;
-        }
-
-        public function savePayuDetails($post_params)
-        {
-            $model = new Common_model();
-            $arr = $post_params;
-            $test_arr = array();
-            $product_quant_unit_arr = array();
-            $cart_contents = $this->cart->contents();
-            foreach ($cart_contents as $ccKey => $ccValue)
-            {
-                $profit_percent = $ccValue['options']['profit_percent'];
-                $test_arr['product'] = $ccValue['name'];
-                $test_arr['quantity'] = $ccValue['qty'];
-                $test_arr['unit_price'] = getProductPrice($ccValue['price'], FALSE, TRUE, TRUE, $profit_percent);
-                $product_quant_unit_arr[] = $test_arr;
-            }
-
-            $cart_session = $this->session->userdata["cart_session"];
-            $product_id_array = $cart_session["product_id_array"];
-
-            $cart_session_arr = $this->session->userdata["cart_session"];
-//            prd($this->session->all_userdata());
-
-            $product_id_array_new = array();
-            $tmp_product_id_array = $cart_session_arr["product_id_array"];
-
-            $shipping_charge_in_inr = $cart_session_arr["shipping_charge_in_inr"];
-            foreach ($tmp_product_id_array as $ckey => $cvalue)
-            {
-                $product_id_array_new[] = key($cvalue);
-            }
-
-            foreach ($cart_session_arr["product_id_array"] as $csKey => $csValue)
-            {
-                $cart_session_arr["product_id"] = key($csValue);
-                $cart_session_arr["product_size"] = $cart_session_arr["product_id_array"][$csKey][key($csValue)]['product_size'];
-                $cart_session_arr["product_color"] = $cart_session_arr["product_id_array"][$csKey][key($csValue)]['product_color'];
-                $cart_session_arr["product_id_csv"] = implode(", ", $product_id_array_new);
-                $cart_session_arr["product_quantity"] = $cart_session_arr["product_quantity_array"][$csKey];
-                $insert_array = $cart_session_arr;
-
-                unset($insert_array["product_id_array"], $insert_array["product_quantity_array"], $insert_array['sd_id']);
-
-                $model->insertData(TABLE_SHIPPING_DETAILS, $insert_array);
-                $sd_id = $this->db->insert_id();
-            }
-
-//                prd($this->session->userdata("cart_session"));
-//                prd($arr);
-
-            $user_id = $this->session->userdata("user_id");
-            $amount = $arr["amount"];
-
-            $coupon_code_arr = @$this->session->userdata['cart_discount'];
-            $coupon_code = '';
-            $discount_percent = 0;
-            $discount_price = 0;
-            if (!empty($coupon_code_arr))
-            {
-                $coupon_code = $coupon_code_arr['coupon_code'];
-                $discount_percent = $coupon_code_arr['discount_percent'];
-                $discount_price = $amount - ($amount * ($coupon_code_arr['discount_percent'] / 100));
-            }
-            $this->session->unset_userdata('cart_discount');
-
-            $data_array = array(
-                'order_id' => getUniqueOrderId(),
-                "sd_id" => $sd_id,
-                "product_id_csv" => implode(", ", $product_id_array_new),
-                "user_id" => $user_id,
-                "payment_amount" => $amount,
-                'discount_coupon' => $coupon_code,
-                'discount_percent' => $discount_percent,
-                'discount_price' => $discount_price,
-                "payment_currency" => "INR",
-                "payment_method" => "PayU",
-                "cart_details" => json_encode($cart_contents),
-                "shipping_details" => json_encode($cart_session),
-                "payment_detail_array" => json_encode($arr),
-                "user_ipaddress" => $this->session->userdata("ip_address"),
-                "user_agent" => $this->session->userdata("user_agent"),
-                "transaction_id" => $arr["txnid"],
-                'payu_payid' => $arr['mihpayid'],
-                'payu_mode' => $arr['mode'],
-                'payu_addedon' => $arr['addedon'],
-                'payu_firstname' => $arr['firstname'],
-                'payu_lastname' => $arr['lastname'],
-                'payu_email' => $arr['email'],
-                'payu_phone' => $arr['phone'],
-                'payu_hash' => $arr['hash'],
-                'payu_errormessage' => $arr['error_Message'],
-                'payu_moneyid' => $arr['payuMoneyId'],
-            );
-
-            // to insert the payment details into the payment table
-            $model->insertData(TABLE_PAYMENT, $data_array);
-
-            // to decrease the stock count by the number of quantities ordered
-            foreach ($cart_contents as $cKey => $cValue)
-            {
-                $product_size = $cValue['options']['product_size'];
-                $product_color = $cValue['options']['product_color'];
-                $product_quantity = $cValue['qty'];
-                $product_id = $cValue["id"];
-
-//                $sql = 'UPDATE ' . TABLE_PRODUCT_DETAILS . ' SET product_stock = (product_stock - ' . $product_quantity . ') WHERE product_id = "' . $product_id . '" AND product_size = "' . $product_size . '" AND product_color = "' . $product_color . '"';
-////                echo $sql;die;
-//                $this->db->query($sql);
-                $this->db->set('product_stock', 'product_stock - ' . $product_quantity, FALSE);
-                $this->db->where('product_id', $product_id);
-                $this->db->where('product_size', $product_size);
-                $this->db->where('product_color', $product_color);
-                $this->db->update(TABLE_PRODUCT_DETAILS);
-            }
-
-            // to delete the cart items
-            foreach ($product_id_array_new as $piKey => $piValue)
-            {
-                $model->deleteData(TABLE_SHOPPING_CART, array("product_id" => $piValue, "user_id" => $user_id));
-            }
-
-            // to unset the cart sessions created during checkout
-            $this->session->unset_userdata("cart_contents");
-            $this->session->unset_userdata("cart_session");
-
-            if ($_SERVER['REMOTE_ADDR'] != '127.0.0.1')
-            {
-                // sending email receipt to the client
-                require_once APPPATH . '/libraries/EmailTemplates.php';
-                $EmailTemplates = new EmailTemplates();
-
-                $emailFields = 'billing_first_name, billing_last_name, billing_email, billing_address, billing_city, billing_country, billing_postcode, payment_amount, order_id, discount_price, payment_currency';
-                $sd_Record = $model->getAllDataFromJoin($emailFields, TABLE_PAYMENT . ' as py', array(TABLE_SHIPPING_DETAILS . ' as sd' => 'sd.sd_id = py.sd_id'), 'INNER', array('sd_id' => $sd_id));
-
-                $client_full_name = ucwords($sd_Record[0]['billing_first_name'] . ' ' . $sd_Record[0]['billing_last_name']);
-                $client_address = $sd_Record[0]['billing_address'] . ', ' . $sd_Record[0]['billing_city'] . ', ' . $sd_Record[0]['billing_country'];
-                $billing_email = $sd_Record[0]['billing_email'];
-                $order_id = $sd_Record[0]['order_id'];
-                $discount_price = $sd_Record[0]['discount_price'];
-                $grand_total_price = $sd_Record[0]['payment_amount'];
-
-                $payment_currency = 'Rs.';
-                if ($sd_Record[0]['payment_currency'] == 'USD')
-                    $payment_currency = '$';
-
-                $messageText = $EmailTemplates->invoiceTemplate($client_full_name, $client_address, $order_id, $discount_price, $grand_total_price, $product_quant_unit_arr, $payment_currency);
-
-                require_once APPPATH . '/models/email_model.php';
-                $Email_model = new Email_model();
-
-                $subject = 'Invoice #' . $order_id . ' | ' . SITE_NAME;
-                $Email_model->sendMail($billing_email, $subject, $messageText);
-            }
-
-            // to clear the cart as well
-            $this->cart->destroy();
-
-            $this->session->set_flashdata("success", "<strong>Success</strong> Your order has been placed successfully.");
-            redirect(base_url('my-account#myOrders'));
-        }
-
-        public function paymentGateway()
+        public function paymentGateway_ccavenue()
         {
             require_once APPPATH . '/libraries/CCAvenue.php';
             $CCAvenue = new CCAvenue();
@@ -795,7 +474,7 @@
             }
         }
 
-        public function paymentGatewaySuccess()
+        public function paymentGatewaySuccess_ccavenue()
         {
             require_once APPPATH . '/libraries/CCAvenue.php';
             $CCAvenue = new CCAvenue();

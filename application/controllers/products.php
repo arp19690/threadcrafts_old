@@ -52,8 +52,7 @@
         public function parentList($gc_name)
         {
             $custom_model = new Custom_model();
-            $fields = "*";
-            $records = $custom_model->getAllProductsList($fields, array("gc_name" => $gc_name, "product_status" => "1"), "product_id", "DESC");
+            $records = $custom_model->getAllProductsList(NULL, array("gc_name" => $gc_name, "product_status" => "1"), "product_id", "DESC");
             $category_name_records = array();
             foreach ($records as $key => $value)
             {
@@ -75,8 +74,7 @@
         public function childList($pc_name)
         {
             $custom_model = new Custom_model();
-            $fields = "*";
-            $records = $custom_model->getAllProductsList($fields, array("pc_name" => $pc_name, "product_status" => "1"), "product_id", "DESC");
+            $records = $custom_model->getAllProductsList(NULL, array("pc_name" => $pc_name, "product_status" => "1"), "product_id", "DESC");
             $gc_name = stripslashes($records[0]['gc_name']);
             $category_name_records = array();
             foreach ($records as $key => $value)
@@ -100,7 +98,7 @@
         public function productsList($cc_name)
         {
             $custom_model = new Custom_model();
-            $fields = "*";
+            $fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title, gc_name, cc_name, pc_name, seller_fullname, seller_company_name';
             $records = $custom_model->getAllProductsList($fields, array("cc_name" => $cc_name, "product_status" => "1"), "product_id", "DESC");
             $gc_name = $records[0]["gc_name"];
             $pc_name = $records[0]["pc_name"];
@@ -144,9 +142,9 @@
                     $pageHeading = "Search results";
                 }
             }
-            $whereCondArr['product_status'] = 1;
+            $whereCondArr['product_status'] = '1';
 
-            $fields = "*";
+            $fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title, gc_name, cc_name, pc_name, seller_fullname, seller_company_name';
             $records = $custom_model->getAllProductsList($fields, $whereCondArr, "product_id", "DESC");
 
             $category_name_records = array();
@@ -236,43 +234,47 @@
         public function addToCart($redirect_url = NULL)
         {
             if ($redirect_url == NULL)
+            {
                 $redirect_url = base_url();
+            }
 
             if ($this->input->post())
             {
                 $model = new Common_model();
+                $custom_model = new Custom_model();
+                $user_id = $this->session->userdata['user_id'];
                 $arr = $this->input->post();
 
-                $product_detail = $model->fetchSelectedData("product_title,product_cost_price,product_status, profit_percent", TABLE_PRODUCTS, array("product_id" => $arr["product_id"]));
-                if ($product_detail[0]["product_status"] == "1")
+                $product_details = $custom_model->getAllProductsDetails($arr['product_id'], 'product_id', 'pd_id', 'pi_id', array('pd_product_id' => $arr['product_id'], 'pd_color_name' => $arr['product_color'], 'pd_size' => $arr['product_size']));
+//                prd($product_details);
+                if (!empty($product_details))
                 {
-                    $options_array = array();
-                    if (isset($arr["product_size"]))
-                        $options_array["product_size"] = $arr["product_size"];
-                    if (isset($arr["product_color"]))
-                        $options_array["product_color"] = $arr["product_color"];
-
-                    $options_array["profit_percent"] = $product_detail[0]["profit_percent"];
-
-                    $data = array(
-                        'id' => $arr["product_id"],
-                        'qty' => $arr["product_quantity"],
-                        'price' => $product_detail[0]["product_cost_price"],
-                        'name' => $product_detail[0]["product_title"],
-                        'options' => $options_array
-                    );
-
-                    if (count($this->cart->contents() == 0))
+                    $pd_id = $product_details['details_arr'][0]['pd_id'];
+                    $is_exist = $model->is_exists('cart_id', TABLE_SHOPPING_CART, array('cart_pd_id' => $pd_id, 'cart_quantity' => $arr['product_quantity'], 'cart_user_id' => $user_id));
+                    if (empty($is_exist))
                     {
-                        $this->cart->insert($data);
+                        $data_array = array(
+                            'cart_pd_id' => $pd_id,
+                            'cart_quantity' => $arr['product_quantity'],
+                            'cart_user_id' => $user_id,
+                            'cart_ipaddress' => USER_IP,
+                            'cart_useragent' => USER_AGENT
+                        );
+                        $model->insertData(TABLE_SHOPPING_CART, $data_array);
+                        $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
                     }
                     else
                     {
-                        $this->cart->update($data);
+                        $this->session->set_flashdata("warning", "This product is already in your cart");
                     }
-                    $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
                     redirect(getProductUrl($arr["product_id"]));
                 }
+                else
+                {
+                    $this->session->set_flashdata("warning", "<strong>Sorry!</strong> Unexpected error occurred");
+                }
+
+                redirect(base_url());
             }
             else
             {
@@ -320,9 +322,10 @@
             if ($this->input->get("search"))
             {
                 $model = new Common_model();
+                $custom_model = new Custom_model();
+                $category_name_records = array();
                 $query = urldecode($this->input->get("search"));
-//                prd($query);
-                $this->session->set_userdata("user_search_query", $query);
+
                 $whereCondArr = array(
                     'product_title' => $query,
                     'product_description' => $query,
@@ -333,42 +336,21 @@
                     $whereString .= ' OR ' . $wKey . ' LIKE "%' . $wValue . '%" ';
                 }
 
-                $sql = ' SELECT * FROM ' . TABLE_PRODUCTS . ' as p 
-                            INNER JOIN ' . TABLE_CHILD_CATEGORY . ' as cc ON cc.cc_id=p.product_child_category                    
-                            INNER JOIN ' . TABLE_PARENT_CATEGORY . ' as pc ON pc.pc_id=p.product_parent_category                   
-                            INNER JOIN ' . TABLE_GRAND_CATEGORY . ' as gc ON gc.gc_id=p.product_grand_category        
-                            WHERE ' . $whereString . ' ORDER BY rand()
-';
-                $records = $this->db->query($sql)->result_array();
+                $product_fields = '*';
+                $productWhereCondStr = '(' . $whereString . ') AND product_status = "1"';
+                $records = $custom_model->getAllSearchProductsList($product_fields, $productWhereCondStr, 'rand()');
 
-                $product_size_array = array();
-                $product_color_array = array();
                 foreach ($records as $key => $value)
                 {
-                    $product_size_records = $model->fetchSelectedData('DISTINCT(product_size) as product_size', TABLE_PRODUCT_DETAILS, array('product_id' => $value['product_id']));
-                    foreach ($product_size_records as $psKey => $psValue)
-                    {
-                        $product_size_array[] = $psValue['product_size'];
-                    }
-                    $records[$key]['product_size_array'] = $product_size_array;
-
-                    $product_color_records = $model->fetchSelectedData('DISTINCT(product_color) as product_color', TABLE_PRODUCT_DETAILS, array('product_id' => $value['product_id']));
-                    foreach ($product_color_records as $psKey => $psValue)
-                    {
-                        $product_color_array[] = $psValue['product_color'];
-                    }
-                    $records[$key]['product_color_array'] = $product_color_array;
+                    $category_name_records[] = $value['cc_name'];
                 }
-//            prd($records);
-
-                $category_name_records = $model->fetchSelectedData("cc_name", TABLE_CHILD_CATEGORY, NULL, "cc_name");
 
                 $pageHeading = 'Search Results';
                 $data["records"] = $records;
                 $data["category_name_records"] = $category_name_records;
                 $data["product_page_heading"] = $pageHeading;
                 $breadcrumbArray = array(
-                    $pageHeading => base_url("products"),
+                    'Search: ' . $query => current_url(),
                 );
                 $data["breadcrumbArray"] = $breadcrumbArray;
                 $data["meta_title"] = $pageHeading . " | " . SITE_NAME;

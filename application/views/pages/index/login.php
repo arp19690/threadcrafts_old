@@ -11,7 +11,6 @@
                     <div class="the-content">
                         <p><span style="line-height: 1.5em;"></span></p>
                         <div class="woocommerce">
-                            <h2>Login</h2>
                             <form method="post" action="<?php echo base_url("login"); ?>" class="login form-horizontal validate-form">
                                 <?php
                                     $url = current_url();
@@ -54,7 +53,7 @@
                                     <div class="controls">		
                                         <input class="btn btn-primary higher bold uppercase" name="login" value="Login" type="submit">
                                         &nbsp;
-                                        <a class="lost_password" href="<?php echo base_url("forgot-password"); ?>">Lost Password?</a>
+                                        <a class="lost_password" href="<?php echo base_url("forgot-password"); ?>">Forgot Password?</a>
                                         &nbsp;|&nbsp;
                                         <a class="lost_password" href="<?php echo base_url("signup"); ?>">Create account?</a>
                                     </div>
@@ -66,15 +65,7 @@
             </div><!-- /page -->
 
             <div class="span4" id="google-ads">
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- ThreadCrafts Login Page Side Ad -->
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:300px;height:250px"
-                     data-ad-client="ca-pub-4948458398051754"
-                     data-ad-slot="4205222425"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+
             </div>
         </div><!-- /row -->
     </div>

@@ -58,9 +58,12 @@
     $route['logout'] = 'index/logout';
     $route['signup'] = 'index/signup';
     $route['forgot-password'] = 'index/forgotpassword';
+    $route['remove-address'] = 'user/removeAddress';
     
     $route['activation/(:any)'] = 'index/activation/$1';
     $route['my-account'] = 'user/myAccount';
+    $route['my-orders'] = 'user/myOrders';
+    $route['my-wishlist'] = 'user/myWishlist';
     $route['updateAccountInfo'] = 'user/updateAccountInfo';
     $route['updatePassword'] = 'user/updatePassword';
     $route['checkout'] = 'cart/checkoutStepOne';
@@ -70,6 +73,7 @@
     $route['checkout/paypalCheckout'] = 'cart/paypalCheckout';
     $route['checkout/paypalSuccess'] = 'cart/paypalSuccess';
     $route['checkout/paymentCancel'] = 'cart/paymentCancel';
+    $route['verify-razor-transaction'] = 'razorpay/verifyTransactionAjax';
 
     /* End of file routes.php */
 /* Location: ./application/config/routes.php */

@@ -8,69 +8,36 @@
             parent::__construct();
         }
 
-        public function removeProductFromCartAjax($rowid)
+        public function removeProductFromCartAjax($cart_id)
         {
-            $temp_data_array = array();
-            $whereCondArr = array();
-
-            foreach ($this->cart->contents() as $items)
-            {
-                if ($items["rowid"] == $rowid)
-                {
-                    $temp_data_array = $items;
-                    $items["qty"] = 0;
-                    $this->cart->update($items);
-                }
-            }
-
+            $model = new Common_model();
+            $custom_model = new Custom_model();
             if (isset($this->session->userdata["user_id"]))
             {
-                $model = new Common_model();
                 $user_id = $this->session->userdata["user_id"];
-
-                $whereCondArr = array(
-                    "user_id" => $user_id,
-                    "product_id" => $temp_data_array["id"],
-                    "product_quantity" => $temp_data_array["qty"],
-                );
-
-                if (isset($temp_data_array["options"]["product_size"]))
-                {
-                    $whereCondArr["product_size"] = $temp_data_array["options"]["product_size"];
-                }
-
-                if (isset($temp_data_array["options"]["product_color"]))
-                {
-                    $whereCondArr["product_color"] = $temp_data_array["options"]["product_color"];
-                }
-
-                $model->deleteData(TABLE_SHOPPING_CART, $whereCondArr);
+                $model->deleteData(TABLE_SHOPPING_CART, array('cart_id' => $cart_id, 'cart_user_id' => $user_id));
             }
 
-            $response_array = array(
-                "total_items" => $this->cart->total_items(),
-                "cart_price" => displayProductPrice($this->cart->total())
-            );
-
+            $response_array = $custom_model->getCartDetails($user_id);
             echo json_encode($response_array);
         }
 
-        public function addToWishlist($product_id, $product_quantity)
+        public function addToWishlist()
         {
-            if ($product_id && $product_quantity && $this->session->userdata["user_id"])
+            if ($this->session->userdata["user_id"])
             {
                 $model = new Common_model();
                 $user_id = $this->session->userdata["user_id"];
-                $whereCondArr = array("product_id" => $product_id, "user_id" => $user_id);
+                $product_id = getEncryptedString($this->input->get('id'), 'decode');
+                $whereCondArr = array("wishlist_product_id" => $product_id, "wishlist_user_id" => $user_id);
                 $is_exists = $model->is_exists("wishlist_id", TABLE_WISHLIST, $whereCondArr);
                 if (empty($is_exists))
                 {
                     $data_array = array(
-                        "product_id" => $product_id,
-                        "product_quantity" => $product_quantity,
-                        "user_id" => $user_id,
-                        "user_ipaddress" => USER_IP,
-                        "user_agent" => USER_AGENT
+                        "wishlist_product_id" => $product_id,
+                        "wishlist_user_id" => $user_id,
+                        "wishlist_ipaddress" => USER_IP,
+                        "wishlist_useragent" => USER_AGENT
                     );
                     $model->insertData(TABLE_WISHLIST, $data_array);
                     echo 'added';

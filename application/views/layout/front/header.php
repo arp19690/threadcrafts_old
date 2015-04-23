@@ -43,9 +43,7 @@
         <meta property="og:locale" content="en_US" />
         <!--Google plus essentials START-->
         <link href="https://plus.google.com/+ThreadCraftsJodhpur" rel="publisher" />
-        <script type="text/javascript" async defer
-                src="https://apis.google.com/js/platform.js?publisherid=101035726513260358778">
-        </script>
+        <script type="text/javascript" async defer src="https://apis.google.com/js/platform.js?publisherid=101035726513260358778"></script>
         <!--Google plus essentials END-->
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo IMAGES_PATH; ?>/apple-touch/144.png"/>
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo IMAGES_PATH; ?>/apple-touch/114.png"/>
@@ -54,27 +52,33 @@
         <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico"/>        
         <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/style.css"/>
         <link rel="stylesheet" type="text/css" href="<?php echo JS_PATH; ?>/jquery-ui-1.10.3/css/smoothness/jquery-ui-1.10.3.custom.min.css"/>
-        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/colorbox/colorbox.css"/>
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery-core-n-modernizer.min.js"></script>
         <script type="text/javascript">
-                    if (window.location.hash && window.location.hash == '#_=_') {
-                        window.location.hash = '';
-                    }
+            if (window.location.hash && window.location.hash == '#_=_') {
+                window.location.hash = '';
+            }
+            var baseUrl = '<?php echo base_url(); ?>';
         </script>
     </head>
     <body class="">
-        <div id="fb-root"></div>
-        <script>(function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id))
-                    return;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&amp;appId=<?php echo FACEBOOK_APP_ID; ?>";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-        <div class="please-wait-currency"><h1>Please wait...</h1><h3>while we do the calculation with currency exchange prices for you</h3></div>       
+        <?php
+            if (!isMobileDevice())
+            {
+                ?>
+                <div id="fb-root"></div>
+                <script>(function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id))
+                            return;
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&amp;appId=<?php echo FACEBOOK_APP_ID; ?>";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));</script>
+                <?php
+            }
+        ?>
         <header id="header">
             <div class="master-wrapper">
                 <div class="darker-row">
@@ -85,7 +89,7 @@
                                     <?php
                                         if (isset($this->session->userdata["user_id"]))
                                         {
-                                            echo 'Welcome! <strong>' . $this->session->userdata["user_fullname"] . '</strong>';
+                                            echo 'Hello! <strong>' . $this->session->userdata["user_fullname"] . '</strong>';
                                         }
                                     ?>
                                 </div>
@@ -102,7 +106,9 @@
                                                 ?>
                                                 <a href="<?php echo base_url("my-account"); ?>" class="gray-link">My account</a>
                                                 &nbsp; | &nbsp; 
-                                                <a href="<?php echo base_url("my-account#wishlist"); ?>" class="gray-link header-wishlist">Wishlist (<?php echo $myWishlistCount; ?>)</a>
+                                                <a href="<?php echo base_url("my-orders"); ?>" class="gray-link">My orders</a>
+                                                &nbsp; | &nbsp; 
+                                                <a href="<?php echo base_url("my-wishlist"); ?>" class="gray-link header-wishlist">Wishlist (<?php echo $myWishlistCount; ?>)</a>
                                                 &nbsp; | &nbsp;
                                                 <a href="<?php echo base_url("logout"); ?>" class="gray-link">Sign out</a>
                                                 &nbsp;
@@ -158,18 +164,25 @@
                             <span class="tagline"><?php echo SITE_TAGLINE; ?></span> 
                         </a>
                     </div>
-                    <div class="span5">
-                        <div class="top-right">
-                            <div class="icons">
-                                <a href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-facebook"></span></a>
-                                <a href="<?php echo TWITTER_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-twitter"></span></a>
-                                <!--<a href="<?php echo ANDROID_APP_URL; ?>" target="_blank"><span class="zocial-android"></span></a>-->
+                    <?php
+                        if (!isMobileDevice())
+                        {
+                            ?>
+                            <div class="span5 hidden-phone">
+                                <div class="top-right">
+                                    <div class="icons">
+                                        <a href="<?php echo FACEBOOK_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-facebook"></span></a>
+                                        <a href="<?php echo TWITTER_SOCIAL_LINK; ?>" target="_blank"><span class="zocial-twitter"></span></a>
+                                        <!--<a href="<?php echo ANDROID_APP_URL; ?>" target="_blank"><span class="zocial-android"></span></a>-->
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                            <?php
+                        }
+                    ?>
                 </div>
             </div>
         </header>
         <?php
             $this->load->view('layout/front/navigation');
-        ?>
+            

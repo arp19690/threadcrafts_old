@@ -13,17 +13,17 @@
     $popular_records = $custom_model->getPopularProducts("p.product_id,p.product_title", array("product_status" => "1"), NULL, NULL, "7");
 ?>
 <footer>
-    <div class="foot-light">
-        <div class="container">
-            <div class="row">
-                <div class="span4">
-                    <h2 class="pacifico"><?php echo SITE_NAME; ?> &nbsp;</h2>
-                    <div><?php echo $about_us_short_content; ?></div>
-                </div>
-                <?php
-                    if (!isMobileDevice())
-                    {
-                        ?>
+    <?php
+        if (!isMobileDevice())
+        {
+            ?>
+            <div class="foot-light hidden-phone">
+                <div class="container">
+                    <div class="row">
+                        <div class="span4">
+                            <h2 class="pacifico"><?php echo SITE_NAME; ?> &nbsp;</h2>
+                            <div><?php echo $about_us_short_content; ?></div>
+                        </div>
                         <div class="span4">
                             <div class="main-titles lined">
                                 <h3 class="title">Facebook</h3>
@@ -34,30 +34,30 @@
                                 </div>
                             </div>
                         </div>
-                        <?php
-                    }
-                ?>
-                <div class="span4">
-                    <div class="main-titles lined">
-                        <h3 class="title"><span class="light">Newsletters</span> Signup</h3>
-                    </div>
-                    <p>Signup for our newsletters and we will keep you posted about the promotional offers and schemes. We do not spam.</p>
+                        <div class="span4">
+                            <div class="main-titles lined">
+                                <h3 class="title"><span class="light">Newsletters</span> Signup</h3>
+                            </div>
+                            <p>Signup for our newsletters and we will keep you posted about the promotional offers and schemes. We do not spam.</p>
 
-                    <div id="mc_embed_signup">
-                        <form action="<?php echo base_url("index/newsletterSignup"); ?>" method="post"  name="mc-embedded-subscribe-form" class="validate form form-inline validate-form">
-                            <div class="mc-field-group">
-                                <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
-                                <input type="email" value="" placeholder="Enter your e-mail address" name="user_email" class="required email" id="mce-EMAIL">
-                                <input type="submit" value="Subscribe" name="subscribe"  class="btn btn-primary">
+                            <div id="mc_embed_signup">
+                                <form action="<?php echo base_url("index/newsletterSignup"); ?>" method="post"  name="mc-embedded-subscribe-form" class="validate form form-inline validate-form">
+                                    <div class="mc-field-group">
+                                        <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
+                                        <input type="email" value="" placeholder="Enter your e-mail address" name="user_email" class="required email" id="mce-EMAIL">
+                                        <input type="submit" value="Subscribe" name="subscribe"  class="btn btn-primary">
+                                    </div>
+
+                                </form>
                             </div>
 
-                        </form>
+                        </div>
                     </div>
-
                 </div>
             </div>
-        </div>
-    </div> 
+            <?php
+        }
+    ?>
     <div class="foot-dark">
         <div class="container">
             <div class="row">
@@ -154,7 +154,7 @@
         <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="loginModalLabel"><span class="light">Login</span> To <?php echo SITE_NAME; ?></h3>
+                <h3 id="loginModalLabel"><span class="light">Login To</span> <?php echo SITE_NAME; ?></h3>
             </div>
             <div class="modal-body">
                 <form method="post" action="<?php echo base_url("login"); ?>">
@@ -189,9 +189,9 @@
         <div id="signupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="singupModalLabel"><span class="light">Signup</span> To <?php echo SITE_NAME; ?></h3>
+                <h3 id="singupModalLabel"><span class="light">Signup To</span> <?php echo SITE_NAME; ?></h3>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="max-height: 415px;">
                 <form method="post" action="<?php echo base_url("signup"); ?>">
                     <input type='hidden' name='url' value='<?php echo current_url(); ?>'/>
                     <div class="control-group">
@@ -303,32 +303,6 @@
     }
 ?>
 <script src="<?php echo JS_PATH; ?>/custom.js" type="text/javascript"></script>
-<script>
-            $(document).ready(function () {
-                $(".item-in-cart .icon-remove-sign").click(function () {
-                    var rowid = $(this).attr("href");
-                    $.ajax({
-                        dataType: "json",
-                        url: "<?php echo base_url("ajax/removeProductFromCartAjax"); ?>" + "/" + rowid,
-                        success: function (response) {
-                            if (response.total_items == "0")
-                            {
-                                $("#cartContainer .open-panel").remove();
-                                $("#cartContainer .cart .items span.dark-clr").html("(0)");
-                                $("#cartContainer .cart .dark-clr").html("0");
-                                location.reload();
-                            }
-                            else
-                            {
-                                $(".cart_total_value").html(response.cart_price);
-                                $(".cart_total_items").html("(" + response.total_items + ")");
-                                $(".higher-line .gray-link .cart_total_items").html(response.total_items);
-                            }
-                        }
-                    });
-                });
-            });
-</script>
 
 <?php
     if (USER_IP != '127.0.0.1')

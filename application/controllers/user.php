@@ -35,12 +35,11 @@
                     TABLE_PRODUCTS . " as p" => "p.product_id = wishlist_product_id"
                 );
 
-                $wishlist_records = $model->getAllDataFromJoin("p.product_id,product_title,product_price,wishlist_product_quantity,wishlist_comments", TABLE_WISHLIST . " as w", $tableArrayWithJoinCondition, "LEFT", $whereCondArr, "wishlist_id", "DESC");
-                $data["wishlist_records"] = $wishlist_records;
-
-                $user_records = $model->fetchSelectedData("user_fullname, user_gender,user_dob,user_contact,", TABLE_USERS, array("user_id" => $user_id));
-//                prd($user_records);
+                $user_records = $model->fetchSelectedData("user_fullname, user_gender,user_contact,", TABLE_USERS, array("user_id" => $user_id));
                 $data["user_record"] = $user_records[0];
+
+                $user_address_records = $model->fetchSelectedData('ua_id, ua_line1, ua_line2, ua_location, ua_postcode', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1', 'ua_deleted' => '0'));
+                $data["user_address_records"] = $user_address_records;
 
                 $breadcrumbArray = array(
                     "My Account" => base_url("my-account"),
@@ -79,22 +78,6 @@
             }
         }
 
-        public function removeFromWishlist($product_id)
-        {
-            if ($product_id && isset($this->session->userdata["user_id"]))
-            {
-                $model = new Common_model();
-                $user_id = $this->session->userdata["user_id"];
-
-                $whereCondArr = array("product_id" => $product_id, "wishlist_user_id" => $user_id);
-
-                $model->deleteData(TABLE_WISHLIST, $whereCondArr);
-
-                $wishlist_count_record = $model->fetchSelectedData("COUNT(wishlist_id) as total", TABLE_WISHLIST, array("wishlist_user_id" => $user_id));
-                echo $wishlist_count_record[0]["total"];
-            }
-        }
-
         public function updateAccountInfo()
         {
             if ($this->input->post() && $this->session->userdata["user_id"])
@@ -104,29 +87,14 @@
                 $arr = $this->input->post();
 
                 $data_array = array(
-                    "first_name" => trim($arr["first_name"]),
-                    "last_name" => trim($arr["last_name"]),
+                    "user_fullname" => trim($arr["user_fullname"]),
                     "user_gender" => trim($arr["user_gender"]),
                     "user_contact" => trim($arr["user_contact"]),
-                    "user_address" => trim($arr["user_address"]),
-                    "user_location" => trim($arr["user_location"]),
-                    "user_postcode" => trim($arr["user_postcode"]),
                 );
-
-                $user_location = trim($arr["user_location"]);
-                if (!empty($user_location))
-                {
-                    $getLocationCityState = parse_address_google($user_location);
-
-                    $data_array["user_country"] = $getLocationCityState['country'];
-                    $data_array["user_state"] = $getLocationCityState['state'];
-                    $data_array["user_city"] = $getLocationCityState['city'];
-                }
 
                 $model->updateData(TABLE_USERS, $data_array, array("user_id" => $user_id));
 
-                $this->session->set_userdata("first_name", trim($arr["first_name"]));
-                $this->session->set_userdata("last_name", trim($arr["last_name"]));
+                $this->session->set_userdata("user_fullname", trim($arr["user_fullname"]));
                 $this->session->set_flashdata("success", "<strong>Success!</strong> Account details updated");
             }
             redirect(base_url("my-account"));
@@ -165,29 +133,116 @@
             redirect(base_url("my-account"));
         }
 
-        public function saveWishlist()
+        public function myWishlist()
         {
-            if ($this->input->post() && isset($this->session->userdata["user_id"]))
+            if (isset($this->session->userdata["user_id"]))
+            {
+                $user_id = $this->session->userdata["user_id"];
+                $custom_model = new Custom_model();
+
+                $whereCondArr = array('wishlist_user_id' => $user_id);
+                $records = $custom_model->getMyWishlistRecords(NULL, $whereCondArr);
+                $data["records"] = $records;
+
+                $breadcrumbArray = array(
+                    "My Wishlist" => base_url("my-wishlist"),
+                );
+                $data["breadcrumbArray"] = $breadcrumbArray;
+                $data["meta_title"] = "My Wishlist | " . SITE_NAME;
+                $this->template->write_view("content", "pages/user/my-wishlist", $data);
+                $this->template->render();
+            }
+        }
+
+        public function removeFromWishlist()
+        {
+            if ($this->input->get('id') && isset($this->session->userdata["user_id"]))
             {
                 $model = new Common_model();
-                $arr = $this->input->post();
                 $user_id = $this->session->userdata["user_id"];
-                $product_quantity = $arr["product_quantity"];
-                $wishlist_comments = $arr["wishlist_comments"];
-                $product_id = $arr["product_id"];
+                $wishlist_id = getEncryptedString($this->input->get('id'), 'decode');
 
-                $data_array = array(
-                    "product_id" => $product_id,
-                    "user_id" => $user_id,
-                    "product_quantity" => $product_quantity,
-                    "wishlist_comments" => $wishlist_comments,
-                    "user_ipaddress" => $this->session->userdata["ip_address"],
-                    "user_agent" => $this->session->userdata["user_agent"],
+                $whereCondArr = array("wishlist_id" => $wishlist_id, "wishlist_user_id" => $user_id);
+                $model->deleteData(TABLE_WISHLIST, $whereCondArr);
+
+                $this->session->set_flashdata('success', 'Product removed from your wishlist');
+                redirect(base_url('my-wishlist'));
+            }
+        }
+
+        public function addNewAddress()
+        {
+            if (isset($this->session->userdata["user_id"]))
+            {
+                if ($this->input->post())
+                {
+                    $arr = $this->input->post();
+                    $model = new Common_model();
+//                    prd($arr);
+                    $next_url = $arr['url'];
+                    $user_id = $this->session->userdata["user_id"];
+                    $address_line1 = addslashes($arr['address_line1']);
+                    $address_line2 = addslashes($arr['address_line2']);
+                    $address_location = addslashes($arr['address_location']);
+                    $address_postcode = addslashes($arr['address_postcode']);
+                    $getCityState = parse_address_google($address_location);
+
+                    $data_array = array(
+                        'ua_user_id' => $user_id,
+                        'ua_line1' => $address_line1,
+                        'ua_line2' => $address_line2,
+                        'ua_location' => $address_location,
+                        'ua_postcode' => $address_postcode,
+                        'ua_city' => $getCityState['city'],
+                        'ua_state' => $getCityState['state'],
+                        'ua_country' => $getCityState['country'],
+                        'ua_ipaddress' => USER_IP,
+                        'ua_useragent' => USER_AGENT
+                    );
+                    $model->insertData(TABLE_USER_ADDRESSES, $data_array);
+
+                    $this->session->set_flashdata('success', 'New address has been added');
+                    redirect($next_url);
+                }
+            }
+        }
+
+        public function removeAddress()
+        {
+            if (isset($this->session->userdata["user_id"]) && $this->input->get('id'))
+            {
+                $enc_ua_id = $this->input->get('id');
+                $user_id = $this->session->userdata["user_id"];
+                $ua_id = getEncryptedString($enc_ua_id, 'decode');
+                $model = new Common_model();
+                $is_valid = $model->is_exists('ua_id', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_id' => $ua_id, 'ua_deleted' => '0'));
+                if (!empty($is_valid))
+                {
+                    $model->updateData(TABLE_USER_ADDRESSES, array('ua_deleted' => '1'), array('ua_user_id' => $user_id, 'ua_id' => $ua_id, 'ua_deleted' => '0'));
+                    $this->session->set_flashdata('success', 'Address successfully removed');
+                }
+            }
+            redirect(base_url('my-account#address'));
+        }
+
+        public function myOrders()
+        {
+            if (isset($this->session->userdata["user_id"]))
+            {
+                $custom_model = new Custom_model();
+                $user_id = $this->session->userdata["user_id"];
+
+                $records = $custom_model->getMyOrdersList($user_id);
+//                prd($records);
+                $breadcrumbArray = array(
+                    "My Orders" => base_url("my-orders"),
                 );
 
-                $model->updateData(TABLE_WISHLIST, $data_array, array("user_id" => $user_id, "product_id" => $product_id));
-                $this->session->set_flashdata('success', 'Your wishlist has been updated successfully');
-                redirect(base_url('my-account#wishlist'));
+                $data["records"] = $records;
+                $data["breadcrumbArray"] = $breadcrumbArray;
+                $data["meta_title"] = "My orders | " . SITE_NAME;
+                $this->template->write_view("content", "pages/user/my-orders", $data);
+                $this->template->render();
             }
         }
 

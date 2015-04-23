@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>/colorbox/colorbox.css"/>
 <script type="text/javascript" src="<?php echo JS_PATH; ?>/jquery.colorbox-min.js"></script>
 <script>
     $(document).ready(function () {
@@ -148,13 +149,13 @@
                             if (isset($this->session->userdata["user_id"]))
                             {
                                 ?>
-                                <i class="<?php echo $heart_class_name; ?> wishlist-heart"></i> <a href="<?php echo $record["product_id"]; ?>" id="add-to-wishlist" ><?php echo $wishlist_text; ?></a>
+                                <i class="<?php echo $heart_class_name; ?> wishlist-heart"></i> <a href="#" id="add-to-wishlist" data-productid="<?php echo getEncryptedString($record['product_id']); ?>"><?php echo $wishlist_text; ?></a>
                                 <?php
                             }
                             else
                             {
                                 ?>
-                                <i class="<?php echo $heart_class_name; ?> wishlist-heart"></i> <a href="<?php echo $record["product_id"]; ?>" id="" class="please_login" ><?php echo $wishlist_text; ?></a>
+                                <i class="<?php echo $heart_class_name; ?> wishlist-heart"></i> <a href="#" id="" class="please_login" ><?php echo $wishlist_text; ?></a>
                                 <?php
                             }
                         ?>
@@ -316,10 +317,9 @@
     $(document).ready(function () {
         $("#add-to-wishlist").click(function (event) {
             event.preventDefault();
-            var product_id = $(this).attr("href");
-            var product_quantity = $("#product_quantity").val();
+            var product_id = $(this).attr("data-productid");
             $.ajax({
-                url: "<?php echo base_url("ajax/addToWishlist"); ?>" + "/" + product_id + "/" + product_quantity,
+                url: "<?php echo base_url("ajax/addToWishlist?id="); ?>" + product_id,
                 success: function (response) {
                     if (response == "added")
                     {

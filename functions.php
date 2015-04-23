@@ -1,5 +1,17 @@
 <?php
 
+    function getFinalPriceForCheckout($subtotal, $discount_percent = '0', $shipping_charge = '0', $vat_percent = VAT_TAX_PERCENT)
+    {
+        $output = $subtotal;
+        if ($discount_percent != '0')
+        {
+            $output = $subtotal - ($subtotal * ($discount_percent / 100));
+        }
+        $output = $output + $shipping_charge;
+        $output = $output + ($output * ($vat_percent / 100));
+        return $output;
+    }
+
     function getSellerDisplayName($seller_fullname, $seller_company_name)
     {
         if (empty($seller_company_name))
@@ -86,6 +98,34 @@
         }
     }
 
+    function getUniqueContactRequestId($id, $string_length = 8)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength($id . time(), $string_length);
+        $is_exists = $model->is_exists('wc_id', TABLE_WEBSITE_CONTACT, array('wc_request_id' => $random_number));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueContactRequestId($id, $string_length);
+        }
+
+        return $random_number;
+    }
+
+    function getUniqueOrderId($id, $string_length = 6)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = 'TCO' . getRandomNumberLength($id . time(), $string_length);
+        $is_exists = $model->is_exists('sod_id', TABLE_SHIPPING_ORDER_DETAILS, array('sod_order_id' => $random_number));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueOrderId($id, $string_length);
+        }
+
+        return $random_number;
+    }
+
     function getUniqueSellerDocumentName($ext, $string_length = 15)
     {
         require_once APPPATH . '/models/common_model.php';
@@ -141,6 +181,32 @@
         }
 
         return $returnValue;
+    }
+
+    function getOrderStatusText($status)
+    {
+        if ($status == '0')
+        {
+            $text = 'New';
+        }
+        elseif ($status == '1')
+        {
+            $text = 'Dispatched';
+        }
+        elseif ($status == '2')
+        {
+            $text = 'Delivered';
+        }
+        elseif ($status == '3')
+        {
+            $text = 'Cancelled';
+        }
+        elseif ($status == '4')
+        {
+            $text = 'Rejected';
+        }
+
+        return $text;
     }
 
     function getWebsiteContactStatusText($status)
@@ -331,22 +397,6 @@
 
 //        prd($address_out);
         return $address_out;
-    }
-
-    function getUniqueOrderId()
-    {
-        require_once APPPATH . '/models/common_model.php';
-        $model = new Common_model();
-        $random = generateUniqueKeyEverytime();
-        $new_id = strtoupper('TCO' . substr($random, 0, 6));
-        $is_exists = $model->is_exists('payment_id', TABLE_PAYMENT, array('order_id' => $new_id));
-        if (!empty($is_exists))
-        {
-            //invalid
-            $new_id = getUniqueOrderId();
-        }
-
-        return $new_id;
     }
 
     function generateUniqueKeyEverytime($str = NULL)
@@ -730,8 +780,8 @@
 
         return $os_platform;
     }
-    
-        function isMobileDevice()
+
+    function isMobileDevice()
     {
         $aMobileUA = array(
             '/iphone/i' => 'iPhone',

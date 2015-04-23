@@ -11,13 +11,11 @@
         public function index()
         {
             $data = array();
-
-            $model = new Common_model();
             $custom_model = new Custom_model();
 
             $whereCondArr = array("product_status" => "1");
-            $featured_records = $custom_model->getFeaturedProducts('product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title', $whereCondArr);
-            $new_products_array = $custom_model->getAllProductsList('product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title', $whereCondArr, 'product_id', 'DESC', 8);
+            $featured_records = $custom_model->getFeaturedProducts(NULL, $whereCondArr);
+            $new_products_array = $custom_model->getAllProductsList(NULL, $whereCondArr, 'product_id', 'DESC', 8);
             $popular_products = $custom_model->getPopularProducts('product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title', $whereCondArr);
 
             $data["featured_array"] = $featured_records;
@@ -224,6 +222,11 @@
             {
                 $data = array();
                 $data["meta_title"] = "Forgot Password | " . SITE_NAME;
+
+                $breadcrumbArray = array(
+                    "Forgot Password" => base_url("forgot-password"),
+                );
+                $data["breadcrumbArray"] = $breadcrumbArray;
 
                 $this->template->write_view("content", "pages/index/forgot-password", $data);
                 $this->template->render();

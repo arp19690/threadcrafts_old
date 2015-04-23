@@ -76,7 +76,7 @@
                     $returnArray = array();
                     $model = new Common_model();
 
-                    $fields = "user_id,first_name,last_name,user_email,user_facebook_id,user_facebook_username";
+                    $fields = "user_id,user_fullname,user_email,user_facebook_id,user_facebook_username";
                     $is_email_exists = $model->is_exists($fields, TABLE_USERS, array("user_email" => $user_profile["email"]));
                     if (empty($is_email_exists))
                     {
@@ -86,8 +86,7 @@
                             // login here
                             $session_data_array = array(
                                 "user_id" => $is_exists[0]["user_id"],
-                                "first_name" => $is_exists[0]["first_name"],
-                                "last_name" => $is_exists[0]["last_name"],
+                                "user_fullname" => stripslashes($is_exists[0]["user_fullname"]),
                                 "user_email" => $is_exists[0]["user_email"],
                             );
 
@@ -96,38 +95,36 @@
                         else
                         {
                             // register here
+                            $newpassword = getRandomNumberLength($user_profile["email"]);
                             $insert_data_array = array(
-                                "first_name" => $user_profile["first_name"],
-                                "last_name" => $user_profile["last_name"],
+                                "user_fullname" => $user_profile["name"],
                                 "user_gender" => $user_profile["gender"],
-                                "username" => $user_profile["username"],
                                 "user_email" => $user_profile["email"],
-                                "user_city" => $user_profile["location"]["name"],
-                                "user_location" => $user_profile["hometown"]["name"],
+                                "user_password" => md5($newpassword),
                                 "user_status" => "1",
                                 "user_facebook_id" => $user_profile["id"],
                                 "user_facebook_username" => $user_profile["username"],
-                                "user_facebook_link" => $user_profile["link"],
                                 "user_facebook_array" => json_encode($user_profile),
                                 "user_ipaddress" => USER_IP,
-                                "user_agent" => USER_AGENT,
+                                "user_useragent" => USER_AGENT,
+                                "user_joined_date" => date('Y-m-d H:i:s'),
                             );
                             $model->insertData(TABLE_USERS, $insert_data_array);
                             $record_array = $model->getMaxId("user_id", TABLE_USERS);
 
                             // to insert into the newsletters db table
                             $newsletter_data_array = array(
-                                "user_email" => $user_profile["email"],
-                                "user_ipaddress" => $this->ci->session->userdata["ip_address"],
-                                "user_agent" => $this->ci->session->userdata["user_agent"],
+                                "newsletter_email" => $user_profile["email"],
+                                "newsletter_ipaddress" => USER_IP,
+                                "newsletter_useragent" => USER_AGENT,
                             );
                             $model->insertData(TABLE_NEWSLETTER, $newsletter_data_array);
 
                             $session_data_array = array(
                                 "user_id" => $record_array[0]["maxid"],
-                                "first_name" => $user_profile["first_name"],
-                                "last_name" => $user_profile["last_name"],
+                                "user_fullname" => $user_profile["name"],
                                 "user_email" => $user_profile["email"],
+                                "user_session_expire_time" => time() + USER_TIMEOUT_TIME,
                             );
 
                             $returnArray["flash_type"] = "success";
@@ -142,20 +139,17 @@
                         $has_facebook_id = $is_email_exists[0]["user_facebook_id"];
 
                         $update_data_array = array(
-                            "user_city" => $user_profile["location"]["name"],
-                            "username" => $user_profile["username"],
                             "user_status" => "1",
                             "user_facebook_id" => $user_profile["id"],
                             "user_facebook_username" => $user_profile["username"],
-                            "user_facebook_link" => $user_profile["link"],
                         );
                         $model->updateData(TABLE_USERS, $update_data_array, array("user_email" => $is_email_exists[0]["user_email"]));
 
                         $session_data_array = array(
                             "user_id" => $is_email_exists[0]["user_id"],
-                            "first_name" => $is_email_exists[0]["first_name"],
-                            "last_name" => $is_email_exists[0]["last_name"],
+                            "user_fullname" => $user_profile["name"],
                             "user_email" => $is_email_exists[0]["user_email"],
+                            "user_session_expire_time" => time() + USER_TIMEOUT_TIME,
                         );
 
                         if (empty($has_facebook_id))
@@ -192,11 +186,11 @@
 
                 // insert and entry into the user_log table
                 $data_array = array(
-                    "user_id" => $returnArray["session_array"]["user_id"],
-                    "login_time" => time(),
-                    "user_agent" => $this->ci->session->userdata["user_agent"],
-                    "user_ipaddress" => $this->ci->session->userdata["ip_address"],
-                    "login_via" => "facebook"
+                    "ul_user_id" => $returnArray["session_array"]["user_id"],
+                    "ul_login_time" => date('Y-m-d H:i:s'),
+                    "ul_login_via" => 'facebook',
+                    "ul_useragent" => USER_AGENT,
+                    "ul_ipaddress" => USER_IP,
                 );
                 $model->insertData(TABLE_USER_LOG, $data_array);
 
@@ -205,11 +199,6 @@
                 {
                     $this->ci->session->set_userdata($sKey, $sValue);
                 }
-
-                $this->ci->load->library('Login_auth');
-                $loginAuth = new Login_auth();
-                $loginAuth->checkAndAddCartIfAny($returnArray["session_array"]["user_id"]);
-//                prd($returnArray["session_array"]["user_id"]);
             }
 
             if (isset($returnArray["return_url"]) && !empty($returnArray["return_url"]))
@@ -221,3 +210,4 @@
         }
 
     }
+    

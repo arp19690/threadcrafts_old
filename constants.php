@@ -7,6 +7,9 @@
         define("FACEBOOK_APP_ID", "351474381662422");
         define("FACEBOOK_SECRET_ID", "355af5a727e13b8669fb00c6e9e85199");
 
+        define('RAZORPAY_KEY', 'rzp_test_fbdhTvRl02POho');
+        define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
+
         // redirect to HTTPS 
         if ($_SERVER['HTTPS'] != "on")
         {
@@ -20,6 +23,9 @@
 
         define("FACEBOOK_APP_ID", "1399753200274986");
         define("FACEBOOK_SECRET_ID", "f874ac703456d51b060f9c684a29934c");
+
+        define('RAZORPAY_KEY', 'rzp_test_fbdhTvRl02POho');
+        define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
     }
 
     define('IS_LIVE', FALSE);
@@ -62,7 +68,7 @@
 
     define("ADMIN_TIMEOUT_TIME", 1800);
     define("SELLER_TIMEOUT_TIME", 1800);
-    define("USER_TIMEOUT_TIME", 1800);
+    define("USER_TIMEOUT_TIME", 3600);
     define("USER_IP", $_SERVER["REMOTE_ADDR"]);
     define("USER_AGENT", $_SERVER["HTTP_USER_AGENT"]);
 
@@ -116,6 +122,7 @@
     define("TAX_PROFIT_MARGIN_PERCENT", 20);
     define("TAX_PAYPAL_PERCENT", 5);
 
+    define("VAT_TAX_PERCENT", 10.67);
     define("SERVICE_TAX_PERCENT", 14);
     define("PAYMENT_PROCESSING_TAX_PERCENT", 3.5);
     define("CONVENIENCE_FEE_PERCENT", 2);

@@ -27,9 +27,14 @@
                             <div class="accordion-inner">
 
                                 <?php
+                                    $exclude_cat_arr = array();
                                     foreach ($category_name_records as $cKey => $cValue)
                                     {
-                                        echo '<a href="#" data-target=".filter--' . $cValue . '" class="selectable"><i class="box"></i> ' . $cValue . '</a>';
+                                        if (!in_array($cValue, $exclude_cat_arr))
+                                        {
+                                            $exclude_cat_arr[] = $cValue;
+                                            echo '<a href="#" data-target=".filter--' . $cValue . '" class="selectable"><i class="box"></i> ' . $cValue . '</a>';
+                                        }
                                     }
                                 ?>
 
@@ -54,8 +59,8 @@
                                     $sql = 'SELECT MAX(product_price) as max_price, MIN(product_price) as min_price FROM ' . TABLE_PRODUCTS;
                                     $record = $this->db->query($sql)->result_array();
                                 ?>
-                                <input type="text" data-initial="<?php echo round($record[0]['max_price'], 2); ?>" class="max-val pull-right" disabled />
-                                <input type="text" data-initial="<?php echo round($record[0]['min_price'], 2); ?>" class="min-val" disabled />
+                                <input type="text" data-initial="<?php echo ceil($record[0]['max_price']); ?>" class="max-val pull-right" disabled />
+                                <input type="text" data-initial="<?php echo round($record[0]['min_price']); ?>" class="min-val" disabled />
                             </div>
                         </div>
                     </div> <!-- /prices slider -->
@@ -113,7 +118,7 @@
                                     $product_price = $value["product_price"];
                                     $category_name = $value["cc_name"];
                                     $product_brand = getSellerDisplayName($value['seller_fullname'], $value['seller_company_name']);
-                                    $product_image = getImage(NULL);
+                                    $product_image = getImage($value['pi_image_path']);
                                     $product_size = '';
                                     $product_color = '';
                                     ?>

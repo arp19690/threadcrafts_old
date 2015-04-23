@@ -29,9 +29,10 @@
 
                     $data_array = array(
                         "ul_user_id" => $record["user_id"],
-                        "ul_login_time" => time(),
-                        "ul_useragent" => $this->ci->session->userdata["user_agent"],
-                        "ul_ipaddress" => $this->ci->session->userdata["ip_address"]);
+                        "ul_login_time" => date('Y-m-d H:i:s'),
+                        "ul_useragent" => USER_AGENT,
+                        "ul_ipaddress" => USER_IP,
+                    );
                     $model->insertData(TABLE_USER_LOG, $data_array);
 
                     $user_array = array(
@@ -45,8 +46,6 @@
                     {
                         $this->ci->session->set_userdata($key, $value);
                     }
-
-                    $this->checkAndAddCartIfAny($record["user_id"]);
 
                     if ($success_redirect_to == NULL)
                         $success_redirect_to = base_url();
@@ -112,11 +111,11 @@
             {
                 $model = $this->ci->Common_model;
 
-                $record = $model->fetchSelectedData("ul_id", TABLE_USER_LOG, array("ul_user_id" => $user_id, "ul_logout_time" => ""), "ul_id", "DESC", "1");
+                $record = $model->fetchSelectedData("ul_id", TABLE_USER_LOG, array("ul_user_id" => $user_id, "ul_logout_time" => NULL), "ul_id", "DESC", "1");
                 $ul_id = $record[0]["ul_id"];
 
                 $update_data_array = array();
-                $update_data_array["ul_logout_time"] = time();
+                $update_data_array["ul_logout_time"] = date('Y-m-d H:i:s');
 
                 $whereCondArr = array();
                 $whereCondArr["ul_id"] = $ul_id;
@@ -136,40 +135,5 @@
             redirect($redirect_to);
         }
 
-        public function checkAndAddCartIfAny($user_id)
-        {
-            $model = new Common_model();
-            $whereCondArr = array("user_id" => $user_id);
-            $tableArrayWithJoinCondition = array(
-                TABLE_PRODUCTS . " as p" => "p.product_id = sc.product_id"
-            );
-            $fields = "p.product_id, product_title, product_price, product_quantity,sc.product_size,sc.product_color,product_status";
-            $cart_records = $model->getAllDataFromJoin($fields, TABLE_SHOPPING_CART . " as sc", $tableArrayWithJoinCondition, "INNER", $whereCondArr);
-            if (!empty($cart_records))
-            {
-                foreach ($cart_records as $key => $value)
-                {
-                    if ($value["product_status"] == "1")
-                    {
-                        $options_array = array();
-                        if (!empty($value["product_size"]))
-                            $options_array["product_size"] = $value["product_size"];
-
-                        if (!empty($value["product_color"]))
-                            $options_array["product_color"] = $value["product_color"];
-
-                        $data = array(
-                            'id' => $value["product_id"],
-                            'qty' => $value["product_quantity"],
-                            'price' => $value["product_price"],
-                            'name' => $value["product_title"],
-                            'options' => $options_array
-                        );
-
-                        $this->ci->cart->insert($data);
-                    }
-                }
-            }
-        }
-
     }
+    

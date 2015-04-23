@@ -54,48 +54,51 @@
 
             if ($this->input->post())
             {
-                $arr = $this->input->post();
-                $arr["user_ipaddress"] = $this->session->userdata["ip_address"];
-                $arr["user_agent"] = $this->session->userdata["user_agent"];
-                $wc_request_id = "#TCC" . substr(generateUniqueKeyEverytime(), 0, 8);
-                $arr["wc_request_id"] = $wc_request_id;
-
                 $model = new Common_model();
+                $arr = $this->input->post();
+//                prd($arr);
+                $wc_request_id = getUniqueContactRequestId(time());
+                $full_name = addslashes(ucwords($arr['full_name']));
+                $user_email = strtolower($arr['user_email']);
+                $user_contact = $arr['user_contact'];
+                $mail_subject = addslashes($arr['wc_subject']);
+                $mail_message = addslashes($arr['wc_message']);
 
-                $is_exist = $model->is_exists("wc_id", TABLE_WEBSITE_CONTACT, array("wc_request_id" => $wc_request_id));
-                if (!empty($is_exist))
-                {
-                    $wc_request_id = "#" . strtoupper(substr(md5($arr["user_ipaddress"] . USE_SALT . time() . strtotime(time())), 0, 9));
-                    $arr["wc_request_id"] = $wc_request_id;
-                }
+                $data_array = array(
+                    'wc_fullname' => $full_name,
+                    'wc_email' => $user_email,
+                    'wc_contact' => $user_contact,
+                    'wc_subject' => $mail_subject,
+                    'wc_message' => $mail_message,
+                    'wc_request_id' => $wc_request_id,
+                    'wc_ipaddress' => USER_IP,
+                    'wc_useragent' => USER_AGENT
+                );
 
-                $model->insertData(TABLE_WEBSITE_CONTACT, $arr);
+                $model->insertData(TABLE_WEBSITE_CONTACT, $data_array);
 
-                if ($_SERVER["REMOTE_ADDR"] != '127.0.0.1')
+                if (USER_IP != '127.0.0.1')
                 {
                     $this->load->model('Email_model');
                     $this->load->library('EmailTemplates');
-
                     $Email_model = new Email_model();
                     $EmailTemplates = new EmailTemplates();
+                    $contactUsMailText = $EmailTemplates->contactUsEmail($full_name, $wc_request_id);
 
-                    $contactUsMailText = $EmailTemplates->contactUsEmail($arr["full_name"], $wc_request_id);
-
-                    $to_email = trim($arr["user_email"]);
                     $subject = SITE_NAME . " : Request received";
-                    $Email_model->sendMail($to_email, $subject, $contactUsMailText);
+                    $Email_model->sendMail($user_email, $subject, $contactUsMailText);
 
-                    $mySelfText = '
-                                <p><strong>Full Name: </strong>' . $arr["full_name"] . '</p><br/>
-                                <p><strong>Email: </strong>' . $arr["user_email"] . '</p><br/>
-                                <p><strong>Contact Number: </strong>' . $arr["user_contact"] . '</p><br/>
-                                <p><strong>Subject: </strong>' . $arr["wc_subject"] . '</p><br/>
-                                <p><strong>Message: </strong>' . addslashes($arr["wc_message"]) . '</p><br/>
-                        ';
+                    $mySelfText = stripslashes('
+                                <p><strong>Full Name: </strong>' . $full_name . '</p><br/>
+                                <p><strong>Email: </strong>' . $user_email . '</p><br/>
+                                <p><strong>Contact Number: </strong>' . $user_contact . '</p><br/>
+                                <p><strong>Subject: </strong>' . $mail_subject . '</p><br/>
+                                <p><strong>Message: </strong>' . $mail_message . '</p><br/>
+                        ');
                     $Email_model->sendMail(SITE_EMAIL_GMAIL, "You have received a new message via website", $mySelfText);
                 }
 
-                $this->session->set_flashdata("success", "<strong>Thank you!</strong> You request will be processed soon.");
+                $this->session->set_flashdata("success", "<strong>Thank you!</strong> You request #" . $wc_request_id . " will be processed soon.");
                 redirect(base_url('contact-us'));
             }
         }
