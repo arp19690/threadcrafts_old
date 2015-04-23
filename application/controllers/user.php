@@ -35,9 +35,6 @@
                     TABLE_PRODUCTS . " as p" => "p.product_id = wishlist_product_id"
                 );
 
-                $wishlist_records = $model->getAllDataFromJoin("p.product_id,product_title,product_price,wishlist_product_quantity,wishlist_comments", TABLE_WISHLIST . " as w", $tableArrayWithJoinCondition, "LEFT", $whereCondArr, "wishlist_id", "DESC");
-                $data["wishlist_records"] = $wishlist_records;
-
                 $user_records = $model->fetchSelectedData("user_fullname, user_gender,user_contact,", TABLE_USERS, array("user_id" => $user_id));
 //                prd($user_records);
                 $data["user_record"] = $user_records[0];
