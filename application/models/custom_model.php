@@ -98,8 +98,13 @@
             return $result[0];
         }
 
-        public function getAllProductsList($product_fields, $productWhereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
+        public function getAllProductsList($product_fields = NULL, $productWhereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
         {
+            if ($product_fields == NULL)
+            {
+                $product_fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title';
+            }
+
             $result = $this->db->select($product_fields);
             $result = $this->db->group_by('product_id');
             $result = $result->join(TABLE_CHILD_CATEGORY . " as cc", "cc.cc_id=p.product_child_category", "INNER");
