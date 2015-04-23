@@ -52,8 +52,7 @@
         public function parentList($gc_name)
         {
             $custom_model = new Custom_model();
-            $fields = "*";
-            $records = $custom_model->getAllProductsList($fields, array("gc_name" => $gc_name, "product_status" => "1"), "product_id", "DESC");
+            $records = $custom_model->getAllProductsList(NULL, array("gc_name" => $gc_name, "product_status" => "1"), "product_id", "DESC");
             $category_name_records = array();
             foreach ($records as $key => $value)
             {
@@ -75,8 +74,7 @@
         public function childList($pc_name)
         {
             $custom_model = new Custom_model();
-            $fields = "*";
-            $records = $custom_model->getAllProductsList($fields, array("pc_name" => $pc_name, "product_status" => "1"), "product_id", "DESC");
+            $records = $custom_model->getAllProductsList(NULL, array("pc_name" => $pc_name, "product_status" => "1"), "product_id", "DESC");
             $gc_name = stripslashes($records[0]['gc_name']);
             $category_name_records = array();
             foreach ($records as $key => $value)
@@ -100,7 +98,7 @@
         public function productsList($cc_name)
         {
             $custom_model = new Custom_model();
-            $fields = "*";
+            $fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title, gc_name, cc_name, pc_name, seller_fullname, seller_company_name';
             $records = $custom_model->getAllProductsList($fields, array("cc_name" => $cc_name, "product_status" => "1"), "product_id", "DESC");
             $gc_name = $records[0]["gc_name"];
             $pc_name = $records[0]["pc_name"];
@@ -144,9 +142,9 @@
                     $pageHeading = "Search results";
                 }
             }
-            $whereCondArr['product_status'] = 1;
+            $whereCondArr['product_status'] = '1';
 
-            $fields = "*";
+            $fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title, gc_name, cc_name, pc_name, seller_fullname, seller_company_name';
             $records = $custom_model->getAllProductsList($fields, $whereCondArr, "product_id", "DESC");
 
             $category_name_records = array();

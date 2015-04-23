@@ -39,8 +39,13 @@
             return $result;
         }
 
-        public function getFeaturedProducts($fields, $whereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
+        public function getFeaturedProducts($fields = null, $whereCondArr = NULL, $orderByFieldName = NULL, $orderByType = "ASC", $limit = null)
         {
+            if ($fields == NULL)
+            {
+                $fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title';
+            }
+
             $result = $this->db->select($fields);
             $result = $result->group_by("product_id");
             $result = $result->join(TABLE_PRODUCTS . " as p", "p.product_id=f.feature_product_id", "LEFT");
@@ -102,7 +107,7 @@
         {
             if ($product_fields == NULL)
             {
-                $product_fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title';
+                $product_fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title, gc_name, cc_name, pc_name';
             }
 
             $result = $this->db->select($product_fields);

@@ -11,14 +11,12 @@
         public function index()
         {
             $data = array();
-
-            $model = new Common_model();
             $custom_model = new Custom_model();
 
             $whereCondArr = array("product_status" => "1");
             $featured_records = $custom_model->getFeaturedProducts(NULL, $whereCondArr);
             $new_products_array = $custom_model->getAllProductsList(NULL, $whereCondArr, 'product_id', 'DESC', 8);
-            $popular_products = $custom_model->getPopularProducts(NULL, $whereCondArr);
+            $popular_products = $custom_model->getPopularProducts('product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title', $whereCondArr);
 
             $data["featured_array"] = $featured_records;
             $data["new_products_array"] = $new_products_array;
