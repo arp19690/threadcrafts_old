@@ -1,5 +1,16 @@
 <?php
 
+    function getFinalPriceForCheckout($subtotal, $discount_percent = '0', $shipping_charge = '0', $vat_percent = VAT_TAX_PERCENT)
+    {
+        $output = $subtotal;
+        if ($discount_percent != '0')
+        {
+            $output = $subtotal - ($subtotal * ($discount_percent / 100));
+        }
+        $output = $output + $shipping_charge + ($output * ($vat_percent / 100));
+        return $output;
+    }
+
     function getSellerDisplayName($seller_fullname, $seller_company_name)
     {
         if (empty($seller_company_name))
