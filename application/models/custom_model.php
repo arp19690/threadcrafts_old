@@ -321,8 +321,8 @@
 
             $result = $this->db->select($fields);
             $result = $this->db->group_by('product_id');
-            $result = $result->join(TABLE_PRODUCT_DETAILS . " as pd", "wishlist_pd_id = pd_id", "INNER");
-            $result = $result->join(TABLE_PRODUCTS. " as p", "product_id = pd_product_id", "INNER");
+            $result = $result->join(TABLE_PRODUCTS. " as p", "product_id = wishlist_product_id", "INNER");
+            $result = $result->join(TABLE_PRODUCT_DETAILS . " as pd", "pd_product_id = product_id", "INNER");
             $result = $result->join(TABLE_CHILD_CATEGORY . " as cc", "cc.cc_id=p.product_child_category", "INNER");
             $result = $result->join(TABLE_PARENT_CATEGORY . " as pc", "pc.pc_id=cc.cc_pc_id", "INNER");
             $result = $result->join(TABLE_GRAND_CATEGORY . " as gc", "gc.gc_id=pc.pc_gc_id", "INNER");
@@ -339,7 +339,7 @@
                 $result = $result->limit($limit);
             }
 
-            $whereCondArr['pd_status'] = '1';
+            $whereCondArr['product_status'] = '1';
             $result = $result->get_where(TABLE_WISHLIST. " as w", $whereCondArr)->result_array();
 
             return $result;
