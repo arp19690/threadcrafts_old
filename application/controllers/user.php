@@ -161,7 +161,7 @@
             {
                 $model = new Common_model();
                 $user_id = $this->session->userdata["user_id"];
-                $wishlist_id=  getEncryptedString($this->input->get('id'),'decode');
+                $wishlist_id = getEncryptedString($this->input->get('id'), 'decode');
 
                 $whereCondArr = array("wishlist_id" => $wishlist_id, "wishlist_user_id" => $user_id);
                 $model->deleteData(TABLE_WISHLIST, $whereCondArr);

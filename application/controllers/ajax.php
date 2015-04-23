@@ -22,22 +22,22 @@
             echo json_encode($response_array);
         }
 
-        public function addToWishlist($product_id, $product_quantity)
+        public function addToWishlist()
         {
-            if ($product_id && $product_quantity && $this->session->userdata["user_id"])
+            if ( $this->session->userdata["user_id"])
             {
                 $model = new Common_model();
                 $user_id = $this->session->userdata["user_id"];
-                $whereCondArr = array("product_id" => $product_id, "user_id" => $user_id);
+                $pd_id=  getEncryptedString($this->input->get('id'),'decode');
+                $whereCondArr = array("wishlist_pd_id" => $pd_id, "wishlist_user_id" => $user_id);
                 $is_exists = $model->is_exists("wishlist_id", TABLE_WISHLIST, $whereCondArr);
                 if (empty($is_exists))
                 {
                     $data_array = array(
-                        "product_id" => $product_id,
-                        "product_quantity" => $product_quantity,
-                        "user_id" => $user_id,
-                        "user_ipaddress" => USER_IP,
-                        "user_agent" => USER_AGENT
+                        "wishlist_pd_id" => $pd_id,
+                        "wishlist_user_id" => $user_id,
+                        "wishlist_ipaddress" => USER_IP,
+                        "wishlist_agent" => USER_AGENT
                     );
                     $model->insertData(TABLE_WISHLIST, $data_array);
                     echo 'added';
