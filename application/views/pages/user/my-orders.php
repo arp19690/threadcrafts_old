@@ -19,7 +19,7 @@
                             <tr>
                                 <th>Order ID</th>
                                 <th>Shipping Details</th>
-                                <th>Price</th>
+                                <th>Amount</th>
                                 <th>Status</th>
                                 <th style="text-align: center">Details</th>
                             </tr>
