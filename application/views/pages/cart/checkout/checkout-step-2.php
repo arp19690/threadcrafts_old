@@ -47,7 +47,7 @@
     </div>
 
     <hr />
-    
+
     <div class="control-group">
         <label class="control-label" for="shipping_fullname">Full Name<span class="red-clr bold">*</span></label>
         <div class="controls">
@@ -70,13 +70,16 @@
             <span class="help-inline">(Invoice will be sent on this email address)</span>
         </div>
     </div>
-    
+
     <hr/>
 
-    <p class="right-align" style="margin-top: 20px">
-        In the next step you will confirm your order &nbsp; &nbsp;
-        <input type="submit" class="btn btn-primary higher bold" value="CONTINUE" name="bttn_submit_two"/>
-    </p>
+    <div>
+        <p class="pull-left"><a href="<?php echo goBack(); ?>">Back</a></p>
+        <p class="pull-right">
+            In the next step you will confirm your order &nbsp; &nbsp;
+            <input type="submit" class="btn btn-primary higher bold" value="CONTINUE" name="bttn_submit_two"/>
+        </p>
+    </div>
 
 </form>
 

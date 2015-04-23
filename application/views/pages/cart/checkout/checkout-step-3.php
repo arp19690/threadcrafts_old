@@ -109,9 +109,12 @@
     </tbody>
 </table>
 
-<p class="right-align">
-    <a href="<?php echo base_url("checkout/pay"); ?>" class="btn btn-primary higher bold">CONFIRM &amp; PAY</a>
-</p>
+<div>
+    <p class="pull-left"><a href="<?php echo goBack(); ?>">Back</a></p>
+    <p class="pull-right">
+        <a href="<?php echo base_url("checkout/pay"); ?>" class="btn btn-primary higher bold">CONFIRM &amp; PAY</a>
+    </p>
+</div>
 
 <?php
     $this->load->view("pages/cart/checkout/footer");
