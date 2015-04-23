@@ -170,6 +170,43 @@
             }
         }
 
+        public function addNewAddress()
+        {
+            if (isset($this->session->userdata["user_id"]))
+            {
+                if ($this->input->post())
+                {
+                    $arr = $this->input->post();
+                    $model = new Common_model();
+//                    prd($arr);
+                    $next_url = $arr['url'];
+                    $user_id = $this->session->userdata["user_id"];
+                    $address_line1 = addslashes($arr['address_line1']);
+                    $address_line2 = addslashes($arr['address_line2']);
+                    $address_location = addslashes($arr['address_location']);
+                    $address_postcode = addslashes($arr['address_postcode']);
+                    $getCityState = parse_address_google($address_location);
+
+                    $data_array = array(
+                        'ua_user_id' => $user_id,
+                        'ua_line1' => $address_line1,
+                        'ua_line2' => $address_line2,
+                        'ua_location' => $address_location,
+                        'ua_postcode' => $address_postcode,
+                        'ua_city' => $getCityState['city'],
+                        'ua_state' => $getCityState['state'],
+                        'ua_country' => $getCityState['country'],
+                        'ua_ipaddress' => USER_IP,
+                        'ua_useragent' => USER_AGENT
+                    );
+                    $model->insertData(TABLE_USER_ADDRESSES, $data_array);
+
+                    $this->session->set_flashdata('success', 'New address has been added');
+                    redirect($next_url);
+                }
+            }
+        }
+
         public function removeAddress()
         {
             if (isset($this->session->userdata["user_id"]) && $this->input->get('id'))
