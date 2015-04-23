@@ -41,6 +41,14 @@
                     'sod_ipaddress' => USER_IP,
                     'sod_useragent' => USER_AGENT
                 );
+
+                // to insert the discount coupon details as well, if any
+                if (isset($this->session->userdata["cart_discount"]))
+                {
+                    $data_array['sod_discount_coupon'] = $this->session->userdata["cart_discount"]["coupon_code"];
+                    $data_array['sod_discount_percent'] = $this->session->userdata["cart_discount"]["discount_percent"];
+                    $this->session->unset_userdata('cart_discount');
+                }
                 $model->insertData(TABLE_SHIPPING_ORDER_DETAILS, $data_array);
                 $sod_id = $this->db->insert_id();
 
