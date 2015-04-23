@@ -86,6 +86,20 @@
         }
     }
 
+    function getUniqueContactRequestId($id, $string_length = 8)
+    {
+        require_once APPPATH . '/models/common_model.php';
+        $model = new Common_model();
+        $random_number = getRandomNumberLength($id . time(), $string_length);
+        $is_exists = $model->is_exists('wc_id', TABLE_WEBSITE_CONTACT, array('wc_request_id' => $random_number));
+        if (!empty($is_exists))
+        {
+            $random_number = getUniqueContactRequestId($id, $string_length);
+        }
+
+        return $random_number;
+    }
+
     function getUniqueOrderId($id, $string_length = 6)
     {
         require_once APPPATH . '/models/common_model.php';
