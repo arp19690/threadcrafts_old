@@ -139,7 +139,7 @@
         {
             if ($product_fields == NULL)
             {
-                $product_fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title, gc_name, cc_name, pc_name';
+                $product_fields = 'product_id, product_title, product_code, product_price, product_description, pi_image_path, pi_image_title, gc_name, cc_name, pc_name, seller_fullname, seller_company_name';
             }
 
             $result = $this->db->select($product_fields);
