@@ -322,9 +322,10 @@
             if ($this->input->get("search"))
             {
                 $model = new Common_model();
+                $custom_model = new Custom_model();
+                $category_name_records = array();
                 $query = urldecode($this->input->get("search"));
-//                prd($query);
-                $this->session->set_userdata("user_search_query", $query);
+
                 $whereCondArr = array(
                     'product_title' => $query,
                     'product_description' => $query,
@@ -335,42 +336,21 @@
                     $whereString .= ' OR ' . $wKey . ' LIKE "%' . $wValue . '%" ';
                 }
 
-                $sql = ' SELECT * FROM ' . TABLE_PRODUCTS . ' as p 
-                            INNER JOIN ' . TABLE_CHILD_CATEGORY . ' as cc ON cc.cc_id=p.product_child_category                    
-                            INNER JOIN ' . TABLE_PARENT_CATEGORY . ' as pc ON pc.pc_id=p.product_parent_category                   
-                            INNER JOIN ' . TABLE_GRAND_CATEGORY . ' as gc ON gc.gc_id=p.product_grand_category        
-                            WHERE ' . $whereString . ' ORDER BY rand()
-';
-                $records = $this->db->query($sql)->result_array();
+                $product_fields = '*';
+                $productWhereCondStr = '(' . $whereString . ') AND product_status = "1"';
+                $records = $custom_model->getAllSearchProductsList($product_fields, $productWhereCondStr, 'rand()');
 
-                $product_size_array = array();
-                $product_color_array = array();
                 foreach ($records as $key => $value)
                 {
-                    $product_size_records = $model->fetchSelectedData('DISTINCT(product_size) as product_size', TABLE_PRODUCT_DETAILS, array('product_id' => $value['product_id']));
-                    foreach ($product_size_records as $psKey => $psValue)
-                    {
-                        $product_size_array[] = $psValue['product_size'];
-                    }
-                    $records[$key]['product_size_array'] = $product_size_array;
-
-                    $product_color_records = $model->fetchSelectedData('DISTINCT(product_color) as product_color', TABLE_PRODUCT_DETAILS, array('product_id' => $value['product_id']));
-                    foreach ($product_color_records as $psKey => $psValue)
-                    {
-                        $product_color_array[] = $psValue['product_color'];
-                    }
-                    $records[$key]['product_color_array'] = $product_color_array;
+                    $category_name_records[] = $value['cc_name'];
                 }
-//            prd($records);
-
-                $category_name_records = $model->fetchSelectedData("cc_name", TABLE_CHILD_CATEGORY, NULL, "cc_name");
 
                 $pageHeading = 'Search Results';
                 $data["records"] = $records;
                 $data["category_name_records"] = $category_name_records;
                 $data["product_page_heading"] = $pageHeading;
                 $breadcrumbArray = array(
-                    $pageHeading => base_url("products"),
+                    $query => current_url(),
                 );
                 $data["breadcrumbArray"] = $breadcrumbArray;
                 $data["meta_title"] = $pageHeading . " | " . SITE_NAME;
