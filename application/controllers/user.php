@@ -133,32 +133,6 @@
             redirect(base_url("my-account"));
         }
 
-        public function saveWishlist()
-        {
-            if ($this->input->post() && isset($this->session->userdata["user_id"]))
-            {
-                $model = new Common_model();
-                $arr = $this->input->post();
-                $user_id = $this->session->userdata["user_id"];
-                $product_quantity = $arr["product_quantity"];
-                $wishlist_comments = $arr["wishlist_comments"];
-                $product_id = $arr["product_id"];
-
-                $data_array = array(
-                    "product_id" => $product_id,
-                    "user_id" => $user_id,
-                    "product_quantity" => $product_quantity,
-                    "wishlist_comments" => $wishlist_comments,
-                    "user_ipaddress" => $this->session->userdata["ip_address"],
-                    "user_agent" => $this->session->userdata["user_agent"],
-                );
-
-                $model->updateData(TABLE_WISHLIST, $data_array, array("user_id" => $user_id, "product_id" => $product_id));
-                $this->session->set_flashdata('success', 'Your wishlist has been updated successfully');
-                redirect(base_url('my-wishlist'));
-            }
-        }
-
         public function myWishlist()
         {
             if (isset($this->session->userdata["user_id"]))
