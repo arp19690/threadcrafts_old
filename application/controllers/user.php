@@ -139,7 +139,6 @@
             {
                 $user_id = $this->session->userdata["user_id"];
                 $custom_model = new Custom_model();
-                $model = new Common_model();
 
                 $whereCondArr = array('wishlist_user_id' => $user_id);
                 $records = $custom_model->getMyWishlistRecords(NULL, $whereCondArr);
