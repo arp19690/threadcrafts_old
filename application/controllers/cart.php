@@ -104,7 +104,6 @@
             $data["cart_records"] = $cart_records;
 
             $total_shipping_charge = 0;
-            $total_vat = 0;
             if ($this->input->post() && $this->input->post('bttn_submit_two'))
             {
                 $arr = $this->input->post();
@@ -127,29 +126,35 @@
                         'sd_shipping_postcode' => trim($user_address['ua_postcode']),
                     );
 
-                    $model->deleteData(TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_status' => '1', 'sd_paid' => '0', 'sd_order_id' => ''));
+                    $model->deleteData(TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_status' => '1', 'sd_paid' => '0', 'sd_order_id' => NULL));
                     // to get profit percent on the category to calculate seller earning, and shipping charge
                     $product_detail = $custom_model->getAllProductsDetails(NULL, 'product_shipping_charge, cc_profit_percent', 'pd_id', 'pi_id', array('pd_id' => $value['pd_id']));
 
+                    $discount_percent = 0;
+                    if (isset($this->session->userdata["cart_discount"]))
+                    {
+                        $discount_percent = $this->session->userdata["cart_discount"]["discount_percent"];
+                        $whereCondArr['sd_discount_coupon'] = $this->session->userdata["cart_discount"]["coupon_code"];
+                        $whereCondArr['sd_discount_percent'] = $discount_percent;
+                    }
+
                     $shipping_charge = $product_detail['product_shipping_charge'];
                     $profit_percent = $product_detail['cc_profit_percent'];
-                    $total_price = ($value['product_price'] * $value['cart_quantity']) + $shipping_charge;
-                    $seller_earning = $value['product_price'] - ($value['product_price'] * ($profit_percent / 100)) + $shipping_charge;
+                    $sub_total = ($value['product_price'] * $value['cart_quantity']);
                     $total_shipping_charge = $total_shipping_charge + $shipping_charge;
-                    $vat_collected = $total_price * (VAT_TAX_PERCENT / 100);
-                    $total_vat = $total_vat + $vat_collected;
+                    $discount_amount = $sub_total * ($discount_percent / 100);
+                    $seller_earning = $sub_total - ($sub_total * ($profit_percent / 100)) + $shipping_charge - $discount_amount;
 
                     $whereCondArr['sd_ipaddress'] = USER_IP;
                     $whereCondArr['sd_useragent'] = USER_AGENT;
                     $whereCondArr['sd_shipping_fullname'] = ucwords($arr['shipping_fullname']);
                     $whereCondArr['sd_shipping_charge'] = $shipping_charge;
                     $whereCondArr['sd_seller_earning'] = $seller_earning;
-                    $whereCondArr['sd_total_price'] = $total_price + $total_vat;
-                    $whereCondArr['sd_vat_collected'] = $vat_collected;
+                    $whereCondArr['sd_vat_collected'] = ($sub_total + $shipping_charge - $discount_amount) * (VAT_TAX_PERCENT / 100);
+                    $whereCondArr['sd_total_price'] = getFinalPriceForCheckout($sub_total, $discount_percent, $shipping_charge, VAT_TAX_PERCENT);
                     $model->insertData(TABLE_SHIPPING_DETAILS, $whereCondArr);
                 }
             }
-            $data['total_vat'] = $total_vat;
             $data['total_shipping_charge'] = $total_shipping_charge;
             $this->load->view("pages/cart/checkout/checkout-step-3", $data);
         }
@@ -165,10 +170,10 @@
             $model = new Common_model();
             $user_id = $this->session->userdata["user_id"];
             $user_record = $model->fetchSelectedData('user_contact', TABLE_USERS, array('user_id' => $user_id));
-            $amount_record = $model->fetchSelectedData('sd_total_price', TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_order_id' => NULL, 'sd_paid' => '0', 'sd_status' => '1'), 'sd_id', 'DESC', 1);
+            $amount_record = $model->fetchSelectedData('SUM(sd_total_price) as subtotal', TABLE_SHIPPING_DETAILS, array('sd_user_id' => $user_id, 'sd_order_id' => NULL, 'sd_paid' => '0', 'sd_status' => '1'), 'sd_id', 'DESC', 1);
 
             $data['user_contact'] = $user_record[0]['user_contact'];
-            $data['total_amount'] = $amount_record[0]['sd_total_price'];
+            $data['final_amount'] = round($amount_record[0]['subtotal'], 2);
             $this->load->view("pages/cart/checkout/payment-method", $data);
         }
 
