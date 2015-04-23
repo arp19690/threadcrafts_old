@@ -36,7 +36,6 @@
                 );
 
                 $user_records = $model->fetchSelectedData("user_fullname, user_gender,user_contact,", TABLE_USERS, array("user_id" => $user_id));
-//                prd($user_records);
                 $data["user_record"] = $user_records[0];
 
                 $user_address_records = $model->fetchSelectedData('ua_id, ua_line1, ua_line2, ua_location, ua_postcode', TABLE_USER_ADDRESSES, array('ua_user_id' => $user_id, 'ua_status' => '1', 'ua_deleted' => '0'));
@@ -76,22 +75,6 @@
                 $model->deleteData(TABLE_COMPARE, $whereCondArr);
                 $compare_count_record = $model->getTotalCount("compare_id", TABLE_COMPARE, array("user_id" => $user_id));
                 echo $compare_count_record[0]["totalcount"];
-            }
-        }
-
-        public function removeFromWishlist($product_id)
-        {
-            if ($product_id && isset($this->session->userdata["user_id"]))
-            {
-                $model = new Common_model();
-                $user_id = $this->session->userdata["user_id"];
-
-                $whereCondArr = array("product_id" => $product_id, "wishlist_user_id" => $user_id);
-
-                $model->deleteData(TABLE_WISHLIST, $whereCondArr);
-
-                $wishlist_count_record = $model->fetchSelectedData("COUNT(wishlist_id) as total", TABLE_WISHLIST, array("wishlist_user_id" => $user_id));
-                echo $wishlist_count_record[0]["total"];
             }
         }
 
@@ -172,7 +155,45 @@
 
                 $model->updateData(TABLE_WISHLIST, $data_array, array("user_id" => $user_id, "product_id" => $product_id));
                 $this->session->set_flashdata('success', 'Your wishlist has been updated successfully');
-                redirect(base_url('my-account#wishlist'));
+                redirect(base_url('my-wishlist'));
+            }
+        }
+
+        public function myWishlist()
+        {
+            if (isset($this->session->userdata["user_id"]))
+            {
+                $user_id = $this->session->userdata["user_id"];
+                $custom_model = new Custom_model();
+                $model = new Common_model();
+
+                $whereCondArr = array('wishlist_user_id' => $user_id);
+                $records = $custom_model->getMyWishlistRecords(NULL, $whereCondArr);
+                $data["records"] = $records;
+
+                $breadcrumbArray = array(
+                    "My Wishlist" => base_url("my-wishlist"),
+                );
+                $data["breadcrumbArray"] = $breadcrumbArray;
+                $data["meta_title"] = "My Wishlist | " . SITE_NAME;
+                $this->template->write_view("content", "pages/user/my-wishlist", $data);
+                $this->template->render();
+            }
+        }
+
+        public function removeFromWishlist()
+        {
+            if ($this->input->get('id') && isset($this->session->userdata["user_id"]))
+            {
+                $model = new Common_model();
+                $user_id = $this->session->userdata["user_id"];
+                $wishlist_id=  getEncryptedString($this->input->get('id'),'decode');
+
+                $whereCondArr = array("wishlist_id" => $wishlist_id, "wishlist_user_id" => $user_id);
+                $model->deleteData(TABLE_WISHLIST, $whereCondArr);
+
+                $this->session->set_flashdata('success', 'Product removed from your wishlist');
+                redirect(base_url('my-wishlist'));
             }
         }
 
