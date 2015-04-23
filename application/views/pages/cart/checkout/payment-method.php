@@ -29,7 +29,7 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-    var total_amount = '<?php echo $total_amount; ?>';
+    var total_amount = '<?php echo $final_amount; ?>';
     var options = {
         "key": "<?php echo RAZORPAY_KEY; ?>",
         "amount": total_amount * 100,
