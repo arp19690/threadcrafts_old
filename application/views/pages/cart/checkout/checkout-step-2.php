@@ -16,32 +16,10 @@
 <!--  ==========  -->
 
 <form action="<?php echo base_url("checkout/stepThree"); ?>" method="post" class="form-horizontal form-checkout validate-form">
-    <div class="control-group">
-        <label class="control-label" for="shipping_fullname">Full Name<span class="red-clr bold">*</span></label>
-        <div class="controls">
-            <input type="text" id="shipping_fullname" name="shipping_fullname" value="<?php echo $user_record["user_fullname"]; ?>" class="span4 required" required="required"/>
-        </div>
-    </div>
 
-    <div class="control-group">
-        <label class="control-label" for="shipping_contact">Contact<span class="red-clr bold">*</span></label>
-        <div class="controls">
-            <input type="text" id="shipping_contact" name="shipping_contact" maxlenth="10" value="<?php echo $user_record["user_contact"]; ?>" class="span4 required" required="required"/>
-            <span class="help-inline">(10 digit mobile number)</span>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="billing_email">Email<span class="red-clr bold">*</span></label>
-        <div class="controls">
-            <input type="email" id="billing_email" name="billing_email" value="<?php echo $user_record["user_email"]; ?>" class="span4 required" required="required"/>
-            <span class="help-inline">(Invoice will be sent on this email address)</span>
-        </div>
-    </div>
-
-    <hr/>
-
-    <h3 class="offset2">Shipping Address:</h3>
+    <h3 class="">Shipping Address:
+        <a href="#addressModal" role="button" data-toggle="modal" class="btn btn-success offset1"><span class="icon icon-plus"></span>&nbsp;Add new</a>
+    </h3>
 
     <div class="shipping_address">
         <ul class="address-ul">
@@ -69,6 +47,31 @@
     </div>
 
     <hr />
+    
+    <div class="control-group">
+        <label class="control-label" for="shipping_fullname">Full Name<span class="red-clr bold">*</span></label>
+        <div class="controls">
+            <input type="text" id="shipping_fullname" name="shipping_fullname" value="<?php echo $user_record["user_fullname"]; ?>" class="span4 required" required="required"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="shipping_contact">Contact<span class="red-clr bold">*</span></label>
+        <div class="controls">
+            <input type="text" id="shipping_contact" name="shipping_contact" maxlenth="10" value="<?php echo $user_record["user_contact"]; ?>" class="span4 required" required="required"/>
+            <span class="help-inline">(10 digit mobile number)</span>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="billing_email">Email<span class="red-clr bold">*</span></label>
+        <div class="controls">
+            <input type="email" id="billing_email" name="billing_email" value="<?php echo $user_record["user_email"]; ?>" class="span4 required" required="required"/>
+            <span class="help-inline">(Invoice will be sent on this email address)</span>
+        </div>
+    </div>
+    
+    <hr/>
 
     <p class="right-align" style="margin-top: 20px">
         In the next step you will confirm your order &nbsp; &nbsp;
@@ -78,5 +81,8 @@
 </form>
 
 <?php
+//    Address Modal
+    $this->load->view('pages/user/add-new-address-modal');
+//    checkout footer
     $this->load->view("pages/cart/checkout/footer");
     
