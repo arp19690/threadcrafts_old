@@ -107,29 +107,14 @@
                 $arr = $this->input->post();
 
                 $data_array = array(
-                    "first_name" => trim($arr["first_name"]),
-                    "last_name" => trim($arr["last_name"]),
+                    "user_fullname" => trim($arr["user_fullname"]),
                     "user_gender" => trim($arr["user_gender"]),
                     "user_contact" => trim($arr["user_contact"]),
-                    "user_address" => trim($arr["user_address"]),
-                    "user_location" => trim($arr["user_location"]),
-                    "user_postcode" => trim($arr["user_postcode"]),
                 );
-
-                $user_location = trim($arr["user_location"]);
-                if (!empty($user_location))
-                {
-                    $getLocationCityState = parse_address_google($user_location);
-
-                    $data_array["user_country"] = $getLocationCityState['country'];
-                    $data_array["user_state"] = $getLocationCityState['state'];
-                    $data_array["user_city"] = $getLocationCityState['city'];
-                }
 
                 $model->updateData(TABLE_USERS, $data_array, array("user_id" => $user_id));
 
-                $this->session->set_userdata("first_name", trim($arr["first_name"]));
-                $this->session->set_userdata("last_name", trim($arr["last_name"]));
+                $this->session->set_userdata("user_fullname", trim($arr["user_fullname"]));
                 $this->session->set_flashdata("success", "<strong>Success!</strong> Account details updated");
             }
             redirect(base_url("my-account"));
