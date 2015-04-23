@@ -63,6 +63,7 @@
     $route['activation/(:any)'] = 'index/activation/$1';
     $route['my-account'] = 'user/myAccount';
     $route['my-orders'] = 'user/myOrders';
+    $route['my-wishlist'] = 'user/myWishlist';
     $route['updateAccountInfo'] = 'user/updateAccountInfo';
     $route['updatePassword'] = 'user/updatePassword';
     $route['checkout'] = 'cart/checkoutStepOne';
