@@ -24,20 +24,20 @@
 
         public function addToWishlist()
         {
-            if ( $this->session->userdata["user_id"])
+            if ($this->session->userdata["user_id"])
             {
                 $model = new Common_model();
                 $user_id = $this->session->userdata["user_id"];
-                $pd_id=  getEncryptedString($this->input->get('id'),'decode');
-                $whereCondArr = array("wishlist_pd_id" => $pd_id, "wishlist_user_id" => $user_id);
+                $product_id = getEncryptedString($this->input->get('id'), 'decode');
+                $whereCondArr = array("wishlist_product_id" => $product_id, "wishlist_user_id" => $user_id);
                 $is_exists = $model->is_exists("wishlist_id", TABLE_WISHLIST, $whereCondArr);
                 if (empty($is_exists))
                 {
                     $data_array = array(
-                        "wishlist_pd_id" => $pd_id,
+                        "wishlist_product_id" => $product_id,
                         "wishlist_user_id" => $user_id,
                         "wishlist_ipaddress" => USER_IP,
-                        "wishlist_agent" => USER_AGENT
+                        "wishlist_useragent" => USER_AGENT
                     );
                     $model->insertData(TABLE_WISHLIST, $data_array);
                     echo 'added';
