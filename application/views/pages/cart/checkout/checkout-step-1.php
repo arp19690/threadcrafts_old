@@ -102,7 +102,7 @@
                             $round_discount_price = round($grand_total * ($discount_percent / 100), 2);
                             ?>
                             <div><?php echo $this->session->userdata["cart_discount"]["discount_percent"] . "% Discount" ?></div>
-                            <a href="<?php echo base_url("cart/removeCouponCode/" . $this->session->userdata["cart_discount"]["coupon_code"]); ?>" class="btn btn-warning">Remove</a>
+                            <a href="<?php echo base_url("cart/removeCouponCode"); ?>" class="btn btn-warning">Remove</a>
                             <?php
                         }
                         ?>

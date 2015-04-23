@@ -34,25 +34,20 @@
                     "dc_code" => $coupon_code,
                     "dc_status" => "1",
                     "dc_count_available >" => "0",
-                    "dc_end_time >" => "'" . time() . "'",
+                    "dc_end_time >" => "'" . date('Y-m-d H:m:s') . "'",
                 );
-                $is_exists = $model->is_exists("dc_id, dc_percent", TABLE_DISCOUNT_COUPONS, $couponWhereCond);
+                $is_exists = $model->is_exists("dc_percent", TABLE_DISCOUNT_COUPONS, $couponWhereCond);
                 if (empty($is_exists))
                 {
-                    $this->session->set_flashdata("warning", "<strong>Oops!</strong> Invalid coupon code");
+                    $this->session->set_flashdata("warning", "Invalid coupon code");
                 }
                 else
                 {
-                    $dc_id = $is_exists[0]["dc_id"];
                     $dc_percent = $is_exists[0]["dc_percent"];
                     $cart_discount_array = array(
                         "coupon_code" => $coupon_code,
                         "discount_percent" => $dc_percent
                     );
-
-                    $this->db->set('dc_count_available', 'dc_count_available-1', FALSE);
-                    $this->db->where('dc_id', $dc_id);
-                    $this->db->update(TABLE_DISCOUNT_COUPONS);
 
                     $this->session->set_userdata("cart_discount", $cart_discount_array);
                 }
@@ -177,15 +172,11 @@
             $this->load->view("pages/cart/checkout/payment-method", $data);
         }
 
-        public function removeCouponCode($coupon_code)
+        public function removeCouponCode()
         {
-            if ($coupon_code && isset($this->session->userdata["cart_discount"]))
+            if (isset($this->session->userdata["cart_discount"]))
             {
                 $this->session->unset_userdata('cart_discount');
-
-                $this->db->set('dc_count_available', 'dc_count_available + 1', FALSE);
-                $this->db->where('dc_code', $coupon_code);
-                $this->db->update(TABLE_DISCOUNT_COUPONS);
             }
             redirect(base_url("checkout"));
         }
