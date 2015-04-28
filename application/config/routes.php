@@ -74,6 +74,7 @@
     $route['checkout/paypalSuccess'] = 'cart/paypalSuccess';
     $route['checkout/paymentCancel'] = 'cart/paymentCancel';
     $route['verify-razor-transaction'] = 'razorpay/verifyTransactionAjax';
+    $route['invoice'] = 'cart/invoice';
     $route['s/(:any)'] = 'sellerfront/viewStore/$1';
 
     /* End of file routes.php */

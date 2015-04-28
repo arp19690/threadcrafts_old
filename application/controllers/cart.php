@@ -155,7 +155,7 @@
                     $model->insertData(TABLE_SHIPPING_DETAILS, $whereCondArr);
                 }
             }
-            
+
             $data['user_address_arr'] = $user_address;
             $data['total_shipping_charge'] = $total_shipping_charge;
             $this->load->view("pages/cart/checkout/checkout-step-3", $data);
@@ -481,6 +481,32 @@
 
             $post_array = $this->input->post();
             $responseHandler = $CCAvenue->responseHandler($post_array);
+        }
+
+        public function invoice()
+        {
+            if (isset($this->session->userdata["user_id"]) && $this->input->get('id'))
+            {
+                $model = new Common_model();
+                $custom_model = new Custom_model();
+                $order_id = $this->input->get('id');
+                $customer_id = $this->session->userdata["user_id"];
+                $fields = 'sd_quantity, sd_shipping_fullname, sd_shipping_contact, sd_shipping_email, sd_shipping_address, sd_shipping_location, sd_shipping_postcode, payment_amount, sd_timestamp, sd_status, pd_color_name, pd_size, product_title, pi_image_path, sod_order_id, sod_order_status, sd_shipping_fullname, sd_product_price, sd_shipping_charge, sd_vat_collected, sd_discount_percent';
+                $records = $custom_model->getMyOrdersList($customer_id, $fields, array('sod_order_id' => $order_id), 'sod_id', 'ASC');
+//                prd($records);
+                if (!empty($records))
+                {
+                    $data['records'] = $records;
+                    $data['order_id'] = $order_id;
+                    $this->load->view('pages/cart/invoice', $data);
+                }
+                else
+                {
+                    require_once APPPATH . '/controllers/index.php';
+                    $indexController = new Index();
+                    $indexController->pageNotFound();
+                }
+            }
         }
 
     }
