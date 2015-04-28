@@ -1,9 +1,15 @@
 <?php
     $this->load->view("pages/cart/checkout/header");
 ?>
+<style>
+    .checkout-container{position: relative}
+</style>
+
 <!--  ==========  -->
 <!--  = Payment =  -->
 <!--  ==========  -->
+
+<div class="please-wait"><h3>Please wait...</h3></div>
 
 <span class="btn btn-danger circle pull-left"><i class="icon-chevron-right"></i></span>
 <div class="shifted-left-45 clearfix">
@@ -11,7 +17,7 @@
         <span class="light">Netbanking / Debit card / Credit card</span> &nbsp; &nbsp; &nbsp; 
         <a href="<?php echo base_url("cart/paymentGateway"); ?>" class="btn btn-success hidden" id="pay-now-btn"><i class="icon-credit-card"></i>&nbsp;&nbsp;Pay Now</a>
     </h3>
-    <p style="margin-top: 10px;">(Recommended for Non-Indian bank accounts)</p>
+    <!--<p style="margin-top: 10px;">(Recommended for Indian bank accounts)</p>-->
 </div>
 
 <!--<hr />
@@ -37,6 +43,7 @@
         "description": "Secure gateway",
         "image": "<?php echo IMAGES_PATH . '/logo.png'; ?>",
         "handler": function (response) {
+            $('.please-wait').removeClass('hidden');
             $.ajax({
                 type: 'POST',
                 url: '<?php echo base_url('verify-razor-transaction'); ?>',
@@ -69,6 +76,7 @@
         });
 
         $('#pay-now-btn').removeClass('hidden');
+        $('.please-wait').addClass('hidden');
     });
 </script>
 
