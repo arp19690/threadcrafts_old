@@ -133,7 +133,7 @@
             );
             foreach ($static_links_without_base_url as $slKey => $slValue)
             {
-                $xml .= '<url><loc>' . base_url($slValue) . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . base_url($slValue) . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             // all the active grand categories
@@ -141,7 +141,7 @@
             foreach ($grand_category_records as $gcKey => $gcValue)
             {
                 $grand_category_url = base_url('products/view/' . $gcValue['gc_name']);
-                $xml .= '<url><loc>' . $grand_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $grand_category_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             // all the active parent categories
@@ -149,7 +149,7 @@
             foreach ($parent_category_records as $pcKey => $pcValue)
             {
                 $parent_category_url = base_url('products/view/' . $pcValue['gc_name'] . '/' . $pcValue['pc_name']);
-                $xml .= '<url><loc>' . $parent_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $parent_category_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             // all the active child categories
@@ -157,7 +157,7 @@
             foreach ($child_category_records as $pcKey => $pcValue)
             {
                 $child_category_url = base_url('products/view/' . $pcValue['gc_name'] . '/' . $pcValue['pc_name'] . '/' . $pcValue['cc_name']);
-                $xml .= '<url><loc>' . $child_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $child_category_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             // all the active products
