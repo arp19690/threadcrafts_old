@@ -2,8 +2,16 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Invoice</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+        <meta name="robots" content="nofollow"/>
+        <title>#<?php echo $order_id ?> Invoice | <?php echo SITE_NAME; ?></title>
         <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+        <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico"/>        
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo IMAGES_PATH; ?>/apple-touch/144.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo IMAGES_PATH; ?>/apple-touch/114.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo IMAGES_PATH; ?>/apple-touch/72.png"/>
+        <link rel="apple-touch-icon-precomposed" href="<?php echo IMAGES_PATH; ?>/apple-touch/57.png"/>
+        <link rel="shortcut icon" href="<?php echo IMAGES_PATH; ?>/favicon.ico"/> 
         <style>
             @import url(http://fonts.googleapis.com/css?family=Bree+Serif);
             body, h1, h2, h3, h4, h5, h6{
@@ -40,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-md-5 col-sm-6 col-xs-12 text-right pull-right">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -104,7 +112,7 @@
                         </div>
                         <?php
                     }
-              
+
                     if ($shipping_charge != 0)
                     {
                         ?>
