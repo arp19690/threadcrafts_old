@@ -249,25 +249,33 @@
 //                prd($product_details);
                 if (!empty($product_details))
                 {
-                    $pd_id = $product_details['details_arr'][0]['pd_id'];
-                    $is_exist = $model->is_exists('cart_id', TABLE_SHOPPING_CART, array('cart_pd_id' => $pd_id, 'cart_quantity' => $arr['product_quantity'], 'cart_user_id' => $user_id));
-                    if (empty($is_exist))
+                    if (isset($this->session->userdata['user_id']))
                     {
-                        $data_array = array(
-                            'cart_pd_id' => $pd_id,
-                            'cart_quantity' => $arr['product_quantity'],
-                            'cart_user_id' => $user_id,
-                            'cart_ipaddress' => USER_IP,
-                            'cart_useragent' => USER_AGENT
-                        );
-                        $model->insertData(TABLE_SHOPPING_CART, $data_array);
-                        $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
+                        $pd_id = $product_details['details_arr'][0]['pd_id'];
+                        $is_exist = $model->is_exists('cart_id', TABLE_SHOPPING_CART, array('cart_pd_id' => $pd_id, 'cart_quantity' => $arr['product_quantity'], 'cart_user_id' => $user_id));
+                        if (empty($is_exist))
+                        {
+                            $data_array = array(
+                                'cart_pd_id' => $pd_id,
+                                'cart_quantity' => $arr['product_quantity'],
+                                'cart_user_id' => $user_id,
+                                'cart_ipaddress' => USER_IP,
+                                'cart_useragent' => USER_AGENT
+                            );
+                            $model->insertData(TABLE_SHOPPING_CART, $data_array);
+                            $this->session->set_flashdata("success", "<strong>Success!</strong> Your cart has been updated");
+                        }
+                        else
+                        {
+                            $this->session->set_flashdata("warning", "This product is already in your cart");
+                        }
+                        redirect(getProductUrl($arr["product_id"]));
                     }
                     else
                     {
-                        $this->session->set_flashdata("warning", "This product is already in your cart");
+                        $this->session->set_flashdata("error", "Please login to add product to your cart");
+                        redirect(getProductUrl($arr["product_id"]));
                     }
-                    redirect(getProductUrl($arr["product_id"]));
                 }
                 else
                 {
