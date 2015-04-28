@@ -37,7 +37,7 @@
                                             <td class="" style="width: 100px;">
                                                 <div class="pull-right text-center">
                                                     <a href="<?php echo getProductUrl($value['product_id']); ?>" title="View" class="btn btn-success push-down-10" target="_blank"><span class="icon icon-search"></span>&nbsp;View</a>
-                                                    <a href="<?php echo base_url('user/removeFromWishlist?id=' . getEncryptedString($value['wishlist_id'])); ?>" title="Remove" class="" target="_blank" onclick="return confirm('Sure to remove from your wishlist?')">Remove</a>
+                                                    <a href="<?php echo base_url('user/removeFromWishlist?id=' . getEncryptedString($value['wishlist_id'])); ?>" title="Remove" class="" onclick="return confirm('Sure to remove from your wishlist?')">Remove</a>
                                                 </div>
                                             </td>
                                         </tr>
