@@ -75,6 +75,16 @@
 
                 // emptying the shopping cart for the customer now
                 $model->deleteData(TABLE_SHOPPING_CART, array('cart_user_id' => $user_id, 'cart_status' => '1'));
+
+                // sending email invoice to the customer
+                if (USER_IP != '127.0.0.1')
+                {
+                    $shipping_email_record = $model->fetchSelectedData('sd_shipping_email', TABLE_SHIPPING_DETAILS, array('sd_order_id' => $order_id));
+                    $email_message = file_get_contents(base_url('invoice?id=' . $order_id));
+                    $subject = '#' . $order_id . ' Invoice | ' . SITE_NAME;
+                    sendMail($shipping_email_record[0]['sd_shipping_email'], $subject, $email_message);
+                }
+
                 return json_encode(array('response' => 'success', 'order_id' => $order_id));
             }
         }
