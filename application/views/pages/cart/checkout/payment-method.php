@@ -41,8 +41,16 @@
                 type: 'POST',
                 url: '<?php echo base_url('verify-razor-transaction'); ?>',
                 data: {razorpay_payment_id: response.razorpay_payment_id},
-                success: function (sucess_data) {
-
+                success: function (success_data) {
+                    if (success_data.response == 'success')
+                    {
+                        var url = baseUrl + '/invoice?id=' + success_data.order_id;
+                        window.location.href = url;
+                    }
+                    else
+                    {
+                        window.location.href = baseUrl;
+                    }
                 }
             });
         },
