@@ -186,6 +186,7 @@
                             <div class="span10">
                                 <h3><?php echo getSellerDisplayName($record['seller_fullname'], $record['seller_company_name']); ?></h3>
                                 <p><?php echo stripslashes($record['seller_bio']); ?></p>
+                                <p><a href="<?php echo base_url('s/' . $record['seller_url_key']); ?>" target="_blank">View store</a></p>
                             </div>
                         </div>
                     </div>
