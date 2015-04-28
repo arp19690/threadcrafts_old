@@ -21,8 +21,19 @@
 
                     <div class="row">
                         <div class="span3">
-                            <img src="<?php echo getImage($seller_record['seller_logo_image']); ?>" alt="<?php echo $seller_display_name; ?>"/>
-                            <div class="text-center">
+                            <div class="text-center push-down-30">
+                                <?php
+                                    if (!empty($seller_record['seller_logo_image']))
+                                    {
+                                        ?>
+                                        <img src="<?php echo getImage($seller_record['seller_logo_image']); ?>" alt="<?php echo $seller_display_name; ?>"/>
+                                        <?php
+                                    }
+                                    else
+                                    {
+                                        echo '<h3>' . $seller_display_name . '</h3>';
+                                    }
+                                ?>
                                 <p><?php echo $seller_record['seller_location']; ?></p>
                             </div>
                         </div>
