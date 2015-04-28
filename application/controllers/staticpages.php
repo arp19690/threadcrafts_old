@@ -165,7 +165,15 @@
             foreach ($product_records as $pKey => $pValue)
             {
                 $product_url = getProductUrl($pValue['product_id']);
-                $xml .= '<url><loc>' . $product_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $product_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
+            }
+
+            // all the active sellers
+            $seller_records = $model->fetchSelectedData('seller_url_key', TABLE_SELLER, array('seller_status' => '1'));
+            foreach ($seller_records as $sKey => $sValue)
+            {
+                $seller_url = base_url('s/' . $sValue['seller_url_key']);
+                $xml .= '<url><loc>' . $seller_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             $xml .= '</urlset>';
