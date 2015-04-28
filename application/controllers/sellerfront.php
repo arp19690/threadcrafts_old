@@ -11,7 +11,7 @@
         public function viewStore($seller_url_key)
         {
             $model = new Common_model();
-            $fields = 'seller_id, seller_fullname, seller_company_name, seller_location, seller_logo_image';
+            $fields = 'seller_id, seller_fullname, seller_company_name, seller_location, seller_logo_image, seller_cover_image';
             $record = $model->fetchSelectedData($fields, TABLE_SELLER, array('seller_url_key' => urldecode($seller_url_key), 'seller_status' => '1'));
             if (empty($record))
             {

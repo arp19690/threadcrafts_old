@@ -1,5 +1,16 @@
 <div class="container">
     <div class="push-up blocks-spacer">
+        <?php
+            if (!empty($seller_record['seller_cover_image']))
+            {
+                ?>
+                <div class="row">
+                    <div class="seller_cover" style="background-image: url(<?php echo getImage($seller_record['seller_cover_image']); ?>)"></div>
+                </div>
+                <?php
+            }
+        ?>
+
         <div class="row">
 
             <!--  ==========  -->
