@@ -16,16 +16,33 @@
      */
 // ** MySQL settings - You can get this info from your web host ** //
     /** The name of the database for WordPress */
-    define('DB_NAME', 'threadcrafts');
+    if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "threadcrafts.in")
+    {
+        $host = 'threadcrafts.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
+        $username = 'threadcrafts';
+        $database = 'threadcrafts';
+        $password = 'Threadcrafts987!';
+        $db_debug = FALSE;
+    }
+    elseif ($_SERVER["REMOTE_ADDR"] == "127.0.0.1")
+    {
+        $host = 'localhost';
+        $username = 'root';
+        $database = 'threadcrafts';
+        $password = '';
+        $db_debug = TRUE;
+    }
+
+    define('DB_NAME', $database);
 
     /** MySQL database username */
-    define('DB_USER', 'root');
+    define('DB_USER', $username);
 
     /** MySQL database password */
-    define('DB_PASSWORD', '');
+    define('DB_PASSWORD', $password);
 
     /** MySQL hostname */
-    define('DB_HOST', 'localhost');
+    define('DB_HOST', $host);
 
     /** Database Charset to use in creating database tables. */
     define('DB_CHARSET', 'utf8');
@@ -42,8 +59,8 @@
      *
      * @since 2.6.0
      */
-define('WP_CACHE', true); //Added by WP-Cache Manager
-define( 'WPCACHEHOME', '/Applications/XAMPP/xamppfiles/htdocs/work/svn/threadcrafts/blog/wp-content/plugins/wp-super-cache/' ); //Added by WP-Cache Manager
+    define('WP_CACHE', true); //Added by WP-Cache Manager
+define( 'WPCACHEHOME', '/var/www/html/blog/wp-content/plugins/wp-super-cache/' ); //Added by WP-Cache Manager
     define('AUTH_KEY', 'qyyas7+$~&N[R4Ik]sz+iwMv]![2#UJcJl<Cf28x.LA>jlk$X8e6<So7#-e9Vy&q');
     define('SECURE_AUTH_KEY', '];[0.}xM=H@-Y+S>e{9]?Y3n*Ni1YF<Y#q{L/4X+[(6W;3iDKN_QC|Zy+S{|%PzC');
     define('LOGGED_IN_KEY', '0u6c)l)-*Gn|ld$L+!NvB#6l}ci@gK4k+w=:N[iwwD;eV-EK-L+8Hb,t^H2}93)}');
@@ -70,8 +87,8 @@ define( 'WPCACHEHOME', '/Applications/XAMPP/xamppfiles/htdocs/work/svn/threadcra
      * It is strongly recommended that plugin and theme developers use WP_DEBUG
      * in their development environments.
      */
-    define('WP_DEBUG', false);
-    
+    define('WP_DEBUG', $db_debug);
+
     define('FS_METHOD', 'direct');
 
     /* That's all, stop editing! Happy blogging. */
