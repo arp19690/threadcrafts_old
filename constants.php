@@ -9,13 +9,13 @@
         define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
 
         // redirect to HTTPS 
-//        if ($_SERVER['HTTPS'] != "on")
-//        {
-//            $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-//            header("Location:$redirect");
-//        }
-        
-        $host = 'threadcrafts.db.10641467.hostedresource.com';
+        if ($_SERVER['HTTPS'] != "on")
+        {
+            $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            header("Location:$redirect");
+        }
+
+        $host = 'threadcrafts.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
         $username = 'threadcrafts';
         $database = 'threadcrafts';
         $password = 'Threadcrafts987!';
@@ -28,14 +28,14 @@
         define("FACEBOOK_SECRET_ID", "f874ac703456d51b060f9c684a29934c");
         define('RAZORPAY_KEY', 'rzp_test_fbdhTvRl02POho');
         define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
-        
+
         $host = 'localhost';
         $username = 'root';
         $database = 'threadcrafts';
         $password = '';
         $db_debug = TRUE;
     }
-    
+
     define('DB_HOST', $host);
     define('DB_USER', $username);
     define('DB_PASS', $password);
@@ -72,7 +72,7 @@
     define("SITE_EMAIL_GMAIL", "threadcraftsin@gmail.com");
     define("SITE_CONTACT_NUMBER", "+91-9414412650");
     define("SITE_CONTACT_NUMBER_ARPIT", "+91-8560023664");
-    define("SITE_URL", "https://www.threadcrafts.in");
+    define("SITE_URL", "https://threadcrafts.in");
 //    define("SITE_BASE_URL", dirname($_SERVER['PHP_SELF']));
     define("SITE_HOST_URL", "https://" . $_SERVER['HTTP_HOST']);
     define("SITE_HTTP_URL", "https://" . $_SERVER['HTTP_HOST'] . SITE_BASE_URL);
