@@ -16,16 +16,18 @@
      */
 // ** MySQL settings - You can get this info from your web host ** //
     /** The name of the database for WordPress */
-    define('DB_NAME', 'threadcrafts');
+    require_once '../constants.php';
+
+    define('DB_NAME', DB_NAME);
 
     /** MySQL database username */
-    define('DB_USER', 'root');
+    define('DB_USER', DB_USER);
 
     /** MySQL database password */
-    define('DB_PASSWORD', '');
+    define('DB_PASSWORD', DB_PASS);
 
     /** MySQL hostname */
-    define('DB_HOST', 'localhost');
+    define('DB_HOST', DB_HOST);
 
     /** Database Charset to use in creating database tables. */
     define('DB_CHARSET', 'utf8');
@@ -42,8 +44,8 @@
      *
      * @since 2.6.0
      */
-define('WP_CACHE', true); //Added by WP-Cache Manager
-define( 'WPCACHEHOME', '/Applications/XAMPP/xamppfiles/htdocs/work/svn/threadcrafts/blog/wp-content/plugins/wp-super-cache/' ); //Added by WP-Cache Manager
+    define('WP_CACHE', true); //Added by WP-Cache Manager
+    define('WPCACHEHOME', '/Applications/XAMPP/xamppfiles/htdocs/work/svn/threadcrafts/blog/wp-content/plugins/wp-super-cache/'); //Added by WP-Cache Manager
     define('AUTH_KEY', 'qyyas7+$~&N[R4Ik]sz+iwMv]![2#UJcJl<Cf28x.LA>jlk$X8e6<So7#-e9Vy&q');
     define('SECURE_AUTH_KEY', '];[0.}xM=H@-Y+S>e{9]?Y3n*Ni1YF<Y#q{L/4X+[(6W;3iDKN_QC|Zy+S{|%PzC');
     define('LOGGED_IN_KEY', '0u6c)l)-*Gn|ld$L+!NvB#6l}ci@gK4k+w=:N[iwwD;eV-EK-L+8Hb,t^H2}93)}');
@@ -70,8 +72,8 @@ define( 'WPCACHEHOME', '/Applications/XAMPP/xamppfiles/htdocs/work/svn/threadcra
      * It is strongly recommended that plugin and theme developers use WP_DEBUG
      * in their development environments.
      */
-    define('WP_DEBUG', false);
-    
+    define('WP_DEBUG', DB_DEBUG);
+
     define('FS_METHOD', 'direct');
 
     /* That's all, stop editing! Happy blogging. */
