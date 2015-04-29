@@ -16,18 +16,33 @@
      */
 // ** MySQL settings - You can get this info from your web host ** //
     /** The name of the database for WordPress */
-    require_once '../constants.php';
+    if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "threadcrafts.in")
+    {
+        $host = 'threadcrafts.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
+        $username = 'threadcrafts';
+        $database = 'threadcrafts';
+        $password = 'Threadcrafts987!';
+        $db_debug = FALSE;
+    }
+    elseif ($_SERVER["REMOTE_ADDR"] == "127.0.0.1")
+    {
+        $host = 'localhost';
+        $username = 'root';
+        $database = 'threadcrafts';
+        $password = '';
+        $db_debug = TRUE;
+    }
 
-    define('DB_NAME', DB_NAME);
+    define('DB_NAME', $database);
 
     /** MySQL database username */
-    define('DB_USER', DB_USER);
+    define('DB_USER', $username);
 
     /** MySQL database password */
-    define('DB_PASSWORD', DB_PASS);
+    define('DB_PASSWORD', $password);
 
     /** MySQL hostname */
-    define('DB_HOST', DB_HOST);
+    define('DB_HOST', $host);
 
     /** Database Charset to use in creating database tables. */
     define('DB_CHARSET', 'utf8');
@@ -72,7 +87,7 @@
      * It is strongly recommended that plugin and theme developers use WP_DEBUG
      * in their development environments.
      */
-    define('WP_DEBUG', DB_DEBUG);
+    define('WP_DEBUG', $db_debug);
 
     define('FS_METHOD', 'direct');
 
