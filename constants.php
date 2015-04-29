@@ -9,11 +9,11 @@
         define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
 
         // redirect to HTTPS 
-        if ($_SERVER['HTTPS'] != "on")
-        {
-            $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            header("Location:$redirect");
-        }
+//        if ($_SERVER['HTTPS'] != "on")
+//        {
+//            $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+//            header("Location:$redirect");
+//        }
         
         $host = 'threadcrafts.db.10641467.hostedresource.com';
         $username = 'threadcrafts';
