@@ -47,34 +47,18 @@
       | The $active_record variables lets you determine whether or not to load
       | the active record class
      */
-    if ($_SERVER["REMOTE_ADDR"] != '127.0.0.1')
-    {
-        $host = 'threadcrafts.db.10641467.hostedresource.com';
-        $username = 'threadcrafts';
-        $database = 'threadcrafts';
-        $password = 'Threads987!';
-        $db_debug = FALSE;
-    }
-    else
-    {
-        $host = 'localhost';
-        $username = 'root';
-        $database = 'threadcrafts';
-        $password = '';
-        $db_debug = TRUE;
-    }
 
     $active_group = 'default';
     $active_record = TRUE;
 
-    $db['default']['hostname'] = $host;
-    $db['default']['username'] = $username;
-    $db['default']['password'] = $password;
-    $db['default']['database'] = $database;
+    $db['default']['hostname'] = DB_HOST;
+    $db['default']['username'] = DB_USER;
+    $db['default']['password'] = DB_PASS;
+    $db['default']['database'] = DB_NAME;
     $db['default']['dbdriver'] = 'mysql';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;
-    $db['default']['db_debug'] = $db_debug;
+    $db['default']['db_debug'] = DB_DEBUG;
     $db['default']['cache_on'] = FALSE;
     $db['default']['cachedir'] = '';
     $db['default']['char_set'] = 'utf8';

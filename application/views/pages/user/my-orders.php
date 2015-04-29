@@ -30,14 +30,15 @@
                                 {
                                     foreach ($records as $key => $value)
                                     {
+                                        $order_id = stripslashes($value['sd_order_id']);
                                         ?>
                                         <tr>
-                                            <td class="desc">#<?php echo stripslashes($value['sd_order_id']); ?></td>
+                                            <td class="desc">#<?php echo $order_id; ?></td>
                                             <td class=""><?php echo stripslashes(trim($value['sd_shipping_address'] . ' ' . $value['sd_shipping_location'] . ' ' . $value['sd_shipping_postcode'])); ?></td>
                                             <td class=""><?php echo DEFAULT_CURRENCY_SYMBOL . number_format($value['payment_amount'], 2); ?></td>
                                             <td class=""><?php echo getOrderStatusText($value['sod_order_status']); ?></td>
                                             <td class="" style="text-align: center">
-                                                <a href="#" title="View order details" class="btn btn-success"><span class="icon icon-search"></span>&nbsp;Details</a>
+                                                <a href="<?php echo base_url('invoice?id=' . $order_id); ?>" title="View order details" class="btn btn-success" target="_blank"><span class="icon icon-search"></span>&nbsp;Details</a>
                                             </td>
                                         </tr>
                                         <?php

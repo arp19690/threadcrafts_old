@@ -133,31 +133,31 @@
             );
             foreach ($static_links_without_base_url as $slKey => $slValue)
             {
-                $xml .= '<url><loc>' . base_url($slValue) . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . base_url($slValue) . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             // all the active grand categories
             $grand_category_records = $model->fetchSelectedData('gc_name', TABLE_GRAND_CATEGORY);
             foreach ($grand_category_records as $gcKey => $gcValue)
             {
-                $grand_category_url = base_url('products/view/' . $gcValue['gc_name']);
-                $xml .= '<url><loc>' . $grand_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $grand_category_url = base_url('products/view/' . rawurlencode($gcValue['gc_name']));
+                $xml .= '<url><loc>' . $grand_category_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             // all the active parent categories
             $parent_category_records = $model->getAllDataFromJoin('gc_name, pc_name', TABLE_PARENT_CATEGORY . ' as pc', array(TABLE_GRAND_CATEGORY . ' as gc' => 'pc_gc_id = gc_id'), 'LEFT');
             foreach ($parent_category_records as $pcKey => $pcValue)
             {
-                $parent_category_url = base_url('products/view/' . $pcValue['gc_name'] . '/' . $pcValue['pc_name']);
-                $xml .= '<url><loc>' . $parent_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $parent_category_url = base_url('products/view/' . rawurlencode($pcValue['gc_name']) . '/' . rawurlencode($pcValue['pc_name']));
+                $xml .= '<url><loc>' . $parent_category_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             // all the active child categories
             $child_category_records = $model->getAllDataFromJoin('gc_name, pc_name, cc_name', TABLE_CHILD_CATEGORY . ' as cc', array(TABLE_PARENT_CATEGORY . ' as pc' => 'cc_pc_id = pc_id', TABLE_GRAND_CATEGORY . ' as gc' => 'pc_gc_id = gc_id'), 'LEFT');
             foreach ($child_category_records as $pcKey => $pcValue)
             {
-                $child_category_url = base_url('products/view/' . $pcValue['gc_name'] . '/' . $pcValue['pc_name'] . '/' . $pcValue['cc_name']);
-                $xml .= '<url><loc>' . $child_category_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $child_category_url = base_url('products/view/' . rawurlencode($pcValue['gc_name']) . '/' . rawurlencode($pcValue['pc_name']) . '/' . rawurlencode($pcValue['cc_name']));
+                $xml .= '<url><loc>' . $child_category_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             // all the active products
@@ -165,7 +165,15 @@
             foreach ($product_records as $pKey => $pValue)
             {
                 $product_url = getProductUrl($pValue['product_id']);
-                $xml .= '<url><loc>' . $product_url . '</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>' . "\n";
+                $xml .= '<url><loc>' . $product_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
+            }
+
+            // all the active sellers
+            $seller_records = $model->fetchSelectedData('seller_url_key', TABLE_SELLER, array('seller_status' => '1'));
+            foreach ($seller_records as $sKey => $sValue)
+            {
+                $seller_url = base_url('s/' . rawurlencode($sValue['seller_url_key']));
+                $xml .= '<url><loc>' . $seller_url . '</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>' . "\n";
             }
 
             $xml .= '</urlset>';

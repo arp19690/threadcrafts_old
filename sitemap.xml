@@ -1,110 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
-    <url>
-        <loc>https://www.threadcrafts.in/</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/login</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/products/view/Men</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/products/view/Women</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/products/view/Women/Accessories</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/products</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/blog</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/blog/write</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/contact-us</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/static/about-us</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/static/disclaimer</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/static/privacy-policy</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/static/return-policy</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/static/shipping-details</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/static/terms</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/forgot-password</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.64</priority>
-    </url>
-    <url>
-        <loc>https://www.threadcrafts.in/register</loc>
-        <lastmod>2014-12-28T01:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.64</priority>
-    </url>
+<?xml version = "1.0" encoding = "UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url><loc>http://localhost/work/svn/threadcrafts/</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/home</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/blog</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/contact-us</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/about-us</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/disclaimer</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/privacy-policy</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/return-policy</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/shipping-details</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/terms</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/login</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/signup</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/forgot-password</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Rajasthan</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Himachal%20Pradesh</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Punjab</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Maharashtra</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Madhya%20Pradesh</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Karnataka</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Rajasthan/Fashion%20%26amp%3B%20Accessories</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat/Clothing</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Rajasthan/Clothing</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat/Fashion%20%26amp%3B%20Accessories</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Rajasthan/Fashion%20%26amp%3B%20Accessories/Bangles</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat/Clothing/Chaniya%20Cholis</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat/Clothing/Jootis</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat/Clothing/Turbans</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat/Clothing/Wooden%20Handicrafts</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat/Clothing/Lehengas</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Rajasthan/Fashion%20%26amp%3B%20Accessories/Bangles/Acrylic-Plastic-Bangles-1</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/products/view/Gujarat/Clothing/Chaniya%20Cholis/fdfg</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/s/radsoft</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
+<url><loc>http://localhost/work/svn/threadcrafts/s/xyz</loc><changefreq>weekly</changefreq><priority>1.00</priority></url>
 </urlset>

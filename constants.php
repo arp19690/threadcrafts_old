@@ -3,10 +3,8 @@
     if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "threadcrafts.in")
     {
         define("SITE_BASE_URL", "https://threadcrafts.in/");    // When running on server    
-
         define("FACEBOOK_APP_ID", "351474381662422");
         define("FACEBOOK_SECRET_ID", "355af5a727e13b8669fb00c6e9e85199");
-
         define('RAZORPAY_KEY', 'rzp_test_fbdhTvRl02POho');
         define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
 
@@ -16,17 +14,33 @@
             $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             header("Location:$redirect");
         }
+        
+        $host = 'threadcrafts.db.10641467.hostedresource.com';
+        $username = 'threadcrafts';
+        $database = 'threadcrafts';
+        $password = 'Threadcrafts987!';
+        $db_debug = FALSE;
     }
     elseif ($_SERVER["REMOTE_ADDR"] == "127.0.0.1")
     {
         define("SITE_BASE_URL", "http://localhost/work/svn/threadcrafts/");    // When running locally
-
         define("FACEBOOK_APP_ID", "1399753200274986");
         define("FACEBOOK_SECRET_ID", "f874ac703456d51b060f9c684a29934c");
-
         define('RAZORPAY_KEY', 'rzp_test_fbdhTvRl02POho');
         define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
+        
+        $host = 'localhost';
+        $username = 'root';
+        $database = 'threadcrafts';
+        $password = '';
+        $db_debug = TRUE;
     }
+    
+    define('DB_HOST', $host);
+    define('DB_USER', $username);
+    define('DB_PASS', $password);
+    define('DB_NAME', $database);
+    define('DB_DEBUG', $db_debug);
 
     define('IS_LIVE', FALSE);
 
