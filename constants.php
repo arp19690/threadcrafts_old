@@ -14,8 +14,8 @@
 //            $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 //            header("Location:$redirect");
 //        }
-        
-        $host = 'threadcrafts.db.10641467.hostedresource.com';
+
+        $host = ' threadcrafts.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
         $username = 'threadcrafts';
         $database = 'threadcrafts';
         $password = 'Threadcrafts987!';
@@ -28,14 +28,14 @@
         define("FACEBOOK_SECRET_ID", "f874ac703456d51b060f9c684a29934c");
         define('RAZORPAY_KEY', 'rzp_test_fbdhTvRl02POho');
         define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
-        
+
         $host = 'localhost';
         $username = 'root';
         $database = 'threadcrafts';
         $password = '';
         $db_debug = TRUE;
     }
-    
+
     define('DB_HOST', $host);
     define('DB_USER', $username);
     define('DB_PASS', $password);
