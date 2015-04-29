@@ -15,7 +15,7 @@
 //            header("Location:$redirect");
 //        }
 
-        $host = ' threadcrafts.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
+        $host = 'threadcrafts.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
         $username = 'threadcrafts';
         $database = 'threadcrafts';
         $password = 'Threadcrafts987!';
