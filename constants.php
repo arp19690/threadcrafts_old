@@ -2,18 +2,18 @@
 
     if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "threadcrafts.in")
     {
-        define("SITE_BASE_URL", "http://threadcrafts.in/");    // When running on server    
+        define("SITE_BASE_URL", "https://threadcrafts.in/");    // When running on server    
         define("FACEBOOK_APP_ID", "351474381662422");
         define("FACEBOOK_SECRET_ID", "355af5a727e13b8669fb00c6e9e85199");
         define('RAZORPAY_KEY', 'rzp_test_fbdhTvRl02POho');
         define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
 
         // redirect to HTTPS 
-//        if ($_SERVER['HTTPS'] != "on")
-//        {
-//            $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-//            header("Location:$redirect");
-//        }
+        if ($_SERVER['HTTPS'] != "on")
+        {
+            $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            header("Location:$redirect");
+        }
 
         $host = 'threadcrafts.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
         $username = 'threadcrafts';
@@ -72,10 +72,10 @@
     define("SITE_EMAIL_GMAIL", "threadcraftsin@gmail.com");
     define("SITE_CONTACT_NUMBER", "+91-9414412650");
     define("SITE_CONTACT_NUMBER_ARPIT", "+91-8560023664");
-    define("SITE_URL", "http://www.threadcrafts.in");
+    define("SITE_URL", "https://threadcrafts.in");
 //    define("SITE_BASE_URL", dirname($_SERVER['PHP_SELF']));
-    define("SITE_HOST_URL", "http://" . $_SERVER['HTTP_HOST']);
-    define("SITE_HTTP_URL", "http://" . $_SERVER['HTTP_HOST'] . SITE_BASE_URL);
+    define("SITE_HOST_URL", "https://" . $_SERVER['HTTP_HOST']);
+    define("SITE_HTTP_URL", "https://" . $_SERVER['HTTP_HOST'] . SITE_BASE_URL);
 
     define("SEO_KEYWORDS", "designer, sarees, lehenga, turban, bangles, accessories, ethnic, thread, crafts, bridal, wedding, handicraft, party, authentic, embroidery, leading, dealers");
     define("SEO_DESCRIPTION", "We are the leading dealers, exporters and suppliers of Designer, Bandhej, Bridal, Embroidered, Handwork, Party-wear & Printed Sarees, Ethnic Jodhpur Men's/Women's Wear and Accessories, Turbans, Rajasthani Ethnic Turbans.");
