@@ -4,6 +4,9 @@ Options -Multiviews
 Options +FollowSymLinks
 Options -Indexes
 
+RewriteCond %{HTTP_HOST} ^52.74.151.217
+RewriteRule ^(.*)$ https://threadcrafts.in [R=301,L]
+
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
