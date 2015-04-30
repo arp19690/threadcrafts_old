@@ -29,6 +29,16 @@
             </section> <!-- /main content -->
 
             <div class='span4'>
+                <div class="push-down-30 hidden-phone" id="google-ads">
+                    <?php
+                        if (USER_IP != '127.0.0.1' && isMobileDevice() == FALSE)
+                        {
+                            echo getGoogleAdCode();
+                        }
+                    ?>
+                </div>
+
+
                 <!--  ==========  -->
                 <!--  = Twitter Widget =  -->
                 <!--  ==========  -->

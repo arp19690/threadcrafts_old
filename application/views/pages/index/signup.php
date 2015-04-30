@@ -74,15 +74,12 @@
             </div><!-- /page -->
 
             <div class="span4" id="google-ads">
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- ThreadCrafts Login Page Side Ad -->
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:300px;height:250px"
-                     data-ad-client="ca-pub-4948458398051754"
-                     data-ad-slot="4205222425"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+                <?php
+                    if (USER_IP != '127.0.0.1' && isMobileDevice() == FALSE)
+                    {
+                        echo getGoogleAdCode();
+                    }
+                ?>
             </div>
         </div><!-- /row -->
     </div>
