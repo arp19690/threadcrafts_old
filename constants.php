@@ -5,8 +5,8 @@
         define("SITE_BASE_URL", "https://threadcrafts.in/");    // When running on server    
         define("FACEBOOK_APP_ID", "351474381662422");
         define("FACEBOOK_SECRET_ID", "355af5a727e13b8669fb00c6e9e85199");
-        define('RAZORPAY_KEY', 'rzp_test_fbdhTvRl02POho');
-        define('RAZORPAY_SECRET', 'RwhGtNRe8m4ujt6cTIjRqaB0');
+        define('RAZORPAY_KEY', 'rzp_live_xldj1dIBw9vq4Z');
+        define('RAZORPAY_SECRET', '4HAqWC7Y1DlnzRaOoheEJv73');
 
         // redirect to HTTPS 
         if ($_SERVER['HTTPS'] != "on")
