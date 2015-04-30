@@ -6,6 +6,14 @@
             <!--  = Sidebar =  -->
             <!--  ==========  -->
             <aside class="span3">
+                <div class="" id="google-ads">
+                    <?php
+                        if (USER_IP != '127.0.0.1' && isMobileDevice() == FALSE)
+                        {
+                            echo getGoogleAdCode();
+                        }
+                    ?>
+                </div>   
             </aside> <!-- /sidebar -->
 
             <!--  ==========  -->

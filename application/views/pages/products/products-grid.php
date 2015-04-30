@@ -68,6 +68,15 @@
                     <a href="#" class="remove-filter" id="removeFilters"><span class="icon-ban-circle"></span> Remove All Filters</a>
 
                 </div>
+
+                <div class="" id="google-ads">
+                    <?php
+                        if (USER_IP != '127.0.0.1')
+                        {
+                            echo getGoogleAdCode();
+                        }
+                    ?>
+                </div>        
             </aside> <!-- /sidebar -->
 
             <!--  ==========  -->

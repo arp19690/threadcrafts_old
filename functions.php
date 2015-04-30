@@ -1,5 +1,20 @@
 <?php
 
+    function getGoogleAdCode()
+    {
+        $str = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- Threadcrafts main site -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-7594968339633253"
+                             data-ad-slot="9552075722"
+                             data-ad-format="auto"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>';
+        return $str;
+    }
+
     function getFinalPriceForCheckout($subtotal, $discount_percent = '0', $shipping_charge = '0', $vat_percent = VAT_TAX_PERCENT)
     {
         $output = $subtotal;

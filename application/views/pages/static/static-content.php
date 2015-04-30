@@ -29,24 +29,40 @@
             </section> <!-- /main content -->
 
             <div class='span4'>
-                <!--  ==========  -->
-                <!--  = Twitter Widget =  -->
-                <!--  ==========  -->
-                <div class="sidebar-item widget_twitter">
-                    <div class="underlined">
-                        <h3><span class="light">Twitter</span> Feed</h3>
-                    </div>
-                    <a class="twitter-timeline"  href="<?php echo TWITTER_SOCIAL_LINK; ?>"  data-widget-id="<?php echo TWITTER_DATA_WIDGET_ID; ?>">Tweets by @<?php echo SITE_NAME; ?></a>
-                    <script>!function (d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-                            if (!d.getElementById(id)) {
-                                js = d.createElement(s);
-                                js.id = id;
-                                js.src = p + "://platform.twitter.com/widgets.js";
-                                fjs.parentNode.insertBefore(js, fjs);
-                            }
-                        }(document, "script", "twitter-wjs");</script>
+                <div class="" id="google-ads">
+                    <?php
+                        if (USER_IP != '127.0.0.1')
+                        {
+                            echo getGoogleAdCode();
+                        }
+                    ?>
                 </div>
+
+                <?php
+                    if (isMobileDevice() == FALSE)
+                    {
+                        ?>
+                        <!--  ==========  -->
+                        <!--  = Twitter Widget =  -->
+                        <!--  ==========  -->
+                        <div class="sidebar-item widget_twitter">
+                            <div class="underlined">
+                                <h3><span class="light">Twitter</span> Feed</h3>
+                            </div>
+                            <a class="twitter-timeline"  href="<?php echo TWITTER_SOCIAL_LINK; ?>"  data-widget-id="<?php echo TWITTER_DATA_WIDGET_ID; ?>">Tweets by @<?php echo SITE_NAME; ?></a>
+                            <script>!function (d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                                    if (!d.getElementById(id)) {
+                                        js = d.createElement(s);
+                                        js.id = id;
+                                        js.src = p + "://platform.twitter.com/widgets.js";
+                                        fjs.parentNode.insertBefore(js, fjs);
+                                    }
+                                }(document, "script", "twitter-wjs");</script>
+                        </div>
+                        <?php
+                    }
+                ?>
             </div>
         </div>
     </div>

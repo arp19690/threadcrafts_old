@@ -65,7 +65,12 @@
             </div><!-- /page -->
 
             <div class="span4" id="google-ads">
-
+                <?php
+                    if (USER_IP != '127.0.0.1')
+                    {
+                        echo getGoogleAdCode();
+                    }
+                ?>
             </div>
         </div><!-- /row -->
     </div>
