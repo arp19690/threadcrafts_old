@@ -75,7 +75,7 @@
 
             <div class="span4" id="google-ads">
                 <?php
-                    if (USER_IP != '127.0.0.1' && isMobileDevice() == FALSE)
+                    if (USER_IP != '127.0.0.1')
                     {
                         echo getGoogleAdCode();
                     }
