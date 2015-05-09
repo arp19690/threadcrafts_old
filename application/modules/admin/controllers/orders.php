@@ -13,40 +13,36 @@
             $this->admin_id = $this->session->userdata("admin_id");
         }
 
-        public function index($package_status = NULL)
+        public function index($package_status = '0')
         {
             $data = array();
             $custom_model = new Custom_model();
-            $records = $custom_model->getMyOrdersList(NULL, "DESC", NULL, $package_status, TRUE);
-            $data["alldata"] = $records;
+            $fields = 'sd_quantity, sd_order_id, sd_shipping_fullname, sd_shipping_contact, sd_shipping_email, sd_shipping_address, sd_shipping_location, sd_shipping_postcode, payment_amount, sd_timestamp, sd_status, pd_color_name, pd_size, product_title, pi_image_path, sod_order_id, sod_order_status, seller_fullname, seller_company_name';
+            $whereCondArr = array();
+            $whereCondArr['sod_order_status'] = $package_status;
+            $records = $custom_model->getOrdersList($fields, $whereCondArr);
 //            prd($records);
+            $data["alldata"] = $records;
 
-            if ($package_status != NULL)
-            {
-                $pageTitle = ucwords($package_status) . " Orders";
-            }
-            else
-            {
-                $pageTitle = "All Orders";
-            }
+            $pageTitle = getOrderStatusText($package_status) . " Orders";
             $data["page_title"] = $pageTitle;
 
             $this->template->write_view("content", "orders/orders-list", $data);
             $this->template->render();
         }
 
-        public function orderDetail($payment_id)
+        public function orderDetail()
         {
             $data = array();
-            if ($payment_id)
-            {
-                $custom_model = new Custom_model();
-                $record = $custom_model->getMyOrdersList(NULL, NULL, NULL, NULL, TRUE, array("payment_id" => $payment_id));
-                $data["record"] = $record[0];
+            $custom_model = new Custom_model();
+            $order_id = $this->input->get('id');
+            $fields = NULL;
+            $whereCondArr = array('sod_order_id' => $order_id);
+            $record = $custom_model->getOrdersList($fields, $whereCondArr);
+            $data["record"] = $record[0];
 
-                $this->template->write_view("content", "orders/order-detail", $data);
-                $this->template->render();
-            }
+            $this->template->write_view("content", "orders/order-detail", $data);
+            $this->template->render();
         }
 
         public function changeStatus()
@@ -84,5 +80,4 @@
         }
 
     }
-
     

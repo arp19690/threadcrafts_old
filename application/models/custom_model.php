@@ -215,6 +215,33 @@
             return $data;
         }
 
+        public function getOrdersList($fields = null, $whereCondArr = null, $orderByField = 'sod_id', $orderByType = "DESC", $limit = NULL)
+        {
+            if ($fields == NULL)
+            {
+                 $fields = 'sd_quantity, sd_order_id, sd_shipping_fullname, sd_shipping_contact, sd_shipping_email, sd_shipping_address, sd_shipping_location, sd_shipping_postcode, payment_amount, sd_timestamp, sd_status, pd_color_name, pd_size, product_title, pi_image_path, sod_order_id, sod_order_status, seller_fullname, seller_company_name';
+            }
+
+            $whereCondArr['pi_primary'] = '1';
+            $records = $this->db->select($fields)
+                    ->join(TABLE_SHIPPING_DETAILS . ' as sd', 'sod_order_id = sd_order_id', 'LEFT')
+                    ->join(TABLE_PRODUCT_DETAILS . ' as pd', 'pd_id = sd_pd_id', 'INNER')
+                    ->join(TABLE_PRODUCTS . ' as p', 'product_id = pd_product_id', 'INNER')
+                    ->join(TABLE_PRODUCT_IMAGES . ' as pi', 'product_id = pi_product_id', 'LEFT')
+                    ->join(TABLE_PAYMENTS . ' as py', 'payment_sod_id = sod_id', 'LEFT')
+                    ->join(TABLE_SELLER. ' as s', 'seller_id = product_seller_id', 'LEFT')
+                    ->group_by('sd_order_id')
+                    ->order_by($orderByField, $orderByType);
+
+            if ($limit != NULL)
+            {
+                $records = $records->limit($limit);
+            }
+            $records = $records->get_where(TABLE_SHIPPING_ORDER_DETAILS . ' as sod', $whereCondArr)->result_array();
+
+            return $records;
+        }
+
         public function getMyOrdersList($user_id, $fields = null, $whereCondArr = null, $orderByField = 'sd_id', $orderByType = "DESC", $limit = NULL)
         {
             if ($fields == NULL)
