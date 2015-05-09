@@ -67,11 +67,16 @@
                 <span class="title">Discount Coupons</span>
             </a>
         </li>
-        <li class="">
-            <a href="<?php echo base_url_admin("orders"); ?>">
-                <i class="icon-truck"></i> 
-                <span class="title">Orders</span>
+        <li class="has-sub ">
+            <a href="javascript:;">
+                <i class="icon-bar-chart"></i> 
+                <span class="title">Stats</span>
+                <span class="arrow "></span>
             </a>
+            <ul class="sub">
+                <li><a href="<?php echo base_url_admin("orders"); ?>">Orders</a></li>
+                <li><a href="<?php echo base_url_admin("earnings"); ?>">Earnings</a></li>
+            </ul>
         </li>
     </ul>
     <!-- END SIDEBAR MENU -->

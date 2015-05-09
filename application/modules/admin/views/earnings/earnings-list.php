@@ -24,7 +24,7 @@
                                     <div class="control-group">
                                         <div class="controls">
                                             <select name="seller_id" class="m-wrap required" required="required">
-                                                <option value="">Please select</option>
+                                                <option value="">Please select seller</option>
                                                 <?php
                                                     foreach ($seller_records as $sKey => $sValue)
                                                     {
