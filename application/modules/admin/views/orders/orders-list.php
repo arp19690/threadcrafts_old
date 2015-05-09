@@ -23,11 +23,11 @@
                                 <button class="btn dropdown-toggle" data-toggle="dropdown"><?php echo $page_title; ?> <i class="icon-angle-down"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?php echo base_url("admin/orders/index/0"); ?>">New Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/1"); ?>">Dispatched Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/2"); ?>">Delivered Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/3"); ?>">Cancelled Orders</a></li>
-                                    <li><a href="<?php echo base_url("admin/orders/index/4"); ?>">Returned Orders</a></li>
+                                    <li><a href="<?php echo base_url_admin("orders/index/0"); ?>">New Orders</a></li>
+                                    <li><a href="<?php echo base_url_admin("orders/index/1"); ?>">Dispatched Orders</a></li>
+                                    <li><a href="<?php echo base_url_admin("orders/index/2"); ?>">Delivered Orders</a></li>
+                                    <li><a href="<?php echo base_url_admin("orders/index/3"); ?>">Cancelled Orders</a></li>
+                                    <li><a href="<?php echo base_url_admin("orders/index/4"); ?>">Returned Orders</a></li>
                                 </ul>
                             </div>
                         </div>
