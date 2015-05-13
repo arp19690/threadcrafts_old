@@ -14,9 +14,9 @@
         {
             $this->load->model('custom_model');
             $custom_model = new Custom_model();
-            $fields='product_id, product_title, product_code, product_price, product_seller_price, product_status, gc_name, pc_name, cc_name';
-            $whereCondArr=NULL;
-            $data["alldata"] = $custom_model->getAllProductsList($fields,$whereCondArr);
+            $fields = 'product_id, product_title, product_code, product_price, product_seller_price, product_status, gc_name, pc_name, cc_name';
+            $whereCondArr = NULL;
+            $data["alldata"] = $custom_model->getAllProductsList($fields, $whereCondArr);
 //            prd($data);
 
             $this->template->write_view("content", "products/products-list", $data);
@@ -282,6 +282,157 @@
             $model->updateData(TABLE_PRODUCT_DETAILS, array('pd_status' => $code), array('pd_id' => $pd_id));
             $this->session->set_flashdata('success', 'Product details status updated');
             redirect(base_url_admin('products/productDetail/' . $product_record[0]['pd_product_id']));
+        }
+
+        public function editProduct($product_id)
+        {
+            $model = new Common_model();
+            $custom_model = new Custom_model();
+
+            if ($this->input->post())
+            {
+                $arr = $this->input->post();
+
+                $profit_percent_record = $model->fetchSelectedData('cc_profit_percent', TABLE_CHILD_CATEGORY, array('cc_id' => $arr['product_child_category']));
+
+                $data_array = array(
+                    'product_title' => ucwords(addslashes($arr['product_title'])),
+                    'product_description' => (addslashes($arr['product_description'])),
+                    'product_child_category' => $arr['product_child_category'],
+                    'product_price' => addProfitPercentToPrice($arr['product_seller_price'], $profit_percent_record[0]['cc_profit_percent'], $arr['product_shipping_charge']),
+                    'product_seller_price' => round($arr['product_seller_price'], 2),
+                    'product_shipping_charge' => round($arr['product_shipping_charge'], 2),
+                    'product_gift_charge' => round($arr['product_gift_charge'], 2),
+                    'product_meta_keywords' => addslashes(getNWordsFromString($arr['product_description'], 20)),
+                    'product_meta_description' => addslashes(getNWordsFromString($arr['product_description'], 40)),
+                );
+
+                if ($product_id == NULL)
+                {
+                    $data_array['product_profit_percent'] = $profit_percent_record[0]['cc_profit_percent'];
+
+                    $model->updateData(TABLE_PRODUCTS, $data_array, array('product_id' => $product_id));
+                    $this->session->set_flashdata('success', 'Product updated. Please update the details as well');
+                }
+
+                redirect(base_url_admin('products/editProductStepTwo/' . $product_id));
+            }
+            else
+            {
+                $product_fields = 'product_id, product_title, product_description, gc_id, pc_id, cc_id, product_seller_price, product_shipping_charge, product_gift_charge';
+                $detail_fields = 'pd_id';
+                $images_fields = 'pi_id';
+                $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields);
+//            prd($record);
+
+                $data["form_heading"] = 'Edit Product Detail';
+                $data["record"] = $record;
+                $this->template->write_view("content", "products/forms/product-form", $data);
+                $this->template->render();
+            }
+        }
+
+        public function editProductStepTwo($product_id)
+        {
+            $model = new Common_model();
+            $custom_model = new Custom_model();
+
+            if ($this->input->post() && isset($product_id))
+            {
+                $arr = $this->input->post();
+
+                foreach ($arr['pd_id'] as $key => $value)
+                {
+                    $data_array = array(
+                        'pd_size' => ($arr['product_size'][$key]),
+                        'pd_color_name' => ucwords($arr['product_color'][$key]),
+                        'pd_quantity' => ($arr['product_quantity'][$key]),
+                        'pd_min_quantity' => ($arr['product_min_quantity'][$key]),
+                    );
+
+                    // update
+                    $model->updateData(TABLE_PRODUCT_DETAILS, $data_array, array('pd_product_id' => $product_id, 'pd_id' => $value));
+                    $this->session->set_flashdata('success', 'Product details updated.');
+
+                    redirect(base_url_admin('products/editProductStepThree/' . $product_id));
+                }
+            }
+            else
+            {
+                $product_fields = 'product_id';
+                $detail_fields = 'pd_id, pd_size, pd_color_name, pd_min_quantity, pd_quantity';
+                $images_fields = 'pi_id';
+                $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields);
+
+                $data["form_heading"] = 'Edit Product Details';
+                $data["record"] = $record;
+                $this->template->write_view("content", "products/forms/product-form-step-two", $data);
+                $this->template->render();
+            }
+        }
+
+        public function editProductStepThree($product_id)
+        {
+            $model = new Common_model();
+            $custom_model = new Custom_model();
+
+            if ($this->input->post() && isset($product_id))
+            {
+                $arr = $this->input->post();
+
+                // valid
+                foreach ($arr['product_img_title'] as $key => $value)
+                {
+                    $file_tmpSource = $_FILES['product_img']['tmp_name'][$key];
+                    if (!empty($file_tmpSource) && isset($_FILES['product_img']['tmp_name'][$key]))
+                    {
+                        $ext = getFileExtension($_FILES['product_img']['name'][$key]);
+                        if (isValidImageExt($ext))
+                        {
+                            $random_number = getRandomNumberLength($file_tmpSource, 15);
+                            $new_filename = $random_number . '.' . $ext;
+
+                            // large files
+                            $data_array_large = array(
+                                'pi_product_id' => $product_id,
+                                'pi_image_size' => 'large',
+                                'pi_image_title' => empty($value) == TRUE ? NULL : addslashes($value),
+                                'pi_image_path' => PRODUCT_IMG_PATH_LARGE . '/' . $new_filename,
+                                'pi_ipaddress' => USER_IP,
+                                'pi_useragent' => USER_AGENT
+                            );
+                            uploadImage($file_tmpSource, $new_filename, PRODUCT_IMG_PATH_LARGE, PRODUCT_IMG_WIDTH_LARGE, PRODUCT_IMG_HEIGHT_LARGE);
+
+                            // insert
+                            $model->insertData(TABLE_PRODUCT_IMAGES, $data_array_large);
+                            $this->session->set_flashdata('success', 'Product images added.');
+                        }
+                    }
+                }
+
+                redirect(base_url_seller('products/productDetail/' . $product_id));
+            }
+            else
+            {
+                $product_fields = 'product_id';
+                $detail_fields = 'pd_id';
+                $images_fields = 'pi_id, pi_image_size, pi_image_title, pi_primary';
+                $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields);
+
+                $data["form_heading"] = 'Edit Product Details';
+                $data["record"] = $record;
+                $this->template->write_view("content", "products/forms/product-form-step-three", $data);
+                $this->template->render();
+            }
+        }
+
+        public function deleteProductImage($pi_id, $pi_image_path)
+        {
+            $model = new Common_model();
+            if (unlink($pi_image_path))
+            {
+                $model->deleteData(TABLE_PRODUCT_IMAGES, array('pi_id' => $pi_id));
+            }
         }
 
     }
