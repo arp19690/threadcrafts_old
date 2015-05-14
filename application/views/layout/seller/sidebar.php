@@ -27,11 +27,12 @@
         <li class="has-sub ">
             <a href="javascript:;">
                 <i class="icon-bar-chart"></i> 
-                <span class="title">Orders</span>
+                <span class="title">Stats</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub">
                 <li ><a href="<?php echo base_url_seller("orders"); ?>">Orders</a></li>
+                <li ><a href="<?php echo base_url_seller("earnings"); ?>">Earnings</a></li>
             </ul>
         </li>
     </ul>

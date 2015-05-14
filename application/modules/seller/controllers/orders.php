@@ -9,32 +9,30 @@
         public function __construct()
         {
             parent::__construct();
-            
-            if(!isset($this->session->userdata['seller_id']))
+
+            if (!isset($this->session->userdata['seller_id']))
             {
                 redirect(base_url_seller('logout'));
             }
-            
+
             $this->template->set_template('seller');
             $this->seller_id = $this->session->userdata("seller_id");
         }
 
-        public function index($package_status = NULL)
+        public function index($package_status = '0')
         {
             $data = array();
             $custom_model = new Custom_model();
-            $records = $custom_model->getMyOrdersList(NULL, "DESC", NULL, $package_status, TRUE);
+            $seller_id = $this->session->userdata['seller_id'];
+            $whereCondArr = array(
+                'sod_order_status' => $package_status,
+                'seller_id' => $seller_id
+            );
+            $records = $custom_model->getOrdersList(NULL, $whereCondArr);
             $data["alldata"] = $records;
 //            prd($records);
 
-            if ($package_status != NULL)
-            {
-                $pageTitle = ucwords($package_status) . " Orders";
-            }
-            else
-            {
-                $pageTitle = "All Orders";
-            }
+            $pageTitle = getOrderStatusText($package_status) . " Orders";
             $data["page_title"] = $pageTitle;
 
             $this->template->write_view("content", "orders/orders-list", $data);
@@ -90,5 +88,4 @@
         }
 
     }
-
     
