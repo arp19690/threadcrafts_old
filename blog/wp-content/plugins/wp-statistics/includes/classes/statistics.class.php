@@ -20,6 +20,7 @@
 		private $is_feed = false;
 		private $tz_offset = 0;
 		private $country_codes = false;
+		private $referrer = false;
 		
 		public $coefficient = 1;
 		public $plugin_dir = '';
@@ -307,18 +308,40 @@
 		}
 		
 		// This function will return the referrer link for the current user.
-		public function get_Referred($default_referr = false) {
-		
-			$referr = '';
+		public function get_Referred($default_referrer = false) {
 			
-			if( isset($_SERVER['HTTP_REFERER']) ) { $referr = $_SERVER['HTTP_REFERER']; }
-			if( $default_referr ) { $referr = $default_referr; }
+			if( $this->referrer !== false ) { return $this->referrer; }
 			
-			$referr = esc_sql(strip_tags($referr) );
+			$this->referrer = '';
 			
-			if( !$referr ) { $referr = get_bloginfo('url'); }
+			if( isset($_SERVER['HTTP_REFERER']) ) { $this->referrer = $_SERVER['HTTP_REFERER']; }
+			if( $default_referrer ) { $this->referrer = $default_referrer; }
 			
-			return $referr;
+			$this->referrer = esc_sql(strip_tags($this->referrer) );
+			
+			if( !$this->referrer ) { $this->referrer = get_bloginfo('url'); }
+			
+			if( $this->get_option( 'addsearchwords', false ) ) {
+				// Check to see if this is a search engine referrer
+				$SEInfo = $this->Search_Engine_Info( $this->referrer );
+				
+				if( is_array( $SEInfo ) ) {
+					// If we're a known SE, check the query string
+					if( $SEInfo['tag'] != '' ) {
+						$result = $this->Search_Engine_QueryString( $this->referrer );
+						
+						// If there were no search words, let's add the page title
+						if( $result == '' || $result == 'No search query found!' ) {
+							$result = wp_title('', false);
+							if( $result != '' ) {
+								$this->referrer = esc_url( add_query_arg( $SEInfo['querykey'], urlencode( '~"' . $result . '"' ), $this->referrer ) );
+							}
+						}
+					}
+				}
+			}
+			
+			return $this->referrer;
 		}
 		
 		// This function returns a date string in the desired format with a passed in timestamp.
@@ -416,7 +439,7 @@
 		
 			// If no URL was passed in, get the current referrer for the session.
 			if(!$url) {
-				$url = isset($_SERVER['HTTP_REFERER']) ? $this->get_Referred() : false;
+				$url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
 			}
 			
 			// If there is no URL and no referrer, always return false.
@@ -450,7 +473,7 @@
 						$words = '';
 					}
 				
-					// If no words were found, return a pleasent default.
+					// If no words were found, return a pleasant default.
 					if( $words == '' ) { $words = 'No search query found!'; }
 					return $words;
 					}

@@ -1,10 +1,10 @@
 === WP Statistics ===
 Contributors: mostafa.s1990, GregRoss
-Donate link: http://mostafa-soufi.ir/donate/
+Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 9.2
+Stable tag: 9.3.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -201,6 +201,34 @@ Search Engine Referrals and Words are highly dependent on the search engine prov
 
 There can be many reasons for this, but the most common reason is a botnet has decided to visit your site and we have been unable to filter it out.  You usually see your visits spike for a few days and then they give up.
 
+= What’s the difference between Visits and Visitors? =
+
+Visits is the number of page hits your site has received.
+
+Visitors is the number of unique users that have visited your site.
+
+Visits should always be greater than Visitors (though there are a few times when this won’t be true on very low usage sites due to how the exclusion code works).
+
+The average number of pages a visitor views on your site is Visits/Visitors.
+
+= My overview screen is blank, what's wrong? =
+
+This is usually caused by a PHP fatal error, check the page source and PHP logs.
+
+The most common fatal error is an out of memory error. Check the Statistics->Optimization page and see how much memory is currently assigned to PHP and how much the overview is using.
+
+If it is a memory issue you have two choices:
+ - Increase PHP's memory allocation
+ - Delete some of your historical data.
+
+See http://php.net/manual/en/ini.core.php#ini.memory-limit for information about PHP's memory limit.
+
+To remove historical data you can use the Statistics->Optimization->Purging->Purge records older than.
+
+= Not all referrals are showing up in the search words list, why? =
+
+Unfortunate we're completely dependent on the search engine sending use the search parameters as part of the referrer header, which they do not always do.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
@@ -214,6 +242,12 @@ There can be many reasons for this, but the most common reason is a botnet has d
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.3.1 = 
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
+= 9.3 = 
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.2 = 
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
@@ -233,6 +267,28 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.3.1 =
+* Release Date: May 15, 2015
+* Fixed: Typo in options name that caused the visitors map to never be displayed.
+
+= 9.3 =
+* Release Date: May 15, 2015
+* Added: Shortcode UI (aka ShortCake) support.
+* Added: Donation menu and dismissble banner on the overview page.
+* Added: Applebot, Superfeedr, jetmon, sfFeedReader and feedzirra to the robots list.
+* Added: Summary postbox on hit statistics page.
+* Added: Summary postbox on exclusions page.
+* Added: Date range selector on top countries page.
+* Added: Purge data based on visitor's hit count on the optimization page.
+* Added: Option to purge data based on visitor's hit count on a daily basis.
+* Added: Option to record the page title for search referrals that do not contain a query value.
+* Updated: Moved all ajax and pseudo ajax calls to use the standard WordPress ajax and init routines instead of using wp-load.php.
+* Updated: Widgets and pages will only be displayed if the associated statistics is being collected, for example the search engine referrals will only be displayed if the visitor tracking option is enabled.
+* Fixed: Typo in variable name for one of the dashboard widgets.
+* Fixed: PHP error when the $browser object wasn't an object when we checked the crawler property.
+* Fixed: Incorrect parameter for get_option() on two option in the settings page.
+* Fixed: Widget's didn't translate correctly.
+
 = 9.2 =
 * Release Date: April 26, 2015
 * Added: Date range selector for charts now supports arbitrary date ranges with JavaScript date selector.
