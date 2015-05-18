@@ -10,15 +10,19 @@
                 <p><strong>Status: </strong><?php echo getProductStatusText($record['product_status']); ?></p>
                 <p><strong>Change status to: </strong>
                     <?php
-                        for ($i = 0; $i <= 4; $i++)
-                        {
-                            $url = base_url_admin('products/updateProductStatus/' . $record['product_id'] . '/' . $i);
-                            $onclick_text = 'Are you sure to change status to ' . getProductStatusText($i);
-                            echo '<a href="' . $url . '" style="margin-left:10px" onclick="return confirm(\'' . $onclick_text . '\');">' . getProductStatusText($i) . '</a>, ';
-                        }
+                    for ($i = 0; $i <= 4; $i++)
+                    {
+                        $url = base_url_admin('products/updateProductStatus/' . $record['product_id'] . '/' . $i);
+                        $onclick_text = 'Are you sure to change status to ' . getProductStatusText($i);
+                        echo '<a href="' . $url . '" style="margin-left:10px" onclick="return confirm(\'' . $onclick_text . '\');">' . getProductStatusText($i) . '</a>, ';
+                    }
                     ?>
                 </p>
                 <div class="actions pull-right">
+                    <a class="btn yellow mini" href="<?php echo base_url("admin/products/editProduct/" . $record['product_id']); ?>">
+                        <i class="icon-pencil"></i>
+                        Edit
+                    </a>
                     <a class="btn green mini" href="<?php echo goBack(); ?>">
                         <i class="icon-arrow-left"></i>
                         Back
@@ -41,24 +45,24 @@
                             <div class="span12 clear">
                                 <h3>Images</h3>
                                 <?php
-                                    if (!empty($record['images_arr']))
+                                if (!empty($record['images_arr']))
+                                {
+                                    foreach ($record['images_arr'] as $imageKey => $imageValue)
                                     {
-                                        foreach ($record['images_arr'] as $imageKey => $imageValue)
-                                        {
-                                            $title = stripslashes($imageValue['pi_image_title']);
-                                            $url = getImage($imageValue['pi_image_path']);
-                                            ?>
-                                            <div class="span2 text-center">
-                                                <p><?php echo $title ?></p>
-                                                <img src="<?php echo $url; ?>" alt="<?php echo $title; ?>" style="max-width: 100px;max-height: 100px"/>
-                                            </div>
-                                            <?php
-                                        }
+                                        $title = stripslashes($imageValue['pi_image_title']);
+                                        $url = getImage($imageValue['pi_image_path']);
+                                        ?>
+                                        <div class="span2 text-center">
+                                            <p><?php echo $title ?></p>
+                                            <img src="<?php echo $url; ?>" alt="<?php echo $title; ?>" style="max-width: 100px;max-height: 100px"/>
+                                        </div>
+                                        <?php
                                     }
-                                    else
-                                    {
-                                        echo '<p>No images found</p>';
-                                    }
+                                }
+                                else
+                                {
+                                    echo '<p>No images found</p>';
+                                }
                                 ?>
                             </div>
 
@@ -84,53 +88,53 @@
                                 <h3>Product Details</h3>
                                 <div class='clear'>
                                     <?php
-                                        if (!empty($record['details_arr']))
+                                    if (!empty($record['details_arr']))
+                                    {
+                                        ?>
+                                        <ul class="unstyled span12 clear">
+                                            <li class="span2"><strong>Size</strong></li>
+                                            <li class="span2"><strong>Color</strong></li>
+                                            <li class="span2"><strong>Min. Quantity</strong></li>
+                                            <li class="span2"><strong>Quantity</strong></li>
+                                            <li class="span3"><strong>Status</strong></li>
+                                        </ul>
+
+                                        <?php
+                                        foreach ($record['details_arr'] as $pkey => $pvalue)
                                         {
                                             ?>
-                                            <ul class="unstyled span12 clear">
-                                                <li class="span2"><strong>Size</strong></li>
-                                                <li class="span2"><strong>Color</strong></li>
-                                                <li class="span2"><strong>Min. Quantity</strong></li>
-                                                <li class="span2"><strong>Quantity</strong></li>
-                                                <li class="span3"><strong>Status</strong></li>
-                                            </ul>
-
-                                            <?php
-                                            foreach ($record['details_arr'] as $pkey => $pvalue)
-                                            {
-                                                ?>
-                                                <ul class="unstyled clear">
-                                                    <li class="span2"><?php echo $pvalue['pd_size']; ?></li>
-                                                    <li class="span2"><?php echo $pvalue['pd_color_name']; ?></li>
-                                                    <li class="span2"><?php echo $pvalue['pd_quantity']; ?></li>
-                                                    <li class="span2"><?php echo $pvalue['pd_min_quantity']; ?></li>
-                                                    <li class="span3">
-                                                        <p class="pull-left"><?php echo getProductStatusText($pvalue['pd_status']); ?></p>
-                                                        <p class="pull-right">
+                                            <ul class="unstyled clear">
+                                                <li class="span2"><?php echo $pvalue['pd_size']; ?></li>
+                                                <li class="span2"><?php echo $pvalue['pd_color_name']; ?></li>
+                                                <li class="span2"><?php echo $pvalue['pd_quantity']; ?></li>
+                                                <li class="span2"><?php echo $pvalue['pd_min_quantity']; ?></li>
+                                                <li class="span3">
+                                                    <p class="pull-left"><?php echo getProductStatusText($pvalue['pd_status']); ?></p>
+                                                    <p class="pull-right">
+                                                        <?php
+                                                        if ($pvalue['pd_status'] != 1)
+                                                        {
+                                                            ?>
+                                                            <a href="<?php echo base_url_admin('products/updateProductDetailStatus/' . $pvalue['pd_id'] . '/1'); ?>" onclick="return confirm('Are you sure to approve?');"><span class='icon-check'></span></a>
                                                             <?php
-                                                            if ($pvalue['pd_status'] != 1)
-                                                            {
-                                                                ?>
-                                                                <a href="<?php echo base_url_admin('products/updateProductDetailStatus/' . $pvalue['pd_id'] . '/1'); ?>" onclick="return confirm('Are you sure to approve?');"><span class='icon-check'></span></a>
+                                                        }
+                                                        if ($pvalue['pd_status'] != 0)
+                                                        {
+                                                            ?>
+                                                            <a href="<?php echo base_url_admin('products/updateProductDetailStatus/' . $pvalue['pd_id'] . '/0'); ?>" onclick="return confirm('Are you sure to deactivate?');"><span class='icon-remove-circle'></span></a>
                                                                 <?php
                                                             }
-                                                            if ($pvalue['pd_status'] != 0)
-                                                            {
-                                                                ?>
-                                                                <a href="<?php echo base_url_admin('products/updateProductDetailStatus/' . $pvalue['pd_id'] . '/0'); ?>" onclick="return confirm('Are you sure to deactivate?');"><span class='icon-remove-circle'></span></a>
-                                                                    <?php
-                                                                }
-                                                                ?>
-                                                        </p>
-                                                    </li>
-                                                </ul>
-                                                <?php
-                                            }
+                                                            ?>
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                            <?php
                                         }
-                                        else
-                                        {
-                                            echo '<p>No product details found</p>';
-                                        }
+                                    }
+                                    else
+                                    {
+                                        echo '<p>No product details found</p>';
+                                    }
                                     ?>
                                 </div>
                             </div>

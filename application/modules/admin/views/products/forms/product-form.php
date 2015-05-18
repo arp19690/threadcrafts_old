@@ -15,7 +15,7 @@
         $result["product_seller_price"] = "";
         $result["product_shipping_charge"] = "";
         $result["product_gift_charge"] = "25";
-    }
+    }    
 
     if (!isset($form_action))
         $form_action = "";
@@ -80,7 +80,7 @@
                                                     $gc_name = $gcValue["gc_name"];
 
                                                     $selected = "";
-                                                    if ($result["product_grand_category"] == $gc_id)
+                                                    if ($result["gc_id"] == $gc_id)
                                                         $selected = "selected='selected'";
 
                                                     echo '<option value="' . $gc_id . '" ' . $selected . '>' . $gc_name . '</option>';
@@ -97,7 +97,7 @@
 
                             <span id="pc_select_box">
                                 <?php
-                                    if (!empty($result["product_parent_category"]))
+                                    if (!empty($result["pc_id"]))
                                     {
                                         echo '<div class="control-group">
                                                     <label class="control-label">Category<span class="required">*</span></label>
@@ -113,7 +113,7 @@
                                                 $pc_name = $pcValue["pc_name"];
 
                                                 $selected = "";
-                                                if ($result["product_parent_category"] == $pc_id)
+                                                if ($result["pc_id"] == $pc_id)
                                                     $selected = "selected='selected'";
 
                                                 echo '<option value="' . $pc_id . '" ' . $selected . '>' . $pc_name . '</option>';
@@ -133,7 +133,7 @@
 
                             <span id="cc_select_box">
                                 <?php
-                                    if (!empty($result["product_child_category"]))
+                                    if (!empty($result["cc_id"]))
                                     {
                                         echo '<div class="control-group">
                                                     <label class="control-label">Sub-Category<span class="required">*</span></label>
@@ -149,7 +149,7 @@
                                                 $cc_name = $ccValue["cc_name"];
 
                                                 $selected = "";
-                                                if ($result["product_child_category"] == $cc_id)
+                                                if ($result["cc_id"] == $cc_id)
                                                     $selected = "selected='selected'";
 
                                                 echo '<option value="' . $cc_id . '" ' . $selected . '>' . $cc_name . '</option>';
@@ -220,7 +220,7 @@
             if (gc_id !== "")
             {
                 $.ajax({
-                    url: "<?php echo base_url_seller("products/getParentCategoriesAjax"); ?>" + "/" + gc_id,
+                    url: "<?php echo base_url_admin("products/getParentCategoriesAjax"); ?>" + "/" + gc_id,
                     success: function (response) {
                         $("#pc_select_box").html(response);
                     }
@@ -238,7 +238,7 @@
             if (pc_id !== "")
             {
                 $.ajax({
-                    url: "<?php echo base_url_seller("products/getChildCategoriesAjax"); ?>" + "/" + pc_id,
+                    url: "<?php echo base_url_admin("products/getChildCategoriesAjax"); ?>" + "/" + pc_id,
                     success: function (response) {
                         $("#cc_select_box").html(response);
                     }
