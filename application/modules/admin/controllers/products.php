@@ -326,6 +326,8 @@ class Products extends CI_Controller
 //            prd($record);
 
             $data["grand_cat_array"] = $model->fetchSelectedData("*", TABLE_GRAND_CATEGORY, NULL, "gc_name");
+            $data["parent_cat_array"] = $model->fetchSelectedData("*", TABLE_PARENT_CATEGORY, array("pc_gc_id" => $record["gc_id"]), "pc_name");
+            $data["child_cat_array"] = $model->fetchSelectedData("*", TABLE_CHILD_CATEGORY, array("cc_pc_id" => $record["pc_id"]), "cc_name");
             $data["form_heading"] = 'Edit Product Detail';
             $data["record"] = $record;
             $this->template->write_view("content", "products/forms/product-form", $data);
