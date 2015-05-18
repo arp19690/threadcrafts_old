@@ -380,6 +380,7 @@ class Products extends CI_Controller
         if ($this->input->post() && isset($product_id))
         {
             $arr = $this->input->post();
+            prd($_FILES);
 
             // valid
             foreach ($arr['product_img_title'] as $key => $value)
@@ -411,13 +412,13 @@ class Products extends CI_Controller
                 }
             }
 
-            redirect(base_url_seller('products/productDetail/' . $product_id));
+            redirect(base_url_admin('products/productDetail/' . $product_id));
         }
         else
         {
             $product_fields = 'product_id';
             $detail_fields = 'pd_id';
-            $images_fields = 'pi_id, pi_image_size, pi_image_title, pi_primary';
+            $images_fields = 'pi_id, pi_image_size, pi_image_title, pi_primary, pi_image_path';
             $record = $custom_model->getAllProductsDetails($product_id, $product_fields, $detail_fields, $images_fields);
 
             $data["form_heading"] = 'Edit Product Details';
@@ -427,10 +428,21 @@ class Products extends CI_Controller
         }
     }
 
+    public function removeImage($pi_id)
+    {
+        $model = new Common_model();
+        $record = $model->fetchSelectedData('pi_image_path', TABLE_PRODUCT_IMAGES, array('pi_id' => $pi_id));
+        $this->deleteProductImage($pi_id, $record[0]['pi_image_path']);
+        $next_url=  $this->input->get('url');
+
+        $this->session->set_flashdata('success', 'Product image removed.');
+        redirect($next_url);
+    }
+
     public function deleteProductImage($pi_id, $pi_image_path)
     {
         $model = new Common_model();
-        if (unlink($pi_image_path))
+        if (@unlink($pi_image_path))
         {
             $model->deleteData(TABLE_PRODUCT_IMAGES, array('pi_id' => $pi_id));
         }
