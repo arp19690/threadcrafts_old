@@ -307,7 +307,7 @@ class Products extends CI_Controller
                 'product_meta_description' => addslashes(getNWordsFromString($arr['product_description'], 40)),
             );
 
-            if ($product_id == NULL)
+            if ($product_id != NULL)
             {
                 $data_array['product_profit_percent'] = $profit_percent_record[0]['cc_profit_percent'];
 
@@ -341,9 +341,17 @@ class Products extends CI_Controller
         if ($this->input->post() && isset($product_id))
         {
             $arr = $this->input->post();
-
+//            prd($arr);
             foreach ($arr['pd_id'] as $key => $value)
             {
+                $is_exists_array = array(
+                    'pd_id' => $value,
+                    'pd_size' => ($arr['product_size'][$key]),
+                    'pd_product_id' => $product_id,
+                    'pd_color_name' => ucwords($arr['product_color'][$key]),
+                );
+                $is_exists = $model->is_exists('pd_id', TABLE_PRODUCT_DETAILS, $is_exists_array);
+
                 $data_array = array(
                     'pd_size' => ($arr['product_size'][$key]),
                     'pd_color_name' => ucwords($arr['product_color'][$key]),
@@ -351,12 +359,25 @@ class Products extends CI_Controller
                     'pd_min_quantity' => ($arr['product_min_quantity'][$key]),
                 );
 
-                // update
-                $model->updateData(TABLE_PRODUCT_DETAILS, $data_array, array('pd_product_id' => $product_id, 'pd_id' => $value));
-                $this->session->set_flashdata('success', 'Product details updated.');
+                if (!empty($is_exists))
+                {
+                    // update
+                    $model->updateData(TABLE_PRODUCT_DETAILS, $data_array, array('pd_product_id' => $product_id, 'pd_id' => $is_exists[0]['pd_id']));
+                }
+                else
+                {
+                    // insert
+                    $data_array['pd_product_id'] = $product_id;
+                    $data_array['pd_status'] = '2';
+                    $data_array['pd_ipaddress'] = USER_IP;
+                    $data_array['pd_useragent'] = USER_AGENT;
 
-                redirect(base_url_admin('products/editProductStepThree/' . $product_id));
+                    $model->insertData(TABLE_PRODUCT_DETAILS, $data_array);
+                }
             }
+
+            $this->session->set_flashdata('success', 'Product details updated.');
+            redirect(base_url_admin('products/editProductStepThree/' . $product_id));
         }
         else
         {
@@ -380,13 +401,12 @@ class Products extends CI_Controller
         if ($this->input->post() && isset($product_id))
         {
             $arr = $this->input->post();
-            prd($_FILES);
 
             // valid
             foreach ($arr['product_img_title'] as $key => $value)
             {
                 $file_tmpSource = $_FILES['product_img']['tmp_name'][$key];
-                if (!empty($file_tmpSource) && isset($_FILES['product_img']['tmp_name'][$key]))
+                if (!empty($file_tmpSource) && isset($_FILES['product_img']['tmp_name'][$key]) && empty($arr[$key]))
                 {
                     $ext = getFileExtension($_FILES['product_img']['name'][$key]);
                     if (isValidImageExt($ext))
@@ -433,7 +453,7 @@ class Products extends CI_Controller
         $model = new Common_model();
         $record = $model->fetchSelectedData('pi_image_path', TABLE_PRODUCT_IMAGES, array('pi_id' => $pi_id));
         $this->deleteProductImage($pi_id, $record[0]['pi_image_path']);
-        $next_url=  $this->input->get('url');
+        $next_url = $this->input->get('url');
 
         $this->session->set_flashdata('success', 'Product image removed.');
         redirect($next_url);
