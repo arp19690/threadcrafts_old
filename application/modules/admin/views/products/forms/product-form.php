@@ -220,7 +220,7 @@
             if (gc_id !== "")
             {
                 $.ajax({
-                    url: "<?php echo base_url_seller("products/getParentCategoriesAjax"); ?>" + "/" + gc_id,
+                    url: "<?php echo base_url_admin("products/getParentCategoriesAjax"); ?>" + "/" + gc_id,
                     success: function (response) {
                         $("#pc_select_box").html(response);
                     }
@@ -238,7 +238,7 @@
             if (pc_id !== "")
             {
                 $.ajax({
-                    url: "<?php echo base_url_seller("products/getChildCategoriesAjax"); ?>" + "/" + pc_id,
+                    url: "<?php echo base_url_admin("products/getChildCategoriesAjax"); ?>" + "/" + pc_id,
                     success: function (response) {
                         $("#cc_select_box").html(response);
                     }
