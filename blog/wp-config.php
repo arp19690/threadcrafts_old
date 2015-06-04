@@ -18,7 +18,7 @@
     /** The name of the database for WordPress */
     if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "threadcrafts.in")
     {
-        $host = 'threadcrafts.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
+        $host = 'threads.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
         $username = 'threadcrafts';
         $database = 'threadcrafts';
         $password = 'Threadcrafts987!';
