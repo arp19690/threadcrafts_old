@@ -87,6 +87,19 @@
                 $this->template->render();
             }
         }
+        
+            public function editSeller($seller_id)
+    {
+        $model = new Common_model();
+        $record = $model->fetchSelectedData("*", TABLE_SELLER, array("seller_id" => $seller_id));
+//                prd($record);
+        $data["record"] = $record[0];
+        $data["form_heading"] = "Edit seller";
+        $data["form_action"] = base_url_admin("sellers/addSeller/" . $seller_id);
+
+        $this->template->write_view("content", "sellers/seller-form", $data);
+        $this->template->render();
+    }
 
         public function addSellerBank($seller_id, $sb_id = NULL)
         {
