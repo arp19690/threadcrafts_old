@@ -55,7 +55,7 @@ if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "
     $database = 'threadcrafts';
     $password = 'Threadcrafts987!';
 
-    $http_path = $https_path = '/work/threadcraftsnew';
+    $http_path = $https_path = '/work/svn/threadcrafts';
 }
 else
 {
@@ -65,7 +65,7 @@ else
     $password = '';
 
     $https_path = '';
-    $http_path = '/work/threadcraftsnew';
+    $http_path = '/work/svn/threadcrafts';
 }
 
 $config['db_host'] = $host;
