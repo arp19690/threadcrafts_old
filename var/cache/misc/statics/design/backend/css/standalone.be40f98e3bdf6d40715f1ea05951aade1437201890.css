@@ -267,7 +267,7 @@ design/backend/css/addons/hybrid_auth/styles.css
 
 .ui-widget-content {
 	border: 1px solid #aaaaaa;
-	background: #ffffff url('../../../../../../../design/backend/media/images/lib/ui/ui-bg_glass_75_ffffff_1x400.png?1437201329') 50% 50% repeat-x;
+	background: #ffffff url('../../../../../../../design/backend/media/images/lib/ui/ui-bg_glass_75_ffffff_1x400.png?1437201913') 50% 50% repeat-x;
 	color: #404040;
 }
 
@@ -476,37 +476,37 @@ design/backend/css/addons/hybrid_auth/styles.css
 .ui-icon {
 	width: 16px;
 	height: 16px;
-	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_222222_256x240.png?1437201329');
+	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_222222_256x240.png?1437201913');
 }
 
 .ui-widget-content .ui-icon {
-	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_222222_256x240.png?1437201329');
+	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_222222_256x240.png?1437201913');
 }
 
 .ui-widget-header .ui-icon {
-	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_222222_256x240.png?1437201329');
+	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_222222_256x240.png?1437201913');
 }
 
 .ui-state-default .ui-icon {
-	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_888888_256x240.png?1437201329');
+	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_888888_256x240.png?1437201913');
 }
 
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
-	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_454545_256x240.png?1437201329');
+	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_454545_256x240.png?1437201913');
 }
 
 .ui-state-active .ui-icon {
-	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_454545_256x240.png?1437201329');
+	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_454545_256x240.png?1437201913');
 }
 
 .ui-state-highlight .ui-icon {
-	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_2e83ff_256x240.png?1437201329');
+	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_2e83ff_256x240.png?1437201913');
 }
 
 .ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
-	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_f6cf3b_256x240.png?1437201329');
+	background-image: url('../../../../../../../design/backend/media/images/lib/ui/ui-icons_f6cf3b_256x240.png?1437201913');
 }
 
 /* positioning */
@@ -754,7 +754,7 @@ design/backend/css/addons/hybrid_auth/styles.css
 .ui-widget-shadow {
 	margin: -8px 0 0 -8px;
 	padding: 8px;
-	background: #aaaaaa url('../../../../../../../design/backend/media/images/lib/ui/ui-bg_flat_0_aaaaaa_40x100.png?1437201329') 50% 50% repeat-x;
+	background: #aaaaaa url('../../../../../../../design/backend/media/images/lib/ui/ui-bg_flat_0_aaaaaa_40x100.png?1437201913') 50% 50% repeat-x;
 	opacity: .30;
 	filter:Alpha(Opacity=30);
 	-webkit-border-radius: 8px; /* Safari 4 */
@@ -2545,11 +2545,11 @@ div.wijmo-wijmenu .wijmo-wijmenu-child .wijmo-wijmenu-text {
 
 @font-face {
 	font-family: 'glyphs';
-	src:url('../../../../../../../design/backend/media/fonts/glyphs.eot?1437201329');
+	src:url('../../../../../../../design/backend/media/fonts/glyphs.eot?1437201913');
 	src:url('../media/fonts/glyphs.eot?#iefix') format('embedded-opentype'),
-		url('../../../../../../../design/backend/media/fonts/glyphs.woff?1437201329') format('woff'),
-		url('../../../../../../../design/backend/media/fonts/glyphs.ttf?1437201329') format('truetype'),
-		url('../../../../../../../design/backend/media/fonts/glyphs.svg#glyphs?1437201329') format('svg');
+		url('../../../../../../../design/backend/media/fonts/glyphs.woff?1437201913') format('woff'),
+		url('../../../../../../../design/backend/media/fonts/glyphs.ttf?1437201913') format('truetype'),
+		url('../../../../../../../design/backend/media/fonts/glyphs.svg#glyphs?1437201913') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -4536,7 +4536,7 @@ table th[class*="span"],
   *margin-right: .3em;
   line-height: 14px;
   vertical-align: text-top;
-  background-image: url('../../../../../../../design/backend/media/images/lib/twitterbootstrap/glyphicons-halflings.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/lib/twitterbootstrap/glyphicons-halflings.png?1437201913');
   background-position: 14px 14px;
   background-repeat: no-repeat;
   margin-top: 1px;
@@ -4558,7 +4558,7 @@ table th[class*="span"],
 .dropdown-submenu:focus > a > [class^="icon-"],
 .dropdown-submenu:hover > a > [class*=" icon-"],
 .dropdown-submenu:focus > a > [class*=" icon-"] {
-  background-image: url('../../../../../../../design/backend/media/images/lib/twitterbootstrap/glyphicons-halflings-white.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/lib/twitterbootstrap/glyphicons-halflings-white.png?1437201913');
 }
 .icon-glass {
   background-position: 0 0;
@@ -7863,7 +7863,7 @@ a.badge:focus {
   width: 39px;
 }
 .grid {
-  background: url('../../../../../../../design/backend/media/images/block_manager/grid_bg.png?1437201329');
+  background: url('../../../../../../../design/backend/media/images/block_manager/grid_bg.png?1437201913');
   margin-top: 15px;
   margin-bottom: 15px;
   min-height: 82px;
@@ -7875,7 +7875,7 @@ a.badge:focus {
 }
 .grid .grid-control-menu {
   padding-left: 13px;
-  cursor: url('../../../../../../../design/backend/media/images/block_manager/openhand.cur?1437201329'), move;
+  cursor: url('../../../../../../../design/backend/media/images/block_manager/openhand.cur?1437201913'), move;
 }
 .grid:hover > .grid-control-menu .grid-control-menu-actions {
   visibility: visible;
@@ -8053,7 +8053,7 @@ a.badge:focus {
   width: 20px;
 }
 .container_12 {
-  background: url('../../../../../../../design/backend/media/images/block_manager/12_col.gif?1437201329') repeat-y #FFF;
+  background: url('../../../../../../../design/backend/media/images/block_manager/12_col.gif?1437201913') repeat-y #FFF;
 }
 .select-block-description {
   float: left;
@@ -8143,7 +8143,7 @@ a.badge:focus {
   z-index: 1;
 }
 .container_16 {
-  background: url('../../../../../../../design/backend/media/images/block_manager/16_col.gif?1437201329') repeat-y #FFF;
+  background: url('../../../../../../../design/backend/media/images/block_manager/16_col.gif?1437201913') repeat-y #FFF;
 }
 .hr {
   background-color: #999;
@@ -8173,7 +8173,7 @@ a.badge:focus {
   background-color: #fff;
   border: 1px solid #aeaeae;
   border-radius: 5px;
-  cursor: url('../../../../../../../design/backend/media/images/block_manager/openhand.cur?1437201329'), move;
+  cursor: url('../../../../../../../design/backend/media/images/block_manager/openhand.cur?1437201913'), move;
   height: 68px;
   margin: 5px 3px 5px 3px;
   min-height: 50px;
@@ -8212,14 +8212,14 @@ a.badge:focus {
 }
 .container .block.block-off .block-control-menu [class^="exicon-"],
 .container .block.block-off .block-control-menu [class*=" exicon-"] {
-  background-image: url('../../../../../../../design/backend/media/images/exicons.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/exicons.png?1437201913');
 }
 .container .block.block-off .exicon-cog,
 .container .block.block-off .exicon-trash {
   opacity: 0.2;
 }
 .container .ui-draggable-block {
-  cursor: url('../../../../../../../design/backend/media/images/block_manager/closedhand.cur?1437201329'), auto;
+  cursor: url('../../../../../../../design/backend/media/images/block_manager/closedhand.cur?1437201913'), auto;
   opacity: 0.8 !important;
   border: 1px dotted #949494 !important;
   -webkit-box-shadow: 0px 0px 13px #696969;
@@ -8317,7 +8317,7 @@ a.badge:focus {
 }
 .block-control-menu [class^="exicon-"],
 .block-control-menu [class*=" exicon-"] {
-  background-image: url('../../../../../../../design/backend/media/images/exicons_white.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/exicons_white.png?1437201913');
 }
 .grid-control-menu-actions {
   visibility: hidden;
@@ -8344,7 +8344,7 @@ a.badge:focus {
   height: 30px;
   *margin-right: .3em;
   vertical-align: text-top;
-  background-image: url('../../../../../../../design/backend/media/images/block_manager/block_icons_spr.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/block_manager/block_icons_spr.png?1437201913');
   background-position: 0px 0px;
   background-repeat: no-repeat;
   margin-top: 1px;
@@ -8411,8 +8411,8 @@ a.badge:focus {
   font-weight: normal;
   font-style: normal;
   font-family: 'ALSRubl-Arial';
-  src: url('../../../../../../../design/backend/media/fonts/alsrubl-arial-regular.eot?1437201329');
-  src: url('../media/fonts/alsrubl-arial-regular.eot?#iefix') format('../media/fonts/embedded-opentype'), url('../../../../../../../design/backend/media/fonts/alsrubl-arial-regular.woff?1437201329') format('woff'), url('../../../../../../../design/backend/media/fonts/alsrubl-arial-regular.ttf?1437201329') format('truetype'), url('../../../../../../../design/backend/media/fonts/alsrubl-arial-regular.svg#ALSRublArialRegular?1437201329') format('svg');
+  src: url('../../../../../../../design/backend/media/fonts/alsrubl-arial-regular.eot?1437201913');
+  src: url('../media/fonts/alsrubl-arial-regular.eot?#iefix') format('../media/fonts/embedded-opentype'), url('../../../../../../../design/backend/media/fonts/alsrubl-arial-regular.woff?1437201913') format('woff'), url('../../../../../../../design/backend/media/fonts/alsrubl-arial-regular.ttf?1437201913') format('truetype'), url('../../../../../../../design/backend/media/fonts/alsrubl-arial-regular.svg#ALSRublArialRegular?1437201913') format('svg');
 }
 .b-rub {
   font-family: 'ALSRubl-Arial', Arial, sans-serif;
@@ -8433,7 +8433,7 @@ html {
   overflow-y: scroll;
 }
 body {
-  background: url('../../../../../../../design/backend/media/images/main_bg.png?1437201329') #ccc;
+  background: url('../../../../../../../design/backend/media/images/main_bg.png?1437201913') #ccc;
 }
 .main-wrap {
   -webkit-box-sizing: border-box;
@@ -8653,7 +8653,7 @@ a:hover {
 .actions .title {
   padding: 0px 14px 0px 14px;
   height: 48px;
-  background: url('../../../../../../../design/backend/media/images/separator.png?1437201329') no-repeat left top;
+  background: url('../../../../../../../design/backend/media/images/separator.png?1437201913') no-repeat left top;
 }
 .actions .title h2 {
   overflow: hidden;
@@ -8782,7 +8782,7 @@ a:hover {
 }
 .subnav .nav .dropdown-menu li:hover [class^="exicon-"],
 .subnav .nav .dropdown-menu .active [class^="exicon-"] {
-  background-image: url('../../../../../../../design/backend/media/images/exicons_white.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/exicons_white.png?1437201913');
 }
 .subnav .nav > .active > a,
 .subnav .nav > .active > a:hover {
@@ -9542,7 +9542,7 @@ a:hover {
 .sortable-box .sortable-bar {
   background: #f5f5f5;
   text-align: center;
-  cursor: url('../../../../../../../design/backend/media/images/openhand.cur?1437201329'), move;
+  cursor: url('../../../../../../../design/backend/media/images/openhand.cur?1437201913'), move;
 }
 .sortable-box .sortable-item {
   padding: 10px;
@@ -9685,7 +9685,7 @@ a:hover {
   display: inline-block;
   width: 14px;
   height: 14px;
-  background-image: url('../../../../../../../design/backend/media/images/exicons.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/exicons.png?1437201913');
   background-position: 14px 14px;
   background-repeat: no-repeat;
   vertical-align: text-top;
@@ -9704,7 +9704,7 @@ a:hover {
   opacity: 1;
 }
 .exicon-white {
-  background-image: url('../../../../../../../design/backend/media/images/exicons_white.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/exicons_white.png?1437201913');
 }
 .exicon-categories {
   background-position: 0 2px;
@@ -10107,7 +10107,7 @@ textarea {
 }
 label.cm-required {
   padding-right: 7px;
-  background: url('../../../../../../../design/backend/media/images/required_mark.png?1437201329') no-repeat;
+  background: url('../../../../../../../design/backend/media/images/required_mark.png?1437201913') no-repeat;
   background-position: right 10px;
 }
 span.checkbox {
@@ -10434,7 +10434,7 @@ label.text-value {
   display: inline-block;
   top: 6px;
   opacity: 1;
-  background-image: url('../../../../../../../design/backend/media/images/lib/twitterbootstrap/glyphicons-halflings-white.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/lib/twitterbootstrap/glyphicons-halflings-white.png?1437201913');
 }
 .nav-tabs li a {
   text-decoration: none !important;
@@ -10668,7 +10668,7 @@ label.text-value {
   min-height: 21px;
   width: 7px;
   height: 100%;
-  background: url('../../../../../../../design/backend/media/images/handler.png?1437201329') 0 0 repeat;
+  background: url('../../../../../../../design/backend/media/images/handler.png?1437201913') 0 0 repeat;
   cursor: move;
 }
 .no-padding-td {
@@ -10913,7 +10913,7 @@ label.text-value {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background: url('../../../../../../../design/backend/media/images/ajax_loader.gif?1437201329') no-repeat 10px 10px #0d0d0d;
+  background: url('../../../../../../../design/backend/media/images/ajax_loader.gif?1437201913') no-repeat 10px 10px #0d0d0d;
   opacity: .8;
   overflow: visible;
 }
@@ -11279,7 +11279,7 @@ label.text-value {
   margin-left: 10px;
   width: 51px;
   height: 32px;
-  background: url('../../../../../../../design/backend/media/images/payments.png?1437201329') no-repeat;
+  background: url('../../../../../../../design/backend/media/images/payments.png?1437201913') no-repeat;
 }
 .payments .credit-card .cc-icon .default,
 .shippings .credit-card .cc-icon .default {
@@ -11389,7 +11389,7 @@ label.text-value {
 .promotion .promotion-group > li {
   margin-left: 17px;
   padding: 0px 0px 5px 15px;
-  background: url('../../../../../../../design/backend/media/images/tree_node.png?1437201329') no-repeat;
+  background: url('../../../../../../../design/backend/media/images/tree_node.png?1437201913') no-repeat;
 }
 .promotion .promotion-group > li .promotion-group {
   padding: 10px;
@@ -11464,7 +11464,7 @@ label.text-value {
   margin-bottom: 15px;
 }
 .promotion .cm-last-item {
-  background: url('../../../../../../../design/backend/media/images/tree_node_last.png?1437201329') no-repeat !important;
+  background: url('../../../../../../../design/backend/media/images/tree_node_last.png?1437201913') no-repeat !important;
 }
 .colorpicker .sp-replacer:hover,
 .colorpicker .sp-replacer.sp-active {
@@ -11902,7 +11902,7 @@ label.text-value {
 .welcome-screen-dialog .ui-dialog-titlebar .ui-state-default .ui-icon,
 .welcome-screen-dialog .ui-dialog-titlebar .ui-state-hover .ui-icon,
 .welcome-screen-dialog .ui-dialog-titlebar .ui-state-focus .ui-icon {
-  background: url('../../../../../../../design/backend/media/images/exicons.png?1437201329') no-repeat -552px 0;
+  background: url('../../../../../../../design/backend/media/images/exicons.png?1437201913') no-repeat -552px 0;
 }
 .welcome-screen-dialog .ui-dialog-titlebar .ui-state-hover .ui-icon,
 .welcome-screen-dialog .ui-dialog-titlebar .ui-state-focus .ui-icon {
@@ -11937,10 +11937,10 @@ label.text-value {
   height: 228px;
 }
 .welcome-screen .welcome-screen-location.welcome-screen-admin {
-  background: url('../../../../../../../design/backend/media/images/welcome_screen_admin.png?1437201329') no-repeat;
+  background: url('../../../../../../../design/backend/media/images/welcome_screen_admin.png?1437201913') no-repeat;
 }
 .welcome-screen .welcome-screen-location.welcome-screen-store {
-  background: url('../../../../../../../design/backend/media/images/welcome_screen_store.png?1437201329') no-repeat;
+  background: url('../../../../../../../design/backend/media/images/welcome_screen_store.png?1437201913') no-repeat;
 }
 .welcome-screen .welcome-screen-location:hover .welcome-screen-overlay {
   display: block;
@@ -11949,7 +11949,7 @@ label.text-value {
   margin-bottom: 15px;
   width: 297px;
   height: 39px;
-  background: url('../../../../../../../design/backend/media/images/welcome_screen_arrow.png?1437201329') no-repeat 50% 0;
+  background: url('../../../../../../../design/backend/media/images/welcome_screen_arrow.png?1437201913') no-repeat 50% 0;
 }
 .welcome-screen .welcome-screen-overlay {
   position: absolute;
@@ -12034,7 +12034,7 @@ label.text-value {
   width: 10px;
   height: 12px;
   margin: 0 0.5em 0 0;
-  background: url('../../../../../../../design/backend/media/fb-icons.png?1437201329') 99px 99px no-repeat;
+  background: url('../../../../../../../design/backend/media/fb-icons.png?1437201913') 99px 99px no-repeat;
 }
 .uibutton.edit:before {
   background-position: 0 0;
@@ -12194,7 +12194,7 @@ label.text-value {
   border-bottom: 0px;
 }
 .currencies-powered {
-  background: url('../../../../../../../design/backend/media/images/yahoo_logo.png?1437201329') no-repeat;
+  background: url('../../../../../../../design/backend/media/images/yahoo_logo.png?1437201913') no-repeat;
   width: 26px;
   height: 16px;
   margin: 5px 15px;
@@ -12217,7 +12217,7 @@ label.text-value {
   overflow: hidden;
   height: 35px;
   border-bottom: 1px solid #262626;
-  background: #333 url('../../../../../../../design/backend/media/images/csse_bg.png?1437201329');
+  background: #333 url('../../../../../../../design/backend/media/images/csse_bg.png?1437201913');
   -webkit-box-shadow: inset 0 0 25px rgba(0,0,0,0.5), 0 0 7px rgba(0,0,0,0.6);
   -moz-box-shadow: inset 0 0 25px rgba(0,0,0,0.5), 0 0 7px rgba(0,0,0,0.6);
   box-shadow: inset 0 0 25px rgba(0,0,0,0.5), 0 0 7px rgba(0,0,0,0.6);
@@ -12509,7 +12509,7 @@ a>.flag {
   padding-right: 4px;
   width: 16px;
   height: 16px;
-  background: url('../../../../../../../design/backend/media/images/flags.png?1437201329') no-repeat top left;
+  background: url('../../../../../../../design/backend/media/images/flags.png?1437201913') no-repeat top left;
   vertical-align: text-top;
 }
 .flag.flag-01 {
@@ -13287,7 +13287,7 @@ a>.flag {
   background-position: 0 -4347px;
 }
 .spinner {
-  background: url('../../../../../../../design/backend/media/images/spinner.gif?1437201329') no-repeat center center;
+  background: url('../../../../../../../design/backend/media/images/spinner.gif?1437201913') no-repeat center center;
 }
 textarea[readonly].copy-field {
   cursor: text;
@@ -13355,7 +13355,7 @@ textarea[readonly].copy-field {
   display: inline-block;
   width: 13px;
   height: 13px;
-  background-image: url('../../../../../../../design/backend/media/images/addons/seo/gstars.png?1437201329');
+  background-image: url('../../../../../../../design/backend/media/images/addons/seo/gstars.png?1437201913');
   background-size: 39px 13px;
 }
 .gicon-star {
@@ -13540,7 +13540,7 @@ textarea[readonly].copy-field {
   text-indent: -9999px;
   width: 14px;
   height: 14px;
-  background: url('../../../../../../../design/backend/media/images/lib/twitterbootstrap/glyphicons-halflings.png?1437201329') no-repeat -144px 0;
+  background: url('../../../../../../../design/backend/media/images/lib/twitterbootstrap/glyphicons-halflings.png?1437201913') no-repeat -144px 0;
   opacity: 0.7;
 }
 .rating > input:checked ~ label {
