@@ -3,7 +3,7 @@
 Plugin Name: WP Statistics
 Plugin URI: http://wp-statistics.com/
 Description: Complete statistics for your WordPress site.
-Version: 9.3.1
+Version: 9.4.1
 Author: Mostafa Soufi & Greg Ross
 Author URI: http://wp-statistics.com/
 Text Domain: wp_statistics
@@ -12,7 +12,7 @@ License: GPL2
 */
 
 	// These defines are used later for various reasons.
-	define('WP_STATISTICS_VERSION', '9.3.1');
+	define('WP_STATISTICS_VERSION', '9.4.1');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
 	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.3.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
@@ -64,7 +64,6 @@ License: GPL2
 	// Add init actions.  For the main init we're going to set our priority to 9 to execute before most plugins so we can export data before and set the headers without 
 	// worrying about bugs in other plugins that output text and don't allow us to set the headers.
 	add_action('init', 'wp_statistics_init', 9);
-	add_action('admin_init', 'wp_statistics_shortcake' );
 	
 	// This adds a row after WP Statistics in the plugin page IF an incompatible version of PHP is running.
 	function wp_statistics_php_after_plugin_row() {
@@ -503,10 +502,13 @@ License: GPL2
 	
 	// This function adds the admin bar menu if the user has selected it.
 	function wp_statistics_menubar() {
-	
-		global $wp_admin_bar, $wp_version;
+		GLOBAL $wp_admin_bar, $wp_version, $WP_Statistics;
+
+		// Find out if the user can read or manage statistics.
+		$read = current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') ) );
+		$manage = current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') ) );
 		
-		if ( is_super_admin() || is_admin_bar_showing() ) {
+		if( is_admin_bar_showing() && ( $read || $manage ) ) {
 
 			$AdminURL = get_admin_url();
 		

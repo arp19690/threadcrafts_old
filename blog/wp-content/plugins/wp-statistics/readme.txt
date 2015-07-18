@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 9.3.1
+Stable tag: 9.4.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -14,35 +14,27 @@ A comprehensive plugin for your WordPress visitor statistics, come visit us at o
 
 Track statistics for your WordPress site without depending on external services and uses arrogate data whenever possible to respect your users privacy.
 
-Now includes support for not storing IP addresses in the database!
-
 On screen statistics presented as graphs are easily viewed through the WordPress admin interface.
 
 This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
 = Features =
-* User online, see how many people are currently viewing your site
-* Visits, see how many hits your site gets each day
-* Visitors, see who's visiting your site
-* Page tracking, see which pages are viewed most often
+* Online users, visits, visitors and page statistics
 * Search Engines, see search queries and redirects from popular search engines like Google, Bing, DuckDuckGo, Yahoo, Yandex and Baidu
+* Overview and detail pages for all kinds of data, including; browser versions, country stats, hits, exclusions, referrers, searches, search words and visitors
 * GeoIP location by Country
-* Support for not storing IP addresses in the database.
+* Support for hashing IP addresses in the database to protect your users privacy
 * Interactive map of visitors location
 * E-mail reports of statistics
 * Set access level for view and manage roles based on WordPress roles
-* Exclude user roles from statistics collection
-* Exclude robots from statistics collection
-* Exclude IP subnets from statistics collection
-* Exclude login/admin pages from statistics collection
+* Exclude users from statistics collection based on various criteria, including; user roles, common robots, IP subnets, page URL, login page, RSS pages, admin pages, Country, number of visits per day, hostname
 * Record statistics on exclusions
 * Automatic updates to the GeoIP database
 * Automatically prune the databases of old data
 * Export the data to Excel, XML, CSV or TSV files
-* Overview and detail pages for all kinds of data, including; browser versions, country stats, hits, exclusions, referrers, searches, search words and visitors
 * Widget to provide information to your users
 * Shortcodes for many different types of data in both widgets and posts/pages
-* Dashboard widget for the admin area
+* Dashboard widgets for the admin area
 * Comprehensive Admin Manual
 
 = Support =
@@ -229,6 +221,18 @@ To remove historical data you can use the Statistics->Optimization->Purging->Pur
 
 Unfortunate we're completely dependent on the search engine sending use the search parameters as part of the referrer header, which they do not always do.
 
+= Does WP Statistics work with caching plugins? =
+
+Probably not, most caching plugins don't execute the standard WordPress loop for a page it has already cached (by design of course) which means the WP Statistics code never runs for that page.
+
+This means WP Statistics can't record the page hit or visitor information, which defeats the purpose of WP Statistics.
+
+We do not recommend using a caching plugin along with WP Statistics.
+
+= I get an error message like "PHP Fatal error: Function name must be a string in /../parse-user-agent.php" =
+
+Do you have eAccelerator installed?  If so this is a known issue with eAccelerator and PHP's "anonymous" functions, which are used in the user agent parsing library.  As no new versions of eAccelerator have been released for over 3 years, you should look to replace it or disable it.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
@@ -242,6 +246,13 @@ Unfortunate we're completely dependent on the search engine sending use the sear
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.4.1 = 
+This is a security release, please upgrade immediately.
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
+= 9.4 = 
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.3.1 = 
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
@@ -267,6 +278,22 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.4.1 =
+* Release Date: July 9, 2015
+* Fixed: SQL injection security issue for users with access to the admin pages.
+* Fixed: Bug in code to save new "Treat corrupt browser info as a bot" setting.
+* Fixed: Bug in scheduled data pruge code that would not append the correct table prefix.
+* Updated: Admin manual.
+
+= 9.4 =
+* Release Date: July 3, 2015
+* Added: Date selector to top visitors page.
+* Added: Option to exclude WordPress's "Not Found" page from the statistics.
+* Added: Option to treat corrupt http header information as bots (missing IP addresses or user agents).
+* Added: New robots to list; 007ac9, 5bot, advbot, alphabot, anyevent, blexbot, bubing, cliqzbot, dl2bot, duckduckgo, EveryoneSocialBot, findxbot, glbot, linkapediabot, ltx71, mediabot, medialbot, monobot, OrangeBot, owler, pageanalyzer, porkbun, pr-cy, pwbot, r4bot, revip, riddler, rogerbot, sistrix, SputnikBot, u2bot, uni5download, unrulymedia, wsowner, wsr-agent, x100bot and xzybot
+* Fixed: Make sure the admin bar only appears for users that have read/manage permissions in WP Statistics.
+* Updated: Split the access and exclusions tabs in settings.
+
 = 9.3.1 =
 * Release Date: May 15, 2015
 * Fixed: Typo in options name that caused the visitors map to never be displayed.

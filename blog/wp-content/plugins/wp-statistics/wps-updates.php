@@ -24,7 +24,12 @@
 		$DBFile = $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb';
 
 		// Check to see if the subdirectory we're going to upload to exists, if not create it.
-		if( !file_exists($upload_dir['basedir'] . '/wp-statistics') ) { mkdir($upload_dir['basedir'] . '/wp-statistics'); }
+		if( !file_exists($upload_dir['basedir'] . '/wp-statistics') ) { 
+			if( !@mkdir($upload_dir['basedir'] . '/wp-statistics') ) {
+				$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s', 'wp_statistics'), $upload_dir['basedir'] ) . "</strong></p></div>";
+				return $result;
+			}				
+		}
 		
 		// Download the file from MaxMind, this places it in a temporary location.
 		$TempFile = download_url( $download_url );
@@ -163,8 +168,8 @@
 				// Keep the current version just in case by renaming it.
 				if( file_exists( $upload_dir['basedir'] . '/wp-statistics/browscap.old' ) ) { unlink( $upload_dir['basedir'] . '/wp-statistics/browscap.old' ); }
 				if( file_exists( $upload_dir['basedir'] . '/wp-statistics/cache.old' ) ) { unlink( $upload_dir['basedir'] . '/wp-statistics/cache.old' ); }
-				rename( $upload_dir['basedir'] . '/wp-statistics/browscap.ini', $upload_dir['basedir'] . '/wp-statistics/browscap.old' );
-				rename( $upload_dir['basedir'] . '/wp-statistics/cache.php', $upload_dir['basedir'] . '/wp-statistics/cache.old' );
+				if( file_exists( $upload_dir['basedir'] . '/wp-statistics/browscap.ini' ) ) { rename( $upload_dir['basedir'] . '/wp-statistics/browscap.ini', $upload_dir['basedir'] . '/wp-statistics/browscap.old' ); }
+				if( file_exists( $upload_dir['basedir'] . '/wp-statistics/cache.php' ) ) { rename( $upload_dir['basedir'] . '/wp-statistics/cache.php', $upload_dir['basedir'] . '/wp-statistics/cache.old' ); }
 			
 				// Setup our file handles.
 				$infile = fopen($TempFile, 'r' );
@@ -264,7 +269,6 @@
 				// Do some sanity checks on the new ini/cache file
 				$ini_fs = filesize( $upload_dir['basedir'] . '/wp-statistics/browscap.ini' );
 				$cache_fs = filesize( $upload_dir['basedir'] . '/wp-statistics/cache.php' );
-				$old_ini_fs = filesize( $upload_dir['basedir'] . '/wp-statistics/browscap.old' );
 				$fail = false;
 				
 				// Check to make sure the cache file isn't any more than 15% larger than then ini file
@@ -284,14 +288,14 @@
 				
 				// If we failed, roll back the update, otherwise just delete the old files.
 				if( $fail == true ) {
-					unlink( $upload_dir['basedir'] . '/wp-statistics/browscap.ini' );
-					unlink( $upload_dir['basedir'] . '/wp-statistics/cache.php' );
-					rename( $upload_dir['basedir'] . '/wp-statistics/browscap.old', $upload_dir['basedir'] . '/wp-statistics/browscap.ini' );
-					rename( $upload_dir['basedir'] . '/wp-statistics/cache.old', $upload_dir['basedir'] . '/wp-statistics/cache.php' );
+					if( file_exists( $upload_dir['basedir'] . '/wp-statistics/browscap.ini' ) ) { unlink( $upload_dir['basedir'] . '/wp-statistics/browscap.ini' ); }
+					if( file_exists( $upload_dir['basedir'] . '/wp-statistics/cache.php' ) ) { unlink( $upload_dir['basedir'] . '/wp-statistics/cache.php' ); }
+					if( file_exists( $upload_dir['basedir'] . '/wp-statistics/browscap.old' ) ) { rename( $upload_dir['basedir'] . '/wp-statistics/browscap.old', $upload_dir['basedir'] . '/wp-statistics/browscap.ini' ); }
+					if( file_exists( $upload_dir['basedir'] . '/wp-statistics/cache.old' ) ) { rename( $upload_dir['basedir'] . '/wp-statistics/cache.old', $upload_dir['basedir'] . '/wp-statistics/cache.php' ); }
 				}
 				else {
-					unlink( $upload_dir['basedir'] . '/wp-statistics/browscap.old' );
-					unlink( $upload_dir['basedir'] . '/wp-statistics/cache.old' );
+					if( file_exists( $upload_dir['basedir'] . '/wp-statistics/browscap.old' ) ) { unlink( $upload_dir['basedir'] . '/wp-statistics/browscap.old' ); }
+					if( file_exists( $upload_dir['basedir'] . '/wp-statistics/cache.old' ) ) { unlink( $upload_dir['basedir'] . '/wp-statistics/cache.old' ); }
 				}
 			}
 		}
