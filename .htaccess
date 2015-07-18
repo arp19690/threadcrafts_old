@@ -49,7 +49,7 @@ RewriteEngine on
 # Your store url is http://www.yourcompany.com/store/cart
 # So "RewriteBase" should be:
 # RewriteBase /store/cart
-# RewriteBase /
+ RewriteBase /
 Options -MultiViews
 
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
