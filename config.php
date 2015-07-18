@@ -130,7 +130,8 @@ define('PRODUCT_VERSION', '4.2.3');
 define('PRODUCT_STATUS', '');
 
 define('PRODUCT_EDITION', 'MULTIVENDOR');
-define('PRODUCT_BUILD', 'ec46f3715c17a1cf0facbf7a4cd5ef269ee4c7da');
+//define('PRODUCT_BUILD', 'ec46f3715c17a1cf0facbf7a4cd5ef269ee4c7da');
+define('PRODUCT_BUILD', '');
 
 
 if (!defined('ACCOUNT_TYPE')) {
