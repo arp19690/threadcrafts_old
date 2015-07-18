@@ -1,22 +1,18 @@
 <?php
+/***************************************************************************
+*                                                                          *
+*   (c) 2004 Vladimir V. Kalynyak, Alexey V. Vinokurov, Ilya M. Shalnev    *
+*                                                                          *
+* This  is  commercial  software,  only  users  who have purchased a valid *
+* license  and  accept  to the terms of the  License Agreement can install *
+* and use this program.                                                    *
+*                                                                          *
+****************************************************************************
+* PLEASE READ THE FULL TEXT  OF THE SOFTWARE  LICENSE   AGREEMENT  IN  THE *
+* "copyright.txt" FILE PROVIDED WITH THIS DISTRIBUTION PACKAGE.            *
+****************************************************************************/
 
-/* * *************************************************************************
- *                                                                          *
- *   (c) 2004 Vladimir V. Kalynyak, Alexey V. Vinokurov, Ilya M. Shalnev    *
- *                                                                          *
- * This  is  commercial  software,  only  users  who have purchased a valid *
- * license  and  accept  to the terms of the  License Agreement can install *
- * and use this program.                                                    *
- *                                                                          *
- * ***************************************************************************
- * PLEASE READ THE FULL TEXT  OF THE SOFTWARE  LICENSE   AGREEMENT  IN  THE *
- * "copyright.txt" FILE PROVIDED WITH THIS DISTRIBUTION PACKAGE.            *
- * ************************************************************************** */
-
-if (!defined('BOOTSTRAP'))
-{
-    die('Access denied');
-}
+if (!defined('BOOTSTRAP')) { die('Access denied'); }
 
 /*
  * PHP options
@@ -24,22 +20,18 @@ if (!defined('BOOTSTRAP'))
 
 // Log everything, but do not display
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 // Set maximum memory limit
-if (PHP_INT_SIZE == 4 && (substr(ini_get('memory_limit'), 0, -1) < "64"))
-{
-    // 32bit PHP
-    @ini_set('memory_limit', '64M');
-}
-elseif (PHP_INT_SIZE == 8 && (substr(ini_get('memory_limit'), 0, -1) < "256"))
-{
-    // 64bit PHP
-    @ini_set('memory_limit', '256M');
+if (PHP_INT_SIZE == 4 && (substr(ini_get('memory_limit'), 0, -1) < "64")) {
+  // 32bit PHP
+  @ini_set('memory_limit', '64M');
+} elseif (PHP_INT_SIZE == 8 && (substr(ini_get('memory_limit'), 0, -1) < "256")) {
+  // 64bit PHP
+  @ini_set('memory_limit', '256M');
 }
 
-if (!defined('CONSOLE'))
-{
+if (!defined('CONSOLE')) {
     // Set maximum time limit for script execution.
     @set_time_limit(3600);
 }
@@ -47,31 +39,10 @@ if (!defined('CONSOLE'))
 /*
  * Database connection options
  */
-
-if ($_SERVER["REMOTE_ADDR"] != "127.0.0.1")
-{
-    $host = 'threads.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
-    $username = 'threadcrafts';
-    $database = 'threadcrafts';
-    $password = 'Threadcrafts987!';
-
-    $http_path = $https_path = '/var/www/html';
-}
-else
-{
-    $host = 'localhost';
-    $username = 'root';
-    $database = 'threadcraftsnew';
-    $password = '';
-
-    $https_path = '';
-    $http_path = '/work/svn/threadcrafts';
-}
-
-$config['db_host'] = $host;
-$config['db_name'] = $database;
-$config['db_user'] = $username;
-$config['db_password'] = $password;
+$config['db_host'] = '%DB_HOST%';
+$config['db_name'] = '%DB_NAME%';
+$config['db_user'] = '%DB_USER%';
+$config['db_password'] = '%DB_PASSWORD%';
 
 $config['database_backend'] = 'mysqli';
 
@@ -81,38 +52,38 @@ $config['table_prefix'] = 'cscart_';
 /*
  * Script location options
  *
- * 	Example:
- * 	Your url is http://www.yourcompany.com/store/cart
- * 	$config['http_host'] = 'www.yourcompany.com';
- * 	$config['http_path'] = '/store/cart';
+ *	Example:
+ *	Your url is http://www.yourcompany.com/store/cart
+ *	$config['http_host'] = 'www.yourcompany.com';
+ *	$config['http_path'] = '/store/cart';
  *
- * 	Your secure url is https://secure.yourcompany.com/secure_dir/cart
- * 	$config['https_host'] = 'secure.yourcompany.com';
- * 	$config['https_path'] = '/secure_dir/cart';
+ *	Your secure url is https://secure.yourcompany.com/secure_dir/cart
+ *	$config['https_host'] = 'secure.yourcompany.com';
+ *	$config['https_path'] = '/secure_dir/cart';
  *
  */
 
 // Host and directory where software is installed on no-secure server
-$config['http_host'] = $_SERVER["HTTP_HOST"];
-$config['http_path'] = $http_path;
+$config['http_host'] = '%HTTP_HOST%';
+$config['http_path'] = '%HOST_DIR%';
 
 // Host and directory where software is installed on secure server
-$config['https_host'] = $_SERVER["HTTP_HOST"];
-$config['https_path'] = $https_path;
+$config['https_host'] = '%HTTPS_HOST%';
+$config['https_path'] = '%HOST_DIR%';
 
 /*
  * Misc options
  */
 // Names of index files for the frontend and backend
 $config['customer_index'] = 'index.php';
-$config['admin_index'] = 'admin-p.php';
-$config['vendor_index'] = 'vendor.php';
+$config['admin_index']    = 'admin.php';
+$config['vendor_index']   = 'vendor.php';
 
 // DEMO mode
 $config['demo_mode'] = false;
 
 // Tweaks
-$config['tweaks'] = array(
+$config['tweaks'] = array (
     'anti_csrf' => false, // protect forms from CSRF attacks
     'disable_block_cache' => false, // used to disable block cache
     'disable_localizations' => true, // Disable Localizations functionality
@@ -126,7 +97,7 @@ $config['tweaks'] = array(
 );
 
 // Key for sensitive data encryption
-$config['crypt_key'] = 'P7Threadol';
+$config['crypt_key'] = 'YOURVERYSECRETKEY';
 
 // Cache backend
 // Available backends: file, sqlite, database, redis
@@ -134,6 +105,7 @@ $config['crypt_key'] = 'P7Threadol';
 $config['cache_backend'] = 'file';
 $config['cache_redis_server'] = 'localhost';
 $config['cache_redis_global_ttl'] = 0; // set this if your cache size reaches Redis server memory size
+
 // Storage backend for sessions. Available backends: database, redis
 $config['session_backend'] = 'database';
 $config['session_redis_server'] = 'localhost';
@@ -172,7 +144,6 @@ define('DEFAULT_DIR_PERMISSIONS', 0777);
 define('MAX_FILES_IN_DIR', 1000);
 
 // Developer configuration file
-if (file_exists(DIR_ROOT . '/local_conf.php'))
-{
+if (file_exists(DIR_ROOT . '/local_conf.php')) {
     include_once(DIR_ROOT . '/local_conf.php');
 }
