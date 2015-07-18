@@ -92,8 +92,6 @@ $config['table_prefix'] = 'cscart_';
  *
  */
 
-print $http_path;die;
-
 // Host and directory where software is installed on no-secure server
 $config['http_host'] = $_SERVER["HTTP_HOST"];
 $config['http_path'] = $http_path;
