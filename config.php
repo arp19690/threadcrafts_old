@@ -125,7 +125,7 @@ define('DEFAULT_TABLE_PREFIX', 'cscart_');
 define('CS_PHP_VERSION', phpversion());
 
 // Product information
-define('PRODUCT_NAME', 'Multi-Vendor');
+define('PRODUCT_NAME', 'Radsoft Solutions');
 define('PRODUCT_VERSION', '4.2.3');
 define('PRODUCT_STATUS', '');
 
@@ -219,9 +219,9 @@ $config['updates_server'] = '';
 $config['resources'] = array(
     'knowledge_base' => 'http://kb.cs-cart.com/installation',
     'updates_server' => '',
-    'twitter' => 'cscart',
+    'twitter' => 'threadcrafts',
     'feedback_api' => 'http://www.cs-cart.com/index.php?dispatch=feedback',
-    'product_url' => 'http://www.cs-cart.com',
+    'product_url' => 'http://radsoft.co.in',
     'helpdesk_url' => 'http://www.cs-cart.com/helpdesk',
     'license_url' => 'http://www.cs-cart.com/licenses.html',
     'marketplace_url' => 'http://marketplace.cs-cart.com',
