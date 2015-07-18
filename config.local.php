@@ -48,8 +48,6 @@ if (!defined('CONSOLE'))
  * Database connection options
  */
 
-print $_SERVER["REMOTE_ADDR"];die;
-
 if ($_SERVER["REMOTE_ADDR"] != "127.0.0.1")
 {
     $host = 'threads.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
@@ -93,6 +91,8 @@ $config['table_prefix'] = 'cscart_';
  * 	$config['https_path'] = '/secure_dir/cart';
  *
  */
+
+print $http_path;die;
 
 // Host and directory where software is installed on no-secure server
 $config['http_host'] = $_SERVER["HTTP_HOST"];
