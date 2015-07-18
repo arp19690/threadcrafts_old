@@ -1,17 +1,16 @@
 <?php
-
-/* * *************************************************************************
- *                                                                          *
- *   (c) 2004 Vladimir V. Kalynyak, Alexey V. Vinokurov, Ilya M. Shalnev    *
- *                                                                          *
- * This  is  commercial  software,  only  users  who have purchased a valid *
- * license  and  accept  to the terms of the  License Agreement can install *
- * and use this program.                                                    *
- *                                                                          *
- * ***************************************************************************
- * PLEASE READ THE FULL TEXT  OF THE SOFTWARE  LICENSE   AGREEMENT  IN  THE *
- * "copyright.txt" FILE PROVIDED WITH THIS DISTRIBUTION PACKAGE.            *
- * ************************************************************************** */
+/***************************************************************************
+*                                                                          *
+*   (c) 2004 Vladimir V. Kalynyak, Alexey V. Vinokurov, Ilya M. Shalnev    *
+*                                                                          *
+* This  is  commercial  software,  only  users  who have purchased a valid *
+* license  and  accept  to the terms of the  License Agreement can install *
+* and use this program.                                                    *
+*                                                                          *
+****************************************************************************
+* PLEASE READ THE FULL TEXT  OF THE SOFTWARE  LICENSE   AGREEMENT  IN  THE *
+* "copyright.txt" FILE PROVIDED WITH THIS DISTRIBUTION PACKAGE.            *
+****************************************************************************/
 
 use Tygh\Http;
 use Tygh\Registry;
@@ -22,51 +21,40 @@ function fn_paypal_complete_checkout($token, $processor_data, $order_info)
     $reason_text = '';
 
     $paypal_checkout_details = fn_paypal_get_express_checkout_details($processor_data, $token);
-    if (fn_paypal_ack_success($paypal_checkout_details))
-    {
+    if (fn_paypal_ack_success($paypal_checkout_details)) {
         $result = fn_paypal_do_express_checkout($processor_data, $paypal_checkout_details, $order_info);
-        if (fn_paypal_ack_success($result))
-        {
+        if (fn_paypal_ack_success($result)) {
 
             $status = $result['PAYMENTINFO_0_PAYMENTSTATUS'];
             $pp_response['transaction_id'] = $result['PAYMENTINFO_0_TRANSACTIONID'];
 
-            if ($status == 'Completed' || $status == 'Processed')
-            {
+            if ($status == 'Completed' || $status == 'Processed') {
                 $pp_response['order_status'] = 'P';
                 $reason_text = 'Accepted ';
-            }
-            elseif ($status == 'Pending')
-            {
+
+            } elseif ($status == 'Pending') {
                 $pp_response['order_status'] = 'O';
                 $reason_text = 'Pending ';
-            }
-            else
-            {
+
+            } else {
                 $reason_text = 'Declined ';
             }
 
             $reason_text = fn_paypal_process_add_fields($result, $reason_text);
 
-            if (!empty($result['L_ERRORCODE0']))
-            {
+            if (!empty($result['L_ERRORCODE0'])) {
                 $reason_text .= ', ' . fn_paypal_get_error($result);
             }
-        }
-        else
-        {
+        } else {
             $reason_text = fn_paypal_get_error($result);
         }
-    }
-    else
-    {
+    } else {
         $reason_text = fn_paypal_get_error($paypal_checkout_details);
     }
 
     $pp_response['reason_text'] = $reason_text;
 
-    if (fn_check_payment_script($processor_data['processor_script'], $order_info['order_id']))
-    {
+    if (fn_check_payment_script($processor_data['processor_script'], $order_info['order_id'])) {
         unset($_SESSION['pp_express_details']);
 
         fn_finish_payment($order_info['order_id'], $pp_response);
@@ -82,28 +70,24 @@ function fn_paypal_ack_success($paypal_checkout_details)
 function fn_paypal_user_login($checkout_details)
 {
     $s_firstname = $s_lastname = '';
-    if (!empty($checkout_details['SHIPTONAME']))
-    {
+    if (!empty($checkout_details['SHIPTONAME'])) {
         $name = explode(' ', $checkout_details['SHIPTONAME']);
         $s_firstname = $name[0];
         unset($name[0]);
-        $s_lastname = (!empty($name[1])) ? implode(' ', $name) : '';
+        $s_lastname = (!empty($name[1]))? implode(' ', $name) : '';
     }
 
     $s_state = $checkout_details['SHIPTOSTATE'];
-    $s_state_codes = db_get_hash_array("SELECT ?:states.code, lang_code FROM ?:states LEFT JOIN ?:state_descriptions ON ?:state_descriptions.state_id = ?:states.state_id WHERE ?:states.country_code = ?s AND ?:state_descriptions.state = ?s", 'lang_code', $checkout_details['SHIPTOCOUNTRYCODE'], $s_state);
+    $s_state_codes = db_get_hash_array("SELECT ?:states.code, lang_code FROM ?:states LEFT JOIN ?:state_descriptions ON ?:state_descriptions.state_id = ?:states.state_id WHERE ?:states.country_code = ?s AND ?:state_descriptions.state = ?s", 'lang_code',  $checkout_details['SHIPTOCOUNTRYCODE'], $s_state);
 
-    if (!empty($s_state_codes[CART_LANGUAGE]))
-    {
+    if (!empty($s_state_codes[CART_LANGUAGE])) {
         $s_state = $s_state_codes[CART_LANGUAGE]['code'];
-    }
-    elseif (!empty($s_state_codes))
-    {
+    } elseif (!empty($s_state_codes)) {
         $s_state = array_pop($s_state_codes);
         $s_state = $s_state['code'];
     }
 
-    $address = array(
+    $address = array (
         's_firstname' => $s_firstname,
         's_lastname' => $s_lastname,
         's_address' => $checkout_details['SHIPTOSTREET'],
@@ -119,10 +103,8 @@ function fn_paypal_user_login($checkout_details)
     $auth = & $_SESSION['auth'];
 
     // Update profile info if customer is registered user
-    if (!empty($auth['user_id']) && $auth['area'] == 'C')
-    {
-        foreach ($address as $k => $v)
-        {
+    if (!empty($auth['user_id']) && $auth['area'] == 'C') {
+        foreach ($address as $k => $v) {
             $_SESSION['cart']['user_data'][$k] = $v;
         }
 
@@ -130,9 +112,7 @@ function fn_paypal_user_login($checkout_details)
         db_query('UPDATE ?:user_profiles SET ?u WHERE profile_id = ?i', $_SESSION['cart']['user_data'], $profile_id);
 
         // Or jyst update info in the cart
-    }
-    else
-    {
+    } else {
         // fill customer info
         $_SESSION['cart']['user_data'] = array(
             'firstname' => $checkout_details['FIRSTNAME'],
@@ -143,8 +123,7 @@ function fn_paypal_user_login($checkout_details)
             'fax' => '',
         );
 
-        foreach ($address as $k => $v)
-        {
+        foreach ($address as $k => $v) {
             $_SESSION['cart']['user_data'][$k] = $v;
             $_SESSION['cart']['user_data']['b_' . substr($k, 2)] = $v;
         }
@@ -161,24 +140,18 @@ function fn_paypal_build_request($processor_data, &$request, &$post_url, &$cert_
         'VERSION' => 106,
     ));
 
-    if (!empty($processor_data['processor_params']['authentication_method']) && $processor_data['processor_params']['authentication_method'] == 'signature')
-    {
+    if (!empty($processor_data['processor_params']['authentication_method']) && $processor_data['processor_params']['authentication_method'] == 'signature') {
         $request['SIGNATURE'] = $processor_data['processor_params']['signature'];
         $url_prefix = '-3t';
         $cert_file = '';
-    }
-    else
-    {
+    } else {
         $url_prefix = '';
         $cert_file = Registry::get('config.dir.certificates') . (isset($processor_data['processor_params']['certificate_filename']) ? $processor_data['processor_params']['certificate_filename'] : '');
     }
 
-    if ($processor_data['processor_params']['mode'] == 'live')
-    {
+    if ($processor_data['processor_params']['mode'] == 'live') {
         $post_url = "https://api$url_prefix.paypal.com:443/nvp";
-    }
-    else
-    {
+    } else {
         $post_url = "https://api$url_prefix.sandbox.paypal.com:443/nvp";
     }
 
@@ -215,11 +188,9 @@ function fn_paypal_do_express_checkout($processor_data, $paypal_checkout_details
     $order_details = (!empty($order_info)) ? fn_paypal_build_details($order_info, $processor_data, false) : fn_paypal_build_details($cart, $processor_data);
     $request = array_merge($request, $order_details);
 
-    if (!empty($order_info))
-    {
+    if (!empty($order_info)) {
         //We need to minus taxes when it based on unit price because product subtotal already include this tax.
-        if (Registry::get('settings.General.tax_calculation') == 'unit_price')
-        {
+        if (Registry::get('settings.General.tax_calculation') == 'unit_price') {
             $sum_taxes = fn_paypal_sum_taxes($order_info);
             $request['PAYMENTREQUEST_0_ITEMAMT'] -= $sum_taxes['P'];
             $request['PAYMENTREQUEST_0_SHIPPINGAMT'] -= $sum_taxes['S'];
@@ -240,12 +211,10 @@ function fn_paypal_request($request, $post_url, $cert_file)
 
     $response = Http::post($post_url, $request, $extra);
 
-    if (!empty($response))
-    {
+    if (!empty($response)) {
         parse_str($response, $result);
-    }
-    else
-    {
+
+    } else {
         $result['ERROR'] = Http::getError();
     }
 
@@ -257,14 +226,10 @@ function fn_paypal_build_details($data, $processor_data, $express = true)
     $details = array();
     $shipping_data = array();
 
-    if (!empty($processor_data['processor_params']['send_adress']) && $processor_data['processor_params']['send_adress'] == 'Y')
-    {
-        if ($express)
-        {
+    if (!empty($processor_data['processor_params']['send_adress']) && $processor_data['processor_params']['send_adress'] == 'Y') {
+        if ($express) {
             $shipping_data = fn_paypal_get_shipping_data($data['user_data']);
-        }
-        else
-        {
+        } else {
             $shipping_data = fn_paypal_get_shipping_data($data);
         }
     }
@@ -278,13 +243,11 @@ function fn_paypal_get_shipping_data($data)
 {
     $shipping_data = array();
 
-    if (!empty($data))
-    {
+    if (!empty($data)) {
         $shipping_data['ADDROVERRIDE'] = 1;
         $shipping_data['PAYMENTREQUEST_0_SHIPTONAME'] = $data['s_firstname'] . ' ' . $data['s_lastname'];
         $shipping_data['PAYMENTREQUEST_0_SHIPTOSTREET'] = $data['s_address'];
-        if (!empty($data['s_address_2']))
-        {
+        if (!empty($data['s_address_2'])) {
             $shipping_data['PAYMENTREQUEST_0_SHIPTOSTREET2'] = $data['s_address_2'];
         }
         $shipping_data['PAYMENTREQUEST_0_SHIPTOCITY'] = $data['s_city'];
@@ -301,10 +264,8 @@ function fn_paypal_get_order_data($data)
     $order_data = array();
     $product_index = 0;
 
-    foreach ($data['products'] as $product)
-    {
-        if ($product['price'] != 0)
-        {
+    foreach ($data['products'] as $product) {
+        if ($product['price'] != 0) {
             $order_data['L_PAYMENTREQUEST_0_NAME' . $product_index] = $product['product'];
             $order_data['L_PAYMENTREQUEST_0_NUMBER' . $product_index] = $product['product_code'];
             $order_data['L_PAYMENTREQUEST_0_DESC' . $product_index] = fn_paypal_get_product_option($product);
@@ -330,24 +291,15 @@ function fn_paypal_get_order_data($data)
 function fn_paypal_sum_taxes($order_info)
 {
     $sum_taxes = array('P' => 0, 'S' => 0, 'O' => 0);
-    if (!empty($order_info['taxes']))
-    {
-        foreach ($order_info['taxes'] as $tax)
-        {
-            if ($tax['price_includes_tax'] != 'Y')
-            {
-                foreach ($tax['applies'] as $key => $value)
-                {
-                    if (strpos($key, 'P_') !== false)
-                    {
+    if (!empty($order_info['taxes'])) {
+        foreach ($order_info['taxes'] as $tax) {
+            if ($tax['price_includes_tax'] != 'Y') {
+                foreach ($tax['applies'] as $key => $value) {
+                    if (strpos($key, 'P_') !== false) {
                         $sum_taxes['P'] += $value;
-                    }
-                    elseif (strpos($key, 'S_') !== false)
-                    {
+                    } elseif (strpos($key, 'S_') !== false) {
                         $sum_taxes['S'] += $value;
-                    }
-                    elseif (!is_array($value))
-                    {
+                    } elseif (!is_array($value)) {
                         $sum_taxes['O'] += $value;
                     }
                 }
@@ -361,8 +313,7 @@ function fn_paypal_sum_taxes($order_info)
 function fn_paypal_apply_discount($data, &$order_data, $product_index)
 {
     $discount_applied = false;
-    if (!fn_is_empty(floatval($data['subtotal_discount'])))
-    {
+    if (!fn_is_empty(floatval($data['subtotal_discount']))) {
         $order_data['L_PAYMENTREQUEST_0_NAME' . $product_index] = __('discount');
         $order_data['L_PAYMENTREQUEST_0_QTY' . $product_index] = 1;
         $order_data['L_PAYMENTREQUEST_0_AMT' . $product_index] = -$data['subtotal_discount'];
@@ -375,42 +326,29 @@ function fn_paypal_apply_discount($data, &$order_data, $product_index)
 function fn_paypal_get_product_option($product)
 {
     $options = array();
-    if (!empty($product['extra']['product_options']))
-    {
-        foreach ($product['extra']['product_options'] as $option_id => $variant_id)
-        {
+    if (!empty($product['extra']['product_options'])) {
+        foreach ($product['extra']['product_options'] as $option_id => $variant_id) {
             $option = fn_get_product_option_data($option_id, $product['product_id']);
 
-            if (!empty($option))
-            {
-                if ($option['option_type'] == 'F')
-                {
-                    if (!empty($product['extra']['custom_files'][$option_id]))
-                    {
+            if (!empty($option)) {
+                if ($option['option_type'] == 'F') {
+                    if (!empty($product['extra']['custom_files'][$option_id])) {
                         $files = array();
-                        foreach ($product['extra']['custom_files'][$option_id] as $file)
-                        {
+                        foreach ($product['extra']['custom_files'][$option_id] as $file) {
                             $files[] = $file['name'];
                         }
                         $options[] = $option['option_name'] . ': ' . implode(',', $files);
                     }
-                }
-                elseif ($option['option_type'] == 'C')
-                {
-                    if (!empty($option['variants'][$variant_id]))
-                    {
+                } elseif ($option['option_type'] == 'C') {
+                    if (!empty($option['variants'][$variant_id])) {
                         $options[] = $option['option_name'];
                     }
-                }
-                elseif (empty($option['variants']))
-                {
-                    if (!empty($variant_id))
-                    {
+
+                } elseif (empty($option['variants'])) {
+                    if (!empty($variant_id)) {
                         $options[] = $option['option_name'] . ': ' . $variant_id;
                     }
-                }
-                else
-                {
+                } else {
                     $options[] = $option['option_name'] . ': ' . $option['variants'][$variant_id]['variant_name'];
                 }
             }
@@ -431,17 +369,14 @@ function fn_paypal_process_add_fields($result, $reason_text)
         'PAYMENTTYPE' => 'PaymentType'
     );
 
-    foreach ($result_fields as $field_id => $field_name)
-    {
+    foreach ($result_fields as $field_id => $field_name) {
         $field = 'PAYMENTINFO_0_' . $field_id;
-        if (isset($result[$field]) && strlen($result[$field]) > 0)
-        {
+        if (isset($result[$field]) && strlen($result[$field]) > 0) {
             $fields[] = $field_name . ': ' . $result[$field];
         }
     }
 
-    if (!empty($fields))
-    {
+    if (!empty($fields)) {
         $reason_text .= '(' . implode(', ', $fields) . ')';
     }
 
@@ -452,8 +387,7 @@ function fn_paypal_get_error($result)
 {
     $error_text = '';
 
-    if (!empty($result['L_ERRORCODE0']))
-    {
+    if (!empty($result['L_ERRORCODE0'])) {
         $error_text = $result['L_SHORTMESSAGE0'] . ': ' . $result['L_LONGMESSAGE0'];
         fn_set_notification('E', __('Error') . ' ' . $result['L_ERRORCODE0'], $error_text);
 
@@ -467,13 +401,10 @@ function fn_paypal_set_express_checkout($payment_id, $order_id = 0, $order_info 
 {
     $processor_data = fn_get_payment_method_data($payment_id);
 
-    if (!empty($order_id))
-    {
+    if (!empty($order_id)) {
         $return_url = fn_url("payment_notification.notify?payment=paypal_express&order_id=$order_id", $area, 'current');
         $cancel_url = fn_url("payment_notification.cancel?payment=paypal_express&order_id=$order_id", $area, 'current');
-    }
-    else
-    {
+    } else {
         $return_url = fn_payment_url('current', "paypal_express.php?mode=express_return&payment_id=$payment_id");
         $cancel_url = fn_url("checkout.cart", $area, 'current');
     }
@@ -487,8 +418,7 @@ function fn_paypal_set_express_checkout($payment_id, $order_id = 0, $order_info 
         'METHOD' => 'SetExpressCheckout',
         'SOLUTIONTYPE' => 'Sole',
     );
-    if (isset($_SESSION['paypal_token']))
-    {
+    if (isset($_SESSION['paypal_token'])) {
         $request['IDENTITYACCESSTOKEN'] = $_SESSION['paypal_token'];
     }
     fn_paypal_build_request($processor_data, $request, $post_url, $cert_file);
@@ -496,11 +426,9 @@ function fn_paypal_set_express_checkout($payment_id, $order_id = 0, $order_info 
     $order_details = (!empty($order_info)) ? fn_paypal_build_details($order_info, $processor_data, false) : fn_paypal_build_details($cart, $processor_data);
     $request = array_merge($request, $order_details);
 
-    if (!empty($order_info))
-    {
+    if (!empty($order_info)) {
         //We need to minus taxes when it based on unit price because product subtotal already include this tax.
-        if (Registry::get('settings.General.tax_calculation') == 'unit_price')
-        {
+        if (Registry::get('settings.General.tax_calculation') == 'unit_price') {
             $sum_taxes = fn_paypal_sum_taxes($order_info);
             $request['PAYMENTREQUEST_0_ITEMAMT'] -= $sum_taxes['P'];
             $request['PAYMENTREQUEST_0_SHIPPINGAMT'] -= $sum_taxes['S'];

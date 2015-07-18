@@ -1,22 +1,18 @@
 <?php
+/***************************************************************************
+*                                                                          *
+*   (c) 2004 Vladimir V. Kalynyak, Alexey V. Vinokurov, Ilya M. Shalnev    *
+*                                                                          *
+* This  is  commercial  software,  only  users  who have purchased a valid *
+* license  and  accept  to the terms of the  License Agreement can install *
+* and use this program.                                                    *
+*                                                                          *
+****************************************************************************
+* PLEASE READ THE FULL TEXT  OF THE SOFTWARE  LICENSE   AGREEMENT  IN  THE *
+* "copyright.txt" FILE PROVIDED WITH THIS DISTRIBUTION PACKAGE.            *
+****************************************************************************/
 
-/* * *************************************************************************
- *                                                                          *
- *   (c) 2004 Vladimir V. Kalynyak, Alexey V. Vinokurov, Ilya M. Shalnev    *
- *                                                                          *
- * This  is  commercial  software,  only  users  who have purchased a valid *
- * license  and  accept  to the terms of the  License Agreement can install *
- * and use this program.                                                    *
- *                                                                          *
- * ***************************************************************************
- * PLEASE READ THE FULL TEXT  OF THE SOFTWARE  LICENSE   AGREEMENT  IN  THE *
- * "copyright.txt" FILE PROVIDED WITH THIS DISTRIBUTION PACKAGE.            *
- * ************************************************************************** */
-
-if (!defined('BOOTSTRAP'))
-{
-    die('Access denied');
-}
+if (!defined('BOOTSTRAP')) { die('Access denied'); }
 
 /*
  * Static options
@@ -27,11 +23,14 @@ define('NEW_FEATURE_GROUP_ID', 'OG');
 // These constants define when select box with categories list should be replaced with picker
 define('CATEGORY_THRESHOLD', 100); // if number of categories less than this value, all categories will be retrieved, otherwise subcategories will be retrieved by ajax
 define('CATEGORY_SHOW_ALL', 100);  // if number of categories less than this value, categories tree will be expanded
+
 // These constants define when select box with pages list should be replaced with picker
 define('PAGE_THRESHOLD', 40); // if number of pages less than this value, all pages will be retrieved, otherwise subpages will be retrieved by ajax
 define('PAGE_SHOW_ALL', 100); // if number of pages less than this value, pages tree will be expanded
+
 // These constants define when select box with product feature variants list should be replaced with picker
 define('PRODUCT_FEATURE_VARIANTS_THRESHOLD', 40); // if number of product feature variants less than this value, all product feature variants will be retrieved, otherwise product features variants will be retrieved by ajax
+
 // Maximum number of recently viewed products, stored in session
 define('MAX_RECENTLY_VIEWED', 10);
 
@@ -39,13 +38,13 @@ define('MAX_RECENTLY_VIEWED', 10);
 define('FILTERS_RANGES_VIEW_ALL_COUNT', 20);
 
 // Week days
-define('SUNDAY', 0);
-define('MONDAY', 1);
-define('TUESDAY', 2);
+define('SUNDAY',    0);
+define('MONDAY',    1);
+define('TUESDAY',   2);
 define('WEDNESDAY', 3);
-define('THURSDAY', 4);
-define('FRIDAY', 5);
-define('SATURDAY', 6);
+define('THURSDAY',  4);
+define('FRIDAY',    5);
+define('SATURDAY',  6);
 
 // statuses definitions
 define('STATUSES_ORDER', 'O');
@@ -74,22 +73,31 @@ define('SEO_DELIMITER', '-');
 
 // Number of seconds in one hour (for different calculations)
 define('SECONDS_IN_HOUR', 60 * 60); // one hour
+
 // Number of seconds in one day (for different calculations)
 define('SECONDS_IN_DAY', SECONDS_IN_HOUR * 24); // one day
+
 // Live time for permanent cookies (currency, language, etc...)
 define('COOKIE_ALIVE_TIME', SECONDS_IN_DAY * 7); // one week
+
 // Session live time
 define('SESSION_ALIVE_TIME', SECONDS_IN_HOUR * 2); // 2 hours
+
 // Sessions storage live time
-define('SESSIONS_STORAGE_ALIVE_TIME', SECONDS_IN_DAY * 7 * 2); // 2 weeks
+define('SESSIONS_STORAGE_ALIVE_TIME',  SECONDS_IN_DAY * 7 * 2); // 2 weeks
+
 // Number of seconds after last session update, while user considered as online
 define('SESSION_ONLINE', 60 * 5); // 5 minutes
+
 // Number of seconds before installation script will be redirected to itself to avoid server timeouts
 define('INSTALL_DB_EXECUTION', SECONDS_IN_HOUR); // 1 hour
+
 //Uncomment to enable the developer tools: debugger, PHP and SQL loggers, etc.
 //define('DEBUG_MODE', true);
+
 //Uncomment to enable error reporting.
 //define('DEVELOPMENT', true);
+
 // Theme description file name
 define('THEME_MANIFEST', 'manifest.json');
 define('THEME_MANIFEST_INI', 'manifest.ini');
@@ -117,17 +125,15 @@ define('DEFAULT_TABLE_PREFIX', 'cscart_');
 define('CS_PHP_VERSION', phpversion());
 
 // Product information
-define('PRODUCT_NAME', 'Threadcrafts');
-define('PRODUCT_VERSION', '1.0');
+define('PRODUCT_NAME', 'Multi-Vendor');
+define('PRODUCT_VERSION', '4.2.3');
 define('PRODUCT_STATUS', '');
 
 define('PRODUCT_EDITION', 'MULTIVENDOR');
-//define('PRODUCT_BUILD', 'ec46f3715c17a1cf0facbf7a4cd5ef269ee4c7da');
-define('PRODUCT_BUILD', '');
+define('PRODUCT_BUILD', 'ec46f3715c17a1cf0facbf7a4cd5ef269ee4c7da');
 
 
-if (!defined('ACCOUNT_TYPE'))
-{
+if (!defined('ACCOUNT_TYPE')) {
     define('ACCOUNT_TYPE', 'customer');
 }
 
@@ -177,7 +183,7 @@ $config['dir'] = array(
 );
 
 // List of forbidden file extensions (for uploaded files)
-$config['forbidden_file_extensions'] = array(
+$config['forbidden_file_extensions'] = array (
     'php',
     'php3',
     'pl',
@@ -188,7 +194,7 @@ $config['forbidden_file_extensions'] = array(
     'htaccess'
 );
 
-$config['forbidden_mime_types'] = array(
+$config['forbidden_mime_types'] = array (
     'text/x-php',
     'text/x-perl',
     'text/x-python',
@@ -221,7 +227,7 @@ $config['resources'] = array(
     'marketplace_url' => 'http://marketplace.cs-cart.com',
     'admin_protection_url' => 'http://kb.cs-cart.com/adminarea-protection',
     'widget_mode_url' => 'http://kb.cs-cart.com/widget-mode',
-        //'demo_store_url' => 'http://demo.cs-cart.com/' . strtolower(PRODUCT_EDITION) . '/'
+    //'demo_store_url' => 'http://demo.cs-cart.com/' . strtolower(PRODUCT_EDITION) . '/'
 );
 
 // Debugger token
