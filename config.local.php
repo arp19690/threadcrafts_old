@@ -48,7 +48,7 @@ if (!defined('CONSOLE'))
  * Database connection options
  */
 
-if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "threadcrafts.in")
+if ($_SERVER["REMOTE_ADDR"] != "127.0.0.1")
 {
     $host = 'threads.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
     $username = 'threadcrafts';
