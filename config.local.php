@@ -68,10 +68,10 @@ else
     $http_path = '/work/svn/threadcrafts';
 }
 
-$config['db_host'] = $host;
-$config['db_name'] = $database;
-$config['db_user'] = $username;
-$config['db_password'] = $password;
+$config['db_host'] = 'threads.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
+$config['db_name'] = 'threadcrafts';
+$config['db_user'] = 'threadcrafts';
+$config['db_password'] = 'Threadcrafts987!';
 
 $config['database_backend'] = 'mysqli';
 
@@ -93,12 +93,12 @@ $config['table_prefix'] = 'cscart_';
  */
 
 // Host and directory where software is installed on no-secure server
-$config['http_host'] = $_SERVER["HTTP_HOST"];
-$config['http_path'] = $http_path;
+$config['http_host'] = 'threadcrafts.in';
+$config['http_path'] = '';
 
 // Host and directory where software is installed on secure server
-$config['https_host'] = $_SERVER["HTTP_HOST"];
-$config['https_path'] = $https_path;
+$config['https_host'] = 'threadcrafts.in';
+$config['https_path'] = '';
 
 /*
  * Misc options
@@ -126,7 +126,7 @@ $config['tweaks'] = array(
 );
 
 // Key for sensitive data encryption
-$config['crypt_key'] = 'P7Threadol';
+$config['crypt_key'] = 'obXO02gul4';
 
 // Cache backend
 // Available backends: file, sqlite, database, redis
