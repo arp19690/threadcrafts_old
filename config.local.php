@@ -24,7 +24,7 @@ if (!defined('BOOTSTRAP'))
 
 // Log everything, but do not display
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 
 // Set maximum memory limit
 if (PHP_INT_SIZE == 4 && (substr(ini_get('memory_limit'), 0, -1) < "64"))
@@ -55,7 +55,7 @@ if ($_SERVER["HTTP_HOST"] == "www.threadcrafts.in" || $_SERVER["HTTP_HOST"] == "
     $database = 'threadcrafts';
     $password = 'Threadcrafts987!';
 
-    $http_path = $https_path = '/work/svn/threadcrafts';
+    $http_path = $https_path = '/var/www/html';
 }
 else
 {
