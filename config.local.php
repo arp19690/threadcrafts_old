@@ -39,10 +39,10 @@ if (!defined('CONSOLE')) {
 /*
  * Database connection options
  */
-$config['db_host'] = 'threads.cmloqtqe2xva.ap-southeast-1.rds.amazonaws.com';
-$config['db_name'] = 'threadcrafts';
-$config['db_user'] = 'threadcrafts';
-$config['db_password'] = 'Threadcrafts987!';
+$config['db_host'] = '%DB_HOST%';
+$config['db_name'] = '%DB_NAME%';
+$config['db_user'] = '%DB_USER%';
+$config['db_password'] = '%DB_PASSWORD%';
 
 $config['database_backend'] = 'mysqli';
 
@@ -64,19 +64,19 @@ $config['table_prefix'] = 'cscart_';
  */
 
 // Host and directory where software is installed on no-secure server
-$config['http_host'] = 'threadcrafts.in';
-$config['http_path'] = '';
+$config['http_host'] = '%HTTP_HOST%';
+$config['http_path'] = '%HOST_DIR%';
 
 // Host and directory where software is installed on secure server
-$config['https_host'] = 'threadcrafts.in';
-$config['https_path'] = '';
+$config['https_host'] = '%HTTPS_HOST%';
+$config['https_path'] = '%HOST_DIR%';
 
 /*
  * Misc options
  */
 // Names of index files for the frontend and backend
 $config['customer_index'] = 'index.php';
-$config['admin_index']    = 'admin-p.php';
+$config['admin_index']    = 'admin.php';
 $config['vendor_index']   = 'vendor.php';
 
 // DEMO mode
@@ -97,7 +97,7 @@ $config['tweaks'] = array (
 );
 
 // Key for sensitive data encryption
-$config['crypt_key'] = 'XoC5wJzYOk';
+$config['crypt_key'] = 'YOURVERYSECRETKEY';
 
 // Cache backend
 // Available backends: file, sqlite, database, redis

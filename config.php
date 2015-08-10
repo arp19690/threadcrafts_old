@@ -125,13 +125,12 @@ define('DEFAULT_TABLE_PREFIX', 'cscart_');
 define('CS_PHP_VERSION', phpversion());
 
 // Product information
-define('PRODUCT_NAME', 'Radsoft Solutions');
+define('PRODUCT_NAME', 'Multi-Vendor');
 define('PRODUCT_VERSION', '4.2.3');
 define('PRODUCT_STATUS', '');
 
 define('PRODUCT_EDITION', 'MULTIVENDOR');
-//define('PRODUCT_BUILD', 'ec46f3715c17a1cf0facbf7a4cd5ef269ee4c7da');
-define('PRODUCT_BUILD', '');
+define('PRODUCT_BUILD', 'ec46f3715c17a1cf0facbf7a4cd5ef269ee4c7da');
 
 
 if (!defined('ACCOUNT_TYPE')) {
@@ -220,9 +219,9 @@ $config['updates_server'] = '';
 $config['resources'] = array(
     'knowledge_base' => 'http://kb.cs-cart.com/installation',
     'updates_server' => '',
-    'twitter' => 'threadcrafts',
+    'twitter' => 'cscart',
     'feedback_api' => 'http://www.cs-cart.com/index.php?dispatch=feedback',
-    'product_url' => 'http://radsoft.co.in',
+    'product_url' => 'http://www.cs-cart.com',
     'helpdesk_url' => 'http://www.cs-cart.com/helpdesk',
     'license_url' => 'http://www.cs-cart.com/licenses.html',
     'marketplace_url' => 'http://marketplace.cs-cart.com',
