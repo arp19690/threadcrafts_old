@@ -1,0 +1,1 @@
+a:2:{s:4:"data";a:3:{s:3:"pre";a:0:{}s:4:"post";a:2:{i:0;s:61:"addons/gift_certificates/hooks/checkout/product_info.post.tpl";i:1;s:57:"addons/reward_points/hooks/checkout/product_info.post.tpl";}s:8:"override";a:0:{}}s:6:"expiry";i:0;}
