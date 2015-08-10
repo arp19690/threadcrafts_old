@@ -53,6 +53,12 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>http://threadcrafts.in/our-team/</loc>
+        <lastmod>2015-07-19</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>http://threadcrafts.in/about-us/</loc>
         <lastmod>2015-07-19</lastmod>
         <changefreq>daily</changefreq>
@@ -65,6 +71,18 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>http://threadcrafts.in/free-returns/</loc>
+        <lastmod>2015-07-19</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>http://threadcrafts.in/free-shipping/</loc>
+        <lastmod>2015-07-19</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>http://threadcrafts.in/low-price-guarantee/</loc>
         <lastmod>2015-07-19</lastmod>
         <changefreq>daily</changefreq>
@@ -72,30 +90,6 @@
     </url>
     <url>
         <loc>http://threadcrafts.in/contact-us/</loc>
-        <lastmod>2015-07-19</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>http://threadcrafts.in/terms-and-conditions/</loc>
-        <lastmod>2015-07-19</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>http://threadcrafts.in/shipping-details/</loc>
-        <lastmod>2015-07-19</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>http://threadcrafts.in/disclaimer/</loc>
-        <lastmod>2015-07-19</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>http://threadcrafts.in/return-policy/</loc>
         <lastmod>2015-07-19</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
