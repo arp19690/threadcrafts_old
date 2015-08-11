@@ -21,7 +21,7 @@
                     {assign var="capture_name" value="logo_`$obj_id`"}
                     {$smarty.capture.$capture_name nofilter}
                 </div>
-                <div class="ty-company-detail__info-list ty-company-detail_info-first">
+                <!--<div class="ty-company-detail__info-list ty-company-detail_info-first">
                     <h5 class="ty-company-detail__info-title">{__("contact_information")}</h5>
                     {if $company_data.email}
                         <div class="ty-company-detail__control-group">
@@ -61,7 +61,7 @@
                     <div class="ty-company-detail__control-group">
                         <span>{$company_data.country|fn_get_country_name}</span>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
