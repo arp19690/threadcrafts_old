@@ -2605,7 +2605,9 @@ function fn_check_editable_permissions($auth, $user_data)
             $has_permissions = false;
 
         } elseif ($auth['user_type'] == 'V' && $user_data['is_root'] == 'Y') {
-            $has_permissions = false;
+            if ($auth['user_id'] != $user_data['user_id']) {
+                $has_permissions = false;
+            }
         }
     }
 
