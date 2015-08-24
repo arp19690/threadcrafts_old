@@ -47,6 +47,7 @@ if (!class_exists('AddThisConfigs')) {
             'addthis_config_json'          => '',
             'addthis_environment'          => '',
             'addthis_language'             => '',
+            'addthis_layers_json'          => '',
             'addthis_per_post_enabled'     => true,
             'addthis_plugin_controls'      => 'AddThis',
             'addthis_profile'              => '',
@@ -69,7 +70,8 @@ if (!class_exists('AddThisConfigs')) {
             'credential_validation_status' => 0,
             'data_ga_property'             => '',
             'location'                     => 'below',
-            'style'                        => addthis_style_default ,
+            'sharing_buttons_feature_enabled' => '1',
+            'style'                        => addthis_style_default,
             'toolbox'                      => '',
         );
 
@@ -174,7 +176,7 @@ if (!class_exists('AddThisConfigs')) {
         public function saveSubmittedConfigs($input) {
             $configs = $this->cmsInterface->prepareSubmittedConfigs($input);
 
-            if(   isset($options['addthis_plugin_controls'])
+            if(   isset($this->configs['addthis_plugin_controls'])
                && $this->configs['addthis_plugin_controls'] != "AddThis"
             ) {
                 $configs = $this->cmsInterface->prepareCmsModeSubmittedConfigs($input, $configs);
@@ -308,15 +310,18 @@ if (!class_exists('AddThisConfigs')) {
                 $addThisShareVariable['shorteners']['bitly'] = new stdClass();
             }
 
-            // this should happen last!
-            if (!empty($this->configs['addthis_share_json'])) {
-                $json = $this->configs['addthis_share_json'];
-                $fromJson = json_decode($json, true);
-                if (is_array($fromJson)) {
-                  $addThisShareVariable = array_merge($addThisShareVariable, $fromJson);
-                }
+            $variablesWithShareJson = array(
+                'addthis_share_follow_json',
+                'addthis_share_recommended_json',
+                'addthis_share_welcome_json',
+                'addthis_share_trending_json',
+                'addthis_share_json', // this one should happen last!
+            );
+            foreach ($variablesWithShareJson as $jsonVariable) {
+                $addThisShareVariable = $this->mergeJson($jsonVariable, $addThisShareVariable);
             }
 
+            $addThisShareVariable = (object)$addThisShareVariable;
             return $addThisShareVariable;
         }
 
@@ -363,13 +368,15 @@ if (!class_exists('AddThisConfigs')) {
                 }
             }
 
-            // this should happen last!
-            if (!empty($this->configs['addthis_config_json'])) {
-                $json = $this->configs['addthis_config_json'];
-                $fromJson = json_decode($json, true);
-                if (is_array($fromJson)) {
-                  $addThisConfigVariable = array_merge($addThisConfigVariable, $fromJson);
-                }
+            $variablesWithConfigJson = array(
+                'addthis_config_follow_json',
+                'addthis_config_recommended_json',
+                'addthis_config_welcome_json',
+                'addthis_config_trending_json',
+                'addthis_config_json', // this one should happen last!
+            );
+            foreach ($variablesWithConfigJson as $jsonVariable) {
+                $addThisConfigVariable = $this->mergeJson($jsonVariable, $addThisConfigVariable);
             }
 
             if(   isset($this->configs['addthis_plugin_controls'])
@@ -378,7 +385,68 @@ if (!class_exists('AddThisConfigs')) {
                 $addThisConfigVariable['ignore_server_config'] = true;
             }
 
+            $addThisConfigVariable = (object)$addThisConfigVariable;
             return $addThisConfigVariable;
+        }
+
+        public function createAddThisLayersVariable() {
+            if (!is_array($this->configs)) {
+                $this->getConfigs();
+            }
+
+            $addThisLayersVariable = array();
+
+            if (   isset($this->configs['addthis_plugin_controls'])
+                && $this->configs['addthis_plugin_controls'] == "AddThis"
+            ) {
+                $addThisLayersVariable = (object)$addThisLayersVariable;
+                return $addThisLayersVariable;
+            }
+
+            if (!empty($this->configs['addthis_sidebar_enabled'])) {
+                $templateType = _addthis_determine_template_type();
+
+                $display = false;
+                if (is_string($templateType)) {
+                    $fieldList = $this->getFieldsForContentTypeSharingLocations($templateType, 'sidebar');
+                    $fieldName = $fieldList[0]['fieldName'];
+                    if (!empty($this->configs[$fieldName])) {
+                        $display = true;
+                    }
+                }
+
+                if ($display) {
+                    $addThisLayersVariable['share']['theme'] = strtolower($this->configs['addthis_sidebar_theme']);
+                    $addThisLayersVariable['share']['position'] = strtolower($this->configs['addthis_sidebar_position']);
+                    $addThisLayersVariable['share']['numPreferredServices'] = (int)$this->configs['addthis_sidebar_count'];
+                }
+            }
+
+            $variablesWithLayersJson = array(
+                'addthis_layers_follow_json',
+                'addthis_layers_recommended_json',
+                'addthis_layers_welcome_json',
+                'addthis_layers_trending_json',
+                'addthis_layers_json', // this one should happen last!
+            );
+            foreach ($variablesWithLayersJson as $jsonVariable) {
+                $addThisLayersVariable = $this->mergeJson($jsonVariable, $addThisLayersVariable);
+            }
+
+            $addThisLayersVariable = (object)$addThisLayersVariable;
+            return $addThisLayersVariable;
+        }
+
+        public function mergeJson($jsonVariable, $currentValue) {
+            if (!empty($this->configs[$jsonVariable])) {
+                $json = $this->configs[$jsonVariable];
+                $fromJson = json_decode($json, true);
+                if (is_array($fromJson)) {
+                  $currentValue = array_replace_recursive($currentValue, $fromJson);
+                }
+            }
+
+            return $currentValue;
         }
 
         public function getFirstTwitterUsername($input)

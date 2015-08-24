@@ -24,3 +24,9 @@ if ($option && isset($option['addthis_plugin_version'])) {
     $option['addthis_plugin_version'] = 'uninstalled';
     update_option('addthis_settings', $option);
 }
+
+$option = get_option('addthis_shared_settings');
+if ($option && isset($option['addthis_plugin_version'])) {
+    $option['addthis_plugin_version'] = 'uninstalled';
+    update_option('addthis_shared_settings', $option);
+}

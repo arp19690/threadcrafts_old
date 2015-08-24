@@ -41,7 +41,7 @@
 			hits int(11),
 			honeypot int(11),
 			PRIMARY KEY  (ID),
-			UNIQUE KEY date_ip_agent (last_counter,ip,agent (75),platform (75),version (75)),
+			UNIQUE KEY date_ip_agent (last_counter,ip,agent(75),platform(75),version(75)),
 			KEY agent (agent),
 			KEY platform (platform),
 			KEY version (version),
@@ -81,6 +81,19 @@
 			UNIQUE KEY uri (uri)
 		) CHARSET=utf8");
 		
+		$create_search_table = ("CREATE TABLE {$wp_prefix}statistics_search (
+			ID bigint(20) NOT NULL AUTO_INCREMENT,
+			last_counter date NOT NULL,
+			engine varchar(64) NOT NULL,
+			host varchar(255),
+			words varchar(255),
+			visitor bigint(20),
+			PRIMARY KEY  (ID),
+			KEY last_counter (last_counter),
+			KEY engine (engine),
+			KEY host (host)
+		) CHARSET=utf8");
+
 		// Before we update the historical table, check to see if it exists with the old keys
 		$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_historical LIKE 'key'" );
 		
@@ -100,8 +113,22 @@
 		dbDelta($create_exclusion_table);
 		dbDelta($create_pages_table);
 		dbDelta($create_historical_table);
+		dbDelta($create_search_table);
 
-		$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
+		// Check to see if the date_ip index still exists, if so get rid of it.
+		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
+
+		// Note, the result will be the number of fields contained in the index.
+		if( $result > 1 ) {
+			$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
+		}
+		
+		// One final database change, drop the 'AString' column from visitors if it exists as it's a typo from an old version.
+		$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_visitor LIKE 'AString'" );
+		
+		if( $result > 0 ) {
+			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` DROP `AString`" );
+		}
 		
 		// Store the new version information.
 		update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
@@ -115,6 +142,9 @@
 			// If this is a first time install, we just need to setup the primary values in the tables.
 		
 			$WP_Statistics->Primary_Values();
+			
+			// By default, on new installs, use the new search table.
+			$WP_Statistics->update_option('search_converted', 1);
 			
 		} else {
 

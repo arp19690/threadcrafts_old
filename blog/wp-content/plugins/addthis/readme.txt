@@ -2,8 +2,8 @@
 Contributors: abramsm, srijith.v, vipinss, dnrahamim, jgrodel, bradaddthiscom, mkitzman, addthis_paul, addthis_matt, addthis_elsa, ribin_addthis, AddThis_Mike
 Tags: AddThis, addtoany, bookmark, bookmarking, email, e-mail, sharing buttons, share, share this, facebook, google+, pinterest, instagram, linkedin, whatsapp, social tools, website tools, twitter, content marketing, recommended content, conversion tool, subscription button, conversion tools, email tools, ecommerce tools, social marketing, personalization tools
 Requires at least: 3.0
-Tested up to: 4.2.2
-Stable tag: 5.0.12
+Tested up to: 4.3
+Stable tag: 5.1.0
 
 AddThis provides the best sharing tools to help you make your website smarter.
 
@@ -50,6 +50,10 @@ All of the options required through this plugin require javascript. JavaScript m
 1. Flexibility. AddThis can be customized via API, and served securely via SSL. You can roll your own sharing toolbars with our toolbox. Share just about anything, anywhere ­­ your way.
 1. Global reach. AddThis sends content to 200+ sharing services 60+ languages, to over 1.9 billion unique users in countries all over the world.
 
+= What PHP version is required? =
+
+This plugin requires PHP 5.2.4 or greater.
+
 = Who else uses AddThis? =
 Over 15,000,000 sites have installed AddThis. With over 1.9 billion unique users, AddThis is helping share content all over the world, in more than sixty languages.
 
@@ -70,11 +74,21 @@ In the screen options you can enable the AddThis meta box. Check the box and sav
 6. Tool Gallery on the AddThis Dashboard
 7. Customization options on the AddThis Dashboard
 
-== PHP Version ==
-
-PHP 5+ is preferred; PHP 4 is supported.
-
 == Changelog ==
+
+= 5.1.1 =
+* Fixing XSS bug in the administrative panel
+
+= 5.1.0 =
+* New feature: set your own addthis.layers() paramaters to customize further using our API (in WordPress mode only)
+* Fixing a bug with the AddThis Sharing Buttons meta box not showing up for users in AddThis mode when editing posts
+* Fixing a bug with addthis_config where the JSON wasn't always checked before submitting the settings form
+* Fixing a bug with the sharing sidebar, where the theme for the sidebar was used for all AddThis layers tools (in WordPress mode)
+* Fixing a bug between AddThis Sharing Buttons and AddThis Follow Buttons, where saving changes in Follow Buttons would reset Sharing Buttons settings
+* Support for WordPress 4.3
+
+= 5.0.13 =
+* Fixing XSS bug in the administrative panel
 
 = 5.0.12 =
 * Fixing a bug that resets settings to defaults during the upgrade for users in AddThis mode
@@ -364,6 +378,14 @@ Fixed nondeterministic bug with the_title(), causing the title to occasionally a
 
 
 == Upgrade Notice ==
+
+= 5.1.0 =
+* New feature: set your own addthis.layers() paramaters to customize further using our API (in WordPress mode only)
+* Fixing a bug with the AddThis Sharing Buttons meta box not showing up for users in AddThis mode when editing posts
+* Fixing a bug with addthis_config where the JSON wasn't always checked before submitting the settings form
+* Fixing a bug with the sharing sidebar, where the theme for the sidebar was used for all AddThis layers tools (in WordPress mode)
+* Fixing a bug between AddThis Sharing Buttons and AddThis Follow Buttons, where saving changes in Follow Buttons would reset Sharing Buttons settings
+* Support for WordPress 4.3
 
 = 5.0.12 =
 * Fixing a bug that resets settings to defaults during the upgrade for users in AddThis mode

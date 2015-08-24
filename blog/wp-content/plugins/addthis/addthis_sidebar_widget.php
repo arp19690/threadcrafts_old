@@ -28,7 +28,7 @@ class AddThisSidebarWidget extends WP_Widget {
     /**
      *  Constructor
      */
-    function AddThisSidebarWidget()
+    function __construct()
     {
 
         $widget_ops = array(
@@ -40,7 +40,7 @@ class AddThisSidebarWidget extends WP_Widget {
         $control_ops = array('width' => 325);
 
         /* Create the widget. */
-        $this->WP_Widget(
+        parent::__construct(
             'addthis-widget',
             'AddThis Sharing Buttons',
             $widget_ops,

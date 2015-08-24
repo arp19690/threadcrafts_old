@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.18, created on 2015-08-10 10:04:36
+<?php /* Smarty version Smarty-3.1.18, created on 2015-08-24 10:40:10
          compiled from "/var/www/html/design/themes/responsive/templates/blocks/my_account.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:47577189955c84d04c20633-97653757%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:17903065555daa732e7b025-25281086%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '4a76979ee58d13a930614622042c611d8d82d125' => 
     array (
       0 => '/var/www/html/design/themes/responsive/templates/blocks/my_account.tpl',
-      1 => 1439189910,
+      1 => 1440393008,
       2 => 'tygh',
     ),
   ),
-  'nocache_hash' => '47577189955c84d04c20633-97653757',
+  'nocache_hash' => '17903065555daa732e7b025-25281086',
   'function' => 
   array (
   ),
@@ -25,18 +25,17 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'user_info' => 0,
     'settings' => 0,
     'user_data' => 0,
-    'compared_products' => 0,
     'return_current_url' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.18',
-  'unifunc' => 'content_55c84d05087af5_52774395',
+  'unifunc' => 'content_55daa7330f5c32_88816339',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_55c84d05087af5_52774395')) {function content_55c84d05087af5_52774395($_smarty_tpl) {?><?php if (!is_callable('smarty_function_live_edit')) include '/var/www/html/app/functions/smarty_plugins/function.live_edit.php';
+<?php if ($_valid && !is_callable('content_55daa7330f5c32_88816339')) {function content_55daa7330f5c32_88816339($_smarty_tpl) {?><?php if (!is_callable('smarty_function_live_edit')) include '/var/www/html/app/functions/smarty_plugins/function.live_edit.php';
 if (!is_callable('smarty_block_hook')) include '/var/www/html/app/functions/smarty_plugins/block.hook.php';
 if (!is_callable('smarty_function_set_id')) include '/var/www/html/app/functions/smarty_plugins/function.set_id.php';
 ?><?php
-fn_preload_lang_vars(array('profile_details','downloads','orders','view_compare_list','apply_for_vendor_account','track_my_order','track_my_order','order_id','email','go','sign_out','sign_in','register','sign_in','profile_details','downloads','orders','view_compare_list','apply_for_vendor_account','track_my_order','track_my_order','order_id','email','go','sign_out','sign_in','register','sign_in'));
+fn_preload_lang_vars(array('profile_details','orders','apply_for_vendor_account','track_my_order','track_my_order','order_id','email','go','sign_out','sign_in','register','sign_in','profile_details','orders','apply_for_vendor_account','track_my_order','track_my_order','order_id','email','go','sign_out','sign_in','register','sign_in'));
 ?>
 <?php if ($_smarty_tpl->tpl_vars['runtime']->value['customization_mode']['design']=="Y"&&@constant('AREA')=="C") {?><?php $_smarty_tpl->_capture_stack[0][] = array("template_content", null, null); ob_start(); ?>
 
@@ -79,9 +78,7 @@ if (!empty($_capture_buffer)) {
                 <li class="ty-account-info__item ty-dropdown-box__item"><a class="ty-account-info__a underlined" href="<?php echo htmlspecialchars(fn_url("profiles.update"), ENT_QUOTES, 'UTF-8');?>
 " rel="nofollow" ><?php echo $_smarty_tpl->__("profile_details");?>
 </a></li>
-                <li class="ty-account-info__item ty-dropdown-box__item"><a class="ty-account-info__a underlined" href="<?php echo htmlspecialchars(fn_url("orders.downloads"), ENT_QUOTES, 'UTF-8');?>
-" rel="nofollow"><?php echo $_smarty_tpl->__("downloads");?>
-</a></li>
+                
             <?php } elseif ($_smarty_tpl->tpl_vars['user_data']->value['firstname']||$_smarty_tpl->tpl_vars['user_data']->value['lastname']) {?>
                 <li class="ty-account-info__item  ty-dropdown-box__item ty-account-info__name"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['user_data']->value['firstname'], ENT_QUOTES, 'UTF-8');?>
  <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['user_data']->value['lastname'], ENT_QUOTES, 'UTF-8');?>
@@ -96,11 +93,7 @@ if (!empty($_capture_buffer)) {
             <li class="ty-account-info__item ty-dropdown-box__item"><a class="ty-account-info__a underlined" href="<?php echo htmlspecialchars(fn_url("orders.search"), ENT_QUOTES, 'UTF-8');?>
 " rel="nofollow"><?php echo $_smarty_tpl->__("orders");?>
 </a></li>
-            <?php $_smarty_tpl->tpl_vars["compared_products"] = new Smarty_variable(fn_get_comparison_products(''), null, 0);?>
-            <li class="ty-account-info__item ty-dropdown-box__item"><a class="ty-account-info__a underlined" href="<?php echo htmlspecialchars(fn_url("product_features.compare"), ENT_QUOTES, 'UTF-8');?>
-" rel="nofollow"><?php echo $_smarty_tpl->__("view_compare_list");?>
-<?php if ($_smarty_tpl->tpl_vars['compared_products']->value) {?> (<?php echo htmlspecialchars(count($_smarty_tpl->tpl_vars['compared_products']->value), ENT_QUOTES, 'UTF-8');?>
-)<?php }?></a></li>
+            
         <?php $_block_content = ob_get_clean(); $_block_repeat=false; echo smarty_block_hook(array('name'=>"profiles:my_account_menu"), $_block_content, $_smarty_tpl, $_block_repeat);  } array_pop($_smarty_tpl->smarty->_tag_stack);?>
 
 
@@ -216,9 +209,7 @@ if (!empty($_capture_buffer)) {
                 <li class="ty-account-info__item ty-dropdown-box__item"><a class="ty-account-info__a underlined" href="<?php echo htmlspecialchars(fn_url("profiles.update"), ENT_QUOTES, 'UTF-8');?>
 " rel="nofollow" ><?php echo $_smarty_tpl->__("profile_details");?>
 </a></li>
-                <li class="ty-account-info__item ty-dropdown-box__item"><a class="ty-account-info__a underlined" href="<?php echo htmlspecialchars(fn_url("orders.downloads"), ENT_QUOTES, 'UTF-8');?>
-" rel="nofollow"><?php echo $_smarty_tpl->__("downloads");?>
-</a></li>
+                
             <?php } elseif ($_smarty_tpl->tpl_vars['user_data']->value['firstname']||$_smarty_tpl->tpl_vars['user_data']->value['lastname']) {?>
                 <li class="ty-account-info__item  ty-dropdown-box__item ty-account-info__name"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['user_data']->value['firstname'], ENT_QUOTES, 'UTF-8');?>
  <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['user_data']->value['lastname'], ENT_QUOTES, 'UTF-8');?>
@@ -233,11 +224,7 @@ if (!empty($_capture_buffer)) {
             <li class="ty-account-info__item ty-dropdown-box__item"><a class="ty-account-info__a underlined" href="<?php echo htmlspecialchars(fn_url("orders.search"), ENT_QUOTES, 'UTF-8');?>
 " rel="nofollow"><?php echo $_smarty_tpl->__("orders");?>
 </a></li>
-            <?php $_smarty_tpl->tpl_vars["compared_products"] = new Smarty_variable(fn_get_comparison_products(''), null, 0);?>
-            <li class="ty-account-info__item ty-dropdown-box__item"><a class="ty-account-info__a underlined" href="<?php echo htmlspecialchars(fn_url("product_features.compare"), ENT_QUOTES, 'UTF-8');?>
-" rel="nofollow"><?php echo $_smarty_tpl->__("view_compare_list");?>
-<?php if ($_smarty_tpl->tpl_vars['compared_products']->value) {?> (<?php echo htmlspecialchars(count($_smarty_tpl->tpl_vars['compared_products']->value), ENT_QUOTES, 'UTF-8');?>
-)<?php }?></a></li>
+            
         <?php $_block_content = ob_get_clean(); $_block_repeat=false; echo smarty_block_hook(array('name'=>"profiles:my_account_menu"), $_block_content, $_smarty_tpl, $_block_repeat);  } array_pop($_smarty_tpl->smarty->_tag_stack);?>
 
 

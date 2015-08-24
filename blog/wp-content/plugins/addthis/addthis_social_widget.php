@@ -3,7 +3,7 @@
  * Plugin Name: AddThis Sharing Buttons
  * Plugin URI: http://www.addthis.com
  * Description: Use the AddThis suite of website tools which includes sharing, following, recommended content, and conversion tools to help you make your website smarter. With AddThis, you can see how your users are engaging with your content, provide a personalized experience for each user and encourage them to share, subscribe or follow.
- * Version: 5.0.12
+ * Version: 5.1.0
  * Author: The AddThis Team
  * Author URI: http://www.addthis.com/
  * License: GPL2
@@ -36,6 +36,7 @@ define( 'ENABLE_ADDITIONAL_PLACEMENT_OPTION', 0);
 require_once('AddThisWordPressSharingButtonsPlugin.php');
 require_once('AddThisWordPressConnector.php');
 require_once('AddThisConfigs.php');
+require_once('addthis_post_metabox.php');
 
 $addThisSharingButtonsPluginObject = new AddThisWordPressSharingButtonsPlugin();
 $cmsConnector = new AddThisWordPressConnector($addThisSharingButtonsPluginObject);
@@ -108,6 +109,8 @@ function pluginActivationNotice()
         update_option('addthis_run_once', true);
     }
 }
+
+register_deactivation_hook(__FILE__, array($cmsConnector, 'deactivate'));
 
 /**
  * Make sure the option gets added on registration
@@ -699,7 +702,9 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
             ) {
                 $configs['addthis_profile'] = $input['addthis_profile'];
             }
-        } else {
+        } elseif(count($input) > 2) {
+            // there should be more than two entires in forms posted from this
+            // plugin
             $configs = addthis_parse_options($input);
         }
 
@@ -851,17 +856,19 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
 
         // All the checkbox fields
         $checkboxFields = array(
-            'above_auto_services',
+            // general
             'addthis_508',
-            'addthis_above_enabled',
             'addthis_addressbar',
-            'addthis_aftertitle' ,
             'addthis_append_data',
             'addthis_asynchronous_loading',
-            'addthis_beforecomments',
-            'addthis_below_enabled',
             'addthis_bitly',
             'addthis_per_post_enabled',
+            // WordPress mode only
+            'above_auto_services',
+            'addthis_above_enabled',
+            'addthis_aftertitle' ,
+            'addthis_beforecomments',
+            'addthis_below_enabled',
             'addthis_sidebar_enabled',
             'below_auto_services',
         );
@@ -881,41 +888,31 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
             }
         }
 
-        if (isset($data['data_ga_property'])) {
-            $options['data_ga_property'] = sanitize_text_field($data['data_ga_property']);
-        }
+        $checkAndSanitize = array(
+            // general
+            'addthis_config_json',
+            'addthis_environment',
+            'addthis_language',
+            'addthis_layers_json',
+            'addthis_plugin_controls',
+            'addthis_profile',
+            'addthis_rate_us',
+            'addthis_share_json',
+            'addthis_twitter_template',
+            'atversion',
+            'atversion_update_status',
+            'credential_validation_status',
+            'data_ga_property',
+            // WordPress mode only
+            'addthis_sidebar_count',
+            'addthis_sidebar_position',
+            'addthis_sidebar_theme',
+        );
 
-        //[addthis_twitter_template]
-        if (isset($data['addthis_twitter_template'])) {
-             //Parse the first twitter username to be used with via
-             $options['addthis_twitter_template'] = sanitize_text_field($data['addthis_twitter_template']);
-        }
-
-        //[addthis_language] =>
-        if (isset($data['addthis_language'])) {
-            $options['addthis_language'] = sanitize_text_field($data['addthis_language']);
-        }
-
-        //[atversion]=>
-        if (isset($data['atversion'])) {
-            $options['atversion'] = sanitize_text_field($data['atversion']);
-        }
-
-        //[atversion_update_status]=>
-        if (isset($data['atversion_update_status'])) {
-            $options['atversion_update_status'] = sanitize_text_field($data['atversion_update_status']);
-        }
-
-        if (isset($data['credential_validation_status'])) {
-            $options['credential_validation_status'] = sanitize_text_field($data['credential_validation_status']);
-        }
-
-        if (isset($data['addthis_config_json'])) {
-            $options['addthis_config_json'] = sanitize_text_field($data['addthis_config_json']);
-        }
-
-        if (isset($data['addthis_share_json'])) {
-            $options['addthis_share_json'] = sanitize_text_field($data['addthis_share_json']);
+        foreach ($checkAndSanitize as $field) {
+            if (isset($data[$field])) {
+                $options[$field] = sanitize_text_field($data[$field]);
+            }
         }
 
         if (!empty($data['above_chosen_list'])) {
@@ -930,31 +927,10 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
             $options['below_chosen_list'] = "";
         }
 
-        if (isset($data['addthis_sidebar_position'])) {
-            $options['addthis_sidebar_position'] = $data['addthis_sidebar_position'];
-        }
-
-        if (isset($data['addthis_sidebar_count'])) {
-            $options['addthis_sidebar_count'] = $data['addthis_sidebar_count'];
-        }
-
-        if (isset($data['addthis_sidebar_theme'])) {
-            $options['addthis_sidebar_theme'] = $data['addthis_sidebar_theme'];
-        }
-
-        if (isset($data['addthis_environment'])) {
-            $options['addthis_environment'] = $data['addthis_environment'];
-        }
-
-        if (isset($data['addthis_plugin_controls'])) {
-            $options['addthis_plugin_controls'] = $data['addthis_plugin_controls'];
-        }
-
-        if (isset($data['addthis_rate_us'])) {
-            if($options['addthis_rate_us'] != $data['addthis_rate_us']) {
+        if (isset($data['addthis_rate_us'])
+            && $options['addthis_rate_us'] != $data['addthis_rate_us']
+        ) {
                 $options['addthis_rate_us_timestamp'] = time();
-            }
-            $options['addthis_rate_us'] = $data['addthis_rate_us'];
         }
 
         return $options;
@@ -1358,8 +1334,6 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
         global $AddThis_addjs_sharing_button_plugin;
         $script = addthis_output_script(true, true);
         $AddThis_addjs_sharing_button_plugin->addToScript($script);
-
-        $addthis_sidebar = addthis_sidebar_script();
         $AddThis_addjs_sharing_button_plugin->addAfterScript($addthis_sidebar);
     }
 
@@ -1375,16 +1349,13 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
         $options = $addThisConfigs->getConfigs();
 
         $addthis_config = $addThisConfigs->createAddThisConfigVariable();
-        $addthis_config_js = '';
-        if (!empty($addthis_config)) {
-            $addthis_config_js = 'var addthis_config = '. json_encode($addthis_config) .';';
-        }
+        $addthis_config_js = 'var addthis_config = '. json_encode($addthis_config) .';';
 
         $addthis_share = $addThisConfigs->createAddThisShareVariable();
-        $addthis_share_js = '';
-        if (!empty($addthis_share)) {
-            $addthis_share_js = 'var addthis_share = '. json_encode($addthis_share) .';';
-        }
+        $addthis_share_js = 'var addthis_share = '. json_encode($addthis_share) .';';
+
+        $addthis_layers = $addThisConfigs->createAddThisLayersVariable();
+        $addthis_layers_js = 'var addthis_layers = '. json_encode($addthis_layers) .';';
 
         if ($justConfig) {
             $script = "\n" . $addthis_config_js . "\n" . $addthis_share_js . "\n";
@@ -1424,6 +1395,9 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
                 if (typeof(addthis_share) == "undefined") {
                     ' . $addthis_share_js . '
                 }
+                if (typeof(addthis_layers) == "undefined") {
+                    ' . $addthis_layers_js . '
+                }
             </script>
             <script
                 data-cfasync="false"
@@ -1432,6 +1406,16 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
                 ' . $async . '
             >
             </script>
+            <script data-cfasync="false" type="text/javascript">
+                (function() {
+                    var at_interval = setInterval(function () {
+                        if(window.addthis) {
+                            clearInterval(at_interval);
+                            addthis.layers(addthis_layers);
+                        }
+                    },1000)
+                }());
+            </script>
             ';
 
         if (!is_admin() && !is_feed()) {
@@ -1439,50 +1423,6 @@ if ($addthis_options['addthis_plugin_controls'] == "AddThis") {
         } elseif ($return && !is_admin() && !is_feed()) {
             return $script;
         }
-    }
-
-    function addthis_sidebar_script(){
-        global $addThisConfigs;
-        $options = $addThisConfigs->getConfigs();
-        $return = '';
-
-        if ($options['addthis_sidebar_enabled'] != true) {
-            return $return;
-        }
-
-        $templateType = _addthis_determine_template_type();
-
-        if (is_string($templateType)) {
-            $fieldList = $addThisConfigs->getFieldsForContentTypeSharingLocations($templateType, 'sidebar');
-            $fieldName = $fieldList[0]['fieldName'];
-            $display = (isset($options[$fieldName]) && $options[$fieldName]) ? true : false;
-        } else {
-            $display = false;
-        }
-
-        if (!$display) {
-            return $return;
-        }
-
-        $return .= "
-            (function() {
-                var at_interval = setInterval(function () {
-                    if(window.addthis) {
-                        clearInterval(at_interval);
-                        addthis.layers(
-                        {
-                            'theme' : '".strtolower($options['addthis_sidebar_theme'])."',
-                            'share' : {
-                                'position' : '".$options['addthis_sidebar_position']."',
-                                'numPreferredServices' : ".$options['addthis_sidebar_count']."
-                            }
-                        }
-                        );
-                    }
-                },1000)
-            }());";
-
-        return $return;
     }
 
     /**
@@ -1964,8 +1904,6 @@ EOF;
         }
         return $isPro;
     }
-
-    require_once('addthis_post_metabox.php');
 
     function addthis_deactivation_hook()
     {
@@ -2465,8 +2403,8 @@ function _addthis_display_options_card() {
                                 <input
                                     id="addthis_508"
                                     type="checkbox"
-                                    name="addthis_settings[addthis_508]" v
-                                    alue="true" ' . $a508Checked . ' />
+                                    name="addthis_settings[addthis_508]"
+                                    value="true" ' . $a508Checked . ' />
                                 <label for="addthis_508">
                                     <span class="addthis-checkbox-label">
                                         <strong>' . translate("Enhanced accessibility", 'addthis_trans_domain') . '</strong>
@@ -2567,7 +2505,30 @@ function _addthis_additional_options_card() {
                                     name="addthis_settings[addthis_share_json]"
                                     id="addthis-share-json"/>' . $options['addthis_share_json'] . '</textarea>
                                 <span id="share-error" class="hidden error_text">Invalid JSON format</span>
+                            </li>';
+
+    if ($options['addthis_plugin_controls'] != 'AddThis') {
+        $html .= '
+                            <li>
+                                <label for="addthis_layers_json">
+                                    ' . translate("addthis.layers() initial paramater (json format)", 'addthis_trans_domain') . '
+                                </label>
+                                <br/>
+                                <small>ex:- <i>{ "share": { "services": "facebook,twitter,google_plusone_share,pinterest_share,print,more" } }</i></small>
+                                <div><p>For more information, please see the AddThis documentation on <a href="http://support.addthis.com/customer/portal/articles/1200473-smart-layers-api">the addthis.layers() paramters</a>.</p></div>
+                                <textarea
+                                    id="addthis_layers_json"
+                                    rows="3"
+                                    type="text"
+                                    name="addthis_settings[addthis_layers_json]"
+                                    id="addthis-layers-json"/>' . $options['addthis_layers_json'] . '</textarea>
+                                <span id="layers-error" class="hidden error_text">Invalid JSON format</span>
                             </li>
+        ';
+    }
+
+    $html .= '
+
                         </ul>
                     </li>
                 </ul>
@@ -2763,7 +2724,7 @@ function addthis_profile_id_csr_confirmation()
                         <span>AddThis Profile ID:</span>
                         <input
                             type="text"
-                            value="'.$pubId.'"
+                            value="'.esc_html($pubId).'"
                             name="'.$fieldName.'"
                             id="addthis_profile" >
                         <input
