@@ -61,7 +61,7 @@
 			// Order of exclusion checks is:
 			//		1 - Robots
 			// 		2 - IP/Subnets
-			//		3 - Self Referrals & login page
+			//		3 - Self Referrals, Referrer Spam & login page
 			//		4 - User roles
 			//		5 - Host name list
 			//
@@ -188,6 +188,27 @@
 						}
 					}
 
+					if( $this->get_option('referrerspam') == 1 && !$this->exclusion_match ) {
+						$referrer = $this->get_Referred();
+						
+						// Pull the referrer spam list from the database.
+						$referrerspamlist = explode( "\n", $this->get_option('referrerspamlist') );
+
+						// Check to see if we match any of the robots.
+						foreach($referrerspamlist as $item) {
+							$item = trim($item);
+							
+							// If the match case is less than 4 characters long, it might match too much so don't execute it.
+							if(strlen($item) > 3) { 
+								if(stripos($referrer, $item) !== FALSE) {
+									$this->exclusion_match = TRUE;
+									$this->exclusion_reason = "referrer_spam";
+									break;
+								}
+							}
+						}
+					}
+					
 					if( $this->get_option('exclude_feeds') == 1 && !$this->exclusion_match ) {
 						if( is_object( $WP_Statistics ) ) { 
 							if( $WP_Statistics->check_feed() ) { 
@@ -327,7 +348,7 @@
 		
 		// This function records unique visitors to the site.
 		public function Visitors() {
-			global $wp_query;
+			global $wp_query, $WP_Statistics;
 
 			// Get the pages or posts ID if it exists.
 			if( is_object( $wp_query ) ) {
@@ -368,6 +389,36 @@
 					$sqlstring = $this->db->prepare( 'INSERT IGNORE INTO ' . $this->tb_prefix . 'statistics_visitor (last_counter, referred, agent, platform, version, ip, location, UAString, hits, honeypot) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, 1, %s )', $this->Current_date('Y-m-d'), $this->get_Referred(), $this->agent['browser'], $this->agent['platform'], $this->agent['version'], $this->ip_hash ? $this->ip_hash : $this->ip, $this->location, $ua, $honeypot );
 				
 					$this->db->query( $sqlstring );
+					
+					// Now parse the referrer and store the results in the search table if the database has been converted.
+					// Also make sure we actually inserted a row on the INSERT IGNORE above or we'll create duplicate entries.
+					if( $this->get_option('search_converted') && $this->db->insert_id ) {
+					
+						$search_engines = wp_statistics_searchengine_list();
+						$referred =  $this->get_Referred();
+						
+						// Parse the URL in to it's component parts.
+						$parts = parse_url($referred);
+
+						// Loop through the SE list until we find which search engine matches.
+						foreach( $search_engines as $key => $value ) {
+							$search_regex = wp_statistics_searchengine_regex($key);
+							
+							preg_match( '/' . $search_regex . '/', $parts['host'], $matches);
+							
+							if( isset($matches[1]) ) {
+								$data['last_counter'] = $this->Current_date('Y-m-d');
+								$data['engine'] = $key;
+								$data['words'] = $WP_Statistics->Search_Engine_QueryString( $referred );
+								$data['host'] = $parts['host'];
+								$data['visitor'] = $this->db->insert_id ;
+								
+								if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
+
+								$this->db->insert( $this->db->prefix . 'statistics_search', $data );
+							}
+						}
+					}
 				}
 				else {
 					// Normally we've done all of our exclusion matching during the class creation, however for the robot threshold is calculated here to avoid another call the database.				

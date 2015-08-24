@@ -46,16 +46,37 @@ if (!class_exists('AddThisWordPressConnector')) {
 
         static $sharedVariables = array(
             // general
-            'addthis_plugin_controls',
-            'addthis_profile',
             'addthis_anonymous_profile',
-            'credential_validation_status',
             'addthis_asynchronous_loading',
             'addthis_environment',
+            'addthis_per_post_enabled',
+            'addthis_plugin_controls',
+            'addthis_profile',
+            'api_key',
+            'credential_validation_status',
+            'debug_enable',
+            'debug_profile_level',
+            'debug_profile_type',
+            'script_location',
+            'wpfooter',
+            'follow_buttons_feature_enabled',
+            'recommended_content_feature_enabled',
+            'sharing_buttons_feature_enabled',
+            'trending_content_feature_enabled',
             // addthis_share
             'addthis_twitter_template',
             'addthis_bitly',
             'addthis_share_json',
+            'addthis_share_follow_json',
+            'addthis_share_recommended_json',
+            'addthis_share_trending_json',
+            'addthis_share_welcome_json',
+            // addthis_layers
+            'addthis_layers_json',
+            'addthis_layers_follow_json',
+            'addthis_layers_recommended_json',
+            'addthis_layers_trending_json',
+            'addthis_layers_welcome_json',
             // addthis_config
             'data_ga_property',
             'addthis_language',
@@ -64,7 +85,12 @@ if (!class_exists('AddThisWordPressConnector')) {
             'addthis_addressbar',
             'addthis_508',
             'addthis_config_json',
+            'addthis_config_follow_json',
+            'addthis_config_recommended_json',
+            'addthis_config_trending_json',
+            'addthis_config_welcome_json',
             'addthis_plugin_controls',
+
         );
 
         static $deprecatedSharedVariables = array(
@@ -237,21 +263,33 @@ if (!class_exists('AddThisWordPressConnector')) {
             }
 
             if (is_array($configs)) {
-                $newPluginConfigs = $configs;
-                $newSharedConfigs = array();
-                foreach (self::$sharedVariables as $variable) {
-                    if(isset($configs[$variable])) {
-                        $newSharedConfigs[$variable] = $configs[$variable];
-                        unset($newPluginConfigs[$variable]);
-                    }
-                }
-
-                update_option($this->plugin->getConfigVariableName(), $newPluginConfigs);
-                update_option($this->sharedConfigVariableName, $newSharedConfigs);
+                $this->saveSharedConfigs($configs);
+                $this->savePluginConfigs($configs);
                 $this->configs = $this->getConfigs();
             }
 
             return $this->configs;
+        }
+
+        protected function saveSharedConfigs($configs) {
+            $newSharedConfigs = array();
+            foreach (self::$sharedVariables as $variable) {
+                if(isset($configs[$variable])) {
+                    $newSharedConfigs[$variable] = $configs[$variable];
+                }
+            }
+
+            update_option($this->sharedConfigVariableName, $newSharedConfigs);
+        }
+
+        protected function savePluginConfigs($configs) {
+            foreach (self::$sharedVariables as $variable) {
+                if(isset($configs[$variable])) {
+                    unset($configs[$variable]);
+                }
+            }
+
+            update_option($this->plugin->getConfigVariableName(), $configs);
         }
 
         /**
@@ -513,19 +551,27 @@ if (!class_exists('AddThisWordPressConnector')) {
          *                 not be killed
          */
         public function evalKillEnqueue($handle, $src, $whitelist = array()) {
-            $pluginsFolder = '/wp-content/plugins/';
-            $addThisPluginsFolder = $pluginsFolder . $this->getPluginFolder();
-            $addThisUrl = $this->getPluginUrl();
+            $regex = "/\/[^\/]+\/plugins$/";
+            preg_match($regex, plugins_url(), $matches);
+            if (isset($matches[0])) {
+                $pluginsFolder = $matches[0] . '/';
+            } else {
+                $pluginsFolder = '/wp-content/plugins/';
+            }
 
-            if (!is_string($src)) { return false; }
+            $partialPathToOurPlugin = $pluginsFolder . $this->getPluginFolder();
+            $fullUrlToOurPlugin = $this->getPluginUrl();
+
+            if (!is_string($src)) {
+                return false;
+            }
 
             if (   !is_string($src) // is the source location a string? keep css if not, cause, for some reason it breaks otherwise
                 || in_array($handle, $whitelist) // keep stuff that's in the whitelist
-                || substr($handle, 0, 7) === 'addthis' // handle has our prefix
-                || substr($src, 0, strlen($addThisPluginsFolder)) === $addThisPluginsFolder // keep relative path stuff from this plugin
-                || substr($src, 0, strlen($addThisUrl)) === $addThisUrl //full urls for this plugin
-                || (   substr($src, 0, 4) === "/wp-" // keep css for non-plugins
-                    && substr($src, 0, strlen($pluginsFolder)) !== $pluginsFolder)
+                || strpos($handle, 'addthis') !== false  // handle has our name
+                || strpos($partialPathToOurPlugin, $src) !== false // keep relative path stuff from this plugin
+                || strpos($fullUrlToOurPlugin, $src) !== false // full urls for this plugin
+                || strpos($src, $pluginsFolder) == false // keep enqueued stuff for non-plugins
             ) {
                 return false;
             }
@@ -588,11 +634,12 @@ if (!class_exists('AddThisWordPressConnector')) {
                 $optionsJsUrl = $jsRootUrl . 'options-page.js';
             }
 
-            wp_enqueue_script(
-                'addthis_options_page_script',
-                $optionsJsUrl,
-                array('jquery-ui-tabs', 'thickbox')
+            $dependencies = array(
+                'jquery-ui-tabs',
+                'thickbox',
             );
+
+            wp_enqueue_script('addthis_options_page_script',$optionsJsUrl, $dependencies);
 
             if ($this->configs['addthis_plugin_controls'] == 'AddThis') {
                 wp_enqueue_script(
@@ -603,14 +650,23 @@ if (!class_exists('AddThisWordPressConnector')) {
                 return;
             }
 
-            wp_enqueue_script('addthis_core', $jsRootUrl . 'core-1.1.1.js');
+            wp_enqueue_script('jquery-core');
+            wp_enqueue_script('jquery-ui-core');
+            wp_enqueue_script('jquery-ui-widget');
+            wp_enqueue_script('jquery-ui-mouse');
+            wp_enqueue_script('jquery-ui-position');
+            wp_enqueue_script('jquery-ui-draggable');
+            wp_enqueue_script('jquery-ui-droppable');
+            wp_enqueue_script('jquery-ui-sortable');
+            wp_enqueue_script('jquery-ui-tooltip');
+
             wp_enqueue_script('addthis_lr', $jsRootUrl . 'lr.js');
             wp_enqueue_script('addthis_qtip_script', $jsRootUrl . 'jquery.qtip.min.js');
-            wp_enqueue_script('addthis_ui_script', $jsRootUrl . 'jqueryui.sortable.js');
             wp_enqueue_script('addthis_selectbox', $jsRootUrl . 'jquery.selectBoxIt.min.js');
             wp_enqueue_script('addthis_jquery_messagebox', $jsRootUrl . 'jquery.messagebox.js');
             wp_enqueue_script('addthis_jquery_atjax', $jsRootUrl . 'jquery.atjax.js');
             wp_enqueue_script('addthis_lodash_script', $jsRootUrl . 'lodash-0.10.0.js');
+
             wp_enqueue_script('addthis_services_script', $jsRootUrl . 'gtc-sharing-personalize.js');
             wp_enqueue_script('addthis_service_script', $jsRootUrl . 'gtc.cover.js');
 
@@ -688,45 +744,32 @@ if (!class_exists('AddThisWordPressConnector')) {
         }
 
         public function prepareSubmittedConfigs($input) {
-            if (isset($input['addthis_profile'])) {
-                $configs['addthis_profile'] = $input['addthis_profile'];
-            }
-
-            if (isset($input['addthis_environment'])) {
-                $configs['addthis_environment'] = $input['addthis_environment'];
-            }
-
-            if (isset($input['addthis_plugin_controls'])) {
-                if ($input['addthis_plugin_controls'] == 'WordPress') {
-                    $configs['addthis_plugin_controls'] = 'WordPress';
-                } else {
-                    $configs['addthis_plugin_controls'] = 'AddThis';
-                }
-            }
-
-            if (isset($input['addthis_twitter_template'])) {
-                $configs['addthis_twitter_template'] = $input['addthis_twitter_template'];
-            }
-
-            if (isset($input['data_ga_property'])) {
-                $configs['data_ga_property'] = $input['data_ga_property'];
-            }
-
-            if (isset($input['addthis_language'])) {
-                $configs['addthis_language'] = $input['addthis_language'];
-            }
 
             if (isset($input['addthis_rate_us'])) {
-                $configs['addthis_rate_us'] = $input['addthis_rate_us'];
-                $configs['addthis_rate_us_timestamp'] = time();
+                $output['addthis_rate_us_timestamp'] = time();
             }
 
-            if (isset($input['addthis_config_json'])) {
-                $configs['addthis_config_json'] = sanitize_text_field($input['addthis_config_json']);
-            }
+            $checkAndSanitize = array(
+                'addthis_config_json',
+                'addthis_environment',
+                'addthis_language',
+                'addthis_layers_json',
+                'addthis_plugin_controls',
+                'addthis_profile',
+                'addthis_rate_us',
+                'addthis_share_json',
+                'addthis_twitter_template',
+                'atversion',
+                'atversion_update_status',
+                'credential_validation_status',
+                'data_ga_property',
+                'pubid'
+            );
 
-            if (isset($input['addthis_share_json'])) {
-                $configs['addthis_share_json'] = sanitize_text_field($input['addthis_share_json']);
+            foreach ($checkAndSanitize as $field) {
+                if (isset($input[$field])) {
+                    $output[$field] = sanitize_text_field($input[$field]);
+                }
             }
 
             // All the checkbox fields
@@ -741,17 +784,26 @@ if (!class_exists('AddThisWordPressConnector')) {
 
             foreach ($checkboxFields as $field) {
                 if (!empty($input[$field])) {
-                    $configs[$field] = true;
+                    $output[$field] = true;
                 } else {
-                    $configs[$field] = false;
+                    $output[$field] = false;
                 }
             }
 
-            return $configs;
+            return $output;
         }
 
-        public function prepareCmsModeSubmittedConfigs($input, $configs) {
-            return $configs;
+        public function prepareCmsModeSubmittedConfigs($input, $output) {
+            return $output;
+        }
+
+        public function deactivate() {
+            $configs = $this->getConfigs(true);
+
+            if (isset($configs['sharing_buttons_feature_enabled'])) {
+                unset($configs['sharing_buttons_feature_enabled']);
+                $this->saveSharedConfigs($configs);
+            }
         }
     }
 }

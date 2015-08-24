@@ -3,7 +3,7 @@
 Plugin Name: WP Statistics
 Plugin URI: http://wp-statistics.com/
 Description: Complete statistics for your WordPress site.
-Version: 9.4.1
+Version: 9.5.2
 Author: Mostafa Soufi & Greg Ross
 Author URI: http://wp-statistics.com/
 Text Domain: wp_statistics
@@ -12,7 +12,7 @@ License: GPL2
 */
 
 	// These defines are used later for various reasons.
-	define('WP_STATISTICS_VERSION', '9.4.1');
+	define('WP_STATISTICS_VERSION', '9.5.2');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
 	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.3.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
@@ -93,7 +93,7 @@ License: GPL2
 	}
 	
 	// Load the user agent parsing code first, the WP_Statistics class depends on it.  Then load the WP_Statistics class.
-	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
+	include_once dirname( __FILE__ ) . '/vendor/donatj/phpuseragentparser/Source/UserAgentParser.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
 	
 	// This is our global WP_Statitsics class that is used throughout the plugin.
@@ -143,7 +143,7 @@ License: GPL2
 				echo '<div class="update-nag"><p>'.sprintf(__('Visitor tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
 			
 			if(!$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported())
-				echo '<div class="update-nag"><p>'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=geoip">' . __( 'Setting page > GeoIP', 'wp_statistics') . '</a>').'</p></div>';
+				echo '<div class="update-nag"><p>'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=externals">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
 		}
 	}
 
@@ -221,6 +221,10 @@ License: GPL2
 		// Check to see if the browscap database needs to be downloaded and do so if required.
 		if( $WP_Statistics->get_option('update_browscap') )
 			wp_statistics_download_browscap();
+		
+		// Check to see if the referrerspam database needs to be downloaded and do so if required.
+		if( $WP_Statistics->get_option('update_referrerspam') )
+			wp_statistics_download_referrerspam();
 		
 		if( $WP_Statistics->get_option('send_upgrade_email') ) {
 			$WP_Statistics->update_option( 'send_upgrade_email', false );
@@ -660,14 +664,10 @@ License: GPL2
 		}
 		
 		// We want to make sure the tables actually exist before we blindly start access them.
-		$result['useronline'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_useronline`");
-		$result['visit'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_visit`");
-		$result['visitor'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_visitor`");
-		$result['exclusions'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_exclusions`");
-		$result['pages'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_pages`");
-		$result['historical'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_historical`");
-		
-		if( ($result['useronline']) && ($result['visit']) && ($result['visitor']) != '1' && ($result['exclusions']) != '1' && ($result['pages']) != '1' ) {
+		$dbname = DB_NAME;
+		$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visit' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_exclusions' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_pages' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_useronline' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_search'" );
+	
+		if( $result != 7 ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
 			wp_die('<div class="error"><p>' . sprintf(__('Plugin tables do not exist in the database! Please re-run the %s install routine %s.', 'wp_statistics'),'<a href="' . $get_bloginfo_url . '">','</a>') . '</p></div>');
 		}

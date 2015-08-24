@@ -22,7 +22,7 @@
  * Javascript for Addthis for Wordpress plugin
  */
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function(jQuery) {
     jQuery('#async_load').change(function(){
 
         var syncLoad = jQuery(this).is(':checked')?1:0;
