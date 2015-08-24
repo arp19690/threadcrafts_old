@@ -34,15 +34,15 @@ window.commonMethods = {
 
             }
 
-            else if(obj.method.toLowerCase() === "set" && obj.data != null && $.isPlainObject(obj.data)) {
+            else if(obj.method.toLowerCase() === "set" && obj.data != null && jQuery.isPlainObject(obj.data)) {
 
-                tempObj = $.extend({}, JSON.parse(window.localStorage.getItem(obj.namespace)), obj.data);
+                tempObj = jQuery.extend({}, JSON.parse(window.localStorage.getItem(obj.namespace)), obj.data);
 
                 return window.localStorage.setItem(obj.namespace, JSON.stringify(tempObj));
 
             }
 
-            else if(obj.method.toLowerCase() === "set" && obj.data != null && $.isArray(obj.data)) {
+            else if(obj.method.toLowerCase() === "set" && obj.data != null && jQuery.isArray(obj.data)) {
 
                 return window.localStorage.setItem(obj.namespace, JSON.stringify(obj.data));
 
@@ -65,9 +65,9 @@ window.commonMethods = {
 
             for(var x in obj) {
 
-                if($(x).is(':checkbox') || $(x).is(':radio')) $(x).prop('checked', obj[x]).change();
+                if(jQuery(x).is(':checkbox') || jQuery(x).is(':radio')) jQuery(x).prop('checked', obj[x]).change();
 
-                else $(x).val(obj[x]).change().keyup();
+                else jQuery(x).val(obj[x]).change().keyup();
 
             }
 
@@ -91,15 +91,15 @@ window.commonMethods = {
 
                 for(var x in obj) {
 
-                    if($(x).is(':checkbox') || $(x).is(':radio')) {
+                    if(jQuery(x).is(':checkbox') || jQuery(x).is(':radio')) {
 
-                        $(x).prop('checked', obj[x]).val(obj[x]);
+                        jQuery(x).prop('checked', obj[x]).val(obj[x]);
 
-                        if($(x).is(':checked')) $(x).trigger('auto-dismiss');
+                        if(jQuery(x).is(':checked')) jQuery(x).trigger('auto-dismiss');
 
                     }
 
-                    else $(x).val(obj[x]).attr("data-updated", "updated");
+                    else jQuery(x).val(obj[x]).attr("data-updated", "updated");
 
                 }
 
@@ -114,10 +114,6 @@ window.commonMethods = {
 };
 
 window.addthisnamespaces = {
-	aboveshare: 'addthis-share-above',
-	belowshare: 'addthis-share-below'
+    aboveshare: 'addthis-share-above',
+    belowshare: 'addthis-share-below'
 };
-
-$(function() {
-
-});

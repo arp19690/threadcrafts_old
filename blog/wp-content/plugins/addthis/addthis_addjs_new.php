@@ -187,16 +187,13 @@ Class AddThis_addjs_sharing_button_plugin{
                 urlencode($this->addThisConfigs->getUsableProfileId());
 
             $addthis_share = $this->addThisConfigs->createAddThisShareVariable();
-            $addthis_share_js = '';
-            if (!empty($addthis_share)) {
-                $addthis_share_js = 'var addthis_share = '. json_encode($addthis_share) .';';
-            }
+            $addthis_share_js = 'var addthis_share = '. json_encode($addthis_share) .';';
 
             $addthis_config = $this->addThisConfigs->createAddThisConfigVariable();
-            $addthis_config_js = '';
-            if (!empty($addthis_config)) {
-                $addthis_config_js = 'var addthis_config = '. json_encode($addthis_config) .';';
-            }
+            $addthis_config_js = 'var addthis_config = '. json_encode($addthis_config) .';';
+
+            $addthis_layers = $this->addThisConfigs->createAddThisLayersVariable();
+            $addthis_layers_js = 'var addthis_layers = '. json_encode($addthis_layers) .';';
 
             $this->jsToAdd .= '
                 <!-- AddThis Settings Begin -->
@@ -211,6 +208,9 @@ Class AddThis_addjs_sharing_button_plugin{
                     if (typeof(addthis_share) == "undefined") {
                         ' . $addthis_share_js . '
                     }
+                    if (typeof(addthis_layers) == "undefined") {
+                        ' . $addthis_layers_js . '
+                    }
                 </script>
                 <script
                     data-cfasync="false"
@@ -218,7 +218,18 @@ Class AddThis_addjs_sharing_button_plugin{
                     src="' . $url . ' "
                     ' . $async . '
                 >
-                </script>';
+                </script>
+                <script data-cfasync="false" type="text/javascript">
+                    (function() {
+                        var at_interval = setInterval(function () {
+                            if(window.addthis) {
+                                clearInterval(at_interval);
+                                addthis.layers(addthis_layers);
+                            }
+                        },1000)
+                    }());
+                </script>
+                ';
         }
     }
 

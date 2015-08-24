@@ -18,10 +18,10 @@
  * +--------------------------------------------------------------------------+
  */
 
- (function($, window, document, undefined) {
+ (function(jQuery, window, document, undefined) {
 
-	var aboveshareNamespace = window.addthisnamespaces && window.addthisnamespaces['aboveshare'] ? addthisnamespaces['aboveshare']: 'addthis-share-above';
-	var belowshareNamespace = window.addthisnamespaces && window.addthisnamespaces['belowshare'] ? addthisnamespaces['belowshare']: 'addthis-share-below';
+  var aboveshareNamespace = window.addthisnamespaces && window.addthisnamespaces['aboveshare'] ? addthisnamespaces['aboveshare']: 'addthis-share-above';
+  var belowshareNamespace = window.addthisnamespaces && window.addthisnamespaces['belowshare'] ? addthisnamespaces['belowshare']: 'addthis-share-below';
 
   /* Event Tracking */
   function trackPageView(p) {
@@ -29,13 +29,13 @@
   }
 
   // jQuery ready event
-  $(function() {
+  jQuery(function() {
 
-	  $('.above-smart-sharing-container .restore-default-options').hide();
-	  $('.below-smart-sharing-container .restore-default-options').hide();
-	  $('#below').tooltip({ position: { my: "left+15 center", at: "right center" } });
-	  $('.sortable .disabled').tooltip({ position: { my: "left+15 center", at: "right center" } });
-	  $('.sortable .close').tooltip({ position: { my: "left+10 center", at: "right center" } });
+    jQuery('.above-smart-sharing-container .restore-default-options').hide();
+    jQuery('.below-smart-sharing-container .restore-default-options').hide();
+    jQuery('#below').tooltip({ position: { my: "left+15 center", at: "right center" } });
+    jQuery('.sortable .disabled').tooltip({ position: { my: "left+15 center", at: "right center" } });
+    jQuery('.sortable .close').tooltip({ position: { my: "left+10 center", at: "right center" } });
     setTimeout(function() {
 
       window.customServicesAPI.events().fetchServices();
@@ -47,7 +47,7 @@
   // API for the custom service UI
   window.customServicesAPI = {
 
-    'loadDeferred': $.Deferred(),
+    'loadDeferred': jQuery.Deferred(),
 
     'scriptIncluded': false,
 
@@ -211,7 +211,7 @@
     'fetchServices': function() {
 
       var self = this,
-        def = $.Deferred();
+        def = jQuery.Deferred();
 
       if(self.scriptIncluded) {
         def.resolve(self.addthisButtons.services);
@@ -237,7 +237,7 @@
     'abovepopulateSharingServices': function(restoreDefaults, pageload) {
 
         var self = this,
-          def = $.Deferred(),
+          def = jQuery.Deferred(),
           defaults,
           services,
           currentType,
@@ -245,8 +245,8 @@
           thirdPartyMappedDefaults,
           addthisServices,
           thirdPartyServices,
-          abovesharingSortable = $('.above-smart-sharing-container .sharing-buttons .sortable'),
-          aboveselectedSortable = $('.above-smart-sharing-container .selected-services .sortable');
+          abovesharingSortable = jQuery('.above-smart-sharing-container .sharing-buttons .sortable'),
+          aboveselectedSortable = jQuery('.above-smart-sharing-container .selected-services .sortable');
 
         self.fetchServices().done(function(services) {
 
@@ -262,30 +262,30 @@
 
               defaults = restoreDefaults ? self.defaults: obj.rememberedDefaults;
 
-              abovecurrentType = $('input[name="addthis_settings[above]"]:checked');
+              abovecurrentType = jQuery('input[name="addthis_settings[above]"]:checked');
 
               if(!abovecurrentType.length) {
-              	abovecurrentType = $('input[name="addthis_settings[above]"]:visible').first();
+                abovecurrentType = jQuery('input[name="addthis_settings[above]"]:visible').first();
               }
 
               if(abovecurrentType.length) {
 
-              	if(abovecurrentType.attr('id') == 'large_toolbox_above') {
-              		style = "horizontal";
-              		abovecurrentType = "addthisButtons";
-              	}
-              	else if(abovecurrentType.attr('id') == 'fb_tw_p1_sc_above') {
-              		style = "horizontal";
-              		abovecurrentType = "thirdPartyButtons";
-              	}
-              	else if(abovecurrentType.attr('id') == 'small_toolbox_above') {
-              		style = "horizontal";
-              		abovecurrentType = "addthisButtons";
-              	}
-              	else if(abovecurrentType.attr('id') == 'button_above') {
-              		style = "";
-              		abovecurrentType = "image";
-              	}
+                if(abovecurrentType.attr('id') == 'large_toolbox_above') {
+                  style = "horizontal";
+                  abovecurrentType = "addthisButtons";
+                }
+                else if(abovecurrentType.attr('id') == 'fb_tw_p1_sc_above') {
+                  style = "horizontal";
+                  abovecurrentType = "thirdPartyButtons";
+                }
+                else if(abovecurrentType.attr('id') == 'small_toolbox_above') {
+                  style = "horizontal";
+                  abovecurrentType = "addthisButtons";
+                }
+                else if(abovecurrentType.attr('id') == 'button_above') {
+                  style = "";
+                  abovecurrentType = "image";
+                }
 
 
 
@@ -328,13 +328,13 @@
 
                 }
 
-                $('body').trigger('populatedList');
+                jQuery('body').trigger('populatedList');
                 def.resolve();
 
               }
 
               else {
-                $('body').trigger('populatedList');
+                jQuery('body').trigger('populatedList');
                 def.resolve();
               }
             });
@@ -350,7 +350,7 @@
       'belowpopulateSharingServices': function(restoreDefaults, pageload) {
 
           var self = this,
-            def = $.Deferred(),
+            def = jQuery.Deferred(),
             defaults,
             services,
             currentType,
@@ -358,8 +358,8 @@
             thirdPartyMappedDefaults,
             addthisServices,
             thirdPartyServices,
-            belowsharingSortable = $('.below-smart-sharing-container .sharing-buttons .sortable'),
-            belowselectedSortable = $('.below-smart-sharing-container .selected-services .sortable');
+            belowsharingSortable = jQuery('.below-smart-sharing-container .sharing-buttons .sortable'),
+            belowselectedSortable = jQuery('.below-smart-sharing-container .selected-services .sortable');
 
           self.fetchServices().done(function(services) {
 
@@ -376,32 +376,32 @@
                 defaults = restoreDefaults ? self.defaults: obj.rememberedDefaults;
 
 
-                belowcurrentType = $('input[name="addthis_settings[below]"]:checked');
+                belowcurrentType = jQuery('input[name="addthis_settings[below]"]:checked');
 
                 if(!belowcurrentType.length) {
-                	belowcurrentType = $('input[name="addthis_settings[above]"]:visible').first();
+                  belowcurrentType = jQuery('input[name="addthis_settings[above]"]:visible').first();
                 }
 
                 if(belowcurrentType.length) {
 
-                	if(belowcurrentType.attr('id') == 'large_toolbox_below') {
-                		style = "horizontal";
-                		belowcurrentType = "addthisButtons";
-                	}
-                	else if(belowcurrentType.attr('id') == 'fb_tw_p1_sc_below') {
-                		style = "horizontal";
-                		belowcurrentType = "thirdPartyButtons";
-                	}
-                	else if(belowcurrentType.attr('id') == 'small_toolbox_below') {
-                		style = "horizontal";
-                		belowcurrentType = "addthisButtons";
-                	}
-                	else if(belowcurrentType.attr('id') == 'button_below') {
-                		style = "";
-                		belowcurrentType = "image";
-                	}
+                  if(belowcurrentType.attr('id') == 'large_toolbox_below') {
+                    style = "horizontal";
+                    belowcurrentType = "addthisButtons";
+                  }
+                  else if(belowcurrentType.attr('id') == 'fb_tw_p1_sc_below') {
+                    style = "horizontal";
+                    belowcurrentType = "thirdPartyButtons";
+                  }
+                  else if(belowcurrentType.attr('id') == 'small_toolbox_below') {
+                    style = "horizontal";
+                    belowcurrentType = "addthisButtons";
+                  }
+                  else if(belowcurrentType.attr('id') == 'button_below') {
+                    style = "";
+                    belowcurrentType = "image";
+                  }
 
-                	addthisMappedDefaults = _.map(defaults, function(value) {
+                  addthisMappedDefaults = _.map(defaults, function(value) {
                         var service = _.where(self.thirdPartyButtons.services(), { 'service': value });
                         if(service.length) {
                           return service[0].linkedService;
@@ -427,7 +427,7 @@
                       thirdPartyServices = self.sort({ defaults: thirdPartyMappedDefaults, services: self.totalServices });
 
                       if(belowcurrentType === 'addthisButtons') {
-                    	  self.populateList({ elem: belowsharingSortable, services: addthisServices, exclude: self.addthisButtons.exclude, defaults: addthisMappedDefaults, type: 'sharing-buttons', buttonType: 'addthisButtons' });
+                        self.populateList({ elem: belowsharingSortable, services: addthisServices, exclude: self.addthisButtons.exclude, defaults: addthisMappedDefaults, type: 'sharing-buttons', buttonType: 'addthisButtons' });
 
                           self.populateList({ elem: belowselectedSortable, services: addthisServices, exclude: self.addthisButtons.exclude, defaults: addthisMappedDefaults, type: 'selected-services', buttonType: 'addthisButtons' });
                       }
@@ -441,7 +441,7 @@
 
                 }
                 else {
-                    $('body').trigger('populatedList');
+                    jQuery('body').trigger('populatedList');
                     def.resolve();
                   }
 
@@ -461,12 +461,12 @@
         whereInArray,
         currentService,
         defaults = obj.defaults,
-        services = $.merge([], obj.services);
+        services = jQuery.merge([], obj.services);
 
       // Sorts the addthis button list in the correct order
-      $.each(services, function(iterator, value) {
+      jQuery.each(services, function(iterator, value) {
         currentService = value.service;
-        whereInArray = $.inArray(currentService, defaults);
+        whereInArray = jQuery.inArray(currentService, defaults);
         if(whereInArray !== -1) {
           copiedItem = services[whereInArray];
           services[whereInArray] = value;
@@ -503,7 +503,7 @@
           }
           else {
             arr = _.filter(self.thirdPartyButtons.exclude[style], function(value) {
-              return $.inArray(value, defaults) === -1;
+              return jQuery.inArray(value, defaults) === -1;
             }), disabledArr = [], serviceObj = {};
             _.each(arr, function(value) {
               serviceObj = _.where(self.thirdPartyButtons.services(), { service: value });
@@ -514,7 +514,7 @@
           }
           return disabledArr;
         }()),
-        disabledServices = (buttonType === 'addthisButtons' || type === 'selected-services') ? []: $.merge($.merge([], self.disabledServices), thirdPartyDisabled),
+        disabledServices = (buttonType === 'addthisButtons' || type === 'selected-services') ? []: jQuery.merge(jQuery.merge([], self.disabledServices), thirdPartyDisabled),
         selectedDefaults = [],
         isDuplicate = false,
         isDefault = false,
@@ -529,9 +529,9 @@
             service = (value.service) || key;
             name = value.name;
             iconService = value.icon;
-            isDuplicate = $.inArray(service, duplicates) !== -1,
-            isDefault = $.inArray(service, defaults) !== -1,
-            isExcluded = $.inArray(service, excludeList) !== -1;
+            isDuplicate = jQuery.inArray(service, duplicates) !== -1,
+            isDefault = jQuery.inArray(service, defaults) !== -1,
+            isExcluded = jQuery.inArray(service, excludeList) !== -1;
             containsService = _.where(buttonServices , { 'service': service }).length;
 
             if(!isDuplicate) {
@@ -575,7 +575,7 @@
         }
 
         if(disabledServices.length) {
-          $.each(disabledServices, function(iterator, disabledService) {
+          jQuery.each(disabledServices, function(iterator, disabledService) {
             var service = disabledService.service,
               iconService = disabledService.icon,
               name = disabledService['name'];
@@ -647,7 +647,7 @@
 
     'abovesaveOrder': function(obj) {
 
-    	var self = this,
+      var self = this,
         defaults = [],
         dynamicObj = {},
         size = obj['size'],
@@ -664,12 +664,12 @@
         removed = true;
 
       serviceItems.each(function(iterator) {
-        currentService = $(this).attr('data-service');
+        currentService = jQuery(this).attr('data-service');
         defaults.push(currentService);
         if(currentService === updatedItem) {
           removed = false;
         }
-        if($(this).hasClass('enabled')) {
+        if(jQuery(this).hasClass('enabled')) {
           enabledDefaults.push(currentService);
         }
       });
@@ -688,7 +688,7 @@
         commonMethods.localStorageSettings({ namespace: aboveshareNamespace, method: 'set', data: dynamicObj });
         setTimeout(function() {
 
-        	self.aboveupdatePreview({ size: size, services: enabledDefaults, type: type, style: style, location: location });
+          self.aboveupdatePreview({ size: size, services: enabledDefaults, type: type, style: style, location: location });
 
           }, 1000);
 
@@ -700,7 +700,7 @@
 
     'belowsaveOrder': function(obj) {
 
-    	var self = this,
+      var self = this,
         defaults = [],
         dynamicObj = {},
         size = obj['size'],
@@ -717,12 +717,12 @@
         removed = true;
 
       serviceItems.each(function(iterator) {
-        currentService = $(this).attr('data-service');
+        currentService = jQuery(this).attr('data-service');
         defaults.push(currentService);
         if(currentService === updatedItem) {
           removed = false;
         }
-        if($(this).hasClass('enabled')) {
+        if(jQuery(this).hasClass('enabled')) {
           enabledDefaults.push(currentService);
         }
       });
@@ -741,7 +741,7 @@
         commonMethods.localStorageSettings({ namespace: belowshareNamespace, method: 'set', data: dynamicObj });
         setTimeout(function() {
 
-        	self.belowupdatePreview({ size: size, services: enabledDefaults, type: type, style: style, location: location });
+          self.belowupdatePreview({ size: size, services: enabledDefaults, type: type, style: style, location: location });
 
           }, 1000);
 
@@ -753,117 +753,117 @@
 
     'aboveupdatePreview': function(obj) {
 
-    	var self = this,
+      var self = this,
         size = obj['size'],
         style = obj['style'],
         services = obj.services,
         type = obj['type'],
         buttons = '';
-    	if (size == "large") {
-    		buttons += '<div class="addthis_toolbox addthis_default_style addthis_32x32_style">';
-    		$('.above-smart-sharing-container .selected-services .ui-sortable').each(function(){
-    	        $(this).find('li').each(function(){
-    	        	if($(this).hasClass('enabled')) {
-    	        		buttons += '<span class="at300bs at15nc at15t_'+$(this).attr('data-service')+' at16t_'+$(this).attr('data-service')+'" style="display:inline-block;padding-right:4px;vertical-align:middle;"></span>';
-    	        		if($(this).attr('data-service') == 'compact') {
-    	        			buttons += '<a class="addthis_counter addthis_bubble_style" style="display: inline-block;float: left;" href="#" tabindex="0"></a>';
-    	        		}
-    	        	}
-    	        });
-    		});
-    		buttons += '</div>';
-    	}
-    	else if (size == "small") {
-    		$('.above-smart-sharing-container .selected-services .ui-sortable').each(function(){
-    	        $(this).find('li').each(function(){
-    	        	if($(this).hasClass('enabled')) {
-    	        		buttons += '<span class="at300bs at15nc at15t_'+$(this).attr('data-service')+' at16t_'+$(this).attr('data-service')+'" style="display:inline-block;padding-right:4px;vertical-align:middle;"></span>';
-    	        		if($(this).attr('data-service') == 'compact') {
-    	        			buttons += '<a class="addthis_counter addthis_bubble_style" style="display: inline-block;float: left;" href="#" tabindex="0"></a>';
-    	        		}
-    	        	}
-    	        });
-    		});
-    	}
-    	else {
-    		$('.above-smart-sharing-container .selected-services .ui-sortable').each(function(){
-    	        $(this).find('li').each(function(){
-    	        	if($(this).hasClass('enabled')) {
-	    	        	if($(this).attr('data-service') == 'compact') {
-		        			buttons += '<img src="'+addthis_params.img_base+'addthis_pill_style.png">';
-		        		}
-		        		else {
-		        			buttons += '<img src="'+addthis_params.img_base+$(this).attr('data-service')+'.png">';
-		        		}
-    	        	}
-    	        });
-    		});
-    	}
+      if (size == "large") {
+        buttons += '<div class="addthis_toolbox addthis_default_style addthis_32x32_style">';
+        jQuery('.above-smart-sharing-container .selected-services .ui-sortable').each(function(){
+              jQuery(this).find('li').each(function(){
+                if(jQuery(this).hasClass('enabled')) {
+                  buttons += '<span class="at300bs at15nc at15t_'+jQuery(this).attr('data-service')+' at16t_'+jQuery(this).attr('data-service')+'" style="display:inline-block;padding-right:4px;vertical-align:middle;"></span>';
+                  if(jQuery(this).attr('data-service') == 'compact') {
+                    buttons += '<a class="addthis_counter addthis_bubble_style" style="display: inline-block;float: left;" href="#" tabindex="0"></a>';
+                  }
+                }
+              });
+        });
+        buttons += '</div>';
+      }
+      else if (size == "small") {
+        jQuery('.above-smart-sharing-container .selected-services .ui-sortable').each(function(){
+              jQuery(this).find('li').each(function(){
+                if(jQuery(this).hasClass('enabled')) {
+                  buttons += '<span class="at300bs at15nc at15t_'+jQuery(this).attr('data-service')+' at16t_'+jQuery(this).attr('data-service')+'" style="display:inline-block;padding-right:4px;vertical-align:middle;"></span>';
+                  if(jQuery(this).attr('data-service') == 'compact') {
+                    buttons += '<a class="addthis_counter addthis_bubble_style" style="display: inline-block;float: left;" href="#" tabindex="0"></a>';
+                  }
+                }
+              });
+        });
+      }
+      else {
+        jQuery('.above-smart-sharing-container .selected-services .ui-sortable').each(function(){
+              jQuery(this).find('li').each(function(){
+                if(jQuery(this).hasClass('enabled')) {
+                  if(jQuery(this).attr('data-service') == 'compact') {
+                  buttons += '<img src="'+addthis_params.img_base+'addthis_pill_style.png">';
+                }
+                else {
+                  buttons += '<img src="'+addthis_params.img_base+jQuery(this).attr('data-service')+'.png">';
+                }
+                }
+              });
+        });
+      }
 
     },
 
 
     'belowupdatePreview': function(obj) {
 
-    	var self = this,
+      var self = this,
         size = obj['size'],
         style = obj['style'],
         services = obj.services,
         type = obj['type'],
         buttons = '';
-    	if (size == "large") {
-    		buttons += '<div class="addthis_toolbox addthis_default_style addthis_32x32_style">';
-    		$('.below-smart-sharing-container .selected-services .ui-sortable').each(function(){
-    	        $(this).find('li').each(function(){
-    	        	if($(this).hasClass('enabled')) {
-    	        		buttons += '<span class="at300bs at15nc at15t_'+$(this).attr('data-service')+' at16t_'+$(this).attr('data-service')+'" style="display:inline-block;padding-right:4px;vertical-align:middle;"></span>';
-    	        		if($(this).attr('data-service') == 'compact') {
-    	        			buttons += '<a class="addthis_counter addthis_bubble_style" style="display: inline-block; float: left;" href="#" tabindex="0"></a>';
-    	        		}
-    	        	}
-    	        });
-    		});
-    		buttons += '</div>';
-    	}
-    	else if (size == "small") {
-    		$('.below-smart-sharing-container .selected-services .ui-sortable').each(function(){
-    	        $(this).find('li').each(function(){
-    	        	if($(this).hasClass('enabled')) {
-    	        		buttons += '<span class="at300bs at15nc at15t_'+$(this).attr('data-service')+' at16t_'+$(this).attr('data-service')+'" style="display:inline-block;padding-right:4px;vertical-align:middle;"></span>';
-    	        		if($(this).attr('data-service') == 'compact') {
-    	        			buttons += '<a class="addthis_counter addthis_bubble_style" style="display: inline-block; float: left;" href="#" tabindex="0"></a>';
-    	        		}
-    	        	}
-    	        });
-    		});
-    	}
-    	else {
-    		$('.below-smart-sharing-container .selected-services .ui-sortable').each(function(){
-    	        $(this).find('li').each(function(){
-    	        	if($(this).hasClass('enabled')) {
-	    	        	if($(this).attr('data-service') == 'compact') {
-		        			buttons += '<img src="'+addthis_params.img_base+'addthis_pill_style.png">';
-		        		}
-		        		else {
-		        			buttons += '<img src="'+addthis_params.img_base+$(this).attr('data-service')+'.png">';
-		        		}
-    	        	}
-    	        });
-    		});
-    	}
+      if (size == "large") {
+        buttons += '<div class="addthis_toolbox addthis_default_style addthis_32x32_style">';
+        jQuery('.below-smart-sharing-container .selected-services .ui-sortable').each(function(){
+              jQuery(this).find('li').each(function(){
+                if(jQuery(this).hasClass('enabled')) {
+                  buttons += '<span class="at300bs at15nc at15t_'+jQuery(this).attr('data-service')+' at16t_'+jQuery(this).attr('data-service')+'" style="display:inline-block;padding-right:4px;vertical-align:middle;"></span>';
+                  if(jQuery(this).attr('data-service') == 'compact') {
+                    buttons += '<a class="addthis_counter addthis_bubble_style" style="display: inline-block; float: left;" href="#" tabindex="0"></a>';
+                  }
+                }
+              });
+        });
+        buttons += '</div>';
+      }
+      else if (size == "small") {
+        jQuery('.below-smart-sharing-container .selected-services .ui-sortable').each(function(){
+              jQuery(this).find('li').each(function(){
+                if(jQuery(this).hasClass('enabled')) {
+                  buttons += '<span class="at300bs at15nc at15t_'+jQuery(this).attr('data-service')+' at16t_'+jQuery(this).attr('data-service')+'" style="display:inline-block;padding-right:4px;vertical-align:middle;"></span>';
+                  if(jQuery(this).attr('data-service') == 'compact') {
+                    buttons += '<a class="addthis_counter addthis_bubble_style" style="display: inline-block; float: left;" href="#" tabindex="0"></a>';
+                  }
+                }
+              });
+        });
+      }
+      else {
+        jQuery('.below-smart-sharing-container .selected-services .ui-sortable').each(function(){
+              jQuery(this).find('li').each(function(){
+                if(jQuery(this).hasClass('enabled')) {
+                  if(jQuery(this).attr('data-service') == 'compact') {
+                  buttons += '<img src="'+addthis_params.img_base+'addthis_pill_style.png">';
+                }
+                else {
+                  buttons += '<img src="'+addthis_params.img_base+jQuery(this).attr('data-service')+'.png">';
+                }
+                }
+              });
+        });
+      }
     },
 
     'events': function() {
 
       var self = this,
-        aboveEnableSmartSharing = $('#above-enable-smart-sharing'),
-        aboveDisableSmartSharing = $('#above-disable-smart-sharing'),
-        belowEnableSmartSharing = $('#below-enable-smart-sharing'),
-        belowDisableSmartSharing = $('#below-disable-smart-sharing'),
+        aboveEnableSmartSharing = jQuery('#above-enable-smart-sharing'),
+        aboveDisableSmartSharing = jQuery('#above-disable-smart-sharing'),
+        belowEnableSmartSharing = jQuery('#below-enable-smart-sharing'),
+        belowDisableSmartSharing = jQuery('#below-disable-smart-sharing'),
 
         sortableContainer,
-        aboveradioInputs = $('input[name="addthis_settings[above]"]'),
-        belowradioInputs = $('input[name="addthis_settings[below]"]'),
+        aboveradioInputs = jQuery('input[name="addthis_settings[above]"]'),
+        belowradioInputs = jQuery('input[name="addthis_settings[below]"]'),
         abovecurrentRadioInput,
         belowcurrentRadioInput,
         abovecurrentType,
@@ -871,35 +871,35 @@
         abovecurrentStyle,
         belowcurrentStyle,
         excludeList,
-        whereInputs = $('input[name=where]'),
-        aboveSmartSharingContainer = $('.above-smart-sharing-container'),
-        aboveSmartSharingInnerContainer = $('.above-smart-sharing-container .smart-sharing-inner-container'),
-        aboveCustomizeButtons = $('.above-smart-sharing-container .customize-buttons'),
-        aboveButtons = $('.above-smart-sharing-container .customize-buttons'),
-        belowSmartSharingContainer = $('.below-smart-sharing-container'),
-        belowSmartSharingInnerContainer = $('.below-smart-sharing-container .smart-sharing-inner-container'),
-        belowCustomizeButtons = $('.below-smart-sharing-container .customize-buttons'),
-        belowButtons = $('.below-smart-sharing-container .customize-buttons'),
+        whereInputs = jQuery('input[name=where]'),
+        aboveSmartSharingContainer = jQuery('.above-smart-sharing-container'),
+        aboveSmartSharingInnerContainer = jQuery('.above-smart-sharing-container .smart-sharing-inner-container'),
+        aboveCustomizeButtons = jQuery('.above-smart-sharing-container .customize-buttons'),
+        aboveButtons = jQuery('.above-smart-sharing-container .customize-buttons'),
+        belowSmartSharingContainer = jQuery('.below-smart-sharing-container'),
+        belowSmartSharingInnerContainer = jQuery('.below-smart-sharing-container .smart-sharing-inner-container'),
+        belowCustomizeButtons = jQuery('.below-smart-sharing-container .customize-buttons'),
+        belowButtons = jQuery('.below-smart-sharing-container .customize-buttons'),
         defaults,
         buttontype,
         buttonsize,
         buttonstyle,
-        sortableLists = $('.sortable'),
+        sortableLists = jQuery('.sortable'),
         sortableListItems = sortableLists.find('li'),
-        sortableSelectedListItems = $('.selected-services').find('li'),
+        sortableSelectedListItems = jQuery('.selected-services').find('li'),
         sortableListItemsCloseIcons = sortableSelectedListItems.find('.close'),
-        aboveRestoreDefaultOptions = $('.above-smart-sharing-container .restore-default-options'),
-        belowRestoreDefaultOptions = $('.below-smart-sharing-container .restore-default-options'),
+        aboveRestoreDefaultOptions = jQuery('.above-smart-sharing-container .restore-default-options'),
+        belowRestoreDefaultOptions = jQuery('.below-smart-sharing-container .restore-default-options'),
         aboverestoreToDefault = _.debounce(function() {
           // Updates the personalization UI
-        	self.abovepopulateSharingServices(true);
-            $('.above-smart-sharing-container .selected-services .sortable:visible').trigger('sortupdate');
+          self.abovepopulateSharingServices(true);
+            jQuery('.above-smart-sharing-container .selected-services .sortable:visible').trigger('sortupdate');
           commonMethods.localStorageSettings({ method: "remove", namespace: aboveshareNamespace });
         }, 1000, true),
         belowrestoreToDefault = _.debounce(function() {
             // Updates the personalization UI
-        	self.belowpopulateSharingServices(true);
-            $('.below-smart-sharing-container .selected-services .sortable:visible').trigger('sortupdate');
+          self.belowpopulateSharingServices(true);
+            jQuery('.below-smart-sharing-container .selected-services .sortable:visible').trigger('sortupdate');
             commonMethods.localStorageSettings({ method: "remove", namespace: belowshareNamespace });
           }, 1000, true),
         aboveEnableCustomization = _.debounce(function() {
@@ -914,35 +914,35 @@
 
       aboveDisableSmartSharing.add(aboveradioInputs).not('#button_above').bind('click', function() {
 
-    	  abovecurrentRadioInput = $('input[name="addthis_settings[above]"]:checked');
+        abovecurrentRadioInput = jQuery('input[name="addthis_settings[above]"]:checked');
         if(!abovecurrentRadioInput.length) {
-        	abovecurrentRadioInput = $('input[name="addthis_settings[above]"]').first();
+          abovecurrentRadioInput = jQuery('input[name="addthis_settings[above]"]').first();
         }
 
         if(abovecurrentRadioInput.attr('id') == 'large_toolbox_above') {
-        	abovecurrentStyle = "horizontal";
-        	abovecurrentType = "addthisButtons";
-    	}
-    	else if(abovecurrentRadioInput.attr('id') == 'fb_tw_p1_sc_above') {
-    		abovecurrentStyle = "horizontal";
-    		abovecurrentType = "thirdPartyButtons";
-    	}
-    	else if(abovecurrentRadioInput.attr('id') == 'small_toolbox_above') {
-    		abovecurrentStyle = "horizontal";
-    		abovecurrentType = "addthisButtons";
-    	}
-    	else if(abovecurrentRadioInput.attr('id') == 'button_above') {
-    		abovecurrentStyle = "";
-    		abovecurrentType = "image";
-    	}
+          abovecurrentStyle = "horizontal";
+          abovecurrentType = "addthisButtons";
+      }
+      else if(abovecurrentRadioInput.attr('id') == 'fb_tw_p1_sc_above') {
+        abovecurrentStyle = "horizontal";
+        abovecurrentType = "thirdPartyButtons";
+      }
+      else if(abovecurrentRadioInput.attr('id') == 'small_toolbox_above') {
+        abovecurrentStyle = "horizontal";
+        abovecurrentType = "addthisButtons";
+      }
+      else if(abovecurrentRadioInput.attr('id') == 'button_above') {
+        abovecurrentStyle = "";
+        abovecurrentType = "image";
+      }
 
         if(aboveDisableSmartSharing.is(':checked')) {
 
           if(abovecurrentType === 'addthisButtons' || abovecurrentType === 'thirdPartyButtons') {
-        	  aboveButtons.show();
+            aboveButtons.show();
           }
           else {
-        	  aboveButtons.hide();
+            aboveButtons.hide();
           }
 
 
@@ -953,13 +953,13 @@
             // Updates the personalization UI
             self.abovepopulateSharingServices();
 
-            $('.above-smart-sharing-container .selected-services .sortable:visible').trigger('sortupdate');
+            jQuery('.above-smart-sharing-container .selected-services .sortable:visible').trigger('sortupdate');
 
           }, 0);
 
           aboveRestoreDefaultOptions.show();
 
-          $('.sharing-buttons-search').val('');
+          jQuery('.sharing-buttons-search').val('');
 
         }
 
@@ -969,35 +969,35 @@
 
       belowDisableSmartSharing.add(belowradioInputs).not('#button_below').bind('click', function() {
 
-    	  belowcurrentRadioInput = $('input[name="addthis_settings[below]"]:checked');
+        belowcurrentRadioInput = jQuery('input[name="addthis_settings[below]"]:checked');
           if(!belowcurrentRadioInput.length) {
-        	  belowcurrentRadioInput = $('input[name="addthis_settings[below]"]').first();
+            belowcurrentRadioInput = jQuery('input[name="addthis_settings[below]"]').first();
           }
 
           if(belowcurrentRadioInput.attr('id') == 'large_toolbox_below') {
-        	  belowcurrentStyle = "horizontal";
-          	belowcurrentType = "addthisButtons";
-      	}
-      	else if(belowcurrentRadioInput.attr('id') == 'fb_tw_p1_sc_below') {
-      		belowcurrentStyle = "horizontal";
-      		belowcurrentType = "thirdPartyButtons";
-      	}
-      	else if(belowcurrentRadioInput.attr('id') == 'small_toolbox_below') {
-      		belowcurrentStyle = "horizontal";
-      		belowcurrentType = "addthisButtons";
-      	}
-      	else if(belowcurrentRadioInput.attr('id') == 'button_below') {
-      		belowcurrentStyle = "";
-      		belowcurrentType = "image";
-      	}
+            belowcurrentStyle = "horizontal";
+            belowcurrentType = "addthisButtons";
+        }
+        else if(belowcurrentRadioInput.attr('id') == 'fb_tw_p1_sc_below') {
+          belowcurrentStyle = "horizontal";
+          belowcurrentType = "thirdPartyButtons";
+        }
+        else if(belowcurrentRadioInput.attr('id') == 'small_toolbox_below') {
+          belowcurrentStyle = "horizontal";
+          belowcurrentType = "addthisButtons";
+        }
+        else if(belowcurrentRadioInput.attr('id') == 'button_below') {
+          belowcurrentStyle = "";
+          belowcurrentType = "image";
+        }
 
           if(belowDisableSmartSharing.is(':checked')) {
 
             if(belowcurrentType === 'addthisButtons' || belowcurrentType === 'thirdPartyButtons') {
-          	  belowButtons.show();
+              belowButtons.show();
             }
             else {
-          	  belowButtons.hide();
+              belowButtons.hide();
             }
 
 
@@ -1008,13 +1008,13 @@
               // Updates the personalization UI
               self.belowpopulateSharingServices();
 
-              $('.below-smart-sharing-container .selected-services .sortable:visible').trigger('sortupdate');
+              jQuery('.below-smart-sharing-container .selected-services .sortable:visible').trigger('sortupdate');
 
             }, 0);
 
             belowRestoreDefaultOptions.show();
 
-            $('.sharing-buttons-search').val('');
+            jQuery('.sharing-buttons-search').val('');
 
           }
 
@@ -1022,19 +1022,19 @@
 
         });
 
-      $('#button_above').click(function() {
-        var self = $(this);
+      jQuery('#button_above').click(function() {
+        var self = jQuery(this);
         aboveSmartSharingInnerContainer.hide();
       });
 
-      $('#button_below').click(function() {
-          var self = $(this);
+      jQuery('#button_below').click(function() {
+          var self = jQuery(this);
           belowSmartSharingInnerContainer.hide();
         });
 
       aboveEnableSmartSharing.bind('click', function() {
 
-        currentRadioInput = $('input[name="addthis_settings[above]"]:checked');
+        currentRadioInput = jQuery('input[name="addthis_settings[above]"]:checked');
 
         disableCustomization();
 
@@ -1053,7 +1053,7 @@
 
 
 
-          currentRadioInput = $('input[name="addthis_settings[below]"]:checked');
+          currentRadioInput = jQuery('input[name="addthis_settings[below]"]:checked');
 
           disableCustomization();
 
@@ -1088,7 +1088,7 @@
         setTimeout(function() {
 
           // Makes the new list sortable
-          $('.above-smart-sharing-container .sortable').sortable({
+          jQuery('.above-smart-sharing-container .sortable').sortable({
 
             placeholder: "sortable-placeholder",
 
@@ -1130,7 +1130,7 @@
           setTimeout(function() {
 
             // Makes the new list sortable
-            $('.below-smart-sharing-container .sortable').sortable({
+            jQuery('.below-smart-sharing-container .sortable').sortable({
 
               placeholder: "sortable-placeholder",
 
@@ -1167,87 +1167,87 @@
 
         });
 
-      $('.above_button_set .selected-services .sortable').bind('sortupdate', function(ev, item) {
+      jQuery('.above_button_set .selected-services .sortable').bind('sortupdate', function(ev, item) {
 
-        if($.isPlainObject(item)) {
+        if(jQuery.isPlainObject(item)) {
           item = item.item.attr('data-service');
         }
 
-        if(!$(this).find('li').length) {
-          $(this).html('<p class="add-buttons-msg">Add buttons by dragging them in this box.</p>');
-          $(this).css('border-style', 'dashed');
-          $('.add-buttons-msg').show();
+        if(!jQuery(this).find('li').length) {
+          jQuery(this).html('<p class="add-buttons-msg">Add buttons by dragging them in this box.</p>');
+          jQuery(this).css('border-style', 'dashed');
+          jQuery('.add-buttons-msg').show();
         }
 
         else {
-          $(this).css('border-style', 'solid');
+          jQuery(this).css('border-style', 'solid');
         }
 
-        var abovesortableList = $('.above-smart-sharing-container .selected-services .sortable:visible');
-        abovecurrentRadioInput = $('input[name="addthis_settings[above]"]:checked');
+        var abovesortableList = jQuery('.above-smart-sharing-container .selected-services .sortable:visible');
+        abovecurrentRadioInput = jQuery('input[name="addthis_settings[above]"]:checked');
         if(abovecurrentRadioInput.attr('id') == 'large_toolbox_above') {
-      		buttonstyle = "horizontal";
-      		buttontype = "addthisButtons";
-      		buttonsize = "large";
-      	}
-      	else if(abovecurrentRadioInput.attr('id') == 'fb_tw_p1_sc_above') {
-      		buttonstyle = "horizontal";
-      		buttontype = "thirdPartyButtons";
-      		buttonsize = "";
-      	}
-      	else if(abovecurrentRadioInput.attr('id') == 'small_toolbox_above') {
-      		buttonstyle = "horizontal";
-      		buttontype = "addthisButtons";
-      		buttonsize = "small";
-      	}
-      	else if(abovecurrentRadioInput.attr('id') == 'button_above') {
-      		buttonstyle = "";
-      		buttontype = "image";
-      		buttonsize = "";
-      	}
+          buttonstyle = "horizontal";
+          buttontype = "addthisButtons";
+          buttonsize = "large";
+        }
+        else if(abovecurrentRadioInput.attr('id') == 'fb_tw_p1_sc_above') {
+          buttonstyle = "horizontal";
+          buttontype = "thirdPartyButtons";
+          buttonsize = "";
+        }
+        else if(abovecurrentRadioInput.attr('id') == 'small_toolbox_above') {
+          buttonstyle = "horizontal";
+          buttontype = "addthisButtons";
+          buttonsize = "small";
+        }
+        else if(abovecurrentRadioInput.attr('id') == 'button_above') {
+          buttonstyle = "";
+          buttontype = "image";
+          buttonsize = "";
+        }
 
         self.abovesaveOrder({ tool: 'above', type: buttontype, elem: abovesortableList, size: buttonsize, style: buttonstyle, item: item || "" });
 
       });
 
-      $('.below_button_set .selected-services .sortable').bind('sortupdate', function(ev, item) {
+      jQuery('.below_button_set .selected-services .sortable').bind('sortupdate', function(ev, item) {
 
-          if($.isPlainObject(item)) {
+          if(jQuery.isPlainObject(item)) {
             item = item.item.attr('data-service');
           }
 
-          if(!$(this).find('li').length) {
-            $(this).html('<p class="add-buttons-msg">Add buttons by dragging them in this box.</p>');
-            $(this).css('border-style', 'dashed');
-            $('.add-buttons-msg').show();
+          if(!jQuery(this).find('li').length) {
+            jQuery(this).html('<p class="add-buttons-msg">Add buttons by dragging them in this box.</p>');
+            jQuery(this).css('border-style', 'dashed');
+            jQuery('.add-buttons-msg').show();
           }
 
           else {
-            $(this).css('border-style', 'solid');
+            jQuery(this).css('border-style', 'solid');
           }
 
-          var belowsortableList = $('.below-smart-sharing-container .selected-services .sortable:visible');
-          belowcurrentRadioInput = $('input[name="addthis_settings[below]"]:checked');
+          var belowsortableList = jQuery('.below-smart-sharing-container .selected-services .sortable:visible');
+          belowcurrentRadioInput = jQuery('input[name="addthis_settings[below]"]:checked');
           if(belowcurrentRadioInput.attr('id') == 'large_toolbox_below') {
-        		buttonstyle = "horizontal";
-        		buttontype = "addthisButtons";
-        		buttonsize = "large";
-        	}
-        	else if(belowcurrentRadioInput.attr('id') == 'fb_tw_p1_sc_below') {
-        		buttonstyle = "horizontal";
-        		buttontype = "thirdPartyButtons";
-        		buttonsize = "";
-        	}
-        	else if(belowcurrentRadioInput.attr('id') == 'small_toolbox_below') {
-        		buttonstyle = "horizontal";
-        		buttontype = "addthisButtons";
-        		buttonsize = "small";
-        	}
-        	else if(belowcurrentRadioInput.attr('id') == 'button_below') {
-        		buttonstyle = "";
-        		buttontype = "image";
-        		buttonsize = "";
-        	}
+            buttonstyle = "horizontal";
+            buttontype = "addthisButtons";
+            buttonsize = "large";
+          }
+          else if(belowcurrentRadioInput.attr('id') == 'fb_tw_p1_sc_below') {
+            buttonstyle = "horizontal";
+            buttontype = "thirdPartyButtons";
+            buttonsize = "";
+          }
+          else if(belowcurrentRadioInput.attr('id') == 'small_toolbox_below') {
+            buttonstyle = "horizontal";
+            buttontype = "addthisButtons";
+            buttonsize = "small";
+          }
+          else if(belowcurrentRadioInput.attr('id') == 'button_below') {
+            buttonstyle = "";
+            buttontype = "image";
+            buttonsize = "";
+          }
 
           self.belowsaveOrder({ tool: 'below',  type: buttontype, elem: belowsortableList, size: buttonsize, style: buttonstyle, item: item || "" });
 
@@ -1259,7 +1259,7 @@
 
         setTimeout(function() {
 
-          $('.above-smart-sharing-container .sharing-buttons-search').val('');
+          jQuery('.above-smart-sharing-container .sharing-buttons-search').val('');
 
           aboverestoreToDefault();
 
@@ -1273,7 +1273,7 @@
 
           setTimeout(function() {
 
-            $('.below-smart-sharing-container .sharing-buttons-search').val('');
+            jQuery('.below-smart-sharing-container .sharing-buttons-search').val('');
 
             belowrestoreToDefault();
 
@@ -1285,19 +1285,19 @@
 
         'mouseenter': function() {
 
-          $(this).find('.close').css('display', 'inline-block');
+          jQuery(this).find('.close').css('display', 'inline-block');
 
         },
 
         'mouseleave': function() {
 
-          $(this).find('.close').hide();
+          jQuery(this).find('.close').hide();
 
         },
 
         'mouseup': function() {
 
-          $(this).find('.close').hide();
+          jQuery(this).find('.close').hide();
 
         }
 
@@ -1307,10 +1307,10 @@
 
         'mouseup': function() {
 
-          if(!$('.selected-services li:visible').length) {
+          if(!jQuery('.selected-services li:visible').length) {
 
 
-            $('.add-buttons-msg').show();
+            jQuery('.add-buttons-msg').show();
 
           }
 
@@ -1318,11 +1318,11 @@
 
         'mousedown': function() {
 
-          $('.add-buttons-msg').hide();
+          jQuery('.add-buttons-msg').hide();
 
-          $('.below-smart-sharing-container .horizontal-drag').hide();
+          jQuery('.below-smart-sharing-container .horizontal-drag').hide();
 
-          $('.above-smart-sharing-container .horizontal-drag').hide();
+          jQuery('.above-smart-sharing-container .horizontal-drag').hide();
 
         }
 
@@ -1330,153 +1330,153 @@
 
       sortableListItemsCloseIcons.live('click', function() {
 
-        var parent = $(this).parent(),
+        var parent = jQuery(this).parent(),
           isDisabled = parent.hasClass('disabled');
         parent.fadeOut().promise().done(function() {
 
-          $('.sharing-buttons .sortable:visible').prepend(parent);
+          jQuery('.sharing-buttons .sortable:visible').prepend(parent);
           parent.find('.close').hide().tooltip().tooltip('close');
           parent.fadeIn();
-          $('.selected-services .sortable:visible').trigger('sortupdate', parent.attr('data-service'));
+          jQuery('.selected-services .sortable:visible').trigger('sortupdate', parent.attr('data-service'));
 
         });
 
       });
 
-      $('.above-smart-sharing-container .sharing-buttons-search').bind('keyup', function(e) {
+      jQuery('.above-smart-sharing-container .sharing-buttons-search').bind('keyup', function(e) {
 
-        var currentVal = $(this).val();
+        var currentVal = jQuery(this).val();
 
-        $('.above-smart-sharing-container .sharing-buttons .sortable').find('li').each(function() {
-          if($(this).text().toLowerCase().search(currentVal.toLowerCase()) === -1) {
-            $(this).hide().attr('data-hidden', 'true');
+        jQuery('.above-smart-sharing-container .sharing-buttons .sortable').find('li').each(function() {
+          if(jQuery(this).text().toLowerCase().search(currentVal.toLowerCase()) === -1) {
+            jQuery(this).hide().attr('data-hidden', 'true');
           }
           else {
-            $(this).show().removeAttr('data-hidden');
+            jQuery(this).show().removeAttr('data-hidden');
           }
         });
 
       });
 
-      $('.below-smart-sharing-container .sharing-buttons-search').bind('keyup', function(e) {
+      jQuery('.below-smart-sharing-container .sharing-buttons-search').bind('keyup', function(e) {
 
-          var currentVal = $(this).val();
+          var currentVal = jQuery(this).val();
 
-          $('.below-smart-sharing-container .sharing-buttons .sortable').find('li').each(function() {
-            if($(this).text().toLowerCase().search(currentVal.toLowerCase()) === -1) {
-              $(this).hide().attr('data-hidden', 'true');
+          jQuery('.below-smart-sharing-container .sharing-buttons .sortable').find('li').each(function() {
+            if(jQuery(this).text().toLowerCase().search(currentVal.toLowerCase()) === -1) {
+              jQuery(this).hide().attr('data-hidden', 'true');
             }
             else {
-              $(this).show().removeAttr('data-hidden');
+              jQuery(this).show().removeAttr('data-hidden');
             }
           });
 
         });
 
-      $('.sharing-buttons-search').bind('click', function() {
+      jQuery('.sharing-buttons-search').bind('click', function() {
         trackPageView('/tracker/gtc/' + (window.page || '') + '/event/search_clicked');
       });
 
-      $('.above-smart-sharing-container .sortable').bind('mousedown', function() {
-        if($('.above-smart-sharing-container .sharing-buttons-search').is(':focus')) {
-          $('.above-smart-sharing-container .sharing-buttons-search').blur();
+      jQuery('.above-smart-sharing-container .sortable').bind('mousedown', function() {
+        if(jQuery('.above-smart-sharing-container .sharing-buttons-search').is(':focus')) {
+          jQuery('.above-smart-sharing-container .sharing-buttons-search').blur();
         }
       });
-      $('.below-smart-sharing-container .sortable').bind('mousedown', function() {
-          if($('.below-smart-sharing-container .sharing-buttons-search').is(':focus')) {
-            $('.below-smart-sharing-container .sharing-buttons-search').blur();
+      jQuery('.below-smart-sharing-container .sortable').bind('mousedown', function() {
+          if(jQuery('.below-smart-sharing-container .sharing-buttons-search').is(':focus')) {
+            jQuery('.below-smart-sharing-container .sharing-buttons-search').blur();
           }
         });
 
-      $('.above-smart-sharing-container .selected-services .sortable').bind({
+      jQuery('.above-smart-sharing-container .selected-services .sortable').bind({
 
         'mouseover': function() {
-          if($(this).find('li.enabled:visible').length > 1) {
-            $('.above-smart-sharing-container .horizontal-drag').hide();
-            $('.above-smart-sharing-container .vertical-drag').show();
+          if(jQuery(this).find('li.enabled:visible').length > 1) {
+            jQuery('.above-smart-sharing-container .horizontal-drag').hide();
+            jQuery('.above-smart-sharing-container .vertical-drag').show();
           }
         },
         'mouseout': function() {
-          $('.above-smart-sharing-container .vertical-drag').hide();
+          jQuery('.above-smart-sharing-container .vertical-drag').hide();
         }
 
       });
 
-      $('.below-smart-sharing-container .selected-services .sortable').bind({
+      jQuery('.below-smart-sharing-container .selected-services .sortable').bind({
 
           'mouseover': function() {
-            if($(this).find('li.enabled:visible').length > 1) {
-              $('.below-smart-sharing-container .horizontal-drag').hide();
-              $('.below-smart-sharing-container .vertical-drag').show();
+            if(jQuery(this).find('li.enabled:visible').length > 1) {
+              jQuery('.below-smart-sharing-container .horizontal-drag').hide();
+              jQuery('.below-smart-sharing-container .vertical-drag').show();
             }
           },
           'mouseout': function() {
-            $('.below-smart-sharing-container .vertical-drag').hide();
+            jQuery('.below-smart-sharing-container .vertical-drag').hide();
           }
 
         });
 
-      $('.above-smart-sharing-container .sharing-buttons .sortable').bind({
+      jQuery('.above-smart-sharing-container .sharing-buttons .sortable').bind({
 
         'mouseover': function() {
-          if($(this).find('li.enabled:visible').length) {
-            $('.above-smart-sharing-container .vertical-drag').hide();
-            $('.above-smart-sharing-container .horizontal-drag').show();
+          if(jQuery(this).find('li.enabled:visible').length) {
+            jQuery('.above-smart-sharing-container .vertical-drag').hide();
+            jQuery('.above-smart-sharing-container .horizontal-drag').show();
           }
         },
         'mouseout': function() {
-          $('.above-smart-sharing-container .horizontal-drag').hide();
+          jQuery('.above-smart-sharing-container .horizontal-drag').hide();
         }
 
       });
 
-      $('.below-smart-sharing-container .sharing-buttons .sortable').bind({
+      jQuery('.below-smart-sharing-container .sharing-buttons .sortable').bind({
 
           'mouseover': function() {
-            if($(this).find('li.enabled:visible').length) {
-              $('.below-smart-sharing-container .vertical-drag').hide();
-              $('.below-smart-sharing-container .horizontal-drag').show();
+            if(jQuery(this).find('li.enabled:visible').length) {
+              jQuery('.below-smart-sharing-container .vertical-drag').hide();
+              jQuery('.below-smart-sharing-container .horizontal-drag').show();
             }
           },
           'mouseout': function() {
-            $('.below-smart-sharing-container .horizontal-drag').hide();
+            jQuery('.below-smart-sharing-container .horizontal-drag').hide();
           }
 
         });
 
-      $('body').bind({
+      jQuery('body').bind({
 
       'populatedList': function() {
           setTimeout(function() {
-            $('.sortable .disabled, .sortable .close').tooltip({
+            jQuery('.sortable .disabled, .sortable .close').tooltip({
               position: {
-            	my: 'left+15 top',
+              my: 'left+15 top',
                 at: 'right top',
                 collision: 'none',
                 tooltipClass: 'custom-tooltip-styling'
               }
             });
-            $('.above-smart-sharing-container .sortable .disabled').bind('mouseover', function() {
-              $('.above-smart-sharing-container .horizontal-drag, .above-smart-sharing-container .vertical-drag').hide();
+            jQuery('.above-smart-sharing-container .sortable .disabled').bind('mouseover', function() {
+              jQuery('.above-smart-sharing-container .horizontal-drag, .above-smart-sharing-container .vertical-drag').hide();
             });
-            $('.above-smart-sharing-container .sharing-buttons .enabled').bind('mouseenter', function() {
-              if($(this).parent().parent().hasClass('sharing-buttons')) {
-                $('.above-smart-sharing-container .horizontal-drag').show();
+            jQuery('.above-smart-sharing-container .sharing-buttons .enabled').bind('mouseenter', function() {
+              if(jQuery(this).parent().parent().hasClass('sharing-buttons')) {
+                jQuery('.above-smart-sharing-container .horizontal-drag').show();
               }
             });
-            $('.above-smart-sharing-container .selected-services .enabled').bind('mouseenter', function() {
-              $('.above-smart-sharing-container .vertical-drag').show();
+            jQuery('.above-smart-sharing-container .selected-services .enabled').bind('mouseenter', function() {
+              jQuery('.above-smart-sharing-container .vertical-drag').show();
             });
-            $('.below-smart-sharing-container .sortable .disabled').bind('mouseover', function() {
-                $('.below-smart-sharing-container .horizontal-drag, .below-smart-sharing-container .vertical-drag').hide();
+            jQuery('.below-smart-sharing-container .sortable .disabled').bind('mouseover', function() {
+                jQuery('.below-smart-sharing-container .horizontal-drag, .below-smart-sharing-container .vertical-drag').hide();
               });
-              $('.below-smart-sharing-container .sharing-buttons .enabled').bind('mouseenter', function() {
-                if($(this).parent().parent().hasClass('sharing-buttons')) {
-                  $('.below-smart-sharing-container .horizontal-drag').show();
+              jQuery('.below-smart-sharing-container .sharing-buttons .enabled').bind('mouseenter', function() {
+                if(jQuery(this).parent().parent().hasClass('sharing-buttons')) {
+                  jQuery('.below-smart-sharing-container .horizontal-drag').show();
                 }
               });
-              $('.below-smart-sharing-container .selected-services .enabled').bind('mouseenter', function() {
-                $('.below-smart-sharing-container .vertical-drag').show();
+              jQuery('.below-smart-sharing-container .selected-services .enabled').bind('mouseenter', function() {
+                jQuery('.below-smart-sharing-container .vertical-drag').show();
               });
           },0);
         }
@@ -1502,7 +1502,7 @@
       service,
       thirdPartyButtons = customServicesAPI.thirdPartyButtons.services();
 
-    $(function() {
+    jQuery(function() {
 
         customServicesAPI.addthisButtons.services = serviceList;
         if((response||{}).data) {
@@ -1533,7 +1533,7 @@
 
         } catch(e) {}
 
-      customServicesAPI.totalServices = $.merge($.merge([],serviceList), customServicesAPI.thirdPartyButtons.services());
+      customServicesAPI.totalServices = jQuery.merge(jQuery.merge([],serviceList), customServicesAPI.thirdPartyButtons.services());
 
       customServicesAPI.disabledServices = _.filter(serviceList, function(service) {
         return !_.where(customServicesAPI.thirdPartyButtons.services(), { 'linkedService': service.service }).length;
@@ -1545,28 +1545,28 @@
 
   };
 
-  jQuery(document).ready(function($) {
-    if($('#above-disable-smart-sharing').attr('checked')){
+  jQuery(document).ready(function(jQuery) {
+    if(jQuery('#above-disable-smart-sharing').attr('checked')){
       setTimeout(function() {
         window.customServicesAPI.abovepopulateSharingServices();
       }, 0);
-      $('.above-smart-sharing-container .restore-default-options').show();
-      $('.above-smart-sharing-container .customize-buttons').show();
+      jQuery('.above-smart-sharing-container .restore-default-options').show();
+      jQuery('.above-smart-sharing-container .customize-buttons').show();
       setTimeout(function() {
         // Makes the new list sortable
-        $('.above-smart-sharing-container .sortable').sortable().disableSelection().sortable('option', 'connectWith', '.sortable');
+        jQuery('.above-smart-sharing-container .sortable').sortable().disableSelection().sortable('option', 'connectWith', '.sortable');
       }, 0);
     }
 
-    if($('#below-disable-smart-sharing').attr('checked')){
+    if(jQuery('#below-disable-smart-sharing').attr('checked')){
       setTimeout(function() {
         window.customServicesAPI.belowpopulateSharingServices();
       }, 0);
-      $('.below-smart-sharing-container .restore-default-options').show();
-      $('.below-smart-sharing-container .customize-buttons').show();
+      jQuery('.below-smart-sharing-container .restore-default-options').show();
+      jQuery('.below-smart-sharing-container .customize-buttons').show();
       setTimeout(function() {
         // Makes the new list sortable
-        $('.below-smart-sharing-container .sortable').sortable().disableSelection().sortable('option', 'connectWith', '.sortable');
+        jQuery('.below-smart-sharing-container .sortable').sortable().disableSelection().sortable('option', 'connectWith', '.sortable');
       }, 0);
     }
   });
