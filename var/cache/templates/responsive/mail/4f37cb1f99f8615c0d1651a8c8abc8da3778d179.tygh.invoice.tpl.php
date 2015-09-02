@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.18, created on 2015-09-02 12:05:52
+<?php /* Smarty version Smarty-3.1.18, created on 2015-09-02 12:31:42
          compiled from "/var/www/html/design/themes/responsive/mail/templates/orders/invoice.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:23661896755e698c8c2aa53-55007625%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:14314667355e69ed6996167-10525967%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '4f37cb1f99f8615c0d1651a8c8abc8da3778d179' => 
     array (
       0 => '/var/www/html/design/themes/responsive/mail/templates/orders/invoice.tpl',
-      1 => 1441175734,
+      1 => 1441177298,
       2 => 'tygh',
     ),
   ),
-  'nocache_hash' => '23661896755e698c8c2aa53-55007625',
+  'nocache_hash' => '14314667355e69ed6996167-10525967',
   'function' => 
   array (
   ),
@@ -22,7 +22,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'status_settings' => 0,
     'logos' => 0,
     'order_header' => 0,
-    'company_data' => 0,
     'doc_id_text' => 0,
     'order_status' => 0,
     'settings' => 0,
@@ -43,14 +42,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.18',
-  'unifunc' => 'content_55e698c9313fc9_19503609',
+  'unifunc' => 'content_55e69ed6f266f9_10473573',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_55e698c9313fc9_19503609')) {function content_55e698c9313fc9_19503609($_smarty_tpl) {?><?php if (!is_callable('smarty_block_hook')) include '/var/www/html/app/functions/smarty_plugins/block.hook.php';
-if (!is_callable('smarty_modifier_replace')) include '/var/www/html/app/lib/other/smarty/plugins/modifier.replace.php';
+<?php if ($_valid && !is_callable('content_55e69ed6f266f9_10473573')) {function content_55e69ed6f266f9_10473573($_smarty_tpl) {?><?php if (!is_callable('smarty_block_hook')) include '/var/www/html/app/functions/smarty_plugins/block.hook.php';
 if (!is_callable('smarty_modifier_date_format')) include '/var/www/html/app/functions/smarty_plugins/modifier.date_format.php';
 if (!is_callable('smarty_function_set_id')) include '/var/www/html/app/functions/smarty_plugins/function.set_id.php';
 ?><?php
-fn_preload_lang_vars(array('invoice','invoice','credit_memo','credit_memo','order_details','invoice_title','phone1_label','phone2_label','fax','web_site','email','order','status','date','payment_method','shipping_method','tracking_number','customer','phone','fax','company','url','bill_to','ship_to','product','quantity','unit_price','discount','tax','subtotal','deleted_product','sku','free','free','subtotal','including_discount','order_discount','coupon','taxes','included','tax_exempt','payment_surcharge','shipping_cost','total_cost','notes','invoice','invoice','credit_memo','credit_memo','order_details','invoice_title','phone1_label','phone2_label','fax','web_site','email','order','status','date','payment_method','shipping_method','tracking_number','customer','phone','fax','company','url','bill_to','ship_to','product','quantity','unit_price','discount','tax','subtotal','deleted_product','sku','free','free','subtotal','including_discount','order_discount','coupon','taxes','included','tax_exempt','payment_surcharge','shipping_cost','total_cost','notes'));
+fn_preload_lang_vars(array('invoice','invoice','credit_memo','credit_memo','order_details','invoice_title','order','status','date','payment_method','shipping_method','tracking_number','customer','phone','fax','company','url','bill_to','ship_to','product','quantity','unit_price','discount','tax','subtotal','deleted_product','sku','free','free','subtotal','including_discount','order_discount','coupon','taxes','included','tax_exempt','payment_surcharge','shipping_cost','total_cost','notes','invoice','invoice','credit_memo','credit_memo','order_details','invoice_title','order','status','date','payment_method','shipping_method','tracking_number','customer','phone','fax','company','url','bill_to','ship_to','product','quantity','unit_price','discount','tax','subtotal','deleted_product','sku','free','free','subtotal','including_discount','order_discount','coupon','taxes','included','tax_exempt','payment_surcharge','shipping_cost','total_cost','notes'));
 ?>
 <?php if ($_smarty_tpl->tpl_vars['runtime']->value['customization_mode']['design']=="Y"&&@constant('AREA')=="C") {?><?php $_smarty_tpl->_capture_stack[0][] = array("template_content", null, null); ob_start(); ?><?php if ($_smarty_tpl->tpl_vars['order_info']->value) {?>
 
@@ -87,65 +85,7 @@ fn_preload_lang_vars(array('invoice','invoice','credit_memo','credit_memo','orde
 
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
             <tr valign="top">
-                <?php $_smarty_tpl->smarty->_tag_stack[] = array('hook', array('name'=>"orders:invoice_company_info")); $_block_repeat=true; echo smarty_block_hook(array('name'=>"orders:invoice_company_info"), null, $_smarty_tpl, $_block_repeat);while ($_block_repeat) { ob_start();?>
-
-                <td style="width: 50%; padding: 14px 0px 0px 2px; font-size: 12px; font-family: Arial;">
-                    <h2 style="font: bold 12px Arial; margin: 0px 0px 3px 0px;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_name'], ENT_QUOTES, 'UTF-8');?>
-</h2>
-                    <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_address'], ENT_QUOTES, 'UTF-8');?>
-<br />
-                    <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_city'], ENT_QUOTES, 'UTF-8');?>
-<?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_city']&&($_smarty_tpl->tpl_vars['company_data']->value['company_state_descr']||$_smarty_tpl->tpl_vars['company_data']->value['company_zipcode'])) {?>,<?php }?> <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_state_descr'], ENT_QUOTES, 'UTF-8');?>
- <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_zipcode'], ENT_QUOTES, 'UTF-8');?>
-<br />
-                    <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_country_descr'], ENT_QUOTES, 'UTF-8');?>
-
-                    <table cellpadding="0" cellspacing="0" border="0">
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_phone']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px;    white-space: nowrap;"><?php echo $_smarty_tpl->__("phone1_label");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_phone'], ENT_QUOTES, 'UTF-8');?>
-</td>
-                    </tr>
-                    <?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_phone_2']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px; white-space: nowrap;"><?php echo $_smarty_tpl->__("phone2_label");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_phone_2'], ENT_QUOTES, 'UTF-8');?>
-</td>
-                    </tr>
-                    <?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_fax']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px; white-space: nowrap;"><?php echo $_smarty_tpl->__("fax");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_fax'], ENT_QUOTES, 'UTF-8');?>
-</td>
-                    </tr>
-                    <?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_website']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px; white-space: nowrap;"><?php echo $_smarty_tpl->__("web_site");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_website'], ENT_QUOTES, 'UTF-8');?>
-</td>
-                    </tr>
-                    <?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_orders_department']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px; white-space: nowrap;"><?php echo $_smarty_tpl->__("email");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><a href="mailto:<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_orders_department'], ENT_QUOTES, 'UTF-8');?>
-"><?php echo htmlspecialchars(smarty_modifier_replace(smarty_modifier_replace($_smarty_tpl->tpl_vars['company_data']->value['company_orders_department'],",","<br>")," ",''), ENT_QUOTES, 'UTF-8');?>
-</a></td>
-                    </tr>
-                    <?php }?>
-                    </table>
-                </td>
-                <?php $_block_content = ob_get_clean(); $_block_repeat=false; echo smarty_block_hook(array('name'=>"orders:invoice_company_info"), $_block_content, $_smarty_tpl, $_block_repeat);  } array_pop($_smarty_tpl->smarty->_tag_stack);?>
-
+            
                 <?php $_smarty_tpl->smarty->_tag_stack[] = array('hook', array('name'=>"orders:invoice_order_status_info")); $_block_repeat=true; echo smarty_block_hook(array('name'=>"orders:invoice_order_status_info"), null, $_smarty_tpl, $_block_repeat);while ($_block_repeat) { ob_start();?>
 
                 <td style="padding-top: 14px;">
@@ -623,65 +563,7 @@ if (!empty($_capture_buffer)) {
 
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
             <tr valign="top">
-                <?php $_smarty_tpl->smarty->_tag_stack[] = array('hook', array('name'=>"orders:invoice_company_info")); $_block_repeat=true; echo smarty_block_hook(array('name'=>"orders:invoice_company_info"), null, $_smarty_tpl, $_block_repeat);while ($_block_repeat) { ob_start();?>
-
-                <td style="width: 50%; padding: 14px 0px 0px 2px; font-size: 12px; font-family: Arial;">
-                    <h2 style="font: bold 12px Arial; margin: 0px 0px 3px 0px;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_name'], ENT_QUOTES, 'UTF-8');?>
-</h2>
-                    <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_address'], ENT_QUOTES, 'UTF-8');?>
-<br />
-                    <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_city'], ENT_QUOTES, 'UTF-8');?>
-<?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_city']&&($_smarty_tpl->tpl_vars['company_data']->value['company_state_descr']||$_smarty_tpl->tpl_vars['company_data']->value['company_zipcode'])) {?>,<?php }?> <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_state_descr'], ENT_QUOTES, 'UTF-8');?>
- <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_zipcode'], ENT_QUOTES, 'UTF-8');?>
-<br />
-                    <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_country_descr'], ENT_QUOTES, 'UTF-8');?>
-
-                    <table cellpadding="0" cellspacing="0" border="0">
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_phone']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px;    white-space: nowrap;"><?php echo $_smarty_tpl->__("phone1_label");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_phone'], ENT_QUOTES, 'UTF-8');?>
-</td>
-                    </tr>
-                    <?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_phone_2']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px; white-space: nowrap;"><?php echo $_smarty_tpl->__("phone2_label");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_phone_2'], ENT_QUOTES, 'UTF-8');?>
-</td>
-                    </tr>
-                    <?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_fax']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px; white-space: nowrap;"><?php echo $_smarty_tpl->__("fax");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_fax'], ENT_QUOTES, 'UTF-8');?>
-</td>
-                    </tr>
-                    <?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_website']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px; white-space: nowrap;"><?php echo $_smarty_tpl->__("web_site");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_website'], ENT_QUOTES, 'UTF-8');?>
-</td>
-                    </tr>
-                    <?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['company_data']->value['company_orders_department']) {?>
-                    <tr valign="top">
-                        <td style="font-size: 12px; font-family: verdana, helvetica, arial, sans-serif; text-transform: uppercase; color: #000000; padding-right: 10px; white-space: nowrap;"><?php echo $_smarty_tpl->__("email");?>
-:</td>
-                        <td width="100%" style="font-size: 12px; font-family: Arial;"><a href="mailto:<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['company_data']->value['company_orders_department'], ENT_QUOTES, 'UTF-8');?>
-"><?php echo htmlspecialchars(smarty_modifier_replace(smarty_modifier_replace($_smarty_tpl->tpl_vars['company_data']->value['company_orders_department'],",","<br>")," ",''), ENT_QUOTES, 'UTF-8');?>
-</a></td>
-                    </tr>
-                    <?php }?>
-                    </table>
-                </td>
-                <?php $_block_content = ob_get_clean(); $_block_repeat=false; echo smarty_block_hook(array('name'=>"orders:invoice_company_info"), $_block_content, $_smarty_tpl, $_block_repeat);  } array_pop($_smarty_tpl->smarty->_tag_stack);?>
-
+            
                 <?php $_smarty_tpl->smarty->_tag_stack[] = array('hook', array('name'=>"orders:invoice_order_status_info")); $_block_repeat=true; echo smarty_block_hook(array('name'=>"orders:invoice_order_status_info"), null, $_smarty_tpl, $_block_repeat);while ($_block_repeat) { ob_start();?>
 
                 <td style="padding-top: 14px;">
