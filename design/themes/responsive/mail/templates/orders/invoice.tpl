@@ -104,7 +104,7 @@
                                     {/if}
 
                                     {$smarty.capture.carrier_info nofilter}
-                                    
+
                                     {if !$smarty.foreach.f_shipp.last}, {/if}
                                 {/foreach}</td>
                         </tr>
