@@ -5552,7 +5552,7 @@ function fn_order_notification(&$order_info, $edp_data = array(), $force_notific
 
             Mailer::sendMail(array(
                 'to' => $order_info['email'],
-                'from' => 'default_company_orders_department',
+                'from' => 'company_orders_department',
                 'data' => array(
                     'order_info' => $order_info,
                     'shipments' => $shipments,
