@@ -19,7 +19,10 @@
         <td style="background-color: #ffffff; border: 1px solid #e6e6e6; margin: 0px auto 0px auto; padding: 0px 44px 0px 46px; text-align: left;">
             <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding: 27px 0px 0px 0px; border-bottom: 1px solid #868686; margin-bottom: 8px;">
             <tr>
-                <td align="left" style="padding-bottom: 3px;" valign="middle"><img src="{$logos.mail.image.image_path}" width="{$logos.mail.image.image_x}" height="{$logos.mail.image.image_y}" border="0" alt="{$logos.mail.image.alt}" /></td>
+                <td align="left" style="padding-bottom: 3px;" valign="middle">
+                <a href="http://threadcrafts.in" target="_blank"><img src="http://threadcrafts.in/images/logos/1/logo-name.png" width="165" height="" border="0" alt="{$logos.mail.image.alt}" style="width:165px;"/>
+                    </a>
+                </td>
                 <td width="100%" valign="bottom" style="text-align: right;  font: bold 26px Arial; text-transform: uppercase;  margin: 0px;">{$order_header|default:__("invoice_title")}</td>
             </tr>
             </table>
