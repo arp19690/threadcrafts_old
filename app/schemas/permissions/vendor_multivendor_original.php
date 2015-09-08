@@ -160,10 +160,10 @@ return array(
         'taxes' => array (
             'modes' => array(
                 'update' => array(
-                    'permissions' => array ('GET' => false, 'POST' => false),
+                    'permissions' => array ('GET' => true, 'POST' => false),
                 ),
                 'manage' => array(
-                    'permissions' => array ('GET' => false, 'POST' => false),
+                    'permissions' => array ('GET' => true, 'POST' => false),
                 ),
             ),
             'permissions' => false,
@@ -196,7 +196,7 @@ return array(
         'states' => array (
             'modes' => array(
                 'manage' => array(
-                    'permissions' => false,
+                    'permissions' => true,
                 ),
             ),
             'permissions' => false,
@@ -205,7 +205,7 @@ return array(
         'countries' => array (
             'modes' => array(
                 'manage' => array(
-                    'permissions' => array ('GET' => false, 'POST' => false),
+                    'permissions' => array ('GET' => true, 'POST' => false),
                 ),
             ),
             'permissions' => false,
@@ -214,10 +214,10 @@ return array(
         'destinations' => array (
             'modes' => array(
                 'update' => array(
-                    'permissions' => array ('GET' => false, 'POST' => false),
+                    'permissions' => array ('GET' => true, 'POST' => false),
                 ),
                 'manage' => array(
-                    'permissions' => array ('GET' => false, 'POST' => false),
+                    'permissions' => array ('GET' => true, 'POST' => false),
                 ),
             ),
             'permissions' => false,
@@ -277,10 +277,10 @@ return array(
         'currencies' => array (
             'modes' => array(
                 'update' => array(
-                    'permissions' => array ('GET' => false, 'POST' => false),
+                    'permissions' => array ('GET' => true, 'POST' => false),
                 ),
                 'manage' => array(
-                    'permissions' => false,
+                    'permissions' => true,
                 ),
             ),
             'permissions' => false,
@@ -352,7 +352,7 @@ return array(
                     'permissions' => false,
                 ),*/
             ),
-            'permissions' => false,
+            'permissions' => true,
         ),
 
         'products' => array (
@@ -431,13 +431,13 @@ return array(
             )
         ),
         'logs' => array (
-            'permissions' => false,
+            'permissions' => true,
         ),
         'debugger' => array(
             'permissions' => true,
         ),
         'file_editor' => array(
-            'permissions' => false
+            'permissions' => true
         )
     ),
 
