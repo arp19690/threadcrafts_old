@@ -1,5 +1,5 @@
 <?php
-	include_once dirname( __FILE__ ) . '/includes/classes/Browscap.php';
+	include_once dirname( __FILE__ ) . '/vendor/browscap/browscap-php/src/phpbrowscap/Browscap.php';
 
 	use phpbrowscap\Browscap;
 
@@ -114,7 +114,7 @@
 		if( $WP_Statistics->get_option('browscap') == false ) { return '';}
 	
 		// This is the location of the file to download.
-		$download_url = 'http://browscap.org/stream?q=PHP_BrowsCapINI';
+		$download_url = 'http://browscap.org/stream?q=Full_PHP_BrowsCapINI';
 		$download_version = 'http://browscap.org/version-number';
 
 		// Get the upload directory from WordPress.
@@ -203,13 +203,20 @@
 							// We have three sections we need to copy verbatium so don't do the standard processing for them.
 							if( $title != 'GJK_Browscap_Version' && $title != 'DefaultProperties' && $title != '*' && $title != '') 
 								{
-								// If we found the current section is a crawler or we didn't find a crawler setting but the parent is a crawler...
-								if( $crawler == 2 || ( $crawler == 0 && array_key_exists( $parent, $parents ) ) ) 
+								// Write out the section if:
+								//     the current section is a crawler and there is no parent 
+								//  OR
+								//     the current section is a crawler, has a parent and the parent is a crawler as well (Note, this will drop some crawlers who's parent's aren't because we haven't written out all the parent's that aren't crawlers this could cause mis-identificaton of some users as crawlers).
+								//  OR
+								//     the current section isn't a crawler but the parent is
+								//
+								if( ( $crawler == 2 && $parent == '' ) || 
+								    ( $crawler == 2 && $parent != '' && array_key_exists( $parent, $parents ) ) || 
+									( $crawler == 0 && array_key_exists( $parent, $parents ) ) ) 
 									{
 									// Write out the section with just the parent/crawler setting saved.
 									fwrite( $outfile, "[" . $title . "]\n" );
-									fwrite( $outfile, 'Parent="' . $parent . '"' . "\n");
-									fwrite( $outfile, "Crawler=true\n" );
+									fwrite( $outfile, "Crawler=\"true\"\n" );
 									}
 								}
 								
@@ -232,7 +239,7 @@
 						// Otherwise its a real setting line.
 						default:
 							// If the setting is for the crawler let's inidicate we found it and it's true.  We can also set the parents array.
-							if( $buffer == 'Crawler=true' ) { $crawler = 2; $parents[$title] = true;}
+							if( $buffer == 'Crawler="true"' ) { $crawler = 2; $parents[$title] = true;}
 							
 							// If the setting for the parent then set it now.
 							if( substr( $buffer, 0, 7 ) == 'Parent=' ) { $parent = substr( $buffer, 8, -1 ); }

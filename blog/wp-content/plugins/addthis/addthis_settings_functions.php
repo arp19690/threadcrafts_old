@@ -473,17 +473,19 @@ function _addthis_excerpt_buttons_enabled() {
 
 if (!function_exists('array_replace_recursive')) {
   function array_replace_recursive($array, $array1) {
-    function recurse($array, $array1) {
-      foreach ($array1 as $key => $value) {
-        if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key]))) {
-          $array[$key] = array();
-        }
+    if (!function_exists('addthis_recurse')) {
+      function addthis_recurse($array, $array1) {
+        foreach ($array1 as $key => $value) {
+          if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key]))) {
+            $array[$key] = array();
+          }
 
-        if (is_array($value)) {
-          $value = recurse($array[$key], $value);
-        }
+          if (is_array($value)) {
+            $value = addthis_recurse($array[$key], $value);
+          }
 
-        $array[$key] = $value;
+          $array[$key] = $value;
+        }
       }
 
       return $array;
@@ -497,7 +499,7 @@ if (!function_exists('array_replace_recursive')) {
     }
     for ($i = 1; $i < count($args); $i++) {
       if (is_array($args[$i])) {
-        $array = recurse($array, $args[$i]);
+        $array = addthis_recurse($array, $args[$i]);
       }
     }
 

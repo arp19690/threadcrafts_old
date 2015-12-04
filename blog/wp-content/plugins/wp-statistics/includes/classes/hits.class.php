@@ -40,7 +40,7 @@
 			}
 			
 			// Check to see if the user wants us to record why we're excluding hits.
-			if( $this->get_option('record_exclusions' ) == 1 ) {
+			if( $this->get_option('record_exclusions' ) ) {
 				$this->exclusion_record = TRUE;
 			}
 
@@ -87,7 +87,8 @@
 				$bc->doAutoUpdate = false; 	// We don't want to auto update.
 				try {
 					$current_browser = $bc->getBrowser();
-					if( is_object( $current_browser ) ) {
+					// Make sure we got an object back and it has the Crawler property before accessing it.
+					if( is_object( $current_browser ) && property_exists( $current_browser, 'Crawler') ) {
 						$crawler = $current_browser->Crawler;
 					}
 					else {
@@ -158,7 +159,7 @@
 					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url(null,"/") ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url() ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 
-					if( $this->get_option('exclude_loginpage') == 1 ) {
+					if( $this->get_option('exclude_loginpage') ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
 						$host     = $_SERVER['HTTP_HOST'];
 						$script   = $_SERVER['SCRIPT_NAME'];
@@ -172,7 +173,7 @@
 						}
 					}
 
-					if( $this->get_option('exclude_adminpage') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('exclude_adminpage') && !$this->exclusion_match ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
 						$host     = $_SERVER['HTTP_HOST'];
 						$script   = $_SERVER['SCRIPT_NAME'];
@@ -188,9 +189,9 @@
 						}
 					}
 
-					if( $this->get_option('referrerspam') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('referrerspam') && !$this->exclusion_match ) {
 						$referrer = $this->get_Referred();
-						
+
 						// Pull the referrer spam list from the database.
 						$referrerspamlist = explode( "\n", $this->get_option('referrerspamlist') );
 
@@ -209,7 +210,7 @@
 						}
 					}
 					
-					if( $this->get_option('exclude_feeds') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('exclude_feeds') && !$this->exclusion_match ) {
 						if( is_object( $WP_Statistics ) ) { 
 							if( $WP_Statistics->check_feed() ) { 
 								$this->exclusion_match = TRUE; 
@@ -218,7 +219,7 @@
 						}
 					}
 					
-					if( $this->get_option('exclude_404s') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('exclude_404s') && !$this->exclusion_match ) {
 						if( is_404() ) { 
 							$this->exclusion_match = TRUE; 
 							$this->exclusion_reason = "404";
@@ -426,7 +427,7 @@
 						$this->exclusion_match = TRUE;
 						$this->exclusion_reason = "robot_threshold";
 					}
-					else if( $this->result->honeypot == 1 ) {
+					else if( $this->result->honeypot ) {
 						$this->exclusion_match = TRUE;
 						$this->exclusion_reason = "honeypot";
 					}
@@ -487,7 +488,8 @@
 					$page_uri = substr( $page_uri, 0, 255);
 					
 					// If we have already been to this page today (a likely scenario), just update the count on the record.
-					$this->result = $this->db->query("UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `uri` = '{$page_uri}'");
+					$sql = $this->db->prepare( "UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `uri` = %s", $page_uri );
+					$this->result = $this->db->query($sql);
 
 					// If the update failed (aka the record doesn't exist), insert a new one.  Note this may drop a page hit if a race condition
 					// exists where two people load the same page a the roughly the same time.  In that case two inserts would be attempted but

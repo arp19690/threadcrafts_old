@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.3
-Stable tag: 9.5.2
+Stable tag: 9.6.5
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -31,11 +31,16 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Record statistics on exclusions
 * Automatic updates to the GeoIP database
 * Automatically prune the databases of old data
-* Export the data to Excel, XML, CSV or TSV files
+* Export the data to XML, CSV or TSV files
 * Widget to provide information to your users
 * Shortcodes for many different types of data in both widgets and posts/pages
 * Dashboard widgets for the admin area
 * Comprehensive Admin Manual
+
+= Translations =
+WP Statistics has been translated in to many languages, for the current list and contributors, please visit the [translators](https://wp-statistics.com/translators/) page on [wp-statistics.com](https://wp-statistics.com/).
+
+Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
 
 = Support =
 We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:
@@ -60,31 +65,6 @@ Still not having any luck? Open a new thread on one of the support forums and we
 
 * [English Support Forum](http://wordpress.org/support/plugin/wp-statistics)
 * [Persian Support Forum](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
-
-= Translations =
-* English
-* Persian
-* Portuguese [Thanks](http://www.musicalmente.info/)
-* Romanian [Thanks Luke Tyler](http://www.nobelcom.com/)
-* French Thanks Anice Gnampa. Additional translations by Nicolas Baudet, eldidi and apeedn
-* Russian [Thanks Igor Dubilej](http://www.iflexion.com/)
-* Spanish Thanks Jose
-* Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
-* Turkish [Thanks aidinMC](http://www.artadl.ir/) & [Manset27.com](http://www.manset27.com/) & [Abdullah Manaz](http://www.manaz.net/)
-* Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/) & Andrea Beducci
-* German [Thanks Andreas Martin](http://www.andreasmartin.com/) and Mike
-* Russian [Thanks Oleg](http://www.bestplugins.ru/)
-* Bengali [Thanks Mehdi Akram](http://www.shamokaldarpon.com/)
-* Serbian [Thanks Radovan Georgijevic](http://www.georgijevic.info/) & [Thanks Ogi Djuraskovic](http://firstsiteguide.com/)
-* Polish Thanks Radosław Rak and Tomasz Stulka.
-* Indonesian [Thanks Agit Amrullah](http://www.facebook.com/agitowblinkerz/)
-* Hungarian [Thanks ZSIMI](http://www.zsimi.hu/)
-* Chinese (Taiwan) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
-* Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
-* Ukrainian [Ivanka Skakun](http://www.everycloudtech.com/)
-* Dutch thanks Friso van Wieringen.
-
-Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -234,6 +214,14 @@ We do not recommend using a caching plugin along with WP Statistics.
 
 Do you have eAccelerator installed?  If so this is a known issue with eAccelerator and PHP's "anonymous" functions, which are used in the user agent parsing library.  As no new versions of eAccelerator have been released for over 3 years, you should look to replace it or disable it.
 
+= I've installed WP Statistics for the first time on a site and when I go to the statistics pages I get an error saying like "The following plugin table(s) do not exist in the database" =
+
+This is because something has gone wrong during the installation.  
+
+At the end of the message will be a list of tables that are missing, you can use the provided link to re-run the installation routine.  If that does not resolve the issue and the visitors table is the only table listed, you may want to check your MySQL version.  Some older versions of MySQL (in the 5.0.x series) have issues with complex compound indexes, which we use on the visitors table.  If this is the case, check with your hosting provider and see if they can upgrade to a newer version of MySQL.
+
+If you still have issues open a new thread on the support forum and we'll try and resolve it for you.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
@@ -247,6 +235,28 @@ Do you have eAccelerator installed?  If so this is a known issue with eAccelerat
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.6.5 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
+= 9.6.4 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
+= 9.6.3 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
+= 9.6.2 =
+This is a security release, please upgrade immediately.
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
+= 9.6.1 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
+= 9.6 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
+= 9.5.3 =
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  This release creates a new table for search engine/words for performance improvements, however you must convert your data to the new format via the Statistics->Optimization->Database tab.
+
 = 9.5.2 =
 BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  This release creates a new table for search engine/words for performance improvements, however you must convert your data to the new format via the Statistics->Optimization->Database tab.
 
@@ -288,6 +298,64 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.6.5 =
+* Release Date: September 18, 2015
+* Updated: Updated support libraries, including browscap (2.0.5) and GeoIP (webservices).
+* Updated: The hits column in the post/pages list no longer requires manage permissions but instead view permission.
+* Fixed: New browscap.ini format was causing fatal errors in certain circumstances.
+* Fixed: Missing close tag on the summary widget's users online link.
+* Fixed: When purging data an incorrect column name was used when updating the historical table.
+
+= 9.6.4 =
+* Release Date: September 15, 2015
+* Updated: Support new browscap.ini file format.
+
+= 9.6.3 =
+* Release Date: September 11, 2015
+* Updated: The database update nag link to the optimization page instead of the settings page.
+* Updated: Handle the case where the downloads haven't happened yet.
+* Fixed: In some cases the extenrals tab would show the wrong date for the next scheduled update.
+* Fixed: In some cases the Piwik and other features may not be enabled even when the checkboxes were selected.
+* Fixed: If no page id was passed in on the pagestats shortcode the wrong default for page id would be used and no stats would be displayed.
+
+= 9.6.2 =
+* Release Date: September 5, 2015
+* Added: Search table to the empty table list.
+* Added: Search table size to the optimization page.
+* Added: Updated SQL calls to the pages table to use $wpdb->prepare() to protect against SQL inject attacks.
+* Fixed: Check of $wp_roles type as it is an object and not an array which caused only admins to be able to view the statistics.
+* Fixed: Top referring only displayed search engines.
+* Updated: Layout of the maintenance tab.
+
+= 9.6.1 =
+* Release Date: September 4, 2015
+* Fixed: Error with undeclared global $WP_Statistics when updating the database.
+* Added: Re-validation of the current database updates required when loading the optimization page.
+
+= 9.6 =
+* Release Date: September 3, 2015
+* Added: New admin notices for if the database requires updates.
+* Added: Page/post id field to pagestats shortcode.
+* Added: Ask.com to search engine list, disabled by default.
+* Fixed: Display of the dashboard referrers widget.
+* Fixed: incorrect table name when dropping the old 'AString' field.
+* Fixed: Error message if the global $wp_roles hadn't been set when we accessed it.
+* Fixed: When exporting, no data was exported.
+* Fixed: When excluding countries, multiple entries would not be parsed correctly.
+* Updated: Purging code now includes the search table.
+* Updated: Search conversion code to limit the number of records retreived to 10000 and then loop through them to ensure we don't run out of memory during the conversion process.
+* Updated: Cleaned up the admin notices code.
+* Updated: Persian translation. Thanks Ali Zeinali.
+
+= 9.5.3 =
+* Release Date: August 19, 2015
+* Added: More robust error reporting if a plugin table is missing.
+* Added: Support to export the search table.
+* Fixed: The install script for older versions of MySQL (5.0.x).
+* Fixed: Export script no longer generates errors when exporting an empty table.
+* Fixed: WP_Debug error on $crawler when it was an object but didn't have the right properties (aka wasn't the right object).
+* Fixed: Sidebar widget works again in WordPress 4.3.
+
 = 9.5.2 =
 * Release Date: August 8, 2015
 * Fixed: XSS issue with top-referrers page, thanks Swift Security (http://swiftsecurity.swte.ch/).

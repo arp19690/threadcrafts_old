@@ -3,7 +3,7 @@
 Plugin Name: WP Statistics
 Plugin URI: http://wp-statistics.com/
 Description: Complete statistics for your WordPress site.
-Version: 9.5.2
+Version: 9.6.5
 Author: Mostafa Soufi & Greg Ross
 Author URI: http://wp-statistics.com/
 Text Domain: wp_statistics
@@ -12,7 +12,7 @@ License: GPL2
 */
 
 	// These defines are used later for various reasons.
-	define('WP_STATISTICS_VERSION', '9.5.2');
+	define('WP_STATISTICS_VERSION', '9.6.5');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
 	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.3.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
@@ -128,31 +128,55 @@ License: GPL2
 	// This function outputs error messages in the admin interface if the primary components of WP Statistics are enabled.
 	function wp_statistics_not_enable() {
 		GLOBAL $WP_Statistics;
-		
+
 		// If the user had told us to be quite, do so.
 		if( !$WP_Statistics->get_option('hide_notices') ) {
+
+			// Check to make sure the current user can manage WP Statistics, if not there's no point displaying the warnings.
+			$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
+			if( ! current_user_can( $manage_cap ) ) { return; }
+
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
 			
-			if( !$WP_Statistics->get_option('useronline') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Online user tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
+			$itemstoenable = array();
+			if( !$WP_Statistics->get_option('useronline') ) { $itemstoenable[] = __('online user tracking', 'wp_statistics'); }
+			if( !$WP_Statistics->get_option('visits') ) { $itemstoenable[] = __('hit tracking', 'wp_statistics'); }
+			if( !$WP_Statistics->get_option('visitors') ) { $itemstoenable[] = __('visitor tracking', 'wp_statistics'); }
+			if( !$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported()) { $itemstoenable[] = __('geoip collection', 'wp_statistics'); }
 
-			if( !$WP_Statistics->get_option('visits') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Hit tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
+			if( count( $itemstoenable ) > 0 )
+				echo '<div class="update-nag">'.sprintf(__('The following features are disabled, please go to %s and enable them: %s', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'settings page', 'wp_statistics') . '</a>', implode(__(',', 'wp_statistics'), $itemstoenable)).'</div>';
 
-			if( !$WP_Statistics->get_option('visitors') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Visitor tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
+
+			$dbupdatestodo = array();
 			
-			if(!$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported())
-				echo '<div class="update-nag"><p>'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=externals">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
+			if(!$WP_Statistics->get_option('search_converted')) { $dbupdatestodo[] = __('search table', 'wp_statistics'); }
+
+			// Check to see if there are any database changes the user hasn't done yet.
+			$dbupdates = $WP_Statistics->get_option('pending_db_updates', false);
+
+			// The database updates are stored in an array so loop thorugh it and output some notices.
+			if( is_array( $dbupdates ) ) { 
+				$dbstrings = array( 'date_ip_agent' => __('countries database index', 'wp_statistics'), 'unique_date' => __('visit database index', 'wp_statistics') );
+			
+				foreach( $dbupdates as $key => $update ) {
+					if( $update == true ) {
+						$dbupdatestodo[] = $dbstrings[$key];
+					}
+				}
+	
+			if( count( $dbupdatestodo ) > 0 ) 
+				echo '<div class="update-nag">'.sprintf(__('Database updates are required, please go to %s and update the following: %s', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'optimization page', 'wp_statistics') . '</a>', implode(__(',', 'wp_statistics'), $dbupdatestodo)).'</div>';
+
+			}
 		}
 	}
 
 	// Display the admin notices if we should.
-	if( !$WP_Statistics->get_option('useronline') || !$WP_Statistics->get_option('visits') || !$WP_Statistics->get_option('visitors') || !$WP_Statistics->get_option('geoip') ) {
-		if( isset( $pagenow ) && array_key_exists( 'page', $_GET ) ) {
-			if( $pagenow == "admin.php" && substr( $_GET['page'], 0, 14) == 'wp-statistics/') {
-				add_action('admin_notices', 'wp_statistics_not_enable');
-			}
+	if( isset( $pagenow ) && array_key_exists( 'page', $_GET ) ) {
+		if( $pagenow == "admin.php" && substr( $_GET['page'], 0, 14) == 'wp-statistics/') {
+			add_action('admin_notices', 'wp_statistics_not_enable');
 		}
 	}
 
@@ -290,9 +314,9 @@ License: GPL2
 	function wp_statistics_load_edit_init() {
 		GLOBAL $WP_Statistics;
 		
-		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
+		$read_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') );
 		
-		if( current_user_can( $manage_cap ) && $WP_Statistics->get_option('pages') && !$WP_Statistics->get_option('disable_column') ) {
+		if( current_user_can( $read_cap ) && $WP_Statistics->get_option('pages') && !$WP_Statistics->get_option('disable_column') ) {
 			$post_types = (array)get_post_types( array( 'show_ui' => true ), 'object' );
 			
 			foreach( $post_types as $type ) {
@@ -321,6 +345,8 @@ License: GPL2
 		global $wp_roles;
 
 		$role_list = $wp_roles->get_names();
+
+		if( !is_object( $wp_roles ) || !is_array( $wp_roles->roles) ) { return 'manage_options'; }
 
 		foreach( $wp_roles->roles as $role ) {
 		
@@ -669,7 +695,25 @@ License: GPL2
 	
 		if( $result != 7 ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
-			wp_die('<div class="error"><p>' . sprintf(__('Plugin tables do not exist in the database! Please re-run the %s install routine %s.', 'wp_statistics'),'<a href="' . $get_bloginfo_url . '">','</a>') . '</p></div>');
+
+			$missing_tables = array();
+			
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_visitor'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visit'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_visit'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_exclusions'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_exclusions'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_historical'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_useronline'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_useronline'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_pages'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_pages'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_search'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_search'; }
+
+			wp_die('<div class="error"><p>' . sprintf(__('The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: ', 'wp_statistics'),'<a href="' . $get_bloginfo_url . '">','</a>') . implode(', ', $missing_tables) . '</p></div>');
 		}
 		
 		// Load the postbox script that provides the widget style boxes.
@@ -791,6 +835,7 @@ License: GPL2
 		$result['exclusions'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_exclusions`");
 		$result['pages'] = $wpdb->get_var("SELECT COUNT(uri) FROM `{$wpdb->prefix}statistics_pages`");
 		$result['historical'] = $wpdb->get_Var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_historical`");
+		$result['search'] = $wpdb->get_Var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_search`");
 		
 		include_once dirname( __FILE__ ) . "/includes/optimization/wps-optimization.php";
 	}

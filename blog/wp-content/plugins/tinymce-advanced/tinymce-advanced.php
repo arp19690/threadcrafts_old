@@ -3,16 +3,26 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE, the visual editor in WordPress.
-Version: 4.2.3
+Version: 4.2.5
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
+License: GPL2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: tinymce-advanced
+Domain Path: /langs
 
-Released under the GPL version 2.0, http://www.gnu.org/licenses/gpl-2.0.html
+	TinyMCE Advanced is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 2 of the License, or
+	any later version.
 
-	This program is distributed in the hope that it will be useful,
+	TinyMCE Advanced is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License version 2.0 for more details.
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License along
+	with TinyMCE Advanced. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
 */
 
 if ( ! class_exists('Tinymce_Advanced') ) :
@@ -49,6 +59,7 @@ class Tinymce_Advanced {
 		'table',
 		'visualblocks',
 		'visualchars',
+		'wptadv',
 	);
 
 	private $default_settings = array(
@@ -73,6 +84,7 @@ class Tinymce_Advanced {
 		if ( is_admin() ) {
 			add_action( 'admin_menu', array( &$this, 'add_menu' ) );
 			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
+			add_action( 'plugins_loaded', array( &$this, 'load_textdomain' ) );
 		}
 
 		add_filter( 'mce_buttons', array( &$this, 'mce_buttons_1' ), 999, 2 );
@@ -95,6 +107,10 @@ class Tinymce_Advanced {
 
 		if ( ! defined( 'TADV_PATH' ) )
 			define( 'TADV_PATH', plugin_dir_path( __FILE__ ) );
+	}
+
+	function load_textdomain() {
+	    load_plugin_textdomain( 'tinymce-advanced', false, 'tinymce-advanced/langs' );
 	}
 
 	function enqueue_scripts( $page ) {
@@ -513,6 +529,8 @@ class Tinymce_Advanced {
 		if ( $this->check_admin_setting( 'no_autop' ) ) {
 			$this->plugins[] = 'wptadv';
 		}
+
+		$this->plugins = array_intersect( $this->plugins, $this->all_plugins );
 
 		$plugpath = TADV_URL . 'mce/';
 		$mce_plugins = (array) $mce_plugins;
